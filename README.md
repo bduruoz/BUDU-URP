@@ -1,2 +1,3 @@
 # BUDU-URP
-BUDU URP Shaders and Tools
+BUDU Universal Render Pipeline shaders and tools.
+
