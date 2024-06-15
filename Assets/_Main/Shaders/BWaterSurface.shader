@@ -469,8 +469,6 @@ Shader "BUDU Shaders/BWaterSurface"
 			#define ASE_NEEDS_FRAG_WORLD_BITANGENT
 			#define ASE_NEEDS_FRAG_SCREEN_POSITION
 			#define ASE_NEEDS_FRAG_WORLD_VIEW_DIR
-			#pragma shader_feature_local _NOISETYPEB_NONE _NOISETYPEB_VORONOI _NOISETYPEB_PERLIN _NOISETYPEB_TEXTURE
-			#pragma shader_feature_local _NOISETYPEA_NONE _NOISETYPEA_VORONOI _NOISETYPEA_PERLIN _NOISETYPEA_TEXTURE
 			#pragma shader_feature_local _SHORETEXTUREBLENDINGTYPE_ADDITIVE _SHORETEXTUREBLENDINGTYPE_SUBTRACTIVE _SHORETEXTUREBLENDINGTYPE_MULTIPLICATIVE _SHORETEXTUREBLENDINGTYPE_DIVIDE
 			#pragma shader_feature_local _NORMNOISEGRADETYPE_LINEAR _NORMNOISEGRADETYPE_NORMAL _NORMNOISEGRADETYPE_GAMMA
 			#pragma shader_feature_local _NORMNOISEMIXTYPE_MULTIPLY _NORMNOISEMIXTYPE_ADD _NORMNOISEMIXTYPE_SUBTRACT _NORMNOISEMIXTYPE_DIVIDE _NORMNOISEMIXTYPE_DOT
@@ -481,6 +479,8 @@ Shader "BUDU Shaders/BWaterSurface"
 			#pragma shader_feature_local _NOISETYPE_VORAVORB _NOISETYPE_VORAPERA _NOISETYPE_VORAPERB _NOISETYPE_PERAPERB _NOISETYPE_VORBPERA _NOISETYPE_VORBPERB
 			#pragma shader_feature_local _DEFNOISEGRADETYPE_LINEAR _DEFNOISEGRADETYPE_NORMAL _DEFNOISEGRADETYPE_GAMMA
 			#pragma shader_feature_local _DEFNOISEMIXTYPE_MULTIPLY _DEFNOISEMIXTYPE_ADD _DEFNOISEMIXTYPE_SUBTRACT _DEFNOISEMIXTYPE_DIVIDE _DEFNOISEMIXTYPE_DOT
+			#pragma shader_feature_local _NOISETYPEA_NONE _NOISETYPEA_VORONOI _NOISETYPEA_PERLIN _NOISETYPEA_TEXTURE
+			#pragma shader_feature_local _NOISETYPEB_NONE _NOISETYPEB_VORONOI _NOISETYPEB_PERLIN _NOISETYPEB_TEXTURE
 
 
 			#if defined(ASE_EARLY_Z_DEPTH_OPTIMIZE) && (SHADER_TARGET >= 45)
@@ -525,11 +525,8 @@ Shader "BUDU Shaders/BWaterSurface"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _RefractColor;
 			float4 _ShoreColor;
-			float _DepthDistance;
-			float _DefNoiseContrast;
-			float _DefNoiseAInvert;
+			float4 _RefractColor;
 			float _DefNoiseAScale;
 			float _DefVorAAngle;
 			float _DefVorATileX;
@@ -539,15 +536,15 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _DefVorASpeedY;
 			float _DefTypeAAnchorX;
 			float _DefTypeAAnchorY;
+			float _DefTypeARotSpeed;
 			float _DefPerlinScale;
 			float _DefNoiseTypeAExponential;
 			float _DefNoiseBInvert;
+			float _DefNoiseBScale;
+			float _DefNoiseAInvert;
+			float _DefNoiseContrast;
 			float _FoamGradeOffset;
 			float _FoamGradeScale;
-			float _FoamSpeedX;
-			float _DefNoiseBScale;
-			float _PerBSpeedY;
-			float _PerBScale;
 			float _NoiseGradeScale;
 			float _NoiseGradeOffset;
 			float _ShoreTileX;
@@ -561,10 +558,12 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _AffectFoamDeformation;
 			float _FoamTileX;
 			float _FoamTileY;
+			float _FoamSpeedX;
 			float _FoamSpeedY;
 			float _DefVorBAngle;
+			float _DefVorBTileX;
 			float _DefVorBTileY;
-			float _PerBSpeedX;
+			float _DefVorBSpeedX;
 			float _OldMin;
 			float _OldMax;
 			float _NewMin;
@@ -581,14 +580,14 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _PatternHeight;
 			float _TransparentIntensity;
 			float _FresnelPower;
-			float _DefVorBTileX;
+			float _PerBScale;
 			float _FresnelScale;
 			float _RefractionInvert;
-			float _DefVorBSpeedX;
 			float _DefNoiseTypeBMult;
 			float _DefVorBSpeedY;
 			float _DefTypeBAnchorX;
 			float _DefTypeBAnchorY;
+			float _DefTypeBRotSpeed;
 			float _DefNoiseTypeBExponential;
 			float _DefNoiseFinalScale;
 			float _DefNoiseFinalOffset;
@@ -600,15 +599,9 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _RefrControl;
 			float _Refraction1;
 			float _FresnelBias;
+			float _PerBSpeedY;
+			float _PerBSpeedX;
 			float _PerBTileY;
-			float _PerBTileX;
-			float _PerAScale;
-			float _ShoreCBRotSpeed;
-			float _NormNoiseContrast;
-			float _NormNoiseAInvert;
-			float _NormNoiseAScale;
-			float _NormVorAAngle;
-			float _NormVorATileX;
 			float _NormVorATileY;
 			float _NormVorASpeedX;
 			float _NormNoiseTypeAMult;
@@ -618,16 +611,16 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _NormTypeARotSpeed;
 			float _NormPerlinScale;
 			float _NormNoiseTypeAExponential;
-			float _ShoreCBAnchorY;
 			float _NormNoiseBInvert;
-			float _ShoreCBAnchorX;
-			float _ShoreCBSpeedX;
-			float _GradeScale;
-			float _DepthExponential;
-			float _GradeOffset;
-			float _GradeExponential;
-			float _DefTypeARotSpeed;
-			float _DefTypeBRotSpeed;
+			float _NormNoiseBScale;
+			float _NormVorBAngle;
+			float _NormVorBTileX;
+			float _NormVorBTileY;
+			float _NormVorBSpeedX;
+			float _NormVorATileX;
+			float _NormNoiseTypeBMult;
+			float _NormVorAAngle;
+			float _NormNoiseAInvert;
 			float _ShoreCTileX;
 			float _ShoreCTileY;
 			float _ShoreCSpeedX;
@@ -637,12 +630,16 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _ShoreCRotSpeed;
 			float _ShoreCBTileX;
 			float _ShoreCBTileY;
+			float _ShoreCBSpeedX;
 			float _ShoreCBSpeedY;
-			float _Specular;
-			float _NormNoiseBScale;
-			float _NormVorBTileX;
-			float _VorATileX;
-			float _VorATileY;
+			float _ShoreCBAnchorX;
+			float _ShoreCBAnchorY;
+			float _ShoreCBRotSpeed;
+			float _NormNoiseContrast;
+			float _NormNoiseAScale;
+			float _NormVorBSpeedY;
+			float _NormTypeBAnchorX;
+			float _NormTypeBAnchorY;
 			float _VorASpeedX;
 			float _VorASpeedY;
 			float _VorBScale;
@@ -656,16 +653,12 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _PerATileY;
 			float _PerASpeedX;
 			float _PerASpeedY;
+			float _PerAScale;
+			float _PerBTileX;
+			float _VorATileY;
+			float _VorATileX;
 			float _VorASmooth;
-			float _NormVorBAngle;
 			float _VorAAngleSpeed;
-			float _InvertShoreTexture;
-			float _NormVorBTileY;
-			float _NormVorBSpeedX;
-			float _NormNoiseTypeBMult;
-			float _NormVorBSpeedY;
-			float _NormTypeBAnchorX;
-			float _NormTypeBAnchorY;
 			float _NormTypeBRotSpeed;
 			float _NormNoiseTypeBExponential;
 			float _NormNoiseFinalScale;
@@ -673,9 +666,16 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _NormNoiseGradeScale;
 			float _NormNoiseGradeOffset;
 			float _NormMiddleWaveIntensity;
+			float _Specular;
 			float _NormalStrenggth;
-			float _DepthSize;
+			float _DepthDistance;
+			float _DepthExponential;
+			float _GradeScale;
+			float _GradeOffset;
+			float _GradeExponential;
+			float _InvertShoreTexture;
 			float _VorAScale;
+			float _DepthSize;
 			float _Smoothnes;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -707,11 +707,11 @@ Shader "BUDU Shaders/BWaterSurface"
 				int _PassValue;
 			#endif
 
-			sampler2D _ShoreTexture;
-			sampler2D _FoamTexture;
 			sampler2D _ShoreColorMap;
 			sampler2D _NormNoiseAMap;
 			sampler2D _NormNoiseBMap;
+			sampler2D _ShoreTexture;
+			sampler2D _FoamTexture;
 			sampler2D _DefNoiseAMap;
 			sampler2D _DefNoiseBMap;
 			sampler2D _BluricRefractionPattern;
@@ -1622,10 +1622,8 @@ Shader "BUDU Shaders/BWaterSurface"
 				#else
 				float3 staticSwitch891 = gammaToLinear889;
 				#endif
-				float4 temp_output_929_0 = ( saturate( saturate( (saturate( CalculateContrast(_DefNoiseContrast,float4( (staticSwitch891*_DefNoiseFinalScale + _DefNoiseFinalOffset) , 0.0 )) )*_DefNoiseGradeScale + _DefNoiseGradeOffset) ) ) * _MiddleWaveIntensity );
-				float4 CausticRef902 = temp_output_929_0;
-				float4 temp_output_916_0 = ( ( ( float4( SaturateDepthRef450 , 0.0 ) * saturate( staticSwitch375 ) ) + float4( 0,0,0,0 ) ) + ( CausticRef902 * float4( DepthRef451 , 0.0 ) ) );
-				float4 FinalCompRef461 = temp_output_916_0;
+				float4 CausticRef902 = ( saturate( saturate( (saturate( CalculateContrast(_DefNoiseContrast,float4( (staticSwitch891*_DefNoiseFinalScale + _DefNoiseFinalOffset) , 0.0 )) )*_DefNoiseGradeScale + _DefNoiseGradeOffset) ) ) * _MiddleWaveIntensity );
+				float4 FinalCompRef461 = ( ( ( float4( SaturateDepthRef450 , 0.0 ) * saturate( staticSwitch375 ) ) + float4( 0,0,0,0 ) ) + ( CausticRef902 * float4( DepthRef451 , 0.0 ) ) );
 				float One909 = 1.0;
 				float Zero911 = 0.0;
 				float fresnelNdotV980 = dot( half3(0,0,0), WorldViewDirection );
@@ -1633,11 +1631,11 @@ Shader "BUDU Shaders/BWaterSurface"
 				float RefractFresnelResult985 = (( _Refraction1 )?( (( _RefractionInvert )?( ( 1.0 - fresnelNode980 ) ):( fresnelNode980 )) ):( Zero911 ));
 				float4 ase_grabScreenPos = ASE_ComputeGrabScreenPos( ScreenPos );
 				float4 ase_grabScreenPosNorm = ase_grabScreenPos / ase_grabScreenPos.w;
-				float2 temp_output_1_0_g154 = float2( 0,0 );
-				float dotResult4_g154 = dot( temp_output_1_0_g154 , temp_output_1_0_g154 );
-				float3 appendResult10_g154 = (float3((temp_output_1_0_g154).x , (temp_output_1_0_g154).y , sqrt( ( 1.0 - saturate( dotResult4_g154 ) ) )));
-				float3 normalizeResult12_g154 = ASESafeNormalize( appendResult10_g154 );
-				float3 temp_output_1007_0 = normalizeResult12_g154;
+				float2 temp_output_1_0_g157 = float2( 0,0 );
+				float dotResult4_g157 = dot( temp_output_1_0_g157 , temp_output_1_0_g157 );
+				float3 appendResult10_g157 = (float3((temp_output_1_0_g157).x , (temp_output_1_0_g157).y , sqrt( ( 1.0 - saturate( dotResult4_g157 ) ) )));
+				float3 normalizeResult12_g157 = ASESafeNormalize( appendResult10_g157 );
+				float3 temp_output_1007_0 = normalizeResult12_g157;
 				float3 lerpResult1137 = lerp( temp_output_1007_0 , WaveNormalRef1103 , _NormalSize);
 				float4 unityObjectToClipPos1130 = TransformWorldToHClip(TransformObjectToWorld(IN.ase_texcoord9.xyz));
 				float4 computeScreenPos1128 = ComputeScreenPos( unityObjectToClipPos1130 );
@@ -1977,13 +1975,13 @@ Shader "BUDU Shaders/BWaterSurface"
 			#define ASE_NEEDS_FRAG_SCREEN_POSITION
 			#define ASE_NEEDS_FRAG_WORLD_POSITION
 			#define ASE_NEEDS_VERT_NORMAL
-			#pragma shader_feature_local _NOISETYPEB_NONE _NOISETYPEB_VORONOI _NOISETYPEB_PERLIN _NOISETYPEB_TEXTURE
-			#pragma shader_feature_local _NOISETYPEA_NONE _NOISETYPEA_VORONOI _NOISETYPEA_PERLIN _NOISETYPEA_TEXTURE
 			#pragma shader_feature_local _DEPTHGRADETYPE2_LINEAR _DEPTHGRADETYPE2_NORMAL _DEPTHGRADETYPE2_GAMMA
 			#pragma shader_feature_local _TEXTUREGRADETYPE_LINEAR _TEXTUREGRADETYPE_NORMAL _TEXTUREGRADETYPE_GAMMA
 			#pragma shader_feature_local _NOISETYPE_VORAVORB _NOISETYPE_VORAPERA _NOISETYPE_VORAPERB _NOISETYPE_PERAPERB _NOISETYPE_VORBPERA _NOISETYPE_VORBPERB
 			#pragma shader_feature_local _DEFNOISEGRADETYPE_LINEAR _DEFNOISEGRADETYPE_NORMAL _DEFNOISEGRADETYPE_GAMMA
 			#pragma shader_feature_local _DEFNOISEMIXTYPE_MULTIPLY _DEFNOISEMIXTYPE_ADD _DEFNOISEMIXTYPE_SUBTRACT _DEFNOISEMIXTYPE_DIVIDE _DEFNOISEMIXTYPE_DOT
+			#pragma shader_feature_local _NOISETYPEA_NONE _NOISETYPEA_VORONOI _NOISETYPEA_PERLIN _NOISETYPEA_TEXTURE
+			#pragma shader_feature_local _NOISETYPEB_NONE _NOISETYPEB_VORONOI _NOISETYPEB_PERLIN _NOISETYPEB_TEXTURE
 			#pragma shader_feature_local _NORMNOISEGRADETYPE_LINEAR _NORMNOISEGRADETYPE_NORMAL _NORMNOISEGRADETYPE_GAMMA
 			#pragma shader_feature_local _NORMNOISEMIXTYPE_MULTIPLY _NORMNOISEMIXTYPE_ADD _NORMNOISEMIXTYPE_SUBTRACT _NORMNOISEMIXTYPE_DIVIDE _NORMNOISEMIXTYPE_DOT
 			#pragma shader_feature_local _NORMNOISETYPEA_NONE _NORMNOISETYPEA_VORONOI _NORMNOISETYPEA_PERLIN _NORMNOISETYPEA_TEXTURE
@@ -2027,11 +2025,8 @@ Shader "BUDU Shaders/BWaterSurface"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _RefractColor;
 			float4 _ShoreColor;
-			float _DepthDistance;
-			float _DefNoiseContrast;
-			float _DefNoiseAInvert;
+			float4 _RefractColor;
 			float _DefNoiseAScale;
 			float _DefVorAAngle;
 			float _DefVorATileX;
@@ -2041,15 +2036,15 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _DefVorASpeedY;
 			float _DefTypeAAnchorX;
 			float _DefTypeAAnchorY;
+			float _DefTypeARotSpeed;
 			float _DefPerlinScale;
 			float _DefNoiseTypeAExponential;
 			float _DefNoiseBInvert;
+			float _DefNoiseBScale;
+			float _DefNoiseAInvert;
+			float _DefNoiseContrast;
 			float _FoamGradeOffset;
 			float _FoamGradeScale;
-			float _FoamSpeedX;
-			float _DefNoiseBScale;
-			float _PerBSpeedY;
-			float _PerBScale;
 			float _NoiseGradeScale;
 			float _NoiseGradeOffset;
 			float _ShoreTileX;
@@ -2063,10 +2058,12 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _AffectFoamDeformation;
 			float _FoamTileX;
 			float _FoamTileY;
+			float _FoamSpeedX;
 			float _FoamSpeedY;
 			float _DefVorBAngle;
+			float _DefVorBTileX;
 			float _DefVorBTileY;
-			float _PerBSpeedX;
+			float _DefVorBSpeedX;
 			float _OldMin;
 			float _OldMax;
 			float _NewMin;
@@ -2083,14 +2080,14 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _PatternHeight;
 			float _TransparentIntensity;
 			float _FresnelPower;
-			float _DefVorBTileX;
+			float _PerBScale;
 			float _FresnelScale;
 			float _RefractionInvert;
-			float _DefVorBSpeedX;
 			float _DefNoiseTypeBMult;
 			float _DefVorBSpeedY;
 			float _DefTypeBAnchorX;
 			float _DefTypeBAnchorY;
+			float _DefTypeBRotSpeed;
 			float _DefNoiseTypeBExponential;
 			float _DefNoiseFinalScale;
 			float _DefNoiseFinalOffset;
@@ -2102,15 +2099,9 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _RefrControl;
 			float _Refraction1;
 			float _FresnelBias;
+			float _PerBSpeedY;
+			float _PerBSpeedX;
 			float _PerBTileY;
-			float _PerBTileX;
-			float _PerAScale;
-			float _ShoreCBRotSpeed;
-			float _NormNoiseContrast;
-			float _NormNoiseAInvert;
-			float _NormNoiseAScale;
-			float _NormVorAAngle;
-			float _NormVorATileX;
 			float _NormVorATileY;
 			float _NormVorASpeedX;
 			float _NormNoiseTypeAMult;
@@ -2120,16 +2111,16 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _NormTypeARotSpeed;
 			float _NormPerlinScale;
 			float _NormNoiseTypeAExponential;
-			float _ShoreCBAnchorY;
 			float _NormNoiseBInvert;
-			float _ShoreCBAnchorX;
-			float _ShoreCBSpeedX;
-			float _GradeScale;
-			float _DepthExponential;
-			float _GradeOffset;
-			float _GradeExponential;
-			float _DefTypeARotSpeed;
-			float _DefTypeBRotSpeed;
+			float _NormNoiseBScale;
+			float _NormVorBAngle;
+			float _NormVorBTileX;
+			float _NormVorBTileY;
+			float _NormVorBSpeedX;
+			float _NormVorATileX;
+			float _NormNoiseTypeBMult;
+			float _NormVorAAngle;
+			float _NormNoiseAInvert;
 			float _ShoreCTileX;
 			float _ShoreCTileY;
 			float _ShoreCSpeedX;
@@ -2139,12 +2130,16 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _ShoreCRotSpeed;
 			float _ShoreCBTileX;
 			float _ShoreCBTileY;
+			float _ShoreCBSpeedX;
 			float _ShoreCBSpeedY;
-			float _Specular;
-			float _NormNoiseBScale;
-			float _NormVorBTileX;
-			float _VorATileX;
-			float _VorATileY;
+			float _ShoreCBAnchorX;
+			float _ShoreCBAnchorY;
+			float _ShoreCBRotSpeed;
+			float _NormNoiseContrast;
+			float _NormNoiseAScale;
+			float _NormVorBSpeedY;
+			float _NormTypeBAnchorX;
+			float _NormTypeBAnchorY;
 			float _VorASpeedX;
 			float _VorASpeedY;
 			float _VorBScale;
@@ -2158,16 +2153,12 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _PerATileY;
 			float _PerASpeedX;
 			float _PerASpeedY;
+			float _PerAScale;
+			float _PerBTileX;
+			float _VorATileY;
+			float _VorATileX;
 			float _VorASmooth;
-			float _NormVorBAngle;
 			float _VorAAngleSpeed;
-			float _InvertShoreTexture;
-			float _NormVorBTileY;
-			float _NormVorBSpeedX;
-			float _NormNoiseTypeBMult;
-			float _NormVorBSpeedY;
-			float _NormTypeBAnchorX;
-			float _NormTypeBAnchorY;
 			float _NormTypeBRotSpeed;
 			float _NormNoiseTypeBExponential;
 			float _NormNoiseFinalScale;
@@ -2175,9 +2166,16 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _NormNoiseGradeScale;
 			float _NormNoiseGradeOffset;
 			float _NormMiddleWaveIntensity;
+			float _Specular;
 			float _NormalStrenggth;
-			float _DepthSize;
+			float _DepthDistance;
+			float _DepthExponential;
+			float _GradeScale;
+			float _GradeOffset;
+			float _GradeExponential;
+			float _InvertShoreTexture;
 			float _VorAScale;
+			float _DepthSize;
 			float _Smoothnes;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -2915,10 +2913,8 @@ Shader "BUDU Shaders/BWaterSurface"
 				#else
 				float3 staticSwitch891 = gammaToLinear889;
 				#endif
-				float4 temp_output_929_0 = ( saturate( saturate( (saturate( CalculateContrast(_DefNoiseContrast,float4( (staticSwitch891*_DefNoiseFinalScale + _DefNoiseFinalOffset) , 0.0 )) )*_DefNoiseGradeScale + _DefNoiseGradeOffset) ) ) * _MiddleWaveIntensity );
-				float4 CausticRef902 = temp_output_929_0;
-				float4 temp_output_916_0 = ( ( ( float4( SaturateDepthRef450 , 0.0 ) * saturate( staticSwitch375 ) ) + float4( 0,0,0,0 ) ) + ( CausticRef902 * float4( DepthRef451 , 0.0 ) ) );
-				float4 FinalCompRef461 = temp_output_916_0;
+				float4 CausticRef902 = ( saturate( saturate( (saturate( CalculateContrast(_DefNoiseContrast,float4( (staticSwitch891*_DefNoiseFinalScale + _DefNoiseFinalOffset) , 0.0 )) )*_DefNoiseGradeScale + _DefNoiseGradeOffset) ) ) * _MiddleWaveIntensity );
+				float4 FinalCompRef461 = ( ( ( float4( SaturateDepthRef450 , 0.0 ) * saturate( staticSwitch375 ) ) + float4( 0,0,0,0 ) ) + ( CausticRef902 * float4( DepthRef451 , 0.0 ) ) );
 				float One909 = 1.0;
 				float Zero911 = 0.0;
 				float3 ase_worldViewDir = ( _WorldSpaceCameraPos.xyz - WorldPosition );
@@ -2928,11 +2924,11 @@ Shader "BUDU Shaders/BWaterSurface"
 				float RefractFresnelResult985 = (( _Refraction1 )?( (( _RefractionInvert )?( ( 1.0 - fresnelNode980 ) ):( fresnelNode980 )) ):( Zero911 ));
 				float4 ase_grabScreenPos = ASE_ComputeGrabScreenPos( ScreenPos );
 				float4 ase_grabScreenPosNorm = ase_grabScreenPos / ase_grabScreenPos.w;
-				float2 temp_output_1_0_g154 = float2( 0,0 );
-				float dotResult4_g154 = dot( temp_output_1_0_g154 , temp_output_1_0_g154 );
-				float3 appendResult10_g154 = (float3((temp_output_1_0_g154).x , (temp_output_1_0_g154).y , sqrt( ( 1.0 - saturate( dotResult4_g154 ) ) )));
-				float3 normalizeResult12_g154 = ASESafeNormalize( appendResult10_g154 );
-				float3 temp_output_1007_0 = normalizeResult12_g154;
+				float2 temp_output_1_0_g157 = float2( 0,0 );
+				float dotResult4_g157 = dot( temp_output_1_0_g157 , temp_output_1_0_g157 );
+				float3 appendResult10_g157 = (float3((temp_output_1_0_g157).x , (temp_output_1_0_g157).y , sqrt( ( 1.0 - saturate( dotResult4_g157 ) ) )));
+				float3 normalizeResult12_g157 = ASESafeNormalize( appendResult10_g157 );
+				float3 temp_output_1007_0 = normalizeResult12_g157;
 				float3 surf_pos107_g156 = WorldPosition;
 				float3 ase_worldNormal = IN.ase_texcoord4.xyz;
 				float3 surf_norm107_g156 = ase_worldNormal;
@@ -3164,14 +3160,14 @@ Shader "BUDU Shaders/BWaterSurface"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
 			#define ASE_NEEDS_FRAG_WORLD_POSITION
 			#define ASE_NEEDS_VERT_NORMAL
-			#pragma shader_feature_local _NOISETYPEB_NONE _NOISETYPEB_VORONOI _NOISETYPEB_PERLIN _NOISETYPEB_TEXTURE
-			#pragma shader_feature_local _NOISETYPEA_NONE _NOISETYPEA_VORONOI _NOISETYPEA_PERLIN _NOISETYPEA_TEXTURE
 			#pragma shader_feature_local _SHORETEXTUREBLENDINGTYPE_ADDITIVE _SHORETEXTUREBLENDINGTYPE_SUBTRACTIVE _SHORETEXTUREBLENDINGTYPE_MULTIPLICATIVE _SHORETEXTUREBLENDINGTYPE_DIVIDE
 			#pragma shader_feature_local _DEPTHGRADETYPE2_LINEAR _DEPTHGRADETYPE2_NORMAL _DEPTHGRADETYPE2_GAMMA
 			#pragma shader_feature_local _TEXTUREGRADETYPE_LINEAR _TEXTUREGRADETYPE_NORMAL _TEXTUREGRADETYPE_GAMMA
 			#pragma shader_feature_local _NOISETYPE_VORAVORB _NOISETYPE_VORAPERA _NOISETYPE_VORAPERB _NOISETYPE_PERAPERB _NOISETYPE_VORBPERA _NOISETYPE_VORBPERB
 			#pragma shader_feature_local _DEFNOISEGRADETYPE_LINEAR _DEFNOISEGRADETYPE_NORMAL _DEFNOISEGRADETYPE_GAMMA
 			#pragma shader_feature_local _DEFNOISEMIXTYPE_MULTIPLY _DEFNOISEMIXTYPE_ADD _DEFNOISEMIXTYPE_SUBTRACT _DEFNOISEMIXTYPE_DIVIDE _DEFNOISEMIXTYPE_DOT
+			#pragma shader_feature_local _NOISETYPEA_NONE _NOISETYPEA_VORONOI _NOISETYPEA_PERLIN _NOISETYPEA_TEXTURE
+			#pragma shader_feature_local _NOISETYPEB_NONE _NOISETYPEB_VORONOI _NOISETYPEB_PERLIN _NOISETYPEB_TEXTURE
 			#pragma shader_feature_local _NORMNOISEGRADETYPE_LINEAR _NORMNOISEGRADETYPE_NORMAL _NORMNOISEGRADETYPE_GAMMA
 			#pragma shader_feature_local _NORMNOISEMIXTYPE_MULTIPLY _NORMNOISEMIXTYPE_ADD _NORMNOISEMIXTYPE_SUBTRACT _NORMNOISEMIXTYPE_DIVIDE _NORMNOISEMIXTYPE_DOT
 			#pragma shader_feature_local _NORMNOISETYPEA_NONE _NORMNOISETYPEA_VORONOI _NORMNOISETYPEA_PERLIN _NORMNOISETYPEA_TEXTURE
@@ -3213,11 +3209,8 @@ Shader "BUDU Shaders/BWaterSurface"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _RefractColor;
 			float4 _ShoreColor;
-			float _DepthDistance;
-			float _DefNoiseContrast;
-			float _DefNoiseAInvert;
+			float4 _RefractColor;
 			float _DefNoiseAScale;
 			float _DefVorAAngle;
 			float _DefVorATileX;
@@ -3227,15 +3220,15 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _DefVorASpeedY;
 			float _DefTypeAAnchorX;
 			float _DefTypeAAnchorY;
+			float _DefTypeARotSpeed;
 			float _DefPerlinScale;
 			float _DefNoiseTypeAExponential;
 			float _DefNoiseBInvert;
+			float _DefNoiseBScale;
+			float _DefNoiseAInvert;
+			float _DefNoiseContrast;
 			float _FoamGradeOffset;
 			float _FoamGradeScale;
-			float _FoamSpeedX;
-			float _DefNoiseBScale;
-			float _PerBSpeedY;
-			float _PerBScale;
 			float _NoiseGradeScale;
 			float _NoiseGradeOffset;
 			float _ShoreTileX;
@@ -3249,10 +3242,12 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _AffectFoamDeformation;
 			float _FoamTileX;
 			float _FoamTileY;
+			float _FoamSpeedX;
 			float _FoamSpeedY;
 			float _DefVorBAngle;
+			float _DefVorBTileX;
 			float _DefVorBTileY;
-			float _PerBSpeedX;
+			float _DefVorBSpeedX;
 			float _OldMin;
 			float _OldMax;
 			float _NewMin;
@@ -3269,14 +3264,14 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _PatternHeight;
 			float _TransparentIntensity;
 			float _FresnelPower;
-			float _DefVorBTileX;
+			float _PerBScale;
 			float _FresnelScale;
 			float _RefractionInvert;
-			float _DefVorBSpeedX;
 			float _DefNoiseTypeBMult;
 			float _DefVorBSpeedY;
 			float _DefTypeBAnchorX;
 			float _DefTypeBAnchorY;
+			float _DefTypeBRotSpeed;
 			float _DefNoiseTypeBExponential;
 			float _DefNoiseFinalScale;
 			float _DefNoiseFinalOffset;
@@ -3288,15 +3283,9 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _RefrControl;
 			float _Refraction1;
 			float _FresnelBias;
+			float _PerBSpeedY;
+			float _PerBSpeedX;
 			float _PerBTileY;
-			float _PerBTileX;
-			float _PerAScale;
-			float _ShoreCBRotSpeed;
-			float _NormNoiseContrast;
-			float _NormNoiseAInvert;
-			float _NormNoiseAScale;
-			float _NormVorAAngle;
-			float _NormVorATileX;
 			float _NormVorATileY;
 			float _NormVorASpeedX;
 			float _NormNoiseTypeAMult;
@@ -3306,16 +3295,16 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _NormTypeARotSpeed;
 			float _NormPerlinScale;
 			float _NormNoiseTypeAExponential;
-			float _ShoreCBAnchorY;
 			float _NormNoiseBInvert;
-			float _ShoreCBAnchorX;
-			float _ShoreCBSpeedX;
-			float _GradeScale;
-			float _DepthExponential;
-			float _GradeOffset;
-			float _GradeExponential;
-			float _DefTypeARotSpeed;
-			float _DefTypeBRotSpeed;
+			float _NormNoiseBScale;
+			float _NormVorBAngle;
+			float _NormVorBTileX;
+			float _NormVorBTileY;
+			float _NormVorBSpeedX;
+			float _NormVorATileX;
+			float _NormNoiseTypeBMult;
+			float _NormVorAAngle;
+			float _NormNoiseAInvert;
 			float _ShoreCTileX;
 			float _ShoreCTileY;
 			float _ShoreCSpeedX;
@@ -3325,12 +3314,16 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _ShoreCRotSpeed;
 			float _ShoreCBTileX;
 			float _ShoreCBTileY;
+			float _ShoreCBSpeedX;
 			float _ShoreCBSpeedY;
-			float _Specular;
-			float _NormNoiseBScale;
-			float _NormVorBTileX;
-			float _VorATileX;
-			float _VorATileY;
+			float _ShoreCBAnchorX;
+			float _ShoreCBAnchorY;
+			float _ShoreCBRotSpeed;
+			float _NormNoiseContrast;
+			float _NormNoiseAScale;
+			float _NormVorBSpeedY;
+			float _NormTypeBAnchorX;
+			float _NormTypeBAnchorY;
 			float _VorASpeedX;
 			float _VorASpeedY;
 			float _VorBScale;
@@ -3344,16 +3337,12 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _PerATileY;
 			float _PerASpeedX;
 			float _PerASpeedY;
+			float _PerAScale;
+			float _PerBTileX;
+			float _VorATileY;
+			float _VorATileX;
 			float _VorASmooth;
-			float _NormVorBAngle;
 			float _VorAAngleSpeed;
-			float _InvertShoreTexture;
-			float _NormVorBTileY;
-			float _NormVorBSpeedX;
-			float _NormNoiseTypeBMult;
-			float _NormVorBSpeedY;
-			float _NormTypeBAnchorX;
-			float _NormTypeBAnchorY;
 			float _NormTypeBRotSpeed;
 			float _NormNoiseTypeBExponential;
 			float _NormNoiseFinalScale;
@@ -3361,9 +3350,16 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _NormNoiseGradeScale;
 			float _NormNoiseGradeOffset;
 			float _NormMiddleWaveIntensity;
+			float _Specular;
 			float _NormalStrenggth;
-			float _DepthSize;
+			float _DepthDistance;
+			float _DepthExponential;
+			float _GradeScale;
+			float _GradeOffset;
+			float _GradeExponential;
+			float _InvertShoreTexture;
 			float _VorAScale;
+			float _DepthSize;
 			float _Smoothnes;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -3395,9 +3391,9 @@ Shader "BUDU Shaders/BWaterSurface"
 				int _PassValue;
 			#endif
 
+			sampler2D _ShoreColorMap;
 			sampler2D _ShoreTexture;
 			sampler2D _FoamTexture;
-			sampler2D _ShoreColorMap;
 			sampler2D _DefNoiseAMap;
 			sampler2D _DefNoiseBMap;
 			sampler2D _NormNoiseAMap;
@@ -4152,10 +4148,8 @@ Shader "BUDU Shaders/BWaterSurface"
 				#else
 				float3 staticSwitch891 = gammaToLinear889;
 				#endif
-				float4 temp_output_929_0 = ( saturate( saturate( (saturate( CalculateContrast(_DefNoiseContrast,float4( (staticSwitch891*_DefNoiseFinalScale + _DefNoiseFinalOffset) , 0.0 )) )*_DefNoiseGradeScale + _DefNoiseGradeOffset) ) ) * _MiddleWaveIntensity );
-				float4 CausticRef902 = temp_output_929_0;
-				float4 temp_output_916_0 = ( ( ( float4( SaturateDepthRef450 , 0.0 ) * saturate( staticSwitch375 ) ) + float4( 0,0,0,0 ) ) + ( CausticRef902 * float4( DepthRef451 , 0.0 ) ) );
-				float4 FinalCompRef461 = temp_output_916_0;
+				float4 CausticRef902 = ( saturate( saturate( (saturate( CalculateContrast(_DefNoiseContrast,float4( (staticSwitch891*_DefNoiseFinalScale + _DefNoiseFinalOffset) , 0.0 )) )*_DefNoiseGradeScale + _DefNoiseGradeOffset) ) ) * _MiddleWaveIntensity );
+				float4 FinalCompRef461 = ( ( ( float4( SaturateDepthRef450 , 0.0 ) * saturate( staticSwitch375 ) ) + float4( 0,0,0,0 ) ) + ( CausticRef902 * float4( DepthRef451 , 0.0 ) ) );
 				float One909 = 1.0;
 				float Zero911 = 0.0;
 				float3 ase_worldViewDir = ( _WorldSpaceCameraPos.xyz - WorldPosition );
@@ -4165,11 +4159,11 @@ Shader "BUDU Shaders/BWaterSurface"
 				float RefractFresnelResult985 = (( _Refraction1 )?( (( _RefractionInvert )?( ( 1.0 - fresnelNode980 ) ):( fresnelNode980 )) ):( Zero911 ));
 				float4 ase_grabScreenPos = ASE_ComputeGrabScreenPos( screenPos );
 				float4 ase_grabScreenPosNorm = ase_grabScreenPos / ase_grabScreenPos.w;
-				float2 temp_output_1_0_g154 = float2( 0,0 );
-				float dotResult4_g154 = dot( temp_output_1_0_g154 , temp_output_1_0_g154 );
-				float3 appendResult10_g154 = (float3((temp_output_1_0_g154).x , (temp_output_1_0_g154).y , sqrt( ( 1.0 - saturate( dotResult4_g154 ) ) )));
-				float3 normalizeResult12_g154 = ASESafeNormalize( appendResult10_g154 );
-				float3 temp_output_1007_0 = normalizeResult12_g154;
+				float2 temp_output_1_0_g157 = float2( 0,0 );
+				float dotResult4_g157 = dot( temp_output_1_0_g157 , temp_output_1_0_g157 );
+				float3 appendResult10_g157 = (float3((temp_output_1_0_g157).x , (temp_output_1_0_g157).y , sqrt( ( 1.0 - saturate( dotResult4_g157 ) ) )));
+				float3 normalizeResult12_g157 = ASESafeNormalize( appendResult10_g157 );
+				float3 temp_output_1007_0 = normalizeResult12_g157;
 				float3 surf_pos107_g156 = WorldPosition;
 				float3 ase_worldNormal = IN.ase_texcoord6.xyz;
 				float3 surf_norm107_g156 = ase_worldNormal;
@@ -4402,14 +4396,14 @@ Shader "BUDU Shaders/BWaterSurface"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
 			#define ASE_NEEDS_FRAG_WORLD_POSITION
 			#define ASE_NEEDS_VERT_NORMAL
-			#pragma shader_feature_local _NOISETYPEB_NONE _NOISETYPEB_VORONOI _NOISETYPEB_PERLIN _NOISETYPEB_TEXTURE
-			#pragma shader_feature_local _NOISETYPEA_NONE _NOISETYPEA_VORONOI _NOISETYPEA_PERLIN _NOISETYPEA_TEXTURE
 			#pragma shader_feature_local _SHORETEXTUREBLENDINGTYPE_ADDITIVE _SHORETEXTUREBLENDINGTYPE_SUBTRACTIVE _SHORETEXTUREBLENDINGTYPE_MULTIPLICATIVE _SHORETEXTUREBLENDINGTYPE_DIVIDE
 			#pragma shader_feature_local _DEPTHGRADETYPE2_LINEAR _DEPTHGRADETYPE2_NORMAL _DEPTHGRADETYPE2_GAMMA
 			#pragma shader_feature_local _TEXTUREGRADETYPE_LINEAR _TEXTUREGRADETYPE_NORMAL _TEXTUREGRADETYPE_GAMMA
 			#pragma shader_feature_local _NOISETYPE_VORAVORB _NOISETYPE_VORAPERA _NOISETYPE_VORAPERB _NOISETYPE_PERAPERB _NOISETYPE_VORBPERA _NOISETYPE_VORBPERB
 			#pragma shader_feature_local _DEFNOISEGRADETYPE_LINEAR _DEFNOISEGRADETYPE_NORMAL _DEFNOISEGRADETYPE_GAMMA
 			#pragma shader_feature_local _DEFNOISEMIXTYPE_MULTIPLY _DEFNOISEMIXTYPE_ADD _DEFNOISEMIXTYPE_SUBTRACT _DEFNOISEMIXTYPE_DIVIDE _DEFNOISEMIXTYPE_DOT
+			#pragma shader_feature_local _NOISETYPEA_NONE _NOISETYPEA_VORONOI _NOISETYPEA_PERLIN _NOISETYPEA_TEXTURE
+			#pragma shader_feature_local _NOISETYPEB_NONE _NOISETYPEB_VORONOI _NOISETYPEB_PERLIN _NOISETYPEB_TEXTURE
 			#pragma shader_feature_local _NORMNOISEGRADETYPE_LINEAR _NORMNOISEGRADETYPE_NORMAL _NORMNOISEGRADETYPE_GAMMA
 			#pragma shader_feature_local _NORMNOISEMIXTYPE_MULTIPLY _NORMNOISEMIXTYPE_ADD _NORMNOISEMIXTYPE_SUBTRACT _NORMNOISEMIXTYPE_DIVIDE _NORMNOISEMIXTYPE_DOT
 			#pragma shader_feature_local _NORMNOISETYPEA_NONE _NORMNOISETYPEA_VORONOI _NORMNOISETYPEA_PERLIN _NORMNOISETYPEA_TEXTURE
@@ -4445,11 +4439,8 @@ Shader "BUDU Shaders/BWaterSurface"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _RefractColor;
 			float4 _ShoreColor;
-			float _DepthDistance;
-			float _DefNoiseContrast;
-			float _DefNoiseAInvert;
+			float4 _RefractColor;
 			float _DefNoiseAScale;
 			float _DefVorAAngle;
 			float _DefVorATileX;
@@ -4459,15 +4450,15 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _DefVorASpeedY;
 			float _DefTypeAAnchorX;
 			float _DefTypeAAnchorY;
+			float _DefTypeARotSpeed;
 			float _DefPerlinScale;
 			float _DefNoiseTypeAExponential;
 			float _DefNoiseBInvert;
+			float _DefNoiseBScale;
+			float _DefNoiseAInvert;
+			float _DefNoiseContrast;
 			float _FoamGradeOffset;
 			float _FoamGradeScale;
-			float _FoamSpeedX;
-			float _DefNoiseBScale;
-			float _PerBSpeedY;
-			float _PerBScale;
 			float _NoiseGradeScale;
 			float _NoiseGradeOffset;
 			float _ShoreTileX;
@@ -4481,10 +4472,12 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _AffectFoamDeformation;
 			float _FoamTileX;
 			float _FoamTileY;
+			float _FoamSpeedX;
 			float _FoamSpeedY;
 			float _DefVorBAngle;
+			float _DefVorBTileX;
 			float _DefVorBTileY;
-			float _PerBSpeedX;
+			float _DefVorBSpeedX;
 			float _OldMin;
 			float _OldMax;
 			float _NewMin;
@@ -4501,14 +4494,14 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _PatternHeight;
 			float _TransparentIntensity;
 			float _FresnelPower;
-			float _DefVorBTileX;
+			float _PerBScale;
 			float _FresnelScale;
 			float _RefractionInvert;
-			float _DefVorBSpeedX;
 			float _DefNoiseTypeBMult;
 			float _DefVorBSpeedY;
 			float _DefTypeBAnchorX;
 			float _DefTypeBAnchorY;
+			float _DefTypeBRotSpeed;
 			float _DefNoiseTypeBExponential;
 			float _DefNoiseFinalScale;
 			float _DefNoiseFinalOffset;
@@ -4520,15 +4513,9 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _RefrControl;
 			float _Refraction1;
 			float _FresnelBias;
+			float _PerBSpeedY;
+			float _PerBSpeedX;
 			float _PerBTileY;
-			float _PerBTileX;
-			float _PerAScale;
-			float _ShoreCBRotSpeed;
-			float _NormNoiseContrast;
-			float _NormNoiseAInvert;
-			float _NormNoiseAScale;
-			float _NormVorAAngle;
-			float _NormVorATileX;
 			float _NormVorATileY;
 			float _NormVorASpeedX;
 			float _NormNoiseTypeAMult;
@@ -4538,16 +4525,16 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _NormTypeARotSpeed;
 			float _NormPerlinScale;
 			float _NormNoiseTypeAExponential;
-			float _ShoreCBAnchorY;
 			float _NormNoiseBInvert;
-			float _ShoreCBAnchorX;
-			float _ShoreCBSpeedX;
-			float _GradeScale;
-			float _DepthExponential;
-			float _GradeOffset;
-			float _GradeExponential;
-			float _DefTypeARotSpeed;
-			float _DefTypeBRotSpeed;
+			float _NormNoiseBScale;
+			float _NormVorBAngle;
+			float _NormVorBTileX;
+			float _NormVorBTileY;
+			float _NormVorBSpeedX;
+			float _NormVorATileX;
+			float _NormNoiseTypeBMult;
+			float _NormVorAAngle;
+			float _NormNoiseAInvert;
 			float _ShoreCTileX;
 			float _ShoreCTileY;
 			float _ShoreCSpeedX;
@@ -4557,12 +4544,16 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _ShoreCRotSpeed;
 			float _ShoreCBTileX;
 			float _ShoreCBTileY;
+			float _ShoreCBSpeedX;
 			float _ShoreCBSpeedY;
-			float _Specular;
-			float _NormNoiseBScale;
-			float _NormVorBTileX;
-			float _VorATileX;
-			float _VorATileY;
+			float _ShoreCBAnchorX;
+			float _ShoreCBAnchorY;
+			float _ShoreCBRotSpeed;
+			float _NormNoiseContrast;
+			float _NormNoiseAScale;
+			float _NormVorBSpeedY;
+			float _NormTypeBAnchorX;
+			float _NormTypeBAnchorY;
 			float _VorASpeedX;
 			float _VorASpeedY;
 			float _VorBScale;
@@ -4576,16 +4567,12 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _PerATileY;
 			float _PerASpeedX;
 			float _PerASpeedY;
+			float _PerAScale;
+			float _PerBTileX;
+			float _VorATileY;
+			float _VorATileX;
 			float _VorASmooth;
-			float _NormVorBAngle;
 			float _VorAAngleSpeed;
-			float _InvertShoreTexture;
-			float _NormVorBTileY;
-			float _NormVorBSpeedX;
-			float _NormNoiseTypeBMult;
-			float _NormVorBSpeedY;
-			float _NormTypeBAnchorX;
-			float _NormTypeBAnchorY;
 			float _NormTypeBRotSpeed;
 			float _NormNoiseTypeBExponential;
 			float _NormNoiseFinalScale;
@@ -4593,9 +4580,16 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _NormNoiseGradeScale;
 			float _NormNoiseGradeOffset;
 			float _NormMiddleWaveIntensity;
+			float _Specular;
 			float _NormalStrenggth;
-			float _DepthSize;
+			float _DepthDistance;
+			float _DepthExponential;
+			float _GradeScale;
+			float _GradeOffset;
+			float _GradeExponential;
+			float _InvertShoreTexture;
 			float _VorAScale;
+			float _DepthSize;
 			float _Smoothnes;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -4627,9 +4621,9 @@ Shader "BUDU Shaders/BWaterSurface"
 				int _PassValue;
 			#endif
 
+			sampler2D _ShoreColorMap;
 			sampler2D _ShoreTexture;
 			sampler2D _FoamTexture;
-			sampler2D _ShoreColorMap;
 			sampler2D _DefNoiseAMap;
 			sampler2D _DefNoiseBMap;
 			sampler2D _NormNoiseAMap;
@@ -5367,10 +5361,8 @@ Shader "BUDU Shaders/BWaterSurface"
 				#else
 				float3 staticSwitch891 = gammaToLinear889;
 				#endif
-				float4 temp_output_929_0 = ( saturate( saturate( (saturate( CalculateContrast(_DefNoiseContrast,float4( (staticSwitch891*_DefNoiseFinalScale + _DefNoiseFinalOffset) , 0.0 )) )*_DefNoiseGradeScale + _DefNoiseGradeOffset) ) ) * _MiddleWaveIntensity );
-				float4 CausticRef902 = temp_output_929_0;
-				float4 temp_output_916_0 = ( ( ( float4( SaturateDepthRef450 , 0.0 ) * saturate( staticSwitch375 ) ) + float4( 0,0,0,0 ) ) + ( CausticRef902 * float4( DepthRef451 , 0.0 ) ) );
-				float4 FinalCompRef461 = temp_output_916_0;
+				float4 CausticRef902 = ( saturate( saturate( (saturate( CalculateContrast(_DefNoiseContrast,float4( (staticSwitch891*_DefNoiseFinalScale + _DefNoiseFinalOffset) , 0.0 )) )*_DefNoiseGradeScale + _DefNoiseGradeOffset) ) ) * _MiddleWaveIntensity );
+				float4 FinalCompRef461 = ( ( ( float4( SaturateDepthRef450 , 0.0 ) * saturate( staticSwitch375 ) ) + float4( 0,0,0,0 ) ) + ( CausticRef902 * float4( DepthRef451 , 0.0 ) ) );
 				float One909 = 1.0;
 				float Zero911 = 0.0;
 				float3 ase_worldViewDir = ( _WorldSpaceCameraPos.xyz - WorldPosition );
@@ -5380,11 +5372,11 @@ Shader "BUDU Shaders/BWaterSurface"
 				float RefractFresnelResult985 = (( _Refraction1 )?( (( _RefractionInvert )?( ( 1.0 - fresnelNode980 ) ):( fresnelNode980 )) ):( Zero911 ));
 				float4 ase_grabScreenPos = ASE_ComputeGrabScreenPos( screenPos );
 				float4 ase_grabScreenPosNorm = ase_grabScreenPos / ase_grabScreenPos.w;
-				float2 temp_output_1_0_g154 = float2( 0,0 );
-				float dotResult4_g154 = dot( temp_output_1_0_g154 , temp_output_1_0_g154 );
-				float3 appendResult10_g154 = (float3((temp_output_1_0_g154).x , (temp_output_1_0_g154).y , sqrt( ( 1.0 - saturate( dotResult4_g154 ) ) )));
-				float3 normalizeResult12_g154 = ASESafeNormalize( appendResult10_g154 );
-				float3 temp_output_1007_0 = normalizeResult12_g154;
+				float2 temp_output_1_0_g157 = float2( 0,0 );
+				float dotResult4_g157 = dot( temp_output_1_0_g157 , temp_output_1_0_g157 );
+				float3 appendResult10_g157 = (float3((temp_output_1_0_g157).x , (temp_output_1_0_g157).y , sqrt( ( 1.0 - saturate( dotResult4_g157 ) ) )));
+				float3 normalizeResult12_g157 = ASESafeNormalize( appendResult10_g157 );
+				float3 temp_output_1007_0 = normalizeResult12_g157;
 				float3 surf_pos107_g156 = WorldPosition;
 				float3 ase_worldNormal = IN.ase_texcoord4.xyz;
 				float3 surf_norm107_g156 = ase_worldNormal;
@@ -5640,8 +5632,6 @@ Shader "BUDU Shaders/BWaterSurface"
 			#define ASE_NEEDS_VERT_NORMAL
 			#define ASE_NEEDS_VERT_TANGENT
 			#define ASE_NEEDS_FRAG_SCREEN_POSITION
-			#pragma shader_feature_local _NOISETYPEB_NONE _NOISETYPEB_VORONOI _NOISETYPEB_PERLIN _NOISETYPEB_TEXTURE
-			#pragma shader_feature_local _NOISETYPEA_NONE _NOISETYPEA_VORONOI _NOISETYPEA_PERLIN _NOISETYPEA_TEXTURE
 			#pragma shader_feature_local _NORMNOISEGRADETYPE_LINEAR _NORMNOISEGRADETYPE_NORMAL _NORMNOISEGRADETYPE_GAMMA
 			#pragma shader_feature_local _NORMNOISEMIXTYPE_MULTIPLY _NORMNOISEMIXTYPE_ADD _NORMNOISEMIXTYPE_SUBTRACT _NORMNOISEMIXTYPE_DIVIDE _NORMNOISEMIXTYPE_DOT
 			#pragma shader_feature_local _NORMNOISETYPEA_NONE _NORMNOISETYPEA_VORONOI _NORMNOISETYPEA_PERLIN _NORMNOISETYPEA_TEXTURE
@@ -5651,6 +5641,8 @@ Shader "BUDU Shaders/BWaterSurface"
 			#pragma shader_feature_local _NOISETYPE_VORAVORB _NOISETYPE_VORAPERA _NOISETYPE_VORAPERB _NOISETYPE_PERAPERB _NOISETYPE_VORBPERA _NOISETYPE_VORBPERB
 			#pragma shader_feature_local _DEFNOISEGRADETYPE_LINEAR _DEFNOISEGRADETYPE_NORMAL _DEFNOISEGRADETYPE_GAMMA
 			#pragma shader_feature_local _DEFNOISEMIXTYPE_MULTIPLY _DEFNOISEMIXTYPE_ADD _DEFNOISEMIXTYPE_SUBTRACT _DEFNOISEMIXTYPE_DIVIDE _DEFNOISEMIXTYPE_DOT
+			#pragma shader_feature_local _NOISETYPEA_NONE _NOISETYPEA_VORONOI _NOISETYPEA_PERLIN _NOISETYPEA_TEXTURE
+			#pragma shader_feature_local _NOISETYPEB_NONE _NOISETYPEB_VORONOI _NOISETYPEB_PERLIN _NOISETYPEB_TEXTURE
 
 
 			#if defined(ASE_EARLY_Z_DEPTH_OPTIMIZE) && (SHADER_TARGET >= 45)
@@ -5690,11 +5682,8 @@ Shader "BUDU Shaders/BWaterSurface"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _RefractColor;
 			float4 _ShoreColor;
-			float _DepthDistance;
-			float _DefNoiseContrast;
-			float _DefNoiseAInvert;
+			float4 _RefractColor;
 			float _DefNoiseAScale;
 			float _DefVorAAngle;
 			float _DefVorATileX;
@@ -5704,15 +5693,15 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _DefVorASpeedY;
 			float _DefTypeAAnchorX;
 			float _DefTypeAAnchorY;
+			float _DefTypeARotSpeed;
 			float _DefPerlinScale;
 			float _DefNoiseTypeAExponential;
 			float _DefNoiseBInvert;
+			float _DefNoiseBScale;
+			float _DefNoiseAInvert;
+			float _DefNoiseContrast;
 			float _FoamGradeOffset;
 			float _FoamGradeScale;
-			float _FoamSpeedX;
-			float _DefNoiseBScale;
-			float _PerBSpeedY;
-			float _PerBScale;
 			float _NoiseGradeScale;
 			float _NoiseGradeOffset;
 			float _ShoreTileX;
@@ -5726,10 +5715,12 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _AffectFoamDeformation;
 			float _FoamTileX;
 			float _FoamTileY;
+			float _FoamSpeedX;
 			float _FoamSpeedY;
 			float _DefVorBAngle;
+			float _DefVorBTileX;
 			float _DefVorBTileY;
-			float _PerBSpeedX;
+			float _DefVorBSpeedX;
 			float _OldMin;
 			float _OldMax;
 			float _NewMin;
@@ -5746,14 +5737,14 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _PatternHeight;
 			float _TransparentIntensity;
 			float _FresnelPower;
-			float _DefVorBTileX;
+			float _PerBScale;
 			float _FresnelScale;
 			float _RefractionInvert;
-			float _DefVorBSpeedX;
 			float _DefNoiseTypeBMult;
 			float _DefVorBSpeedY;
 			float _DefTypeBAnchorX;
 			float _DefTypeBAnchorY;
+			float _DefTypeBRotSpeed;
 			float _DefNoiseTypeBExponential;
 			float _DefNoiseFinalScale;
 			float _DefNoiseFinalOffset;
@@ -5765,15 +5756,9 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _RefrControl;
 			float _Refraction1;
 			float _FresnelBias;
+			float _PerBSpeedY;
+			float _PerBSpeedX;
 			float _PerBTileY;
-			float _PerBTileX;
-			float _PerAScale;
-			float _ShoreCBRotSpeed;
-			float _NormNoiseContrast;
-			float _NormNoiseAInvert;
-			float _NormNoiseAScale;
-			float _NormVorAAngle;
-			float _NormVorATileX;
 			float _NormVorATileY;
 			float _NormVorASpeedX;
 			float _NormNoiseTypeAMult;
@@ -5783,16 +5768,16 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _NormTypeARotSpeed;
 			float _NormPerlinScale;
 			float _NormNoiseTypeAExponential;
-			float _ShoreCBAnchorY;
 			float _NormNoiseBInvert;
-			float _ShoreCBAnchorX;
-			float _ShoreCBSpeedX;
-			float _GradeScale;
-			float _DepthExponential;
-			float _GradeOffset;
-			float _GradeExponential;
-			float _DefTypeARotSpeed;
-			float _DefTypeBRotSpeed;
+			float _NormNoiseBScale;
+			float _NormVorBAngle;
+			float _NormVorBTileX;
+			float _NormVorBTileY;
+			float _NormVorBSpeedX;
+			float _NormVorATileX;
+			float _NormNoiseTypeBMult;
+			float _NormVorAAngle;
+			float _NormNoiseAInvert;
 			float _ShoreCTileX;
 			float _ShoreCTileY;
 			float _ShoreCSpeedX;
@@ -5802,12 +5787,16 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _ShoreCRotSpeed;
 			float _ShoreCBTileX;
 			float _ShoreCBTileY;
+			float _ShoreCBSpeedX;
 			float _ShoreCBSpeedY;
-			float _Specular;
-			float _NormNoiseBScale;
-			float _NormVorBTileX;
-			float _VorATileX;
-			float _VorATileY;
+			float _ShoreCBAnchorX;
+			float _ShoreCBAnchorY;
+			float _ShoreCBRotSpeed;
+			float _NormNoiseContrast;
+			float _NormNoiseAScale;
+			float _NormVorBSpeedY;
+			float _NormTypeBAnchorX;
+			float _NormTypeBAnchorY;
 			float _VorASpeedX;
 			float _VorASpeedY;
 			float _VorBScale;
@@ -5821,16 +5810,12 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _PerATileY;
 			float _PerASpeedX;
 			float _PerASpeedY;
+			float _PerAScale;
+			float _PerBTileX;
+			float _VorATileY;
+			float _VorATileX;
 			float _VorASmooth;
-			float _NormVorBAngle;
 			float _VorAAngleSpeed;
-			float _InvertShoreTexture;
-			float _NormVorBTileY;
-			float _NormVorBSpeedX;
-			float _NormNoiseTypeBMult;
-			float _NormVorBSpeedY;
-			float _NormTypeBAnchorX;
-			float _NormTypeBAnchorY;
 			float _NormTypeBRotSpeed;
 			float _NormNoiseTypeBExponential;
 			float _NormNoiseFinalScale;
@@ -5838,9 +5823,16 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _NormNoiseGradeScale;
 			float _NormNoiseGradeOffset;
 			float _NormMiddleWaveIntensity;
+			float _Specular;
 			float _NormalStrenggth;
-			float _DepthSize;
+			float _DepthDistance;
+			float _DepthExponential;
+			float _GradeScale;
+			float _GradeOffset;
+			float _GradeExponential;
+			float _InvertShoreTexture;
 			float _VorAScale;
+			float _DepthSize;
 			float _Smoothnes;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -5872,10 +5864,10 @@ Shader "BUDU Shaders/BWaterSurface"
 				int _PassValue;
 			#endif
 
-			sampler2D _ShoreTexture;
-			sampler2D _FoamTexture;
 			sampler2D _NormNoiseAMap;
 			sampler2D _NormNoiseBMap;
+			sampler2D _ShoreTexture;
+			sampler2D _FoamTexture;
 			sampler2D _DefNoiseAMap;
 			sampler2D _DefNoiseBMap;
 			sampler2D _BluricRefractionPattern;
@@ -6717,10 +6709,8 @@ Shader "BUDU Shaders/BWaterSurface"
 				#else
 				float3 staticSwitch891 = gammaToLinear889;
 				#endif
-				float4 temp_output_929_0 = ( saturate( saturate( (saturate( CalculateContrast(_DefNoiseContrast,float4( (staticSwitch891*_DefNoiseFinalScale + _DefNoiseFinalOffset) , 0.0 )) )*_DefNoiseGradeScale + _DefNoiseGradeOffset) ) ) * _MiddleWaveIntensity );
-				float4 CausticRef902 = temp_output_929_0;
-				float4 temp_output_916_0 = ( ( ( float4( SaturateDepthRef450 , 0.0 ) * saturate( staticSwitch375 ) ) + float4( 0,0,0,0 ) ) + ( CausticRef902 * float4( DepthRef451 , 0.0 ) ) );
-				float4 FinalCompRef461 = temp_output_916_0;
+				float4 CausticRef902 = ( saturate( saturate( (saturate( CalculateContrast(_DefNoiseContrast,float4( (staticSwitch891*_DefNoiseFinalScale + _DefNoiseFinalOffset) , 0.0 )) )*_DefNoiseGradeScale + _DefNoiseGradeOffset) ) ) * _MiddleWaveIntensity );
+				float4 FinalCompRef461 = ( ( ( float4( SaturateDepthRef450 , 0.0 ) * saturate( staticSwitch375 ) ) + float4( 0,0,0,0 ) ) + ( CausticRef902 * float4( DepthRef451 , 0.0 ) ) );
 				float One909 = 1.0;
 				float Zero911 = 0.0;
 				float3 ase_worldViewDir = ( _WorldSpaceCameraPos.xyz - WorldPosition );
@@ -6730,11 +6720,11 @@ Shader "BUDU Shaders/BWaterSurface"
 				float RefractFresnelResult985 = (( _Refraction1 )?( (( _RefractionInvert )?( ( 1.0 - fresnelNode980 ) ):( fresnelNode980 )) ):( Zero911 ));
 				float4 ase_grabScreenPos = ASE_ComputeGrabScreenPos( ScreenPos );
 				float4 ase_grabScreenPosNorm = ase_grabScreenPos / ase_grabScreenPos.w;
-				float2 temp_output_1_0_g154 = float2( 0,0 );
-				float dotResult4_g154 = dot( temp_output_1_0_g154 , temp_output_1_0_g154 );
-				float3 appendResult10_g154 = (float3((temp_output_1_0_g154).x , (temp_output_1_0_g154).y , sqrt( ( 1.0 - saturate( dotResult4_g154 ) ) )));
-				float3 normalizeResult12_g154 = ASESafeNormalize( appendResult10_g154 );
-				float3 temp_output_1007_0 = normalizeResult12_g154;
+				float2 temp_output_1_0_g157 = float2( 0,0 );
+				float dotResult4_g157 = dot( temp_output_1_0_g157 , temp_output_1_0_g157 );
+				float3 appendResult10_g157 = (float3((temp_output_1_0_g157).x , (temp_output_1_0_g157).y , sqrt( ( 1.0 - saturate( dotResult4_g157 ) ) )));
+				float3 normalizeResult12_g157 = ASESafeNormalize( appendResult10_g157 );
+				float3 temp_output_1007_0 = normalizeResult12_g157;
 				float3 lerpResult1137 = lerp( temp_output_1007_0 , WaveNormalRef1103 , _NormalSize);
 				float4 unityObjectToClipPos1130 = TransformWorldToHClip(TransformObjectToWorld(IN.ase_texcoord7.xyz));
 				float4 computeScreenPos1128 = ComputeScreenPos( unityObjectToClipPos1130 );
@@ -6925,8 +6915,6 @@ Shader "BUDU Shaders/BWaterSurface"
 			#define ASE_NEEDS_FRAG_WORLD_BITANGENT
 			#define ASE_NEEDS_FRAG_SCREEN_POSITION
 			#define ASE_NEEDS_FRAG_WORLD_VIEW_DIR
-			#pragma shader_feature_local _NOISETYPEB_NONE _NOISETYPEB_VORONOI _NOISETYPEB_PERLIN _NOISETYPEB_TEXTURE
-			#pragma shader_feature_local _NOISETYPEA_NONE _NOISETYPEA_VORONOI _NOISETYPEA_PERLIN _NOISETYPEA_TEXTURE
 			#pragma shader_feature_local _SHORETEXTUREBLENDINGTYPE_ADDITIVE _SHORETEXTUREBLENDINGTYPE_SUBTRACTIVE _SHORETEXTUREBLENDINGTYPE_MULTIPLICATIVE _SHORETEXTUREBLENDINGTYPE_DIVIDE
 			#pragma shader_feature_local _NORMNOISEGRADETYPE_LINEAR _NORMNOISEGRADETYPE_NORMAL _NORMNOISEGRADETYPE_GAMMA
 			#pragma shader_feature_local _NORMNOISEMIXTYPE_MULTIPLY _NORMNOISEMIXTYPE_ADD _NORMNOISEMIXTYPE_SUBTRACT _NORMNOISEMIXTYPE_DIVIDE _NORMNOISEMIXTYPE_DOT
@@ -6937,6 +6925,8 @@ Shader "BUDU Shaders/BWaterSurface"
 			#pragma shader_feature_local _NOISETYPE_VORAVORB _NOISETYPE_VORAPERA _NOISETYPE_VORAPERB _NOISETYPE_PERAPERB _NOISETYPE_VORBPERA _NOISETYPE_VORBPERB
 			#pragma shader_feature_local _DEFNOISEGRADETYPE_LINEAR _DEFNOISEGRADETYPE_NORMAL _DEFNOISEGRADETYPE_GAMMA
 			#pragma shader_feature_local _DEFNOISEMIXTYPE_MULTIPLY _DEFNOISEMIXTYPE_ADD _DEFNOISEMIXTYPE_SUBTRACT _DEFNOISEMIXTYPE_DIVIDE _DEFNOISEMIXTYPE_DOT
+			#pragma shader_feature_local _NOISETYPEA_NONE _NOISETYPEA_VORONOI _NOISETYPEA_PERLIN _NOISETYPEA_TEXTURE
+			#pragma shader_feature_local _NOISETYPEB_NONE _NOISETYPEB_VORONOI _NOISETYPEB_PERLIN _NOISETYPEB_TEXTURE
 
 
 			#if defined(ASE_EARLY_Z_DEPTH_OPTIMIZE) && (SHADER_TARGET >= 45)
@@ -6981,11 +6971,8 @@ Shader "BUDU Shaders/BWaterSurface"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _RefractColor;
 			float4 _ShoreColor;
-			float _DepthDistance;
-			float _DefNoiseContrast;
-			float _DefNoiseAInvert;
+			float4 _RefractColor;
 			float _DefNoiseAScale;
 			float _DefVorAAngle;
 			float _DefVorATileX;
@@ -6995,15 +6982,15 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _DefVorASpeedY;
 			float _DefTypeAAnchorX;
 			float _DefTypeAAnchorY;
+			float _DefTypeARotSpeed;
 			float _DefPerlinScale;
 			float _DefNoiseTypeAExponential;
 			float _DefNoiseBInvert;
+			float _DefNoiseBScale;
+			float _DefNoiseAInvert;
+			float _DefNoiseContrast;
 			float _FoamGradeOffset;
 			float _FoamGradeScale;
-			float _FoamSpeedX;
-			float _DefNoiseBScale;
-			float _PerBSpeedY;
-			float _PerBScale;
 			float _NoiseGradeScale;
 			float _NoiseGradeOffset;
 			float _ShoreTileX;
@@ -7017,10 +7004,12 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _AffectFoamDeformation;
 			float _FoamTileX;
 			float _FoamTileY;
+			float _FoamSpeedX;
 			float _FoamSpeedY;
 			float _DefVorBAngle;
+			float _DefVorBTileX;
 			float _DefVorBTileY;
-			float _PerBSpeedX;
+			float _DefVorBSpeedX;
 			float _OldMin;
 			float _OldMax;
 			float _NewMin;
@@ -7037,14 +7026,14 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _PatternHeight;
 			float _TransparentIntensity;
 			float _FresnelPower;
-			float _DefVorBTileX;
+			float _PerBScale;
 			float _FresnelScale;
 			float _RefractionInvert;
-			float _DefVorBSpeedX;
 			float _DefNoiseTypeBMult;
 			float _DefVorBSpeedY;
 			float _DefTypeBAnchorX;
 			float _DefTypeBAnchorY;
+			float _DefTypeBRotSpeed;
 			float _DefNoiseTypeBExponential;
 			float _DefNoiseFinalScale;
 			float _DefNoiseFinalOffset;
@@ -7056,15 +7045,9 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _RefrControl;
 			float _Refraction1;
 			float _FresnelBias;
+			float _PerBSpeedY;
+			float _PerBSpeedX;
 			float _PerBTileY;
-			float _PerBTileX;
-			float _PerAScale;
-			float _ShoreCBRotSpeed;
-			float _NormNoiseContrast;
-			float _NormNoiseAInvert;
-			float _NormNoiseAScale;
-			float _NormVorAAngle;
-			float _NormVorATileX;
 			float _NormVorATileY;
 			float _NormVorASpeedX;
 			float _NormNoiseTypeAMult;
@@ -7074,16 +7057,16 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _NormTypeARotSpeed;
 			float _NormPerlinScale;
 			float _NormNoiseTypeAExponential;
-			float _ShoreCBAnchorY;
 			float _NormNoiseBInvert;
-			float _ShoreCBAnchorX;
-			float _ShoreCBSpeedX;
-			float _GradeScale;
-			float _DepthExponential;
-			float _GradeOffset;
-			float _GradeExponential;
-			float _DefTypeARotSpeed;
-			float _DefTypeBRotSpeed;
+			float _NormNoiseBScale;
+			float _NormVorBAngle;
+			float _NormVorBTileX;
+			float _NormVorBTileY;
+			float _NormVorBSpeedX;
+			float _NormVorATileX;
+			float _NormNoiseTypeBMult;
+			float _NormVorAAngle;
+			float _NormNoiseAInvert;
 			float _ShoreCTileX;
 			float _ShoreCTileY;
 			float _ShoreCSpeedX;
@@ -7093,12 +7076,16 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _ShoreCRotSpeed;
 			float _ShoreCBTileX;
 			float _ShoreCBTileY;
+			float _ShoreCBSpeedX;
 			float _ShoreCBSpeedY;
-			float _Specular;
-			float _NormNoiseBScale;
-			float _NormVorBTileX;
-			float _VorATileX;
-			float _VorATileY;
+			float _ShoreCBAnchorX;
+			float _ShoreCBAnchorY;
+			float _ShoreCBRotSpeed;
+			float _NormNoiseContrast;
+			float _NormNoiseAScale;
+			float _NormVorBSpeedY;
+			float _NormTypeBAnchorX;
+			float _NormTypeBAnchorY;
 			float _VorASpeedX;
 			float _VorASpeedY;
 			float _VorBScale;
@@ -7112,16 +7099,12 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _PerATileY;
 			float _PerASpeedX;
 			float _PerASpeedY;
+			float _PerAScale;
+			float _PerBTileX;
+			float _VorATileY;
+			float _VorATileX;
 			float _VorASmooth;
-			float _NormVorBAngle;
 			float _VorAAngleSpeed;
-			float _InvertShoreTexture;
-			float _NormVorBTileY;
-			float _NormVorBSpeedX;
-			float _NormNoiseTypeBMult;
-			float _NormVorBSpeedY;
-			float _NormTypeBAnchorX;
-			float _NormTypeBAnchorY;
 			float _NormTypeBRotSpeed;
 			float _NormNoiseTypeBExponential;
 			float _NormNoiseFinalScale;
@@ -7129,9 +7112,16 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _NormNoiseGradeScale;
 			float _NormNoiseGradeOffset;
 			float _NormMiddleWaveIntensity;
+			float _Specular;
 			float _NormalStrenggth;
-			float _DepthSize;
+			float _DepthDistance;
+			float _DepthExponential;
+			float _GradeScale;
+			float _GradeOffset;
+			float _GradeExponential;
+			float _InvertShoreTexture;
 			float _VorAScale;
+			float _DepthSize;
 			float _Smoothnes;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -7163,11 +7153,11 @@ Shader "BUDU Shaders/BWaterSurface"
 				int _PassValue;
 			#endif
 
-			sampler2D _ShoreTexture;
-			sampler2D _FoamTexture;
 			sampler2D _ShoreColorMap;
 			sampler2D _NormNoiseAMap;
 			sampler2D _NormNoiseBMap;
+			sampler2D _ShoreTexture;
+			sampler2D _FoamTexture;
 			sampler2D _DefNoiseAMap;
 			sampler2D _DefNoiseBMap;
 			sampler2D _BluricRefractionPattern;
@@ -8073,10 +8063,8 @@ Shader "BUDU Shaders/BWaterSurface"
 				#else
 				float3 staticSwitch891 = gammaToLinear889;
 				#endif
-				float4 temp_output_929_0 = ( saturate( saturate( (saturate( CalculateContrast(_DefNoiseContrast,float4( (staticSwitch891*_DefNoiseFinalScale + _DefNoiseFinalOffset) , 0.0 )) )*_DefNoiseGradeScale + _DefNoiseGradeOffset) ) ) * _MiddleWaveIntensity );
-				float4 CausticRef902 = temp_output_929_0;
-				float4 temp_output_916_0 = ( ( ( float4( SaturateDepthRef450 , 0.0 ) * saturate( staticSwitch375 ) ) + float4( 0,0,0,0 ) ) + ( CausticRef902 * float4( DepthRef451 , 0.0 ) ) );
-				float4 FinalCompRef461 = temp_output_916_0;
+				float4 CausticRef902 = ( saturate( saturate( (saturate( CalculateContrast(_DefNoiseContrast,float4( (staticSwitch891*_DefNoiseFinalScale + _DefNoiseFinalOffset) , 0.0 )) )*_DefNoiseGradeScale + _DefNoiseGradeOffset) ) ) * _MiddleWaveIntensity );
+				float4 FinalCompRef461 = ( ( ( float4( SaturateDepthRef450 , 0.0 ) * saturate( staticSwitch375 ) ) + float4( 0,0,0,0 ) ) + ( CausticRef902 * float4( DepthRef451 , 0.0 ) ) );
 				float One909 = 1.0;
 				float Zero911 = 0.0;
 				float fresnelNdotV980 = dot( half3(0,0,0), WorldViewDirection );
@@ -8084,11 +8072,11 @@ Shader "BUDU Shaders/BWaterSurface"
 				float RefractFresnelResult985 = (( _Refraction1 )?( (( _RefractionInvert )?( ( 1.0 - fresnelNode980 ) ):( fresnelNode980 )) ):( Zero911 ));
 				float4 ase_grabScreenPos = ASE_ComputeGrabScreenPos( ScreenPos );
 				float4 ase_grabScreenPosNorm = ase_grabScreenPos / ase_grabScreenPos.w;
-				float2 temp_output_1_0_g154 = float2( 0,0 );
-				float dotResult4_g154 = dot( temp_output_1_0_g154 , temp_output_1_0_g154 );
-				float3 appendResult10_g154 = (float3((temp_output_1_0_g154).x , (temp_output_1_0_g154).y , sqrt( ( 1.0 - saturate( dotResult4_g154 ) ) )));
-				float3 normalizeResult12_g154 = ASESafeNormalize( appendResult10_g154 );
-				float3 temp_output_1007_0 = normalizeResult12_g154;
+				float2 temp_output_1_0_g157 = float2( 0,0 );
+				float dotResult4_g157 = dot( temp_output_1_0_g157 , temp_output_1_0_g157 );
+				float3 appendResult10_g157 = (float3((temp_output_1_0_g157).x , (temp_output_1_0_g157).y , sqrt( ( 1.0 - saturate( dotResult4_g157 ) ) )));
+				float3 normalizeResult12_g157 = ASESafeNormalize( appendResult10_g157 );
+				float3 temp_output_1007_0 = normalizeResult12_g157;
 				float3 lerpResult1137 = lerp( temp_output_1007_0 , WaveNormalRef1103 , _NormalSize);
 				float4 unityObjectToClipPos1130 = TransformWorldToHClip(TransformObjectToWorld(IN.ase_texcoord9.xyz));
 				float4 computeScreenPos1128 = ComputeScreenPos( unityObjectToClipPos1130 );
@@ -8291,13 +8279,13 @@ Shader "BUDU Shaders/BWaterSurface"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
 			#define ASE_NEEDS_VERT_NORMAL
-			#pragma shader_feature_local _NOISETYPEB_NONE _NOISETYPEB_VORONOI _NOISETYPEB_PERLIN _NOISETYPEB_TEXTURE
-			#pragma shader_feature_local _NOISETYPEA_NONE _NOISETYPEA_VORONOI _NOISETYPEA_PERLIN _NOISETYPEA_TEXTURE
 			#pragma shader_feature_local _DEPTHGRADETYPE2_LINEAR _DEPTHGRADETYPE2_NORMAL _DEPTHGRADETYPE2_GAMMA
 			#pragma shader_feature_local _TEXTUREGRADETYPE_LINEAR _TEXTUREGRADETYPE_NORMAL _TEXTUREGRADETYPE_GAMMA
 			#pragma shader_feature_local _NOISETYPE_VORAVORB _NOISETYPE_VORAPERA _NOISETYPE_VORAPERB _NOISETYPE_PERAPERB _NOISETYPE_VORBPERA _NOISETYPE_VORBPERB
 			#pragma shader_feature_local _DEFNOISEGRADETYPE_LINEAR _DEFNOISEGRADETYPE_NORMAL _DEFNOISEGRADETYPE_GAMMA
 			#pragma shader_feature_local _DEFNOISEMIXTYPE_MULTIPLY _DEFNOISEMIXTYPE_ADD _DEFNOISEMIXTYPE_SUBTRACT _DEFNOISEMIXTYPE_DIVIDE _DEFNOISEMIXTYPE_DOT
+			#pragma shader_feature_local _NOISETYPEA_NONE _NOISETYPEA_VORONOI _NOISETYPEA_PERLIN _NOISETYPEA_TEXTURE
+			#pragma shader_feature_local _NOISETYPEB_NONE _NOISETYPEB_VORONOI _NOISETYPEB_PERLIN _NOISETYPEB_TEXTURE
 			#pragma shader_feature_local _NORMNOISEGRADETYPE_LINEAR _NORMNOISEGRADETYPE_NORMAL _NORMNOISEGRADETYPE_GAMMA
 			#pragma shader_feature_local _NORMNOISEMIXTYPE_MULTIPLY _NORMNOISEMIXTYPE_ADD _NORMNOISEMIXTYPE_SUBTRACT _NORMNOISEMIXTYPE_DIVIDE _NORMNOISEMIXTYPE_DOT
 			#pragma shader_feature_local _NORMNOISETYPEA_NONE _NORMNOISETYPEA_VORONOI _NORMNOISETYPEA_PERLIN _NORMNOISETYPEA_TEXTURE
@@ -8328,11 +8316,8 @@ Shader "BUDU Shaders/BWaterSurface"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _RefractColor;
 			float4 _ShoreColor;
-			float _DepthDistance;
-			float _DefNoiseContrast;
-			float _DefNoiseAInvert;
+			float4 _RefractColor;
 			float _DefNoiseAScale;
 			float _DefVorAAngle;
 			float _DefVorATileX;
@@ -8342,15 +8327,15 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _DefVorASpeedY;
 			float _DefTypeAAnchorX;
 			float _DefTypeAAnchorY;
+			float _DefTypeARotSpeed;
 			float _DefPerlinScale;
 			float _DefNoiseTypeAExponential;
 			float _DefNoiseBInvert;
+			float _DefNoiseBScale;
+			float _DefNoiseAInvert;
+			float _DefNoiseContrast;
 			float _FoamGradeOffset;
 			float _FoamGradeScale;
-			float _FoamSpeedX;
-			float _DefNoiseBScale;
-			float _PerBSpeedY;
-			float _PerBScale;
 			float _NoiseGradeScale;
 			float _NoiseGradeOffset;
 			float _ShoreTileX;
@@ -8364,10 +8349,12 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _AffectFoamDeformation;
 			float _FoamTileX;
 			float _FoamTileY;
+			float _FoamSpeedX;
 			float _FoamSpeedY;
 			float _DefVorBAngle;
+			float _DefVorBTileX;
 			float _DefVorBTileY;
-			float _PerBSpeedX;
+			float _DefVorBSpeedX;
 			float _OldMin;
 			float _OldMax;
 			float _NewMin;
@@ -8384,14 +8371,14 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _PatternHeight;
 			float _TransparentIntensity;
 			float _FresnelPower;
-			float _DefVorBTileX;
+			float _PerBScale;
 			float _FresnelScale;
 			float _RefractionInvert;
-			float _DefVorBSpeedX;
 			float _DefNoiseTypeBMult;
 			float _DefVorBSpeedY;
 			float _DefTypeBAnchorX;
 			float _DefTypeBAnchorY;
+			float _DefTypeBRotSpeed;
 			float _DefNoiseTypeBExponential;
 			float _DefNoiseFinalScale;
 			float _DefNoiseFinalOffset;
@@ -8403,15 +8390,9 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _RefrControl;
 			float _Refraction1;
 			float _FresnelBias;
+			float _PerBSpeedY;
+			float _PerBSpeedX;
 			float _PerBTileY;
-			float _PerBTileX;
-			float _PerAScale;
-			float _ShoreCBRotSpeed;
-			float _NormNoiseContrast;
-			float _NormNoiseAInvert;
-			float _NormNoiseAScale;
-			float _NormVorAAngle;
-			float _NormVorATileX;
 			float _NormVorATileY;
 			float _NormVorASpeedX;
 			float _NormNoiseTypeAMult;
@@ -8421,16 +8402,16 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _NormTypeARotSpeed;
 			float _NormPerlinScale;
 			float _NormNoiseTypeAExponential;
-			float _ShoreCBAnchorY;
 			float _NormNoiseBInvert;
-			float _ShoreCBAnchorX;
-			float _ShoreCBSpeedX;
-			float _GradeScale;
-			float _DepthExponential;
-			float _GradeOffset;
-			float _GradeExponential;
-			float _DefTypeARotSpeed;
-			float _DefTypeBRotSpeed;
+			float _NormNoiseBScale;
+			float _NormVorBAngle;
+			float _NormVorBTileX;
+			float _NormVorBTileY;
+			float _NormVorBSpeedX;
+			float _NormVorATileX;
+			float _NormNoiseTypeBMult;
+			float _NormVorAAngle;
+			float _NormNoiseAInvert;
 			float _ShoreCTileX;
 			float _ShoreCTileY;
 			float _ShoreCSpeedX;
@@ -8440,12 +8421,16 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _ShoreCRotSpeed;
 			float _ShoreCBTileX;
 			float _ShoreCBTileY;
+			float _ShoreCBSpeedX;
 			float _ShoreCBSpeedY;
-			float _Specular;
-			float _NormNoiseBScale;
-			float _NormVorBTileX;
-			float _VorATileX;
-			float _VorATileY;
+			float _ShoreCBAnchorX;
+			float _ShoreCBAnchorY;
+			float _ShoreCBRotSpeed;
+			float _NormNoiseContrast;
+			float _NormNoiseAScale;
+			float _NormVorBSpeedY;
+			float _NormTypeBAnchorX;
+			float _NormTypeBAnchorY;
 			float _VorASpeedX;
 			float _VorASpeedY;
 			float _VorBScale;
@@ -8459,16 +8444,12 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _PerATileY;
 			float _PerASpeedX;
 			float _PerASpeedY;
+			float _PerAScale;
+			float _PerBTileX;
+			float _VorATileY;
+			float _VorATileX;
 			float _VorASmooth;
-			float _NormVorBAngle;
 			float _VorAAngleSpeed;
-			float _InvertShoreTexture;
-			float _NormVorBTileY;
-			float _NormVorBSpeedX;
-			float _NormNoiseTypeBMult;
-			float _NormVorBSpeedY;
-			float _NormTypeBAnchorX;
-			float _NormTypeBAnchorY;
 			float _NormTypeBRotSpeed;
 			float _NormNoiseTypeBExponential;
 			float _NormNoiseFinalScale;
@@ -8476,9 +8457,16 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _NormNoiseGradeScale;
 			float _NormNoiseGradeOffset;
 			float _NormMiddleWaveIntensity;
+			float _Specular;
 			float _NormalStrenggth;
-			float _DepthSize;
+			float _DepthDistance;
+			float _DepthExponential;
+			float _GradeScale;
+			float _GradeOffset;
+			float _GradeExponential;
+			float _InvertShoreTexture;
 			float _VorAScale;
+			float _DepthSize;
 			float _Smoothnes;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -9202,10 +9190,8 @@ Shader "BUDU Shaders/BWaterSurface"
 				#else
 				float3 staticSwitch891 = gammaToLinear889;
 				#endif
-				float4 temp_output_929_0 = ( saturate( saturate( (saturate( CalculateContrast(_DefNoiseContrast,float4( (staticSwitch891*_DefNoiseFinalScale + _DefNoiseFinalOffset) , 0.0 )) )*_DefNoiseGradeScale + _DefNoiseGradeOffset) ) ) * _MiddleWaveIntensity );
-				float4 CausticRef902 = temp_output_929_0;
-				float4 temp_output_916_0 = ( ( ( float4( SaturateDepthRef450 , 0.0 ) * saturate( staticSwitch375 ) ) + float4( 0,0,0,0 ) ) + ( CausticRef902 * float4( DepthRef451 , 0.0 ) ) );
-				float4 FinalCompRef461 = temp_output_916_0;
+				float4 CausticRef902 = ( saturate( saturate( (saturate( CalculateContrast(_DefNoiseContrast,float4( (staticSwitch891*_DefNoiseFinalScale + _DefNoiseFinalOffset) , 0.0 )) )*_DefNoiseGradeScale + _DefNoiseGradeOffset) ) ) * _MiddleWaveIntensity );
+				float4 FinalCompRef461 = ( ( ( float4( SaturateDepthRef450 , 0.0 ) * saturate( staticSwitch375 ) ) + float4( 0,0,0,0 ) ) + ( CausticRef902 * float4( DepthRef451 , 0.0 ) ) );
 				float One909 = 1.0;
 				float Zero911 = 0.0;
 				float3 ase_worldPos = IN.ase_texcoord2.xyz;
@@ -9216,11 +9202,11 @@ Shader "BUDU Shaders/BWaterSurface"
 				float RefractFresnelResult985 = (( _Refraction1 )?( (( _RefractionInvert )?( ( 1.0 - fresnelNode980 ) ):( fresnelNode980 )) ):( Zero911 ));
 				float4 ase_grabScreenPos = ASE_ComputeGrabScreenPos( screenPos );
 				float4 ase_grabScreenPosNorm = ase_grabScreenPos / ase_grabScreenPos.w;
-				float2 temp_output_1_0_g154 = float2( 0,0 );
-				float dotResult4_g154 = dot( temp_output_1_0_g154 , temp_output_1_0_g154 );
-				float3 appendResult10_g154 = (float3((temp_output_1_0_g154).x , (temp_output_1_0_g154).y , sqrt( ( 1.0 - saturate( dotResult4_g154 ) ) )));
-				float3 normalizeResult12_g154 = ASESafeNormalize( appendResult10_g154 );
-				float3 temp_output_1007_0 = normalizeResult12_g154;
+				float2 temp_output_1_0_g157 = float2( 0,0 );
+				float dotResult4_g157 = dot( temp_output_1_0_g157 , temp_output_1_0_g157 );
+				float3 appendResult10_g157 = (float3((temp_output_1_0_g157).x , (temp_output_1_0_g157).y , sqrt( ( 1.0 - saturate( dotResult4_g157 ) ) )));
+				float3 normalizeResult12_g157 = ASESafeNormalize( appendResult10_g157 );
+				float3 temp_output_1007_0 = normalizeResult12_g157;
 				float3 surf_pos107_g156 = ase_worldPos;
 				float3 ase_worldNormal = IN.ase_texcoord3.xyz;
 				float3 surf_norm107_g156 = ase_worldNormal;
@@ -9466,13 +9452,13 @@ Shader "BUDU Shaders/BWaterSurface"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
 			#define ASE_NEEDS_VERT_NORMAL
-			#pragma shader_feature_local _NOISETYPEB_NONE _NOISETYPEB_VORONOI _NOISETYPEB_PERLIN _NOISETYPEB_TEXTURE
-			#pragma shader_feature_local _NOISETYPEA_NONE _NOISETYPEA_VORONOI _NOISETYPEA_PERLIN _NOISETYPEA_TEXTURE
 			#pragma shader_feature_local _DEPTHGRADETYPE2_LINEAR _DEPTHGRADETYPE2_NORMAL _DEPTHGRADETYPE2_GAMMA
 			#pragma shader_feature_local _TEXTUREGRADETYPE_LINEAR _TEXTUREGRADETYPE_NORMAL _TEXTUREGRADETYPE_GAMMA
 			#pragma shader_feature_local _NOISETYPE_VORAVORB _NOISETYPE_VORAPERA _NOISETYPE_VORAPERB _NOISETYPE_PERAPERB _NOISETYPE_VORBPERA _NOISETYPE_VORBPERB
 			#pragma shader_feature_local _DEFNOISEGRADETYPE_LINEAR _DEFNOISEGRADETYPE_NORMAL _DEFNOISEGRADETYPE_GAMMA
 			#pragma shader_feature_local _DEFNOISEMIXTYPE_MULTIPLY _DEFNOISEMIXTYPE_ADD _DEFNOISEMIXTYPE_SUBTRACT _DEFNOISEMIXTYPE_DIVIDE _DEFNOISEMIXTYPE_DOT
+			#pragma shader_feature_local _NOISETYPEA_NONE _NOISETYPEA_VORONOI _NOISETYPEA_PERLIN _NOISETYPEA_TEXTURE
+			#pragma shader_feature_local _NOISETYPEB_NONE _NOISETYPEB_VORONOI _NOISETYPEB_PERLIN _NOISETYPEB_TEXTURE
 			#pragma shader_feature_local _NORMNOISEGRADETYPE_LINEAR _NORMNOISEGRADETYPE_NORMAL _NORMNOISEGRADETYPE_GAMMA
 			#pragma shader_feature_local _NORMNOISEMIXTYPE_MULTIPLY _NORMNOISEMIXTYPE_ADD _NORMNOISEMIXTYPE_SUBTRACT _NORMNOISEMIXTYPE_DIVIDE _NORMNOISEMIXTYPE_DOT
 			#pragma shader_feature_local _NORMNOISETYPEA_NONE _NORMNOISETYPEA_VORONOI _NORMNOISETYPEA_PERLIN _NORMNOISETYPEA_TEXTURE
@@ -9503,11 +9489,8 @@ Shader "BUDU Shaders/BWaterSurface"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _RefractColor;
 			float4 _ShoreColor;
-			float _DepthDistance;
-			float _DefNoiseContrast;
-			float _DefNoiseAInvert;
+			float4 _RefractColor;
 			float _DefNoiseAScale;
 			float _DefVorAAngle;
 			float _DefVorATileX;
@@ -9517,15 +9500,15 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _DefVorASpeedY;
 			float _DefTypeAAnchorX;
 			float _DefTypeAAnchorY;
+			float _DefTypeARotSpeed;
 			float _DefPerlinScale;
 			float _DefNoiseTypeAExponential;
 			float _DefNoiseBInvert;
+			float _DefNoiseBScale;
+			float _DefNoiseAInvert;
+			float _DefNoiseContrast;
 			float _FoamGradeOffset;
 			float _FoamGradeScale;
-			float _FoamSpeedX;
-			float _DefNoiseBScale;
-			float _PerBSpeedY;
-			float _PerBScale;
 			float _NoiseGradeScale;
 			float _NoiseGradeOffset;
 			float _ShoreTileX;
@@ -9539,10 +9522,12 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _AffectFoamDeformation;
 			float _FoamTileX;
 			float _FoamTileY;
+			float _FoamSpeedX;
 			float _FoamSpeedY;
 			float _DefVorBAngle;
+			float _DefVorBTileX;
 			float _DefVorBTileY;
-			float _PerBSpeedX;
+			float _DefVorBSpeedX;
 			float _OldMin;
 			float _OldMax;
 			float _NewMin;
@@ -9559,14 +9544,14 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _PatternHeight;
 			float _TransparentIntensity;
 			float _FresnelPower;
-			float _DefVorBTileX;
+			float _PerBScale;
 			float _FresnelScale;
 			float _RefractionInvert;
-			float _DefVorBSpeedX;
 			float _DefNoiseTypeBMult;
 			float _DefVorBSpeedY;
 			float _DefTypeBAnchorX;
 			float _DefTypeBAnchorY;
+			float _DefTypeBRotSpeed;
 			float _DefNoiseTypeBExponential;
 			float _DefNoiseFinalScale;
 			float _DefNoiseFinalOffset;
@@ -9578,15 +9563,9 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _RefrControl;
 			float _Refraction1;
 			float _FresnelBias;
+			float _PerBSpeedY;
+			float _PerBSpeedX;
 			float _PerBTileY;
-			float _PerBTileX;
-			float _PerAScale;
-			float _ShoreCBRotSpeed;
-			float _NormNoiseContrast;
-			float _NormNoiseAInvert;
-			float _NormNoiseAScale;
-			float _NormVorAAngle;
-			float _NormVorATileX;
 			float _NormVorATileY;
 			float _NormVorASpeedX;
 			float _NormNoiseTypeAMult;
@@ -9596,16 +9575,16 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _NormTypeARotSpeed;
 			float _NormPerlinScale;
 			float _NormNoiseTypeAExponential;
-			float _ShoreCBAnchorY;
 			float _NormNoiseBInvert;
-			float _ShoreCBAnchorX;
-			float _ShoreCBSpeedX;
-			float _GradeScale;
-			float _DepthExponential;
-			float _GradeOffset;
-			float _GradeExponential;
-			float _DefTypeARotSpeed;
-			float _DefTypeBRotSpeed;
+			float _NormNoiseBScale;
+			float _NormVorBAngle;
+			float _NormVorBTileX;
+			float _NormVorBTileY;
+			float _NormVorBSpeedX;
+			float _NormVorATileX;
+			float _NormNoiseTypeBMult;
+			float _NormVorAAngle;
+			float _NormNoiseAInvert;
 			float _ShoreCTileX;
 			float _ShoreCTileY;
 			float _ShoreCSpeedX;
@@ -9615,12 +9594,16 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _ShoreCRotSpeed;
 			float _ShoreCBTileX;
 			float _ShoreCBTileY;
+			float _ShoreCBSpeedX;
 			float _ShoreCBSpeedY;
-			float _Specular;
-			float _NormNoiseBScale;
-			float _NormVorBTileX;
-			float _VorATileX;
-			float _VorATileY;
+			float _ShoreCBAnchorX;
+			float _ShoreCBAnchorY;
+			float _ShoreCBRotSpeed;
+			float _NormNoiseContrast;
+			float _NormNoiseAScale;
+			float _NormVorBSpeedY;
+			float _NormTypeBAnchorX;
+			float _NormTypeBAnchorY;
 			float _VorASpeedX;
 			float _VorASpeedY;
 			float _VorBScale;
@@ -9634,16 +9617,12 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _PerATileY;
 			float _PerASpeedX;
 			float _PerASpeedY;
+			float _PerAScale;
+			float _PerBTileX;
+			float _VorATileY;
+			float _VorATileX;
 			float _VorASmooth;
-			float _NormVorBAngle;
 			float _VorAAngleSpeed;
-			float _InvertShoreTexture;
-			float _NormVorBTileY;
-			float _NormVorBSpeedX;
-			float _NormNoiseTypeBMult;
-			float _NormVorBSpeedY;
-			float _NormTypeBAnchorX;
-			float _NormTypeBAnchorY;
 			float _NormTypeBRotSpeed;
 			float _NormNoiseTypeBExponential;
 			float _NormNoiseFinalScale;
@@ -9651,9 +9630,16 @@ Shader "BUDU Shaders/BWaterSurface"
 			float _NormNoiseGradeScale;
 			float _NormNoiseGradeOffset;
 			float _NormMiddleWaveIntensity;
+			float _Specular;
 			float _NormalStrenggth;
-			float _DepthSize;
+			float _DepthDistance;
+			float _DepthExponential;
+			float _GradeScale;
+			float _GradeOffset;
+			float _GradeExponential;
+			float _InvertShoreTexture;
 			float _VorAScale;
+			float _DepthSize;
 			float _Smoothnes;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -10376,10 +10362,8 @@ Shader "BUDU Shaders/BWaterSurface"
 				#else
 				float3 staticSwitch891 = gammaToLinear889;
 				#endif
-				float4 temp_output_929_0 = ( saturate( saturate( (saturate( CalculateContrast(_DefNoiseContrast,float4( (staticSwitch891*_DefNoiseFinalScale + _DefNoiseFinalOffset) , 0.0 )) )*_DefNoiseGradeScale + _DefNoiseGradeOffset) ) ) * _MiddleWaveIntensity );
-				float4 CausticRef902 = temp_output_929_0;
-				float4 temp_output_916_0 = ( ( ( float4( SaturateDepthRef450 , 0.0 ) * saturate( staticSwitch375 ) ) + float4( 0,0,0,0 ) ) + ( CausticRef902 * float4( DepthRef451 , 0.0 ) ) );
-				float4 FinalCompRef461 = temp_output_916_0;
+				float4 CausticRef902 = ( saturate( saturate( (saturate( CalculateContrast(_DefNoiseContrast,float4( (staticSwitch891*_DefNoiseFinalScale + _DefNoiseFinalOffset) , 0.0 )) )*_DefNoiseGradeScale + _DefNoiseGradeOffset) ) ) * _MiddleWaveIntensity );
+				float4 FinalCompRef461 = ( ( ( float4( SaturateDepthRef450 , 0.0 ) * saturate( staticSwitch375 ) ) + float4( 0,0,0,0 ) ) + ( CausticRef902 * float4( DepthRef451 , 0.0 ) ) );
 				float One909 = 1.0;
 				float Zero911 = 0.0;
 				float3 ase_worldPos = IN.ase_texcoord2.xyz;
@@ -10390,11 +10374,11 @@ Shader "BUDU Shaders/BWaterSurface"
 				float RefractFresnelResult985 = (( _Refraction1 )?( (( _RefractionInvert )?( ( 1.0 - fresnelNode980 ) ):( fresnelNode980 )) ):( Zero911 ));
 				float4 ase_grabScreenPos = ASE_ComputeGrabScreenPos( screenPos );
 				float4 ase_grabScreenPosNorm = ase_grabScreenPos / ase_grabScreenPos.w;
-				float2 temp_output_1_0_g154 = float2( 0,0 );
-				float dotResult4_g154 = dot( temp_output_1_0_g154 , temp_output_1_0_g154 );
-				float3 appendResult10_g154 = (float3((temp_output_1_0_g154).x , (temp_output_1_0_g154).y , sqrt( ( 1.0 - saturate( dotResult4_g154 ) ) )));
-				float3 normalizeResult12_g154 = ASESafeNormalize( appendResult10_g154 );
-				float3 temp_output_1007_0 = normalizeResult12_g154;
+				float2 temp_output_1_0_g157 = float2( 0,0 );
+				float dotResult4_g157 = dot( temp_output_1_0_g157 , temp_output_1_0_g157 );
+				float3 appendResult10_g157 = (float3((temp_output_1_0_g157).x , (temp_output_1_0_g157).y , sqrt( ( 1.0 - saturate( dotResult4_g157 ) ) )));
+				float3 normalizeResult12_g157 = ASESafeNormalize( appendResult10_g157 );
+				float3 temp_output_1007_0 = normalizeResult12_g157;
 				float3 surf_pos107_g156 = ase_worldPos;
 				float3 ase_worldNormal = IN.ase_texcoord3.xyz;
 				float3 surf_norm107_g156 = ase_worldNormal;
@@ -10897,7 +10881,7 @@ Node;AmplifyShaderEditor.RangedFloatNode;910;-6624,1760;Inherit;False;Constant;_
 Node;AmplifyShaderEditor.FresnelNode;980;-3961.897,48.54022;Inherit;False;Standard;WorldNormal;ViewDir;False;False;5;0;FLOAT3;0,0,1;False;4;FLOAT3;0,0,0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;5;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SamplerNode;1127;-1504,4928;Inherit;True;Property;_BluricRefractionPattern;Bluric Refraction Pattern;63;1;[NoScaleOffset];Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;True;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.GetLocalVarNode;1132;-2784,4112;Inherit;False;1103;WaveNormalRef;1;0;OBJECT;;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.FunctionNode;1007;-2816,4208;Inherit;True;Normal Reconstruct Z;-1;;154;63ba85b764ae0c84ab3d698b86364ae9;0;1;1;FLOAT2;0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.FunctionNode;1007;-2816,4208;Inherit;True;Normal Reconstruct Z;-1;;157;63ba85b764ae0c84ab3d698b86364ae9;0;1;1;FLOAT2;0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.RangedFloatNode;1138;-2752,4432;Inherit;False;Property;_NormalSize;NormalSize;175;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SaturateNode;409;-7984,2400;Inherit;False;1;0;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.SaturateNode;383;-7984,1904;Inherit;False;1;0;COLOR;0,0,0,0;False;1;COLOR;0
@@ -11586,4 +11570,4 @@ WireConnection;934;9;1108;0
 WireConnection;934;4;1109;0
 WireConnection;934;6;1140;0
 ASEEND*/
-//CHKSM=2B5CEA3EE1D949B44690FA9CB60AAD611F50B3A9
+//CHKSM=7D805CED795AB60E6375814BB25C853ED882C27F
