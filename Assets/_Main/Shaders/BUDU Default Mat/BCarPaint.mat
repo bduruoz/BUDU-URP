@@ -1,0 +1,386 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: BCarPaint
+  m_Shader: {fileID: 4800000, guid: 268c062d924f09c4f9bb1154d934b4a5, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - _ENVIRONMENTREFLECTIONS_OFF
+  - _FLAKESTYPE_NORMAL
+  - _FRESNELTYPE_LINEAR
+  - _GRADTYPE_LINEAR
+  - _PAINTMETHOD_FRESNEL
+  - _REFFRSTYPE_GAMMA
+  - _SPECTYPE_LINEAR
+  - _SPECULARHIGHLIGHTS_OFF
+  m_InvalidKeywords:
+  - _AFFECTAO_ON
+  - _AFFECTBODYFLAKES_ON
+  - _AFFECTREFLECTIONFLAKES_ON
+  - _FLAKESNORMAL_ON
+  - _FLAKESSWITCH_ON
+  - _GRADFRESNELTYPE_LINEAR
+  - _KEYWORD0_FRESNEL
+  - _KEYWORD0_KEY2
+  - _NORMAL_ON
+  - _PAINTMETHOD_GRADY
+  - _REFLECTIONFRESNELTYPE_LINEAR
+  - _REFLECT_ON
+  - _SHADECOLORTOGGLE_ON
+  - _SPECULARSWITCH2_ON
+  - _SPECULARSWITCH_ON
+  - _TEXTUREDFLAKES_ON
+  - _TWOCOLORS_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _AmbientOcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BaseMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BluricRefractionPattern:
+        m_Texture: {fileID: 2800000, guid: ae0130e6c3e94ee43b67fef77b52e0e9, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BotTexture0:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _FlakesNormalMap:
+        m_Texture: {fileID: 2800000, guid: e34c87e19429ca24ea62a7c6431592f7, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _FlakesTexture:
+        m_Texture: {fileID: 2800000, guid: 751784a6737f94246a788c963b28d058, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _LeftSideSticker:
+        m_Texture: {fileID: 2800000, guid: 5bb2ba6215e1d074db1ab9b0a5234a46, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _LeftSideSticker1:
+        m_Texture: {fileID: 2800000, guid: 5bb2ba6215e1d074db1ab9b0a5234a46, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MidTexture0:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Normal:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap:
+        m_Texture: {fileID: 2800000, guid: e34c87e19429ca24ea62a7c6431592f7, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ReflectMap:
+        m_Texture: {fileID: 8900000, guid: def2fee3bbf658b40acd593fc7ad4ac8, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecularMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 8, y: 8}
+        m_Offset: {x: 0, y: 0}
+    - _SpecularMap1:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecularMap2:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Sticker:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _StickerFront:
+        m_Texture: {fileID: 2800000, guid: 5bb2ba6215e1d074db1ab9b0a5234a46, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _StickerSide:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _StickerTop:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture0:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample0:
+        m_Texture: {fileID: 2800000, guid: 10405435782d9cc4193d0c32e58da5c2, type: 3}
+        m_Scale: {x: 2, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample1:
+        m_Texture: {fileID: 2800000, guid: 82613ce3d72c8b4408fde598fea137a1, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample2:
+        m_Texture: {fileID: 2800000, guid: 5bb2ba6215e1d074db1ab9b0a5234a46, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TriplanarTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AOIntensity: 1
+    - _AOToggle: 0
+    - _AffectAO: 1
+    - _AffectAO_Color: 0
+    - _AffectAO_Rim: 0
+    - _AffectAO_Spec: 0
+    - _AffectAO_Spec1: 0
+    - _AffectBodyFlakes: 1
+    - _AffectReflectionFlakes: 1
+    - _AlphaCutoff: 0.5
+    - _BGloss: 0
+    - _BSpecular: -0.0001
+    - _BWrapping: 2
+    - _BaseCellOffset: 0
+    - _BaseCellSharpness: 1
+    - _BodyFNormalMulti: 0.2
+    - _BodyNormal: 0
+    - _BodyNormalMulti: 0.21
+    - _CMXPos: 0
+    - _CMYPos: 0
+    - _CMZPos: 0
+    - _Carpma: 200
+    - _Carpma1: -200.59
+    - _CarpmaB: 200
+    - _ColFresnelBias: 0
+    - _ColFresnelInvert: 0
+    - _ColFresnelPower: 3
+    - _ColFresnelScale: 1.6
+    - _ColorFresnelInvert: 0
+    - _ColorFresnelSwitch: 1
+    - _CubeMapExtras: 0
+    - _CubeMapRotate: 0
+    - _DstBlend: 0
+    - _Emission: 0.1
+    - _EmissionIntensity: 0.5
+    - _EmissionInvert: 0
+    - _EmissionMultiplier: 1
+    - _EmissionToggle: 0
+    - _EnvironmentReflections: 0
+    - _FFlakeControl: -54.42
+    - _FNOffsetX: 0
+    - _FNOffsetY: 0
+    - _FNTileX: 6
+    - _FNTileY: 6
+    - _FNormalMultiplier: 2.83
+    - _FNormalScale: 1
+    - _FallOff: 1
+    - _FlakeControl: 5.01
+    - _FlakesArea: 0
+    - _FlakesBodyNormal: 0
+    - _FlakesColorIntensity: 1
+    - _FlakesExtras: 1
+    - _FlakesGloss: 0
+    - _FlakesGlossy: 20
+    - _FlakesIn: 0
+    - _FlakesIntensity: 1.46
+    - _FlakesNormal: 1
+    - _FlakesNormalExtras: 1
+    - _FlakesNormals: 0
+    - _FlakesOut: 1
+    - _FlakesReflectNormal: 0
+    - _FlakesRotSpeed: 0.2
+    - _FlakesSaturation: 1
+    - _FlakesSoftness: 0
+    - _FlakesSpecular: -0.001
+    - _FlakesSpecularAmbient: 0
+    - _FlakesSpecularIn: 0.1
+    - _FlakesSpecularOut: 0.3
+    - _FlakesSpecularSaturation: 1
+    - _FlakesSwitch: 1
+    - _FlakesTextureIntensity: 1.76
+    - _FlakesTileX: 6
+    - _FlakesTileY: 6
+    - _FlakesType: 1
+    - _FlakesWrapping: 1.05
+    - _Float0: 2.99
+    - _Float0b: 0.98
+    - _Float1: 0.322
+    - _Float1b: 0
+    - _Float2: 2
+    - _Float3: 8
+    - _Float4: -0.25
+    - _Float5: 0.03
+    - _Float6: 5.42
+    - _FresnelFold: 1
+    - _FresnelSwitch: 1
+    - _FresnelType: 0
+    - _Glossy: 12
+    - _Glossy1: 1
+    - _Glossy2: 0.1
+    - _GradFresnelType: 0
+    - _GradOffset: -1.5
+    - _GradScale: 3
+    - _GradType: 0
+    - _GradYInvert: 0
+    - _Keyword0: 2
+    - _NFallOff: 5
+    - _NOffsetX: 0
+    - _NOffsetY: 0
+    - _NTileX: 10
+    - _NTileY: 10
+    - _Normal: 1
+    - _NormalMultiplier: 1
+    - _NormalScale: -0.1
+    - _OffsetX: 0
+    - _OffsetY: 0
+    - _PaintMethod: 0
+    - _PatternHeight: 2.2
+    - _PatternRotator: 0
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _ReceiveShadows: 1
+    - _RefFNormalMulti: 0.2
+    - _RefFresnelBias: 0.2
+    - _RefFresnelFold: 0
+    - _RefFresnelInvert: 0
+    - _RefFresnelPower: 1
+    - _RefFresnelScale: 2
+    - _RefFresnelSwitch: 1
+    - _RefFrsType: 2
+    - _RefNormalMulti: 0.85
+    - _Reflect: 1
+    - _ReflectFresnelSwitch: 0
+    - _ReflectNormal: 0
+    - _ReflectionFresnelType: 0
+    - _ReflectionMultiplier: 0.85
+    - _ReflectionStrength: 0.3
+    - _RimLightBias: 0
+    - _RimLightIntensity: 0
+    - _RimLightInvert: 0
+    - _RimLightPower: 1
+    - _RimLightScale: 1
+    - _RimSwitch: 0
+    - _Rot: 90
+    - _Rot1: 90
+    - _RotB: 90
+    - _SSBluricTransparent: 0
+    - _SSOffX: 0
+    - _SSOffY: 0
+    - _SSSize: 10
+    - _SSTileX: 1
+    - _SSTileY: 1
+    - _STileX: 11.5
+    - _STileY: 13.44
+    - _ShadeColorToggle: 1
+    - _ShadeContrast: 1
+    - _ShadeExtras: 1
+    - _ShadingContrast: 1.44
+    - _ShadingContribution: 1
+    - _ShadingIntensity: 1
+    - _ShadingOffset: 1.4
+    - _Smoothness: 0.503
+    - _Softness: 0.165
+    - _Softness2: 0.04
+    - _SpecToggle: 1
+    - _SpecType: 0
+    - _Specular: 0
+    - _SpecularAmbient: 0
+    - _SpecularAmbient1: 0
+    - _SpecularAmbient2: 0
+    - _SpecularExtras: 1
+    - _SpecularHighlights: 0
+    - _SpecularIn: 0
+    - _SpecularIn1: 0.2318832
+    - _SpecularIn2: 0.02
+    - _SpecularIntensity: 1
+    - _SpecularIntensity1: 1
+    - _SpecularIntensity2: 2.65
+    - _SpecularInvert: 0
+    - _SpecularInvert1: 0
+    - _SpecularInvert2: 0
+    - _SpecularOut: 0
+    - _SpecularOut1: 0.8793107
+    - _SpecularOut2: 0.65
+    - _SpecularSaturation: 1
+    - _SpecularSaturation1: 1
+    - _SpecularSaturation2: 1
+    - _SpecularSwitch: 1
+    - _SpecularSwitch1: 0
+    - _SpecularSwitch2: 1
+    - _SrcBlend: 1
+    - _StickerFallOff: 0.09
+    - _TextureFlakesToggle: 0
+    - _TexturedFlakes: 1
+    - _TexturedFlakesToggle: 1
+    - _TileX: 5
+    - _TileY: 5
+    - _ToggleSwitch0: 0
+    - _TriplanarMap: 0
+    - _TriplanarNMap: 0
+    - _TwoColors: 1
+    - _ZWrite: 1
+    - _ddddd: 1
+    - _fdfsfdsfdsfs: -16.74
+    m_Colors:
+    - _BaseColor: {r: 0.40392154, g: 0.001256297, b: 0, a: 1}
+    - _Color0: {r: 0.467, g: 0.467, b: 0.467, a: 0}
+    - _EmissionColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    - _FlakeColor: {r: 0, g: 1, b: 0.11139798, a: 1}
+    - _FlakesColor: {r: 1, g: 1, b: 1, a: 1}
+    - _FlakesSpecColor: {r: 1, g: 1, b: 1, a: 1}
+    - _MainColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
+    - _Offset: {r: 2.13, g: 0.56, b: 0, a: 0}
+    - _Offset1: {r: 2.13, g: 0.56, b: 0, a: 0}
+    - _OffsetB: {r: 2.13, g: 0.56, b: 0, a: 0}
+    - _ReflectColor: {r: 1, g: 1, b: 1, a: 1}
+    - _RimLightColor: {r: 0, g: 0, b: 0, a: 0}
+    - _SecondColor: {r: 0.29700002, g: 0.29700002, b: 0.29700002, a: 1}
+    - _ShadeColor: {r: 0.54088044, g: 0.046360444, b: 0, a: 1}
+    - _Size: {r: 0.23, g: 1.38, b: 0, a: 0}
+    - _Size1: {r: 0.23, g: 1.38, b: 0, a: 0}
+    - _SizeB: {r: 0.23, g: 1.38, b: 0, a: 0}
+    - _SpecColor: {r: 1, g: 1, b: 1, a: 1}
+    - _SpecColor2: {r: 1, g: 1, b: 1, a: 1}
+    - _Vector0: {r: 1.83, g: 0, b: 0, a: 0}
+    - _Vector2: {r: 2.13, g: 0.56, b: 0, a: 0}
+    - _Vector3: {r: 0.23, g: 1.38, b: 0, a: 0}
+  m_BuildTextureStacks: []

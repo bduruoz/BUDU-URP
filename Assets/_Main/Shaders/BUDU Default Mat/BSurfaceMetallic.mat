@@ -1,0 +1,241 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: BSurfaceMetallic
+  m_Shader: {fileID: 4800000, guid: 3d6de03311afc9248a5e10f2fc11fca4, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - _AFFECTAO_METALLIC_ON
+  - _AFFECTAO_ON
+  - _AFFECTAO_RIM_ON
+  - _EMISSIONTOGGLE_ON
+  - _SPECULARSWITCH_ON
+  - _TRIPLANARNMAP_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _2:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _AmbientOcclusionMap:
+        m_Texture: {fileID: 2800000, guid: ac405faab9f7cf14d80b3fe024979b8c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BaseMap:
+        m_Texture: {fileID: 2800000, guid: e8a09bbe43b8ea140901d8b03073f8a6, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BaseMapOld:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BluricRefractionPattern:
+        m_Texture: {fileID: 2800000, guid: 28341222fc6700d47839920f44c5f118, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BotTexture0:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 2800000, guid: e8a09bbe43b8ea140901d8b03073f8a6, type: 3}
+        m_Scale: {x: 20, y: 20}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicMap:
+        m_Texture: {fileID: 2800000, guid: c662692ad44de0b45ba4f81297e97381, type: 3}
+        m_Scale: {x: 3, y: 3}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicMap1:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MidTexture0:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap:
+        m_Texture: {fileID: 2800000, guid: e8a09bbe43b8ea140901d8b03073f8a6, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ReflectMap:
+        m_Texture: {fileID: 8900000, guid: a56607be4cc72cb45a5062c7dca43a1b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _RoughnessMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _RougnessMap:
+        m_Texture: {fileID: 2800000, guid: c662692ad44de0b45ba4f81297e97381, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SmoothnessMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 20, y: 20}
+        m_Offset: {x: 0, y: 0}
+    - _SpecularMap:
+        m_Texture: {fileID: 2800000, guid: e8a09bbe43b8ea140901d8b03073f8a6, type: 3}
+        m_Scale: {x: 20, y: 20}
+        m_Offset: {x: 0, y: 0}
+    - _Texture0:
+        m_Texture: {fileID: 2800000, guid: c40c7de2d12c36d4b8b058ab95c469f0, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample0:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TopTexture0:
+        m_Texture: {fileID: 2800000, guid: c40c7de2d12c36d4b8b058ab95c469f0, type: 3}
+        m_Scale: {x: 4, y: 4}
+        m_Offset: {x: 0, y: 0}
+    - _TriplanarTexture:
+        m_Texture: {fileID: 2800000, guid: c40c7de2d12c36d4b8b058ab95c469f0, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AOAffect: 0
+    - _AOIntensity: 1
+    - _AOSettings: 0
+    - _AOToggle: 0
+    - _AffectAO: 1
+    - _AffectAO_Metallic: 1
+    - _AffectAO_Rim: 1
+    - _AffectAO_Spec: 0
+    - _AffectMetallic: 0
+    - _AlphaCutoff: 0.5
+    - _CMXPos: 0
+    - _CMYPos: 0
+    - _CMZPos: 0
+    - _CubeMapExtras: 1
+    - _CubeMapRotate: 6
+    - _CubeMapRotate1: 25
+    - _DstBlend: 0
+    - _EmissionIntensity: 0.18
+    - _EmissionInvert: 0
+    - _EmissionMultiplier: 1
+    - _EmissionToggle: 1
+    - _EnvironmentReflections: 1
+    - _FBias: 0
+    - _FPower: 1
+    - _FScale: 1
+    - _FSwitch: 0
+    - _FallOff: 1
+    - _FirsSpecToggle: 1
+    - _Float0: 0.25
+    - _FresnelFold: 1
+    - _FresnelFold1: 0
+    - _FresnelInvert: 0
+    - _FresnelSwitch: 0
+    - _Glossy: 1
+    - _MOffset: -3.7
+    - _MScale: 45.52
+    - _Metallic: 0
+    - _Metallic1: 0
+    - _MetallicInvert: 0
+    - _MetallicInvert1: 0
+    - _MetallicToggle: 0
+    - _NFallOff: 1
+    - _NOffsetX: 0
+    - _NOffsetY: 0
+    - _NTileX: 3
+    - _NTileY: 3
+    - _Normal: 0
+    - _NormalMultiplier: 1
+    - _NormalScale: -0.4
+    - _OffsetX: 0
+    - _OffsetY: 0
+    - _PatternHeight: 3
+    - _PatternRotator: 0
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _ReceiveShadows: 1
+    - _RefFresnelBias: 0
+    - _RefFresnelInvert: 0
+    - _RefFresnelPower: 2
+    - _RefFresnelScale: 1
+    - _RefFresnelSwitch: 0
+    - _Reflect: 0
+    - _ReflectSwitch: 0
+    - _ReflectionMultiplier: 3.66
+    - _ReflectionStrength: 1
+    - _RimLightBias: 0
+    - _RimLightIntensity: 0.295
+    - _RimLightInvert: 0
+    - _RimLightPower: 1
+    - _RimLightScale: 0.64
+    - _RimSwitch: 0
+    - _SSBluricTransparent: 0
+    - _SSOffX: 0
+    - _SSOffY: 0
+    - _SSSize: 16
+    - _SSTileX: 1
+    - _SSTileY: 1
+    - _SecondSpecIntensity: 1
+    - _SecondSpecToggle: 0
+    - _Smoothness: 0.365
+    - _Smoothness1: 1
+    - _SmoothnessInvert: 0
+    - _SmoothnessToggle: 0
+    - _Softness: 1
+    - _SpecToggle: 1
+    - _SpecularAmbient: 0
+    - _SpecularExtras: 1
+    - _SpecularHighlights: 1
+    - _SpecularIn: 0.1
+    - _SpecularIntensity: 1
+    - _SpecularInvert: 0
+    - _SpecularOut: 1
+    - _SpecularSaturation: 1
+    - _SpecularSwitch: 1
+    - _SrcBlend: 1
+    - _TileX: 20
+    - _TileY: 20
+    - _ToggleSwitch0: 0
+    - _TriplanarMap: 0
+    - _TriplanarNMap: 1
+    - _ZWrite: 1
+    m_Colors:
+    - _AOColor: {r: 1, g: 0, b: 0, a: 0}
+    - _AmbientOcclusionColor: {r: 0, g: 0, b: 0, a: 0}
+    - _BaseColor: {r: 0.78300005, g: 0.78300005, b: 0.78300005, a: 1}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _ReflectColor: {r: 1, g: 0.7793227, b: 0.40566027, a: 1}
+    - _RimLightColor: {r: 1, g: 1, b: 1, a: 1}
+    - _SpecColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Vector0: {r: 2, g: 2, b: 0, a: 0}
+    - _Vector1: {r: 3.18, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []

@@ -1,0 +1,311 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: BWaterToonDeep
+  m_Shader: {fileID: 4800000, guid: 8e31880eca74c0c48a998702cb100670, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - _DEFNOISEGRADETYPE_LINEAR
+  - _DEFNOISEMIXTYPE_DOT
+  - _DEPTHGRADETYPE2_LINEAR
+  - _NOISETYPEA_TEXTURE
+  - _NOISETYPEB_TEXTURE
+  - _NOISETYPE_VORAVORB
+  - _SHORETEXTUREBLENDINGTYPE_DIVIDE
+  - _TEXTUREGRADETYPE_GAMMA
+  m_InvalidKeywords:
+  - _DEPTHGRADETYPE1_LINEAR
+  - _DEPTHGRADETYPE_NORMAL
+  - _DEPTHINVERT_ON
+  - _INVERTFOAMTEXTURE_ON
+  - _INVERTTEXTURE_ON
+  - _NOISEGRADETYPE_LINEAR
+  - _NOISEMIXTYPE_MULTIPLY
+  - _RECEIVESHADOWS_OFF
+  - _RECEIVE_SHADOWS_OFF
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: 3005
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _DefNoiseAMap:
+        m_Texture: {fileID: 2800000, guid: 7ec7052ce3ab6a945ad73485b22020ef, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DefNoiseBMap:
+        m_Texture: {fileID: 2800000, guid: 7ec7052ce3ab6a945ad73485b22020ef, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _FoamTexture:
+        m_Texture: {fileID: 2800000, guid: 042609a17b64fe24e9e0e0465c6547ce, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ShoreColorMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ShoreMap:
+        m_Texture: {fileID: 2800000, guid: 8f10bd51af147c44abd1826f330be8fa, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ShoreMap1:
+        m_Texture: {fileID: 2800000, guid: 8f10bd51af147c44abd1826f330be8fa, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ShoreTexture:
+        m_Texture: {fileID: 2800000, guid: ba79def5542b6034a929cff9bd6bf12b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Tex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture0:
+        m_Texture: {fileID: 2800000, guid: 8f10bd51af147c44abd1826f330be8fa, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample0:
+        m_Texture: {fileID: 2800000, guid: 8f10bd51af147c44abd1826f330be8fa, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _ADist: 1.57
+    - _AExp: 1
+    - _AGExp: 1
+    - _AGO: 0
+    - _AGS: 1
+    - _AffectFoamDeformation: 0
+    - _AlphaCutoff: 0.5
+    - _ClipThreshold: 0
+    - _DefNoiseAInvert: 0
+    - _DefNoiseAScale: 1
+    - _DefNoiseBInvert: 0
+    - _DefNoiseBScale: 1
+    - _DefNoiseContrast: 0.2
+    - _DefNoiseFinalOffset: 0
+    - _DefNoiseFinalScale: 1.5
+    - _DefNoiseGradeOffset: 0
+    - _DefNoiseGradeScale: 0.9
+    - _DefNoiseGradeType: 0
+    - _DefNoiseMixType: 4
+    - _DefNoiseTypeAExponential: 1.12
+    - _DefNoiseTypeAMult: 1
+    - _DefNoiseTypeBExponential: 0.91
+    - _DefNoiseTypeBMult: 1
+    - _DefPerlinScale: 1
+    - _DefTypeAAnchorX: 0
+    - _DefTypeAAnchorY: 0
+    - _DefTypeARotSpeed: 0
+    - _DefTypeBAnchorX: 0
+    - _DefTypeBAnchorY: 0
+    - _DefTypeBRotSpeed: 0
+    - _DefVorAAngle: -1
+    - _DefVorASpeedX: -0.01
+    - _DefVorASpeedY: 0.005
+    - _DefVorATileX: 1
+    - _DefVorATileY: 1
+    - _DefVorBAngle: 1
+    - _DefVorBSpeedX: 0.01
+    - _DefVorBSpeedY: -0.015
+    - _DefVorBTileX: 0.5
+    - _DefVorBTileY: 0.5
+    - _DepthDistance: 3.4
+    - _DepthExponential: 0.05
+    - _DepthFadeDistance: 1500
+    - _DepthGradeType: 1
+    - _DepthGradeType1: 0
+    - _DepthGradeType2: 0
+    - _DepthInvert: 1
+    - _DepthSize: -0.8
+    - _DstBlend: 0
+    - _Exponential: 2.27
+    - _FinalOffset: -2
+    - _FinalScale: 5
+    - _Float0: 0.04
+    - _Float1: 0.04
+    - _Float10: 0.3
+    - _Float11: 0
+    - _Float12: 0
+    - _Float2: 5
+    - _Float3: -1
+    - _Float4: 1
+    - _Float5: 1
+    - _Float6: 1
+    - _Float7: 2.66
+    - _Float8: 2
+    - _Float9: 0
+    - _FoamGradeOffset: -15.8
+    - _FoamGradeScale: 20
+    - _FoamShoreWidth: 0
+    - _FoamSpeed: 0.1
+    - _FoamSpeedX: -0.06
+    - _FoamSpeedY: -0.03
+    - _FoamTileX: 5
+    - _FoamTileX1: 0
+    - _FoamTileY: 5
+    - _FoamTileY1: 0
+    - _GradeExponential: 0.35
+    - _GradeOffset: -1.5
+    - _GradeScale: 2
+    - _InvertFoamTexture: 1
+    - _InvertShoreTexture: 0
+    - _InvertTexture: 1
+    - _MiddleWaveEdgeControl: 1
+    - _MiddleWaveIntensity: 1
+    - _NoiseAInvert: 0
+    - _NoiseBInvert: 0
+    - _NoiseContrast: 1
+    - _NoiseFinalOffset: 0
+    - _NoiseFinalScale: 1
+    - _NoiseGradeOffset: 0.1
+    - _NoiseGradeScale: 0.12
+    - _NoiseGradeType: 0
+    - _NoiseMixType: 0
+    - _NoiseType: 0
+    - _NoiseTypeA: 3
+    - _NoiseTypeAExponential: 1
+    - _NoiseTypeB: 3
+    - _NoiseTypeBExponential: 1
+    - _PerAScale: 4
+    - _PerASpeedX: 0.1
+    - _PerASpeedY: 0.1
+    - _PerATileX: 5
+    - _PerATileY: 5
+    - _PerBScale: 1
+    - _PerBSpeedX: -0.1
+    - _PerBSpeedY: -0.1
+    - _PerBTileX: 1
+    - _PerBTileY: 1
+    - _QueueControl: 1
+    - _QueueOffset: 0
+    - _ReceiveShadows: 0
+    - _ShoreCAnchorX: 0
+    - _ShoreCAnchorY: 0
+    - _ShoreCBAnchorX: 0
+    - _ShoreCBAnchorY: 0
+    - _ShoreCBRotSpeed: 0
+    - _ShoreCBSpeedX: -0.1
+    - _ShoreCBSpeedY: -0.05
+    - _ShoreCBTileX: 3
+    - _ShoreCBTileY: 2
+    - _ShoreCRotSpeed: 0
+    - _ShoreCSpeedX: 0.05
+    - _ShoreCSpeedY: 0.1
+    - _ShoreCTileX: 2
+    - _ShoreCTileY: 3
+    - _ShoreGradeOffset: -0.44
+    - _ShoreGradeScale: 0.9
+    - _ShoreTAInvert: 0
+    - _ShoreTBInvert: 0
+    - _ShoreTextureBlendingType: 3
+    - _ShoreTileX: 5
+    - _ShoreTileX1: 1
+    - _ShoreTileY: 5
+    - _ShoreTileY1: 1
+    - _Size: 1
+    - _SrcBlend: 1
+    - _TextureGradeType: 2
+    - _TextureOff: -65.7
+    - _TextureScl: 66.6
+    - _TypeAScale: 4
+    - _TypeBScale: 4
+    - _VorAAngleSpeed: 1
+    - _VorAScale: 1
+    - _VorASmooth: 0.3
+    - _VorASpeedX: 0.1
+    - _VorASpeedY: 0.1
+    - _VorATileX: 1
+    - _VorATileY: 1
+    - _VorBAngleSpeed: 1
+    - _VorBScale: 0.25
+    - _VorBSmooth: 0.7
+    - _VorBSpeedX: -0.05
+    - _VorBSpeedY: -0.1
+    - _VorBTileX: 4
+    - _VorBTileY: 4
+    - _VorOffset: 1.29
+    - _VorScale: 4
+    - _Voronoi1Speed: 0.15
+    - _Voronoi2Speed: 0.1
+    - _VoronoiAAngleSpeed: 0
+    - _VoronoiASpeedX: 0
+    - _VoronoiASpeedY: 0
+    - _VoronoiAngleSpeed: 0.84
+    - _VoronoiBAngleSpeed: 0
+    - _VoronoiBSpeedX: 0
+    - _VoronoiBSpeedY: 0
+    - _VoronoiCellCount: 5
+    - _VoronoiHeight: 5
+    - _VoronoiOffsetX: 0
+    - _VoronoiOffsetY: 0
+    - _VoronoiSpeed: 0
+    - _VoronoiTileX: 2
+    - _VoronoiTileY: 2
+    - _WaveSpeed: 0.1
+    - _WaveSpeedX: 0.05
+    - _WaveSpeedY: 0.05
+    - _ZWrite: 1
+    - _aFoamTileX: 1
+    - _aFoamTileY: 1
+    - _bFoamTileX: 3
+    - _bFoamTileY: 3
+    - _cFoamTileX: 2
+    - _cFoamTileY: 2
+    - _cx: 0
+    - _cy: 1
+    - _dfgsdgdfsgsd: -1
+    - _dist: 2
+    - _exp: 1.5
+    - _fdist: 6.37
+    - _fexp: 0.65
+    - _fgexp: 0.43
+    - _fgoff: 0
+    - _fgscl: 1
+    - _gexp: 0.25
+    - _goff: 0.2
+    - _gscl: 0.7
+    - _oox: -1.9
+    - _ooy: -2.1
+    - _ox: 2
+    - _oy: -2
+    - _str: 0.3
+    m_Colors:
+    - _BaseColor: {r: 0, g: 0.30610716, b: 0.5786163, a: 1}
+    - _Color0: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _FoamColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Period: {r: 5, g: 5, b: 5, a: 0}
+    - _ShoreColor: {r: 0, g: 0.32168198, b: 0.42767292, a: 1}
+    - _Vector0: {r: 0, g: 0, b: 0, a: 0}
+    - _Vector1: {r: 1, g: 1, b: 1, a: 0}
+    - _VoronoiAngleOffset: {r: 0, g: 0, b: 0, a: 0}
+  m_BuildTextureStacks: []
