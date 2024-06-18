@@ -6201,7 +6201,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 31a5e429f97efbe4c89bce64863787d5,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.01
+      value: 2.04
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 31a5e429f97efbe4c89bce64863787d5,
         type: 3}
@@ -6243,6 +6243,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 31a5e429f97efbe4c89bce64863787d5,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 31a5e429f97efbe4c89bce64863787d5,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -6256,7 +6261,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 31a5e429f97efbe4c89bce64863787d5,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7355,6 +7360,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Lake
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 7ca15ca5a108910478c482e2f260d28c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7896,22 +7906,22 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 31a5e429f97efbe4c89bce64863787d5,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.2
+      value: 0.15862164
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 31a5e429f97efbe4c89bce64863787d5,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.2
+      value: 0.15862164
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 31a5e429f97efbe4c89bce64863787d5,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.2
+      value: 0.15862164
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 31a5e429f97efbe4c89bce64863787d5,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0
+      value: 0.97
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 31a5e429f97efbe4c89bce64863787d5,
         type: 3}
@@ -7921,7 +7931,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 31a5e429f97efbe4c89bce64863787d5,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 1.53
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 31a5e429f97efbe4c89bce64863787d5,
         type: 3}
@@ -7965,6 +7975,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 31a5e429f97efbe4c89bce64863787d5,
         type: 3}
+      propertyPath: m_DynamicOccludee
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 31a5e429f97efbe4c89bce64863787d5,
+        type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: de7232d854baf5a459a39a6b31e294ce, type: 2}
@@ -8000,7 +8015,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!23 &1609442618
 MeshRenderer:
   m_ObjectHideFlags: 0

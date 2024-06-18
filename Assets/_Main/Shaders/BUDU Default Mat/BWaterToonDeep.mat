@@ -13,14 +13,17 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _DEFNOISEGRADETYPE_LINEAR
-  - _DEFNOISEMIXTYPE_DOT
-  - _DEPTHGRADETYPE2_LINEAR
+  - _DEFNOISEMIXTYPE_ADD
+  - _DEPTHGRADETYPE2_GAMMA
   - _NOISETYPEA_TEXTURE
   - _NOISETYPEB_TEXTURE
   - _NOISETYPE_VORAVORB
-  - _SHORETEXTUREBLENDINGTYPE_DIVIDE
+  - _SHORETEXTUREBLENDINGTYPE_SUBTRACTIVE
   - _TEXTUREGRADETYPE_GAMMA
   m_InvalidKeywords:
+  - _AFFECTFOAMDEFORMATION_ON
+  - _DEFNOISEAINVERT_ON
+  - _DEFNOISEBINVERT_ON
   - _DEPTHGRADETYPE1_LINEAR
   - _DEPTHGRADETYPE_NORMAL
   - _DEPTHINVERT_ON
@@ -33,7 +36,7 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3005
+  m_CustomRenderQueue: 3020
   stringTagMap: {}
   disabledShaderPasses: []
   m_LockedProperties: 
@@ -45,7 +48,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DefNoiseBMap:
-        m_Texture: {fileID: 2800000, guid: 7ec7052ce3ab6a945ad73485b22020ef, type: 3}
+        m_Texture: {fileID: 2800000, guid: c662692ad44de0b45ba4f81297e97381, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _FoamTexture:
@@ -53,7 +56,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ShoreColorMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: c662692ad44de0b45ba4f81297e97381, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ShoreMap:
@@ -65,7 +68,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ShoreTexture:
-        m_Texture: {fileID: 2800000, guid: ba79def5542b6034a929cff9bd6bf12b, type: 3}
+        m_Texture: {fileID: 2800000, guid: 7ec7052ce3ab6a945ad73485b22020ef, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Tex:
@@ -103,23 +106,23 @@ Material:
     - _AGExp: 1
     - _AGO: 0
     - _AGS: 1
-    - _AffectFoamDeformation: 0
+    - _AffectFoamDeformation: 1
     - _AlphaCutoff: 0.5
     - _ClipThreshold: 0
-    - _DefNoiseAInvert: 0
-    - _DefNoiseAScale: 1
-    - _DefNoiseBInvert: 0
+    - _DefNoiseAInvert: 1
+    - _DefNoiseAScale: 1.88
+    - _DefNoiseBInvert: 1
     - _DefNoiseBScale: 1
-    - _DefNoiseContrast: 0.2
+    - _DefNoiseContrast: 0.23
     - _DefNoiseFinalOffset: 0
-    - _DefNoiseFinalScale: 1.5
+    - _DefNoiseFinalScale: 3.1
     - _DefNoiseGradeOffset: 0
-    - _DefNoiseGradeScale: 0.9
+    - _DefNoiseGradeScale: 0.46
     - _DefNoiseGradeType: 0
-    - _DefNoiseMixType: 4
-    - _DefNoiseTypeAExponential: 1.12
-    - _DefNoiseTypeAMult: 1
-    - _DefNoiseTypeBExponential: 0.91
+    - _DefNoiseMixType: 1
+    - _DefNoiseTypeAExponential: 2.28
+    - _DefNoiseTypeAMult: 0.33
+    - _DefNoiseTypeBExponential: 0.51
     - _DefNoiseTypeBMult: 1
     - _DefPerlinScale: 1
     - _DefTypeAAnchorX: 0
@@ -143,7 +146,7 @@ Material:
     - _DepthFadeDistance: 1500
     - _DepthGradeType: 1
     - _DepthGradeType1: 0
-    - _DepthGradeType2: 0
+    - _DepthGradeType2: 2
     - _DepthInvert: 1
     - _DepthSize: -0.8
     - _DstBlend: 0
@@ -213,20 +216,20 @@ Material:
     - _ShoreCBAnchorX: 0
     - _ShoreCBAnchorY: 0
     - _ShoreCBRotSpeed: 0
-    - _ShoreCBSpeedX: -0.1
-    - _ShoreCBSpeedY: -0.05
-    - _ShoreCBTileX: 3
-    - _ShoreCBTileY: 2
+    - _ShoreCBSpeedX: 0.01
+    - _ShoreCBSpeedY: 0.03
+    - _ShoreCBTileX: 2
+    - _ShoreCBTileY: 8
     - _ShoreCRotSpeed: 0
-    - _ShoreCSpeedX: 0.05
-    - _ShoreCSpeedY: 0.1
-    - _ShoreCTileX: 2
-    - _ShoreCTileY: 3
+    - _ShoreCSpeedX: -0.01
+    - _ShoreCSpeedY: -0.045
+    - _ShoreCTileX: 1
+    - _ShoreCTileY: 5
     - _ShoreGradeOffset: -0.44
     - _ShoreGradeScale: 0.9
     - _ShoreTAInvert: 0
     - _ShoreTBInvert: 0
-    - _ShoreTextureBlendingType: 3
+    - _ShoreTextureBlendingType: 1
     - _ShoreTileX: 5
     - _ShoreTileX1: 1
     - _ShoreTileY: 5
@@ -304,7 +307,7 @@ Material:
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _FoamColor: {r: 1, g: 1, b: 1, a: 1}
     - _Period: {r: 5, g: 5, b: 5, a: 0}
-    - _ShoreColor: {r: 0, g: 0.32168198, b: 0.42767292, a: 1}
+    - _ShoreColor: {r: 0, g: 0.5650029, b: 0.59119487, a: 1}
     - _Vector0: {r: 0, g: 0, b: 0, a: 0}
     - _Vector1: {r: 1, g: 1, b: 1, a: 0}
     - _VoronoiAngleOffset: {r: 0, g: 0, b: 0, a: 0}
