@@ -14,29 +14,32 @@ Material:
   m_ValidKeywords:
   - _DEFNOISEGRADETYPE_LINEAR
   - _DEFNOISEMIXTYPE_ADD
-  - _DEPTHGRADETYPE2_GAMMA
+  - _DEPTHGRADETYPE_NORMAL
+  - _FOAMBLENDTYPE_MULTIPLY
   - _NOISETYPEA_TEXTURE
   - _NOISETYPEB_TEXTURE
   - _NOISETYPE_VORAVORB
-  - _SHORETEXTUREBLENDINGTYPE_SUBTRACTIVE
+  - _SHORETEXTUREBLENDINGTYPE_ONELAYER
   - _TEXTUREGRADETYPE_GAMMA
   m_InvalidKeywords:
   - _AFFECTFOAMDEFORMATION_ON
   - _DEFNOISEAINVERT_ON
   - _DEFNOISEBINVERT_ON
   - _DEPTHGRADETYPE1_LINEAR
-  - _DEPTHGRADETYPE_NORMAL
+  - _DEPTHGRADETYPE2_GAMMA
   - _DEPTHINVERT_ON
   - _INVERTFOAMTEXTURE_ON
   - _INVERTTEXTURE_ON
+  - _MIDDLEWAVE_ON
   - _NOISEGRADETYPE_LINEAR
   - _NOISEMIXTYPE_MULTIPLY
   - _RECEIVESHADOWS_OFF
   - _RECEIVE_SHADOWS_OFF
+  - _SHOREWAVES_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3020
+  m_CustomRenderQueue: 3005
   stringTagMap: {}
   disabledShaderPasses: []
   m_LockedProperties: 
@@ -103,27 +106,34 @@ Material:
     m_Floats:
     - _ADist: 1.57
     - _AExp: 1
+    - _AFoamFold: 1
     - _AGExp: 1
     - _AGO: 0
     - _AGS: 1
+    - _AShoreFold: 0
     - _AffectFoamDeformation: 1
     - _AlphaCutoff: 0.5
+    - _AlphaSetting: 1
     - _ClipThreshold: 0
     - _DefNoiseAInvert: 1
     - _DefNoiseAScale: 1.88
     - _DefNoiseBInvert: 1
     - _DefNoiseBScale: 1
-    - _DefNoiseContrast: 0.23
+    - _DefNoiseContrast: 0.22
     - _DefNoiseFinalOffset: 0
-    - _DefNoiseFinalScale: 3.1
+    - _DefNoiseFinalScale: 2
     - _DefNoiseGradeOffset: 0
-    - _DefNoiseGradeScale: 0.46
+    - _DefNoiseGradeScale: 0.4
     - _DefNoiseGradeType: 0
     - _DefNoiseMixType: 1
-    - _DefNoiseTypeAExponential: 2.28
+    - _DefNoiseTypeAExponential: 1.59
     - _DefNoiseTypeAMult: 0.33
-    - _DefNoiseTypeBExponential: 0.51
+    - _DefNoiseTypeAOverallSpeed: 1
+    - _DefNoiseTypeBExponential: 0.65
     - _DefNoiseTypeBMult: 1
+    - _DefNoiseTypeBOverallSpeed: 1
+    - _DefPerlinAScale: 1
+    - _DefPerlinBScale: 1
     - _DefPerlinScale: 1
     - _DefTypeAAnchorX: 0
     - _DefTypeAAnchorY: 0
@@ -141,6 +151,9 @@ Material:
     - _DefVorBSpeedY: -0.015
     - _DefVorBTileX: 0.5
     - _DefVorBTileY: 0.5
+    - _DeformOffset: 0
+    - _DeformScale: 0
+    - _DeformToggle: 0
     - _DepthDistance: 3.4
     - _DepthExponential: 0.05
     - _DepthFadeDistance: 1500
@@ -148,6 +161,7 @@ Material:
     - _DepthGradeType1: 0
     - _DepthGradeType2: 2
     - _DepthInvert: 1
+    - _DepthSetting: 0
     - _DepthSize: -0.8
     - _DstBlend: 0
     - _Exponential: 2.27
@@ -166,6 +180,7 @@ Material:
     - _Float7: 2.66
     - _Float8: 2
     - _Float9: 0
+    - _FoamBlendType: 0
     - _FoamGradeOffset: -15.8
     - _FoamGradeScale: 20
     - _FoamShoreWidth: 0
@@ -182,6 +197,8 @@ Material:
     - _InvertFoamTexture: 1
     - _InvertShoreTexture: 0
     - _InvertTexture: 1
+    - _MiddleFold: 1
+    - _MiddleWave: 1
     - _MiddleWaveEdgeControl: 1
     - _MiddleWaveIntensity: 1
     - _NoiseAInvert: 0
@@ -189,6 +206,7 @@ Material:
     - _NoiseContrast: 1
     - _NoiseFinalOffset: 0
     - _NoiseFinalScale: 1
+    - _NoiseFold: 0
     - _NoiseGradeOffset: 0.1
     - _NoiseGradeScale: 0.12
     - _NoiseGradeType: 0
@@ -218,15 +236,18 @@ Material:
     - _ShoreCBRotSpeed: 0
     - _ShoreCBSpeedX: 0.01
     - _ShoreCBSpeedY: 0.03
-    - _ShoreCBTileX: 2
-    - _ShoreCBTileY: 8
+    - _ShoreCBTileX: 1
+    - _ShoreCBTileY: 1
     - _ShoreCRotSpeed: 0
     - _ShoreCSpeedX: -0.01
     - _ShoreCSpeedY: -0.045
     - _ShoreCTileX: 1
-    - _ShoreCTileY: 5
+    - _ShoreCTileY: 1
     - _ShoreGradeOffset: -0.44
     - _ShoreGradeScale: 0.9
+    - _ShoreMapA: 0
+    - _ShoreMapB: 1
+    - _ShoreSetting: 0
     - _ShoreTAInvert: 0
     - _ShoreTBInvert: 0
     - _ShoreTextureBlendingType: 1
@@ -234,6 +255,7 @@ Material:
     - _ShoreTileX1: 1
     - _ShoreTileY: 5
     - _ShoreTileY1: 1
+    - _ShoreWaves: 1
     - _Size: 1
     - _SrcBlend: 1
     - _TextureGradeType: 2

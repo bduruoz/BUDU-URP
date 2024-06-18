@@ -204,7 +204,3 @@ public class BFogEditor : ShaderGUI
 }
 
 
-/* Rect pozisyon alma
-    //Rect rect = GUILayoutUtility.GetRect(EditorGUIUtility.TrTempContent("a\nb"),"");
-    //EditorGUI.HelpBox(rect, "Request 3D Layered Planes! |||||||", MessageType.Warning);
-*/ 

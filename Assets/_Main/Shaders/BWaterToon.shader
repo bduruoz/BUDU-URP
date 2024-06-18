@@ -6,7 +6,7 @@ Shader "BUDU Shaders/BWaterToon"
 	{
 		[HideInInspector] _EmissionColor("Emission Color", Color) = (1,1,1,1)
 		[HideInInspector] _AlphaCutoff("Alpha Cutoff ", Range(0, 1)) = 0.5
-		[KeywordEnum(Linear,Normal,Gamma)] _DepthGradeType2("DepthGradeType2", Float) = 0
+		[KeywordEnum(Linear,Normal,Gamma)] _DepthGradeType("DepthGradeType", Float) = 0
 		[KeywordEnum(Linear,Normal,Gamma)] _TextureGradeType("TextureGradeType", Float) = 0
 		[HDR]_ShoreColor("Shore Color", Color) = (1,1,1,1)
 		_ShoreTexture("Shore Texture", 2D) = "white" {}
@@ -32,7 +32,7 @@ Shader "BUDU Shaders/BWaterToon"
 		_GradeExponential("Grade Exponential", Float) = 1
 		_DepthSize("Depth Size", Float) = 1
 		_ClipThreshold("ClipThreshold", Range( 0 , 1)) = 0.5
-		[KeywordEnum(VorAVorB,VorAPerA,VorAPerB,PerAPerB,VorBPerA,VorBPerB)] _NoiseType("Noise Type", Float) = 0
+		[KeywordEnum(VorAVorB,VorAPerA,VorAPerB,PerAPerB,VorBPerA,VorBPerB,Off)] _NoiseType("Noise Type", Float) = 0
 		_NoiseGradeScale("Noise Grade Scale", Float) = 1
 		_NoiseGradeOffset("Noise Grade Offset", Float) = 0
 		_VorAScale("VorAScale", Float) = 4
@@ -74,8 +74,8 @@ Shader "BUDU Shaders/BWaterToon"
 		_ShoreCBTileY("ShoreC B Tile Y", Float) = 0
 		_ShoreCBSpeedX("ShoreC B Speed X", Float) = 0
 		_ShoreCBSpeedY("ShoreC B Speed Y", Float) = 0
-		[KeywordEnum(NoTexture,OneTexture,Additive,Subtractive,Multiplicative,Divide)] _ShoreTextureBlendingType("Shore Texture Blending Type", Float) = 0
-		[Space(50)][Header(Noise)][Space(5)][KeywordEnum(None,Voronoi,Perlin,Texture)] _NoiseTypeA("NoiseTypeA", Float) = 0
+		[KeywordEnum(NoTexture,OneLayer,Additive,Subtractive,Multiplicative,Divide)] _ShoreTextureBlendingType("Shore Texture Blending Type", Float) = 0
+		[KeywordEnum(None,Voronoi,Perlin,Texture)] _NoiseTypeA("NoiseTypeA", Float) = 0
 		[KeywordEnum(None,Voronoi,Perlin,Texture)] _NoiseTypeB("NoiseTypeB", Float) = 0
 		[KeywordEnum(Multiply,Add,Subtract,Divide,Dot)] _DefNoiseMixType("DefNoiseMixType", Float) = 0
 		[KeywordEnum(Linear,Normal,Gamma)] _DefNoiseGradeType("DefNoiseGradeType", Float) = 0
@@ -84,11 +84,12 @@ Shader "BUDU Shaders/BWaterToon"
 		_DefNoiseGradeOffset("DefNoiseGradeOffset", Float) = 0.1
 		_DefNoiseFinalScale("DefNoiseFinalScale", Range( 0 , 50)) = 1
 		_DefNoiseFinalOffset("DefNoiseFinalOffset", Range( 0 , 1)) = 0
-		_DefPerlinScale("DefPerlinScale", Float) = 1
+		_DefPerlinBScale("DefPerlinBScale", Float) = 1
+		_DefPerlinAScale("DefPerlinAScale", Float) = 1
 		[Space(10)]_DefNoiseAMap("DefNoiseAMap", 2D) = "white" {}
 		[Toggle]_DefNoiseAInvert("DefNoiseAInvert", Float) = 0
 		_DefNoiseTypeAExponential("DefNoiseTypeAExponential", Float) = 1
-		_DefNoiseTypeAMult("DefNoiseTypeAMult", Float) = 1
+		_DefNoiseTypeAOverallSpeed("DefNoiseTypeAOverallSpeed", Float) = 1
 		_DefNoiseAScale("DefNoiseAScale", Float) = 8
 		_DefVorAAngle("DefVorAAngle", Range( -8 , 8)) = 0.1
 		_DefVorATileX("DefVorATileX", Float) = 1
@@ -101,7 +102,7 @@ Shader "BUDU Shaders/BWaterToon"
 		[Space(10)]_DefNoiseBMap("DefNoiseBMap", 2D) = "white" {}
 		[Toggle]_DefNoiseBInvert("DefNoiseBInvert", Float) = 0
 		_DefNoiseTypeBExponential("DefNoiseTypeBExponential", Float) = 1
-		_DefNoiseTypeBMult("DefNoiseTypeBMult", Float) = 1
+		_DefNoiseTypeBOverallSpeed("DefNoiseTypeBOverallSpeed", Float) = 1
 		_DefNoiseBScale("DefNoiseBScale", Float) = 5
 		_DefVorBAngle("DefVorBAngle", Range( -8 , 8)) = 0.1
 		_DefVorBTileX("DefVorBTileX", Float) = 1
@@ -115,6 +116,19 @@ Shader "BUDU Shaders/BWaterToon"
 		_MiddleWaveIntensity("Middle Wave Intensity", Range( 0 , 1)) = 0.5
 		_MiddleWaveEdgeControl("Middle Wave Edge Control", Float) = 1
 		[HideInInspector]_ShoreSetting("ShoreSetting", Int) = 0
+		[HideInInspector]_ShoreMapA("ShoreMapA", Int) = 0
+		[HideInInspector]_AlphaSetting("AlphaSetting", Int) = 0
+		[HideInInspector]_AShoreFold("AShoreFold", Int) = 0
+		[HideInInspector]_ShoreMapB("ShoreMapB", Int) = 0
+		[HideInInspector]_AFoamFold("AFoamFold", Int) = 0
+		[HideInInspector]_NoiseFold("NoiseFold", Int) = 0
+		[HideInInspector]_MiddleFold("MiddleFold", Int) = 0
+		[HideInInspector]_DepthSetting("DepthSetting", Int) = 0
+		[Toggle]_MiddleWave("MiddleWave", Float) = 1
+		[KeywordEnum(Multiply,Subtract,Divide,Cross)] _FoamBlendType("FoamBlendType", Float) = 0
+		[Toggle]_ShoreWaves("ShoreWaves", Float) = 1
+		_DeformScale("DeformScale", Range( -1 , 1)) = 0
+		[Toggle]_DeformToggle("DeformToggle", Float) = 0
 
 
 		//_TessPhongStrength( "Tess Phong Strength", Range( 0, 1 ) ) = 0.5
@@ -350,10 +364,11 @@ Shader "BUDU Shaders/BWaterToon"
 
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
-			#pragma shader_feature_local _SHORETEXTUREBLENDINGTYPE_NOTEXTURE _SHORETEXTUREBLENDINGTYPE_ONETEXTURE _SHORETEXTUREBLENDINGTYPE_ADDITIVE _SHORETEXTUREBLENDINGTYPE_SUBTRACTIVE _SHORETEXTUREBLENDINGTYPE_MULTIPLICATIVE _SHORETEXTUREBLENDINGTYPE_DIVIDE
-			#pragma shader_feature_local _DEPTHGRADETYPE2_LINEAR _DEPTHGRADETYPE2_NORMAL _DEPTHGRADETYPE2_GAMMA
+			#pragma shader_feature_local _SHORETEXTUREBLENDINGTYPE_NOTEXTURE _SHORETEXTUREBLENDINGTYPE_ONELAYER _SHORETEXTUREBLENDINGTYPE_ADDITIVE _SHORETEXTUREBLENDINGTYPE_SUBTRACTIVE _SHORETEXTUREBLENDINGTYPE_MULTIPLICATIVE _SHORETEXTUREBLENDINGTYPE_DIVIDE
+			#pragma shader_feature_local _DEPTHGRADETYPE_LINEAR _DEPTHGRADETYPE_NORMAL _DEPTHGRADETYPE_GAMMA
 			#pragma shader_feature_local _TEXTUREGRADETYPE_LINEAR _TEXTUREGRADETYPE_NORMAL _TEXTUREGRADETYPE_GAMMA
-			#pragma shader_feature_local _NOISETYPE_VORAVORB _NOISETYPE_VORAPERA _NOISETYPE_VORAPERB _NOISETYPE_PERAPERB _NOISETYPE_VORBPERA _NOISETYPE_VORBPERB
+			#pragma shader_feature_local _FOAMBLENDTYPE_MULTIPLY _FOAMBLENDTYPE_SUBTRACT _FOAMBLENDTYPE_DIVIDE _FOAMBLENDTYPE_CROSS
+			#pragma shader_feature_local _NOISETYPE_VORAVORB _NOISETYPE_VORAPERA _NOISETYPE_VORAPERB _NOISETYPE_PERAPERB _NOISETYPE_VORBPERA _NOISETYPE_VORBPERB _NOISETYPE_OFF
 			#pragma shader_feature_local _DEFNOISEGRADETYPE_LINEAR _DEFNOISEGRADETYPE_NORMAL _DEFNOISEGRADETYPE_GAMMA
 			#pragma shader_feature_local _DEFNOISEMIXTYPE_MULTIPLY _DEFNOISEMIXTYPE_ADD _DEFNOISEMIXTYPE_SUBTRACT _DEFNOISEMIXTYPE_DIVIDE _DEFNOISEMIXTYPE_DOT
 			#pragma shader_feature_local _NOISETYPEA_NONE _NOISETYPEA_VORONOI _NOISETYPEA_PERLIN _NOISETYPEA_TEXTURE
@@ -389,12 +404,13 @@ Shader "BUDU Shaders/BWaterToon"
 			CBUFFER_START(UnityPerMaterial)
 			float4 _ShoreColor;
 			int _ShoreSetting;
-			float _DefVorATileY;
-			float _DefVorATileX;
+			float _DeformScale;
+			float _DeformToggle;
 			float _DefVorAAngle;
 			float _DefNoiseAScale;
 			float _DefNoiseAInvert;
 			float _DefNoiseContrast;
+			float _MiddleWave;
 			float _FoamGradeOffset;
 			float _FoamGradeScale;
 			float _FoamSpeedY;
@@ -409,45 +425,45 @@ Shader "BUDU Shaders/BWaterToon"
 			float _WaveSpeedX;
 			float _MiddleWaveEdgeControl;
 			float _ShoreTileY;
+			float _ShoreTileX;
+			float _NoiseGradeOffset;
+			float _DefVorATileX;
+			float _DefVorATileY;
 			float _DefVorASpeedX;
-			float _DefNoiseTypeAMult;
-			float _DefVorASpeedY;
-			float _DefTypeAAnchorX;
+			float _DefNoiseTypeAOverallSpeed;
 			float _DefNoiseGradeOffset;
 			float _DefNoiseGradeScale;
 			float _DefNoiseFinalOffset;
 			float _DefNoiseFinalScale;
 			float _DefNoiseTypeBExponential;
+			float _DefPerlinBScale;
 			float _DefTypeBRotSpeed;
 			float _DefTypeBAnchorY;
 			float _DefTypeBAnchorX;
 			float _DefVorBSpeedY;
-			float _ShoreTileX;
-			float _DefNoiseTypeBMult;
+			float _DefNoiseTypeBOverallSpeed;
+			float _DefVorBSpeedX;
 			float _DefVorBTileY;
 			float _DefVorBTileX;
 			float _DefVorBAngle;
 			float _DefNoiseBScale;
 			float _DefNoiseBInvert;
 			float _DefNoiseTypeAExponential;
-			float _DefPerlinScale;
+			float _DefPerlinAScale;
 			float _DefTypeARotSpeed;
 			float _DefTypeAAnchorY;
-			float _DefVorBSpeedX;
-			float _NoiseGradeOffset;
+			float _DefTypeAAnchorX;
+			float _DefVorASpeedY;
 			float _NoiseGradeScale;
 			float _PerBScale;
-			float _GradeExponential;
-			float _GradeOffset;
-			float _GradeScale;
-			float _DepthExponential;
-			float _DepthDistance;
+			float _PerBSpeedY;
+			float _PerBSpeedX;
 			float _DepthSize;
 			float _ShoreCBRotSpeed;
 			float _ShoreCBAnchorY;
 			float _ShoreCBAnchorX;
-			float _InvertShoreTexture;
 			float _ShoreCBSpeedY;
+			float _ShoreCBSpeedX;
 			float _ShoreCBTileY;
 			float _ShoreCBTileX;
 			float _ShoreCRotSpeed;
@@ -457,12 +473,18 @@ Shader "BUDU Shaders/BWaterToon"
 			float _ShoreCSpeedX;
 			float _ShoreCTileY;
 			float _ShoreCTileX;
-			float _ShoreCBSpeedX;
-			float _MiddleWaveIntensity;
-			float _VorAScale;
-			float _VorASmooth;
-			float _PerBSpeedY;
-			float _PerBSpeedX;
+			int _MiddleFold;
+			int _NoiseFold;
+			int _AFoamFold;
+			int _AShoreFold;
+			int _AlphaSetting;
+			int _DepthSetting;
+			int _ShoreMapB;
+			int _ShoreMapA;
+			float _DepthDistance;
+			float _DepthExponential;
+			float _GradeScale;
+			float _GradeOffset;
 			float _PerBTileY;
 			float _PerBTileX;
 			float _PerAScale;
@@ -470,18 +492,24 @@ Shader "BUDU Shaders/BWaterToon"
 			float _PerASpeedX;
 			float _PerATileY;
 			float _PerATileX;
-			float _VorAAngleSpeed;
 			float _VorBSpeedY;
+			float _VorBSpeedX;
 			float _VorBTileY;
 			float _VorBTileX;
+			float _MiddleWaveIntensity;
 			float _VorBSmooth;
-			float _VorBAngleSpeed;
 			float _VorBScale;
 			float _VorASpeedY;
 			float _VorASpeedX;
 			float _VorATileY;
 			float _VorATileX;
-			float _VorBSpeedX;
+			float _VorASmooth;
+			float _VorAAngleSpeed;
+			float _VorAScale;
+			float _InvertShoreTexture;
+			float _ShoreWaves;
+			float _GradeExponential;
+			float _VorBAngleSpeed;
 			float _ClipThreshold;
 			#ifdef ASE_TESSELLATION
 				float _TessPhongStrength;
@@ -666,7 +694,7 @@ Shader "BUDU Shaders/BWaterToon"
 				 		float2 g = float2( i, j );
 				 		float2 o = voronoihash868( n + g );
 						o = ( sin( time + o * 6.2831 ) * 0.5 + 0.5 ); float2 r = f - g - o;
-						float d = 0.707 * sqrt(dot( r, r ));
+						float d = 0.5 * dot( r, r );
 				 		if( d<F1 ) {
 				 			F2 = F1;
 				 			F1 = d; mg = g; mr = r; id = o;
@@ -870,7 +898,7 @@ Shader "BUDU Shaders/BWaterToon"
 				float4 temp_cast_1 = (One909).xxxx;
 				#if defined( _SHORETEXTUREBLENDINGTYPE_NOTEXTURE )
 				float4 staticSwitch623 = temp_cast_1;
-				#elif defined( _SHORETEXTUREBLENDINGTYPE_ONETEXTURE )
+				#elif defined( _SHORETEXTUREBLENDINGTYPE_ONELAYER )
 				float4 staticSwitch623 = tex2DNode458;
 				#elif defined( _SHORETEXTUREBLENDINGTYPE_ADDITIVE )
 				float4 staticSwitch623 = ( tex2DNode458 + tex2DNode596 );
@@ -901,17 +929,19 @@ Shader "BUDU Shaders/BWaterToon"
 				float3 temp_cast_7 = (temp_output_344_0).xxx;
 				float3 linearToGamma337 = LinearToGamma22( temp_cast_7 );
 				float3 temp_cast_8 = (temp_output_344_0).xxx;
-				#if defined( _DEPTHGRADETYPE2_LINEAR )
+				#if defined( _DEPTHGRADETYPE_LINEAR )
 				float3 staticSwitch338 = gammaToLinear336;
-				#elif defined( _DEPTHGRADETYPE2_NORMAL )
+				#elif defined( _DEPTHGRADETYPE_NORMAL )
 				float3 staticSwitch338 = temp_cast_5;
-				#elif defined( _DEPTHGRADETYPE2_GAMMA )
+				#elif defined( _DEPTHGRADETYPE_GAMMA )
 				float3 staticSwitch338 = linearToGamma337;
 				#else
 				float3 staticSwitch338 = gammaToLinear336;
 				#endif
 				float3 temp_output_156_0 = ( 1.0 - staticSwitch338 );
 				float3 SaturateDepthRef450 = saturate( temp_output_156_0 );
+				float Zero911 = 0.0;
+				float4 temp_cast_10 = (Zero911).xxxx;
 				float mulTime166 = _TimeParameters.x * _VorAAngleSpeed;
 				float time294 = mulTime166;
 				float2 voronoiSmoothId294 = 0;
@@ -979,9 +1009,11 @@ Shader "BUDU Shaders/BWaterToon"
 				#elif defined( _NOISETYPE_PERAPERB )
 				float staticSwitch415 = ( simplePerlin3D305 * simplePerlin3D292 );
 				#elif defined( _NOISETYPE_VORBPERA )
-				float staticSwitch415 = ( voroi295 * simplePerlin3D292 );
-				#elif defined( _NOISETYPE_VORBPERB )
 				float staticSwitch415 = ( voroi295 * simplePerlin3D305 );
+				#elif defined( _NOISETYPE_VORBPERB )
+				float staticSwitch415 = ( voroi295 * simplePerlin3D292 );
+				#elif defined( _NOISETYPE_OFF )
+				float staticSwitch415 = Zero911;
 				#else
 				float staticSwitch415 = ( voroi294 * voroi295 );
 				#endif
@@ -989,20 +1021,33 @@ Shader "BUDU Shaders/BWaterToon"
 				float temp_output_325_0 = (NoiseTypeRef447*_NoiseGradeScale + _NoiseGradeOffset);
 				float2 appendResult315 = (float2(_ShoreTileX , _ShoreTileY));
 				float3 saferPower927 = abs( saturate( ( 1.0 - temp_output_156_0 ) ) );
-				float3 temp_cast_12 = (_MiddleWaveEdgeControl).xxx;
-				float3 DepthRef451 = pow( saferPower927 , temp_cast_12 );
+				float3 temp_cast_13 = (_MiddleWaveEdgeControl).xxx;
+				float3 DepthRef451 = pow( saferPower927 , temp_cast_13 );
 				float mulTime329 = _TimeParameters.x * _WaveSpeedX;
 				float mulTime378 = _TimeParameters.x * _WaveSpeedY;
 				float2 appendResult377 = (float2(mulTime329 , mulTime378));
 				float2 texCoord179 = IN.ase_texcoord3.xy * ( temp_output_325_0 * appendResult315 ) + ( DepthRef451 + float3( appendResult377 ,  0.0 ) ).xy;
 				float4 temp_output_383_0 = saturate( tex2D( _ShoreTexture, texCoord179 ) );
+				float4 temp_output_353_0 = ((( _InvertShoreTexture )?( ( 1.0 - temp_output_383_0 ) ):( temp_output_383_0 ))*_ShoreGradeScale + _ShoreGradeOffset);
 				float2 appendResult388 = (float2(_FoamTileX , _FoamTileY));
 				float mulTime386 = _TimeParameters.x * _FoamSpeedX;
 				float mulTime392 = _TimeParameters.x * _FoamSpeedY;
 				float2 appendResult393 = (float2(mulTime386 , mulTime392));
 				float2 texCoord384 = IN.ase_texcoord3.xy * ( float3( (( _AffectFoamDeformation )?( ( temp_output_325_0 + appendResult388 ) ):( ( temp_output_325_0 * appendResult388 ) )) ,  0.0 ) - ( 1.0 - DepthRef451 ) ).xy + appendResult393;
 				float4 temp_output_409_0 = saturate( tex2D( _FoamTexture, texCoord384 ) );
-				float4 DepthTextureRef455 = ( ((( _InvertShoreTexture )?( ( 1.0 - temp_output_383_0 ) ):( temp_output_383_0 ))*_ShoreGradeScale + _ShoreGradeOffset) * ((( _InvertFoamTexture )?( ( 1.0 - temp_output_409_0 ) ):( temp_output_409_0 ))*_FoamGradeScale + _FoamGradeOffset) );
+				float4 temp_output_426_0 = ((( _InvertFoamTexture )?( ( 1.0 - temp_output_409_0 ) ):( temp_output_409_0 ))*_FoamGradeScale + _FoamGradeOffset);
+				#if defined( _FOAMBLENDTYPE_MULTIPLY )
+				float4 staticSwitch957 = ( temp_output_353_0 * temp_output_426_0 );
+				#elif defined( _FOAMBLENDTYPE_SUBTRACT )
+				float4 staticSwitch957 = ( temp_output_353_0 - temp_output_426_0 );
+				#elif defined( _FOAMBLENDTYPE_DIVIDE )
+				float4 staticSwitch957 = ( temp_output_353_0 / temp_output_426_0 );
+				#elif defined( _FOAMBLENDTYPE_CROSS )
+				float4 staticSwitch957 = float4( cross( temp_output_426_0.rgb , temp_output_353_0.rgb ) , 0.0 );
+				#else
+				float4 staticSwitch957 = ( temp_output_353_0 * temp_output_426_0 );
+				#endif
+				float4 DepthTextureRef455 = (( _ShoreWaves )?( staticSwitch957 ):( temp_cast_10 ));
 				float3 gammaToLinear373 = Gamma22ToLinear( DepthTextureRef455.rgb );
 				float3 linearToGamma374 = LinearToGamma22( DepthTextureRef455.rgb );
 				#if defined( _TEXTUREGRADETYPE_LINEAR )
@@ -1014,14 +1059,16 @@ Shader "BUDU Shaders/BWaterToon"
 				#else
 				float4 staticSwitch375 = float4( gammaToLinear373 , 0.0 );
 				#endif
+				float4 temp_output_345_0 = ( float4( SaturateDepthRef450 , 0.0 ) * saturate( staticSwitch375 ) );
+				float4 temp_cast_29 = (Zero911).xxxx;
 				float Gray913 = 0.5;
-				float4 temp_cast_25 = (Gray913).xxxx;
+				float4 temp_cast_30 = (Gray913).xxxx;
 				float mulTime857 = _TimeParameters.x * _DefVorAAngle;
 				float time867 = mulTime857;
 				float2 voronoiSmoothId867 = 0;
 				float2 appendResult834 = (float2(_DefVorATileX , _DefVorATileY));
-				float mulTime830 = _TimeParameters.x * ( _DefVorASpeedX * _DefNoiseTypeAMult );
-				float mulTime831 = _TimeParameters.x * ( _DefVorASpeedY * _DefNoiseTypeAMult );
+				float mulTime830 = _TimeParameters.x * ( _DefVorASpeedX * _DefNoiseTypeAOverallSpeed );
+				float mulTime831 = _TimeParameters.x * ( _DefVorASpeedY * _DefNoiseTypeAOverallSpeed );
 				float2 appendResult836 = (float2(mulTime830 , mulTime831));
 				float2 texCoord844 = IN.ase_texcoord3.xy * appendResult834 + appendResult836;
 				float2 appendResult850 = (float2(_DefTypeAAnchorX , _DefTypeAAnchorY));
@@ -1029,46 +1076,47 @@ Shader "BUDU Shaders/BWaterToon"
 				float cos855 = cos( mulTime849 );
 				float sin855 = sin( mulTime849 );
 				float2 rotator855 = mul( texCoord844 - appendResult850 , float2x2( cos855 , -sin855 , sin855 , cos855 )) + appendResult850;
-				float2 coords867 = rotator855 * _DefNoiseAScale;
+				float2 temp_output_968_0 = ( (( _DeformToggle )?( (NoiseTypeRef447*_DeformScale + -0.5) ):( Zero911 )) + rotator855 );
+				float2 coords867 = temp_output_968_0 * _DefNoiseAScale;
 				float2 id867 = 0;
 				float2 uv867 = 0;
 				float fade867 = 0.5;
 				float voroi867 = 0;
 				float rest867 = 0;
-				for( int it867 = 0; it867 <3; it867++ ){
+				for( int it867 = 0; it867 <2; it867++ ){
 				voroi867 += fade867 * voronoi867( coords867, time867, id867, uv867, 0,voronoiSmoothId867 );
 				rest867 += fade867;
 				coords867 *= 2;
 				fade867 *= 0.5;
 				}//Voronoi867
 				voroi867 /= rest867;
-				float4 temp_cast_26 = (voroi867).xxxx;
-				float simplePerlin3D865 = snoise( float3( rotator855 ,  0.0 )*( _DefNoiseAScale * _DefPerlinScale ) );
+				float4 temp_cast_31 = (voroi867).xxxx;
+				float simplePerlin3D865 = snoise( float3( temp_output_968_0 ,  0.0 )*( _DefNoiseAScale * _DefPerlinAScale ) );
 				simplePerlin3D865 = simplePerlin3D865*0.5 + 0.5;
-				float4 temp_cast_28 = (simplePerlin3D865).xxxx;
-				float4 temp_cast_29 = (Gray913).xxxx;
+				float4 temp_cast_33 = (simplePerlin3D865).xxxx;
+				float4 temp_cast_34 = (Gray913).xxxx;
 				#if defined( _NOISETYPEA_NONE )
-				float4 staticSwitch869 = temp_cast_29;
+				float4 staticSwitch869 = temp_cast_34;
 				#elif defined( _NOISETYPEA_VORONOI )
-				float4 staticSwitch869 = temp_cast_26;
+				float4 staticSwitch869 = temp_cast_31;
 				#elif defined( _NOISETYPEA_PERLIN )
-				float4 staticSwitch869 = temp_cast_28;
+				float4 staticSwitch869 = temp_cast_33;
 				#elif defined( _NOISETYPEA_TEXTURE )
-				float4 staticSwitch869 = tex2D( _DefNoiseAMap, rotator855 );
+				float4 staticSwitch869 = tex2D( _DefNoiseAMap, temp_output_968_0 );
 				#else
-				float4 staticSwitch869 = temp_cast_29;
+				float4 staticSwitch869 = temp_cast_34;
 				#endif
 				float3 linearToGamma874 = LinearToGamma22( saturate( staticSwitch869 ).rgb );
 				float3 saferPower881 = abs( (( _DefNoiseAInvert )?( ( 1.0 - linearToGamma874 ) ):( linearToGamma874 )) );
-				float3 temp_cast_33 = (_DefNoiseTypeAExponential).xxx;
-				float3 temp_output_881_0 = pow( saferPower881 , temp_cast_33 );
-				float4 temp_cast_34 = ((0)).xxxx;
+				float3 temp_cast_38 = (_DefNoiseTypeAExponential).xxx;
+				float3 temp_output_881_0 = pow( saferPower881 , temp_cast_38 );
+				float4 temp_cast_39 = (Gray913).xxxx;
 				float mulTime860 = _TimeParameters.x * _DefVorBAngle;
 				float time868 = mulTime860;
 				float2 voronoiSmoothId868 = 0;
 				float2 appendResult835 = (float2(_DefVorBTileX , _DefVorBTileY));
-				float mulTime832 = _TimeParameters.x * ( _DefVorBSpeedX * _DefNoiseTypeBMult );
-				float mulTime833 = _TimeParameters.x * ( _DefVorBSpeedY * _DefNoiseTypeBMult );
+				float mulTime832 = _TimeParameters.x * ( _DefVorBSpeedX * _DefNoiseTypeBOverallSpeed );
+				float mulTime833 = _TimeParameters.x * ( _DefVorBSpeedY * _DefNoiseTypeBOverallSpeed );
 				float2 appendResult837 = (float2(mulTime832 , mulTime833));
 				float2 texCoord845 = IN.ase_texcoord3.xy * appendResult835 + ( appendResult837 + 0.0 );
 				float2 appendResult852 = (float2(_DefTypeBAnchorX , _DefTypeBAnchorY));
@@ -1076,41 +1124,42 @@ Shader "BUDU Shaders/BWaterToon"
 				float cos856 = cos( mulTime851 );
 				float sin856 = sin( mulTime851 );
 				float2 rotator856 = mul( texCoord845 - appendResult852 , float2x2( cos856 , -sin856 , sin856 , cos856 )) + appendResult852;
-				float2 coords868 = rotator856 * _DefNoiseBScale;
+				float2 temp_output_969_0 = ( (( _DeformToggle )?( (NoiseTypeRef447*_DeformScale + -0.5) ):( Zero911 )) + rotator856 );
+				float2 coords868 = temp_output_969_0 * _DefNoiseBScale;
 				float2 id868 = 0;
 				float2 uv868 = 0;
 				float fade868 = 0.5;
 				float voroi868 = 0;
 				float rest868 = 0;
-				for( int it868 = 0; it868 <3; it868++ ){
+				for( int it868 = 0; it868 <2; it868++ ){
 				voroi868 += fade868 * voronoi868( coords868, time868, id868, uv868, 0,voronoiSmoothId868 );
 				rest868 += fade868;
 				coords868 *= 2;
 				fade868 *= 0.5;
 				}//Voronoi868
 				voroi868 /= rest868;
-				float4 temp_cast_35 = (voroi868).xxxx;
-				float simplePerlin3D866 = snoise( float3( rotator856 ,  0.0 )*( _DefNoiseBScale * _DefPerlinScale ) );
+				float4 temp_cast_40 = (voroi868).xxxx;
+				float simplePerlin3D866 = snoise( float3( temp_output_969_0 ,  0.0 )*( _DefNoiseBScale * _DefPerlinBScale ) );
 				simplePerlin3D866 = simplePerlin3D866*0.5 + 0.5;
-				float4 temp_cast_37 = (simplePerlin3D866).xxxx;
-				float4 temp_cast_38 = ((0)).xxxx;
+				float4 temp_cast_42 = (simplePerlin3D866).xxxx;
+				float4 temp_cast_43 = (Gray913).xxxx;
 				#if defined( _NOISETYPEB_NONE )
-				float4 staticSwitch870 = temp_cast_38;
+				float4 staticSwitch870 = temp_cast_43;
 				#elif defined( _NOISETYPEB_VORONOI )
-				float4 staticSwitch870 = temp_cast_35;
+				float4 staticSwitch870 = temp_cast_40;
 				#elif defined( _NOISETYPEB_PERLIN )
-				float4 staticSwitch870 = temp_cast_37;
+				float4 staticSwitch870 = temp_cast_42;
 				#elif defined( _NOISETYPEB_TEXTURE )
-				float4 staticSwitch870 = tex2D( _DefNoiseBMap, rotator856 );
+				float4 staticSwitch870 = tex2D( _DefNoiseBMap, temp_output_969_0 );
 				#else
-				float4 staticSwitch870 = temp_cast_38;
+				float4 staticSwitch870 = temp_cast_43;
 				#endif
 				float3 linearToGamma873 = LinearToGamma22( saturate( staticSwitch870 ).rgb );
 				float3 saferPower882 = abs( (( _DefNoiseBInvert )?( ( 1.0 - linearToGamma873 ) ):( linearToGamma873 )) );
-				float3 temp_cast_42 = (_DefNoiseTypeBExponential).xxx;
-				float3 temp_output_882_0 = pow( saferPower882 , temp_cast_42 );
+				float3 temp_cast_47 = (_DefNoiseTypeBExponential).xxx;
+				float3 temp_output_882_0 = pow( saferPower882 , temp_cast_47 );
 				float dotResult885 = dot( temp_output_881_0 , temp_output_882_0 );
-				float3 temp_cast_43 = (dotResult885).xxx;
+				float3 temp_cast_48 = (dotResult885).xxx;
 				#if defined( _DEFNOISEMIXTYPE_MULTIPLY )
 				float3 staticSwitch888 = ( temp_output_881_0 * temp_output_882_0 );
 				#elif defined( _DEFNOISEMIXTYPE_ADD )
@@ -1120,7 +1169,7 @@ Shader "BUDU Shaders/BWaterToon"
 				#elif defined( _DEFNOISEMIXTYPE_DIVIDE )
 				float3 staticSwitch888 = ( temp_output_881_0 / temp_output_882_0 );
 				#elif defined( _DEFNOISEMIXTYPE_DOT )
-				float3 staticSwitch888 = temp_cast_43;
+				float3 staticSwitch888 = temp_cast_48;
 				#else
 				float3 staticSwitch888 = ( temp_output_881_0 * temp_output_882_0 );
 				#endif
@@ -1135,8 +1184,9 @@ Shader "BUDU Shaders/BWaterToon"
 				#else
 				float3 staticSwitch891 = gammaToLinear889;
 				#endif
-				float4 CausticRef902 = ( saturate( saturate( (saturate( CalculateContrast(_DefNoiseContrast,float4( (staticSwitch891*_DefNoiseFinalScale + _DefNoiseFinalOffset) , 0.0 )) )*_DefNoiseGradeScale + _DefNoiseGradeOffset) ) ) * _MiddleWaveIntensity );
-				float4 FinalCompRef461 = ( ( ( ( ( float4( SaturateDepthRef450 , 0.0 ) * saturate( staticSwitch375 ) ) + float4( 0,0,0,0 ) ) + ( CausticRef902 * float4( DepthRef451 , 0.0 ) ) ) * 0 ) + 1.0 );
+				float4 CausticRef902 = (( _MiddleWave )?( ( saturate( (saturate( CalculateContrast(_DefNoiseContrast,float4( (staticSwitch891*_DefNoiseFinalScale + _DefNoiseFinalOffset) , 0.0 )) )*_DefNoiseGradeScale + _DefNoiseGradeOffset) ) * _MiddleWaveIntensity ) ):( temp_cast_29 ));
+				float4 temp_output_925_0 = ( CausticRef902 * float4( DepthRef451 , 0.0 ) );
+				float4 FinalCompRef461 = ( temp_output_345_0 + temp_output_925_0 );
 				
 				float3 BakedAlbedo = 0;
 				float3 BakedEmission = 0;
@@ -1217,9 +1267,10 @@ Shader "BUDU Shaders/BWaterToon"
 
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
-			#pragma shader_feature_local _DEPTHGRADETYPE2_LINEAR _DEPTHGRADETYPE2_NORMAL _DEPTHGRADETYPE2_GAMMA
+			#pragma shader_feature_local _DEPTHGRADETYPE_LINEAR _DEPTHGRADETYPE_NORMAL _DEPTHGRADETYPE_GAMMA
 			#pragma shader_feature_local _TEXTUREGRADETYPE_LINEAR _TEXTUREGRADETYPE_NORMAL _TEXTUREGRADETYPE_GAMMA
-			#pragma shader_feature_local _NOISETYPE_VORAVORB _NOISETYPE_VORAPERA _NOISETYPE_VORAPERB _NOISETYPE_PERAPERB _NOISETYPE_VORBPERA _NOISETYPE_VORBPERB
+			#pragma shader_feature_local _FOAMBLENDTYPE_MULTIPLY _FOAMBLENDTYPE_SUBTRACT _FOAMBLENDTYPE_DIVIDE _FOAMBLENDTYPE_CROSS
+			#pragma shader_feature_local _NOISETYPE_VORAVORB _NOISETYPE_VORAPERA _NOISETYPE_VORAPERB _NOISETYPE_PERAPERB _NOISETYPE_VORBPERA _NOISETYPE_VORBPERB _NOISETYPE_OFF
 			#pragma shader_feature_local _DEFNOISEGRADETYPE_LINEAR _DEFNOISEGRADETYPE_NORMAL _DEFNOISEGRADETYPE_GAMMA
 			#pragma shader_feature_local _DEFNOISEMIXTYPE_MULTIPLY _DEFNOISEMIXTYPE_ADD _DEFNOISEMIXTYPE_SUBTRACT _DEFNOISEMIXTYPE_DIVIDE _DEFNOISEMIXTYPE_DOT
 			#pragma shader_feature_local _NOISETYPEA_NONE _NOISETYPEA_VORONOI _NOISETYPEA_PERLIN _NOISETYPEA_TEXTURE
@@ -1252,12 +1303,13 @@ Shader "BUDU Shaders/BWaterToon"
 			CBUFFER_START(UnityPerMaterial)
 			float4 _ShoreColor;
 			int _ShoreSetting;
-			float _DefVorATileY;
-			float _DefVorATileX;
+			float _DeformScale;
+			float _DeformToggle;
 			float _DefVorAAngle;
 			float _DefNoiseAScale;
 			float _DefNoiseAInvert;
 			float _DefNoiseContrast;
+			float _MiddleWave;
 			float _FoamGradeOffset;
 			float _FoamGradeScale;
 			float _FoamSpeedY;
@@ -1272,45 +1324,45 @@ Shader "BUDU Shaders/BWaterToon"
 			float _WaveSpeedX;
 			float _MiddleWaveEdgeControl;
 			float _ShoreTileY;
+			float _ShoreTileX;
+			float _NoiseGradeOffset;
+			float _DefVorATileX;
+			float _DefVorATileY;
 			float _DefVorASpeedX;
-			float _DefNoiseTypeAMult;
-			float _DefVorASpeedY;
-			float _DefTypeAAnchorX;
+			float _DefNoiseTypeAOverallSpeed;
 			float _DefNoiseGradeOffset;
 			float _DefNoiseGradeScale;
 			float _DefNoiseFinalOffset;
 			float _DefNoiseFinalScale;
 			float _DefNoiseTypeBExponential;
+			float _DefPerlinBScale;
 			float _DefTypeBRotSpeed;
 			float _DefTypeBAnchorY;
 			float _DefTypeBAnchorX;
 			float _DefVorBSpeedY;
-			float _ShoreTileX;
-			float _DefNoiseTypeBMult;
+			float _DefNoiseTypeBOverallSpeed;
+			float _DefVorBSpeedX;
 			float _DefVorBTileY;
 			float _DefVorBTileX;
 			float _DefVorBAngle;
 			float _DefNoiseBScale;
 			float _DefNoiseBInvert;
 			float _DefNoiseTypeAExponential;
-			float _DefPerlinScale;
+			float _DefPerlinAScale;
 			float _DefTypeARotSpeed;
 			float _DefTypeAAnchorY;
-			float _DefVorBSpeedX;
-			float _NoiseGradeOffset;
+			float _DefTypeAAnchorX;
+			float _DefVorASpeedY;
 			float _NoiseGradeScale;
 			float _PerBScale;
-			float _GradeExponential;
-			float _GradeOffset;
-			float _GradeScale;
-			float _DepthExponential;
-			float _DepthDistance;
+			float _PerBSpeedY;
+			float _PerBSpeedX;
 			float _DepthSize;
 			float _ShoreCBRotSpeed;
 			float _ShoreCBAnchorY;
 			float _ShoreCBAnchorX;
-			float _InvertShoreTexture;
 			float _ShoreCBSpeedY;
+			float _ShoreCBSpeedX;
 			float _ShoreCBTileY;
 			float _ShoreCBTileX;
 			float _ShoreCRotSpeed;
@@ -1320,12 +1372,18 @@ Shader "BUDU Shaders/BWaterToon"
 			float _ShoreCSpeedX;
 			float _ShoreCTileY;
 			float _ShoreCTileX;
-			float _ShoreCBSpeedX;
-			float _MiddleWaveIntensity;
-			float _VorAScale;
-			float _VorASmooth;
-			float _PerBSpeedY;
-			float _PerBSpeedX;
+			int _MiddleFold;
+			int _NoiseFold;
+			int _AFoamFold;
+			int _AShoreFold;
+			int _AlphaSetting;
+			int _DepthSetting;
+			int _ShoreMapB;
+			int _ShoreMapA;
+			float _DepthDistance;
+			float _DepthExponential;
+			float _GradeScale;
+			float _GradeOffset;
 			float _PerBTileY;
 			float _PerBTileX;
 			float _PerAScale;
@@ -1333,18 +1391,24 @@ Shader "BUDU Shaders/BWaterToon"
 			float _PerASpeedX;
 			float _PerATileY;
 			float _PerATileX;
-			float _VorAAngleSpeed;
 			float _VorBSpeedY;
+			float _VorBSpeedX;
 			float _VorBTileY;
 			float _VorBTileX;
+			float _MiddleWaveIntensity;
 			float _VorBSmooth;
-			float _VorBAngleSpeed;
 			float _VorBScale;
 			float _VorASpeedY;
 			float _VorASpeedX;
 			float _VorATileY;
 			float _VorATileX;
-			float _VorBSpeedX;
+			float _VorASmooth;
+			float _VorAAngleSpeed;
+			float _VorAScale;
+			float _InvertShoreTexture;
+			float _ShoreWaves;
+			float _GradeExponential;
+			float _VorBAngleSpeed;
 			float _ClipThreshold;
 			#ifdef ASE_TESSELLATION
 				float _TessPhongStrength;
@@ -1528,7 +1592,7 @@ Shader "BUDU Shaders/BWaterToon"
 				 		float2 g = float2( i, j );
 				 		float2 o = voronoihash868( n + g );
 						o = ( sin( time + o * 6.2831 ) * 0.5 + 0.5 ); float2 r = f - g - o;
-						float d = 0.707 * sqrt(dot( r, r ));
+						float d = 0.5 * dot( r, r );
 				 		if( d<F1 ) {
 				 			F2 = F1;
 				 			F1 = d; mg = g; mr = r; id = o;
@@ -1711,17 +1775,19 @@ Shader "BUDU Shaders/BWaterToon"
 				float3 temp_cast_4 = (temp_output_344_0).xxx;
 				float3 linearToGamma337 = LinearToGamma22( temp_cast_4 );
 				float3 temp_cast_5 = (temp_output_344_0).xxx;
-				#if defined( _DEPTHGRADETYPE2_LINEAR )
+				#if defined( _DEPTHGRADETYPE_LINEAR )
 				float3 staticSwitch338 = gammaToLinear336;
-				#elif defined( _DEPTHGRADETYPE2_NORMAL )
+				#elif defined( _DEPTHGRADETYPE_NORMAL )
 				float3 staticSwitch338 = temp_cast_2;
-				#elif defined( _DEPTHGRADETYPE2_GAMMA )
+				#elif defined( _DEPTHGRADETYPE_GAMMA )
 				float3 staticSwitch338 = linearToGamma337;
 				#else
 				float3 staticSwitch338 = gammaToLinear336;
 				#endif
 				float3 temp_output_156_0 = ( 1.0 - staticSwitch338 );
 				float3 SaturateDepthRef450 = saturate( temp_output_156_0 );
+				float Zero911 = 0.0;
+				float4 temp_cast_7 = (Zero911).xxxx;
 				float mulTime166 = _TimeParameters.x * _VorAAngleSpeed;
 				float time294 = mulTime166;
 				float2 voronoiSmoothId294 = 0;
@@ -1789,9 +1855,11 @@ Shader "BUDU Shaders/BWaterToon"
 				#elif defined( _NOISETYPE_PERAPERB )
 				float staticSwitch415 = ( simplePerlin3D305 * simplePerlin3D292 );
 				#elif defined( _NOISETYPE_VORBPERA )
-				float staticSwitch415 = ( voroi295 * simplePerlin3D292 );
-				#elif defined( _NOISETYPE_VORBPERB )
 				float staticSwitch415 = ( voroi295 * simplePerlin3D305 );
+				#elif defined( _NOISETYPE_VORBPERB )
+				float staticSwitch415 = ( voroi295 * simplePerlin3D292 );
+				#elif defined( _NOISETYPE_OFF )
+				float staticSwitch415 = Zero911;
 				#else
 				float staticSwitch415 = ( voroi294 * voroi295 );
 				#endif
@@ -1799,20 +1867,33 @@ Shader "BUDU Shaders/BWaterToon"
 				float temp_output_325_0 = (NoiseTypeRef447*_NoiseGradeScale + _NoiseGradeOffset);
 				float2 appendResult315 = (float2(_ShoreTileX , _ShoreTileY));
 				float3 saferPower927 = abs( saturate( ( 1.0 - temp_output_156_0 ) ) );
-				float3 temp_cast_9 = (_MiddleWaveEdgeControl).xxx;
-				float3 DepthRef451 = pow( saferPower927 , temp_cast_9 );
+				float3 temp_cast_10 = (_MiddleWaveEdgeControl).xxx;
+				float3 DepthRef451 = pow( saferPower927 , temp_cast_10 );
 				float mulTime329 = _TimeParameters.x * _WaveSpeedX;
 				float mulTime378 = _TimeParameters.x * _WaveSpeedY;
 				float2 appendResult377 = (float2(mulTime329 , mulTime378));
 				float2 texCoord179 = IN.ase_texcoord3.xy * ( temp_output_325_0 * appendResult315 ) + ( DepthRef451 + float3( appendResult377 ,  0.0 ) ).xy;
 				float4 temp_output_383_0 = saturate( tex2D( _ShoreTexture, texCoord179 ) );
+				float4 temp_output_353_0 = ((( _InvertShoreTexture )?( ( 1.0 - temp_output_383_0 ) ):( temp_output_383_0 ))*_ShoreGradeScale + _ShoreGradeOffset);
 				float2 appendResult388 = (float2(_FoamTileX , _FoamTileY));
 				float mulTime386 = _TimeParameters.x * _FoamSpeedX;
 				float mulTime392 = _TimeParameters.x * _FoamSpeedY;
 				float2 appendResult393 = (float2(mulTime386 , mulTime392));
 				float2 texCoord384 = IN.ase_texcoord3.xy * ( float3( (( _AffectFoamDeformation )?( ( temp_output_325_0 + appendResult388 ) ):( ( temp_output_325_0 * appendResult388 ) )) ,  0.0 ) - ( 1.0 - DepthRef451 ) ).xy + appendResult393;
 				float4 temp_output_409_0 = saturate( tex2D( _FoamTexture, texCoord384 ) );
-				float4 DepthTextureRef455 = ( ((( _InvertShoreTexture )?( ( 1.0 - temp_output_383_0 ) ):( temp_output_383_0 ))*_ShoreGradeScale + _ShoreGradeOffset) * ((( _InvertFoamTexture )?( ( 1.0 - temp_output_409_0 ) ):( temp_output_409_0 ))*_FoamGradeScale + _FoamGradeOffset) );
+				float4 temp_output_426_0 = ((( _InvertFoamTexture )?( ( 1.0 - temp_output_409_0 ) ):( temp_output_409_0 ))*_FoamGradeScale + _FoamGradeOffset);
+				#if defined( _FOAMBLENDTYPE_MULTIPLY )
+				float4 staticSwitch957 = ( temp_output_353_0 * temp_output_426_0 );
+				#elif defined( _FOAMBLENDTYPE_SUBTRACT )
+				float4 staticSwitch957 = ( temp_output_353_0 - temp_output_426_0 );
+				#elif defined( _FOAMBLENDTYPE_DIVIDE )
+				float4 staticSwitch957 = ( temp_output_353_0 / temp_output_426_0 );
+				#elif defined( _FOAMBLENDTYPE_CROSS )
+				float4 staticSwitch957 = float4( cross( temp_output_426_0.rgb , temp_output_353_0.rgb ) , 0.0 );
+				#else
+				float4 staticSwitch957 = ( temp_output_353_0 * temp_output_426_0 );
+				#endif
+				float4 DepthTextureRef455 = (( _ShoreWaves )?( staticSwitch957 ):( temp_cast_7 ));
 				float3 gammaToLinear373 = Gamma22ToLinear( DepthTextureRef455.rgb );
 				float3 linearToGamma374 = LinearToGamma22( DepthTextureRef455.rgb );
 				#if defined( _TEXTUREGRADETYPE_LINEAR )
@@ -1824,14 +1905,16 @@ Shader "BUDU Shaders/BWaterToon"
 				#else
 				float4 staticSwitch375 = float4( gammaToLinear373 , 0.0 );
 				#endif
+				float4 temp_output_345_0 = ( float4( SaturateDepthRef450 , 0.0 ) * saturate( staticSwitch375 ) );
+				float4 temp_cast_26 = (Zero911).xxxx;
 				float Gray913 = 0.5;
-				float4 temp_cast_22 = (Gray913).xxxx;
+				float4 temp_cast_27 = (Gray913).xxxx;
 				float mulTime857 = _TimeParameters.x * _DefVorAAngle;
 				float time867 = mulTime857;
 				float2 voronoiSmoothId867 = 0;
 				float2 appendResult834 = (float2(_DefVorATileX , _DefVorATileY));
-				float mulTime830 = _TimeParameters.x * ( _DefVorASpeedX * _DefNoiseTypeAMult );
-				float mulTime831 = _TimeParameters.x * ( _DefVorASpeedY * _DefNoiseTypeAMult );
+				float mulTime830 = _TimeParameters.x * ( _DefVorASpeedX * _DefNoiseTypeAOverallSpeed );
+				float mulTime831 = _TimeParameters.x * ( _DefVorASpeedY * _DefNoiseTypeAOverallSpeed );
 				float2 appendResult836 = (float2(mulTime830 , mulTime831));
 				float2 texCoord844 = IN.ase_texcoord3.xy * appendResult834 + appendResult836;
 				float2 appendResult850 = (float2(_DefTypeAAnchorX , _DefTypeAAnchorY));
@@ -1839,46 +1922,47 @@ Shader "BUDU Shaders/BWaterToon"
 				float cos855 = cos( mulTime849 );
 				float sin855 = sin( mulTime849 );
 				float2 rotator855 = mul( texCoord844 - appendResult850 , float2x2( cos855 , -sin855 , sin855 , cos855 )) + appendResult850;
-				float2 coords867 = rotator855 * _DefNoiseAScale;
+				float2 temp_output_968_0 = ( (( _DeformToggle )?( (NoiseTypeRef447*_DeformScale + -0.5) ):( Zero911 )) + rotator855 );
+				float2 coords867 = temp_output_968_0 * _DefNoiseAScale;
 				float2 id867 = 0;
 				float2 uv867 = 0;
 				float fade867 = 0.5;
 				float voroi867 = 0;
 				float rest867 = 0;
-				for( int it867 = 0; it867 <3; it867++ ){
+				for( int it867 = 0; it867 <2; it867++ ){
 				voroi867 += fade867 * voronoi867( coords867, time867, id867, uv867, 0,voronoiSmoothId867 );
 				rest867 += fade867;
 				coords867 *= 2;
 				fade867 *= 0.5;
 				}//Voronoi867
 				voroi867 /= rest867;
-				float4 temp_cast_23 = (voroi867).xxxx;
-				float simplePerlin3D865 = snoise( float3( rotator855 ,  0.0 )*( _DefNoiseAScale * _DefPerlinScale ) );
+				float4 temp_cast_28 = (voroi867).xxxx;
+				float simplePerlin3D865 = snoise( float3( temp_output_968_0 ,  0.0 )*( _DefNoiseAScale * _DefPerlinAScale ) );
 				simplePerlin3D865 = simplePerlin3D865*0.5 + 0.5;
-				float4 temp_cast_25 = (simplePerlin3D865).xxxx;
-				float4 temp_cast_26 = (Gray913).xxxx;
+				float4 temp_cast_30 = (simplePerlin3D865).xxxx;
+				float4 temp_cast_31 = (Gray913).xxxx;
 				#if defined( _NOISETYPEA_NONE )
-				float4 staticSwitch869 = temp_cast_26;
+				float4 staticSwitch869 = temp_cast_31;
 				#elif defined( _NOISETYPEA_VORONOI )
-				float4 staticSwitch869 = temp_cast_23;
+				float4 staticSwitch869 = temp_cast_28;
 				#elif defined( _NOISETYPEA_PERLIN )
-				float4 staticSwitch869 = temp_cast_25;
+				float4 staticSwitch869 = temp_cast_30;
 				#elif defined( _NOISETYPEA_TEXTURE )
-				float4 staticSwitch869 = tex2D( _DefNoiseAMap, rotator855 );
+				float4 staticSwitch869 = tex2D( _DefNoiseAMap, temp_output_968_0 );
 				#else
-				float4 staticSwitch869 = temp_cast_26;
+				float4 staticSwitch869 = temp_cast_31;
 				#endif
 				float3 linearToGamma874 = LinearToGamma22( saturate( staticSwitch869 ).rgb );
 				float3 saferPower881 = abs( (( _DefNoiseAInvert )?( ( 1.0 - linearToGamma874 ) ):( linearToGamma874 )) );
-				float3 temp_cast_30 = (_DefNoiseTypeAExponential).xxx;
-				float3 temp_output_881_0 = pow( saferPower881 , temp_cast_30 );
-				float4 temp_cast_31 = ((0)).xxxx;
+				float3 temp_cast_35 = (_DefNoiseTypeAExponential).xxx;
+				float3 temp_output_881_0 = pow( saferPower881 , temp_cast_35 );
+				float4 temp_cast_36 = (Gray913).xxxx;
 				float mulTime860 = _TimeParameters.x * _DefVorBAngle;
 				float time868 = mulTime860;
 				float2 voronoiSmoothId868 = 0;
 				float2 appendResult835 = (float2(_DefVorBTileX , _DefVorBTileY));
-				float mulTime832 = _TimeParameters.x * ( _DefVorBSpeedX * _DefNoiseTypeBMult );
-				float mulTime833 = _TimeParameters.x * ( _DefVorBSpeedY * _DefNoiseTypeBMult );
+				float mulTime832 = _TimeParameters.x * ( _DefVorBSpeedX * _DefNoiseTypeBOverallSpeed );
+				float mulTime833 = _TimeParameters.x * ( _DefVorBSpeedY * _DefNoiseTypeBOverallSpeed );
 				float2 appendResult837 = (float2(mulTime832 , mulTime833));
 				float2 texCoord845 = IN.ase_texcoord3.xy * appendResult835 + ( appendResult837 + 0.0 );
 				float2 appendResult852 = (float2(_DefTypeBAnchorX , _DefTypeBAnchorY));
@@ -1886,41 +1970,42 @@ Shader "BUDU Shaders/BWaterToon"
 				float cos856 = cos( mulTime851 );
 				float sin856 = sin( mulTime851 );
 				float2 rotator856 = mul( texCoord845 - appendResult852 , float2x2( cos856 , -sin856 , sin856 , cos856 )) + appendResult852;
-				float2 coords868 = rotator856 * _DefNoiseBScale;
+				float2 temp_output_969_0 = ( (( _DeformToggle )?( (NoiseTypeRef447*_DeformScale + -0.5) ):( Zero911 )) + rotator856 );
+				float2 coords868 = temp_output_969_0 * _DefNoiseBScale;
 				float2 id868 = 0;
 				float2 uv868 = 0;
 				float fade868 = 0.5;
 				float voroi868 = 0;
 				float rest868 = 0;
-				for( int it868 = 0; it868 <3; it868++ ){
+				for( int it868 = 0; it868 <2; it868++ ){
 				voroi868 += fade868 * voronoi868( coords868, time868, id868, uv868, 0,voronoiSmoothId868 );
 				rest868 += fade868;
 				coords868 *= 2;
 				fade868 *= 0.5;
 				}//Voronoi868
 				voroi868 /= rest868;
-				float4 temp_cast_32 = (voroi868).xxxx;
-				float simplePerlin3D866 = snoise( float3( rotator856 ,  0.0 )*( _DefNoiseBScale * _DefPerlinScale ) );
+				float4 temp_cast_37 = (voroi868).xxxx;
+				float simplePerlin3D866 = snoise( float3( temp_output_969_0 ,  0.0 )*( _DefNoiseBScale * _DefPerlinBScale ) );
 				simplePerlin3D866 = simplePerlin3D866*0.5 + 0.5;
-				float4 temp_cast_34 = (simplePerlin3D866).xxxx;
-				float4 temp_cast_35 = ((0)).xxxx;
+				float4 temp_cast_39 = (simplePerlin3D866).xxxx;
+				float4 temp_cast_40 = (Gray913).xxxx;
 				#if defined( _NOISETYPEB_NONE )
-				float4 staticSwitch870 = temp_cast_35;
+				float4 staticSwitch870 = temp_cast_40;
 				#elif defined( _NOISETYPEB_VORONOI )
-				float4 staticSwitch870 = temp_cast_32;
+				float4 staticSwitch870 = temp_cast_37;
 				#elif defined( _NOISETYPEB_PERLIN )
-				float4 staticSwitch870 = temp_cast_34;
+				float4 staticSwitch870 = temp_cast_39;
 				#elif defined( _NOISETYPEB_TEXTURE )
-				float4 staticSwitch870 = tex2D( _DefNoiseBMap, rotator856 );
+				float4 staticSwitch870 = tex2D( _DefNoiseBMap, temp_output_969_0 );
 				#else
-				float4 staticSwitch870 = temp_cast_35;
+				float4 staticSwitch870 = temp_cast_40;
 				#endif
 				float3 linearToGamma873 = LinearToGamma22( saturate( staticSwitch870 ).rgb );
 				float3 saferPower882 = abs( (( _DefNoiseBInvert )?( ( 1.0 - linearToGamma873 ) ):( linearToGamma873 )) );
-				float3 temp_cast_39 = (_DefNoiseTypeBExponential).xxx;
-				float3 temp_output_882_0 = pow( saferPower882 , temp_cast_39 );
+				float3 temp_cast_44 = (_DefNoiseTypeBExponential).xxx;
+				float3 temp_output_882_0 = pow( saferPower882 , temp_cast_44 );
 				float dotResult885 = dot( temp_output_881_0 , temp_output_882_0 );
-				float3 temp_cast_40 = (dotResult885).xxx;
+				float3 temp_cast_45 = (dotResult885).xxx;
 				#if defined( _DEFNOISEMIXTYPE_MULTIPLY )
 				float3 staticSwitch888 = ( temp_output_881_0 * temp_output_882_0 );
 				#elif defined( _DEFNOISEMIXTYPE_ADD )
@@ -1930,7 +2015,7 @@ Shader "BUDU Shaders/BWaterToon"
 				#elif defined( _DEFNOISEMIXTYPE_DIVIDE )
 				float3 staticSwitch888 = ( temp_output_881_0 / temp_output_882_0 );
 				#elif defined( _DEFNOISEMIXTYPE_DOT )
-				float3 staticSwitch888 = temp_cast_40;
+				float3 staticSwitch888 = temp_cast_45;
 				#else
 				float3 staticSwitch888 = ( temp_output_881_0 * temp_output_882_0 );
 				#endif
@@ -1945,8 +2030,9 @@ Shader "BUDU Shaders/BWaterToon"
 				#else
 				float3 staticSwitch891 = gammaToLinear889;
 				#endif
-				float4 CausticRef902 = ( saturate( saturate( (saturate( CalculateContrast(_DefNoiseContrast,float4( (staticSwitch891*_DefNoiseFinalScale + _DefNoiseFinalOffset) , 0.0 )) )*_DefNoiseGradeScale + _DefNoiseGradeOffset) ) ) * _MiddleWaveIntensity );
-				float4 FinalCompRef461 = ( ( ( ( ( float4( SaturateDepthRef450 , 0.0 ) * saturate( staticSwitch375 ) ) + float4( 0,0,0,0 ) ) + ( CausticRef902 * float4( DepthRef451 , 0.0 ) ) ) * 0 ) + 1.0 );
+				float4 CausticRef902 = (( _MiddleWave )?( ( saturate( (saturate( CalculateContrast(_DefNoiseContrast,float4( (staticSwitch891*_DefNoiseFinalScale + _DefNoiseFinalOffset) , 0.0 )) )*_DefNoiseGradeScale + _DefNoiseGradeOffset) ) * _MiddleWaveIntensity ) ):( temp_cast_26 ));
+				float4 temp_output_925_0 = ( CausticRef902 * float4( DepthRef451 , 0.0 ) );
+				float4 FinalCompRef461 = ( temp_output_345_0 + temp_output_925_0 );
 				
 
 				float Alpha = FinalCompRef461.r;
@@ -2025,9 +2111,10 @@ Shader "BUDU Shaders/BWaterToon"
 
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
-			#pragma shader_feature_local _DEPTHGRADETYPE2_LINEAR _DEPTHGRADETYPE2_NORMAL _DEPTHGRADETYPE2_GAMMA
+			#pragma shader_feature_local _DEPTHGRADETYPE_LINEAR _DEPTHGRADETYPE_NORMAL _DEPTHGRADETYPE_GAMMA
 			#pragma shader_feature_local _TEXTUREGRADETYPE_LINEAR _TEXTUREGRADETYPE_NORMAL _TEXTUREGRADETYPE_GAMMA
-			#pragma shader_feature_local _NOISETYPE_VORAVORB _NOISETYPE_VORAPERA _NOISETYPE_VORAPERB _NOISETYPE_PERAPERB _NOISETYPE_VORBPERA _NOISETYPE_VORBPERB
+			#pragma shader_feature_local _FOAMBLENDTYPE_MULTIPLY _FOAMBLENDTYPE_SUBTRACT _FOAMBLENDTYPE_DIVIDE _FOAMBLENDTYPE_CROSS
+			#pragma shader_feature_local _NOISETYPE_VORAVORB _NOISETYPE_VORAPERA _NOISETYPE_VORAPERB _NOISETYPE_PERAPERB _NOISETYPE_VORBPERA _NOISETYPE_VORBPERB _NOISETYPE_OFF
 			#pragma shader_feature_local _DEFNOISEGRADETYPE_LINEAR _DEFNOISEGRADETYPE_NORMAL _DEFNOISEGRADETYPE_GAMMA
 			#pragma shader_feature_local _DEFNOISEMIXTYPE_MULTIPLY _DEFNOISEMIXTYPE_ADD _DEFNOISEMIXTYPE_SUBTRACT _DEFNOISEMIXTYPE_DIVIDE _DEFNOISEMIXTYPE_DOT
 			#pragma shader_feature_local _NOISETYPEA_NONE _NOISETYPEA_VORONOI _NOISETYPEA_PERLIN _NOISETYPEA_TEXTURE
@@ -2054,12 +2141,13 @@ Shader "BUDU Shaders/BWaterToon"
 			CBUFFER_START(UnityPerMaterial)
 			float4 _ShoreColor;
 			int _ShoreSetting;
-			float _DefVorATileY;
-			float _DefVorATileX;
+			float _DeformScale;
+			float _DeformToggle;
 			float _DefVorAAngle;
 			float _DefNoiseAScale;
 			float _DefNoiseAInvert;
 			float _DefNoiseContrast;
+			float _MiddleWave;
 			float _FoamGradeOffset;
 			float _FoamGradeScale;
 			float _FoamSpeedY;
@@ -2074,45 +2162,45 @@ Shader "BUDU Shaders/BWaterToon"
 			float _WaveSpeedX;
 			float _MiddleWaveEdgeControl;
 			float _ShoreTileY;
+			float _ShoreTileX;
+			float _NoiseGradeOffset;
+			float _DefVorATileX;
+			float _DefVorATileY;
 			float _DefVorASpeedX;
-			float _DefNoiseTypeAMult;
-			float _DefVorASpeedY;
-			float _DefTypeAAnchorX;
+			float _DefNoiseTypeAOverallSpeed;
 			float _DefNoiseGradeOffset;
 			float _DefNoiseGradeScale;
 			float _DefNoiseFinalOffset;
 			float _DefNoiseFinalScale;
 			float _DefNoiseTypeBExponential;
+			float _DefPerlinBScale;
 			float _DefTypeBRotSpeed;
 			float _DefTypeBAnchorY;
 			float _DefTypeBAnchorX;
 			float _DefVorBSpeedY;
-			float _ShoreTileX;
-			float _DefNoiseTypeBMult;
+			float _DefNoiseTypeBOverallSpeed;
+			float _DefVorBSpeedX;
 			float _DefVorBTileY;
 			float _DefVorBTileX;
 			float _DefVorBAngle;
 			float _DefNoiseBScale;
 			float _DefNoiseBInvert;
 			float _DefNoiseTypeAExponential;
-			float _DefPerlinScale;
+			float _DefPerlinAScale;
 			float _DefTypeARotSpeed;
 			float _DefTypeAAnchorY;
-			float _DefVorBSpeedX;
-			float _NoiseGradeOffset;
+			float _DefTypeAAnchorX;
+			float _DefVorASpeedY;
 			float _NoiseGradeScale;
 			float _PerBScale;
-			float _GradeExponential;
-			float _GradeOffset;
-			float _GradeScale;
-			float _DepthExponential;
-			float _DepthDistance;
+			float _PerBSpeedY;
+			float _PerBSpeedX;
 			float _DepthSize;
 			float _ShoreCBRotSpeed;
 			float _ShoreCBAnchorY;
 			float _ShoreCBAnchorX;
-			float _InvertShoreTexture;
 			float _ShoreCBSpeedY;
+			float _ShoreCBSpeedX;
 			float _ShoreCBTileY;
 			float _ShoreCBTileX;
 			float _ShoreCRotSpeed;
@@ -2122,12 +2210,18 @@ Shader "BUDU Shaders/BWaterToon"
 			float _ShoreCSpeedX;
 			float _ShoreCTileY;
 			float _ShoreCTileX;
-			float _ShoreCBSpeedX;
-			float _MiddleWaveIntensity;
-			float _VorAScale;
-			float _VorASmooth;
-			float _PerBSpeedY;
-			float _PerBSpeedX;
+			int _MiddleFold;
+			int _NoiseFold;
+			int _AFoamFold;
+			int _AShoreFold;
+			int _AlphaSetting;
+			int _DepthSetting;
+			int _ShoreMapB;
+			int _ShoreMapA;
+			float _DepthDistance;
+			float _DepthExponential;
+			float _GradeScale;
+			float _GradeOffset;
 			float _PerBTileY;
 			float _PerBTileX;
 			float _PerAScale;
@@ -2135,18 +2229,24 @@ Shader "BUDU Shaders/BWaterToon"
 			float _PerASpeedX;
 			float _PerATileY;
 			float _PerATileX;
-			float _VorAAngleSpeed;
 			float _VorBSpeedY;
+			float _VorBSpeedX;
 			float _VorBTileY;
 			float _VorBTileX;
+			float _MiddleWaveIntensity;
 			float _VorBSmooth;
-			float _VorBAngleSpeed;
 			float _VorBScale;
 			float _VorASpeedY;
 			float _VorASpeedX;
 			float _VorATileY;
 			float _VorATileX;
-			float _VorBSpeedX;
+			float _VorASmooth;
+			float _VorAAngleSpeed;
+			float _VorAScale;
+			float _InvertShoreTexture;
+			float _ShoreWaves;
+			float _GradeExponential;
+			float _VorBAngleSpeed;
 			float _ClipThreshold;
 			#ifdef ASE_TESSELLATION
 				float _TessPhongStrength;
@@ -2330,7 +2430,7 @@ Shader "BUDU Shaders/BWaterToon"
 				 		float2 g = float2( i, j );
 				 		float2 o = voronoihash868( n + g );
 						o = ( sin( time + o * 6.2831 ) * 0.5 + 0.5 ); float2 r = f - g - o;
-						float d = 0.707 * sqrt(dot( r, r ));
+						float d = 0.5 * dot( r, r );
 				 		if( d<F1 ) {
 				 			F2 = F1;
 				 			F1 = d; mg = g; mr = r; id = o;
@@ -2499,17 +2599,19 @@ Shader "BUDU Shaders/BWaterToon"
 				float3 temp_cast_4 = (temp_output_344_0).xxx;
 				float3 linearToGamma337 = LinearToGamma22( temp_cast_4 );
 				float3 temp_cast_5 = (temp_output_344_0).xxx;
-				#if defined( _DEPTHGRADETYPE2_LINEAR )
+				#if defined( _DEPTHGRADETYPE_LINEAR )
 				float3 staticSwitch338 = gammaToLinear336;
-				#elif defined( _DEPTHGRADETYPE2_NORMAL )
+				#elif defined( _DEPTHGRADETYPE_NORMAL )
 				float3 staticSwitch338 = temp_cast_2;
-				#elif defined( _DEPTHGRADETYPE2_GAMMA )
+				#elif defined( _DEPTHGRADETYPE_GAMMA )
 				float3 staticSwitch338 = linearToGamma337;
 				#else
 				float3 staticSwitch338 = gammaToLinear336;
 				#endif
 				float3 temp_output_156_0 = ( 1.0 - staticSwitch338 );
 				float3 SaturateDepthRef450 = saturate( temp_output_156_0 );
+				float Zero911 = 0.0;
+				float4 temp_cast_7 = (Zero911).xxxx;
 				float mulTime166 = _TimeParameters.x * _VorAAngleSpeed;
 				float time294 = mulTime166;
 				float2 voronoiSmoothId294 = 0;
@@ -2577,9 +2679,11 @@ Shader "BUDU Shaders/BWaterToon"
 				#elif defined( _NOISETYPE_PERAPERB )
 				float staticSwitch415 = ( simplePerlin3D305 * simplePerlin3D292 );
 				#elif defined( _NOISETYPE_VORBPERA )
-				float staticSwitch415 = ( voroi295 * simplePerlin3D292 );
-				#elif defined( _NOISETYPE_VORBPERB )
 				float staticSwitch415 = ( voroi295 * simplePerlin3D305 );
+				#elif defined( _NOISETYPE_VORBPERB )
+				float staticSwitch415 = ( voroi295 * simplePerlin3D292 );
+				#elif defined( _NOISETYPE_OFF )
+				float staticSwitch415 = Zero911;
 				#else
 				float staticSwitch415 = ( voroi294 * voroi295 );
 				#endif
@@ -2587,20 +2691,33 @@ Shader "BUDU Shaders/BWaterToon"
 				float temp_output_325_0 = (NoiseTypeRef447*_NoiseGradeScale + _NoiseGradeOffset);
 				float2 appendResult315 = (float2(_ShoreTileX , _ShoreTileY));
 				float3 saferPower927 = abs( saturate( ( 1.0 - temp_output_156_0 ) ) );
-				float3 temp_cast_9 = (_MiddleWaveEdgeControl).xxx;
-				float3 DepthRef451 = pow( saferPower927 , temp_cast_9 );
+				float3 temp_cast_10 = (_MiddleWaveEdgeControl).xxx;
+				float3 DepthRef451 = pow( saferPower927 , temp_cast_10 );
 				float mulTime329 = _TimeParameters.x * _WaveSpeedX;
 				float mulTime378 = _TimeParameters.x * _WaveSpeedY;
 				float2 appendResult377 = (float2(mulTime329 , mulTime378));
 				float2 texCoord179 = IN.ase_texcoord1.xy * ( temp_output_325_0 * appendResult315 ) + ( DepthRef451 + float3( appendResult377 ,  0.0 ) ).xy;
 				float4 temp_output_383_0 = saturate( tex2D( _ShoreTexture, texCoord179 ) );
+				float4 temp_output_353_0 = ((( _InvertShoreTexture )?( ( 1.0 - temp_output_383_0 ) ):( temp_output_383_0 ))*_ShoreGradeScale + _ShoreGradeOffset);
 				float2 appendResult388 = (float2(_FoamTileX , _FoamTileY));
 				float mulTime386 = _TimeParameters.x * _FoamSpeedX;
 				float mulTime392 = _TimeParameters.x * _FoamSpeedY;
 				float2 appendResult393 = (float2(mulTime386 , mulTime392));
 				float2 texCoord384 = IN.ase_texcoord1.xy * ( float3( (( _AffectFoamDeformation )?( ( temp_output_325_0 + appendResult388 ) ):( ( temp_output_325_0 * appendResult388 ) )) ,  0.0 ) - ( 1.0 - DepthRef451 ) ).xy + appendResult393;
 				float4 temp_output_409_0 = saturate( tex2D( _FoamTexture, texCoord384 ) );
-				float4 DepthTextureRef455 = ( ((( _InvertShoreTexture )?( ( 1.0 - temp_output_383_0 ) ):( temp_output_383_0 ))*_ShoreGradeScale + _ShoreGradeOffset) * ((( _InvertFoamTexture )?( ( 1.0 - temp_output_409_0 ) ):( temp_output_409_0 ))*_FoamGradeScale + _FoamGradeOffset) );
+				float4 temp_output_426_0 = ((( _InvertFoamTexture )?( ( 1.0 - temp_output_409_0 ) ):( temp_output_409_0 ))*_FoamGradeScale + _FoamGradeOffset);
+				#if defined( _FOAMBLENDTYPE_MULTIPLY )
+				float4 staticSwitch957 = ( temp_output_353_0 * temp_output_426_0 );
+				#elif defined( _FOAMBLENDTYPE_SUBTRACT )
+				float4 staticSwitch957 = ( temp_output_353_0 - temp_output_426_0 );
+				#elif defined( _FOAMBLENDTYPE_DIVIDE )
+				float4 staticSwitch957 = ( temp_output_353_0 / temp_output_426_0 );
+				#elif defined( _FOAMBLENDTYPE_CROSS )
+				float4 staticSwitch957 = float4( cross( temp_output_426_0.rgb , temp_output_353_0.rgb ) , 0.0 );
+				#else
+				float4 staticSwitch957 = ( temp_output_353_0 * temp_output_426_0 );
+				#endif
+				float4 DepthTextureRef455 = (( _ShoreWaves )?( staticSwitch957 ):( temp_cast_7 ));
 				float3 gammaToLinear373 = Gamma22ToLinear( DepthTextureRef455.rgb );
 				float3 linearToGamma374 = LinearToGamma22( DepthTextureRef455.rgb );
 				#if defined( _TEXTUREGRADETYPE_LINEAR )
@@ -2612,14 +2729,16 @@ Shader "BUDU Shaders/BWaterToon"
 				#else
 				float4 staticSwitch375 = float4( gammaToLinear373 , 0.0 );
 				#endif
+				float4 temp_output_345_0 = ( float4( SaturateDepthRef450 , 0.0 ) * saturate( staticSwitch375 ) );
+				float4 temp_cast_26 = (Zero911).xxxx;
 				float Gray913 = 0.5;
-				float4 temp_cast_22 = (Gray913).xxxx;
+				float4 temp_cast_27 = (Gray913).xxxx;
 				float mulTime857 = _TimeParameters.x * _DefVorAAngle;
 				float time867 = mulTime857;
 				float2 voronoiSmoothId867 = 0;
 				float2 appendResult834 = (float2(_DefVorATileX , _DefVorATileY));
-				float mulTime830 = _TimeParameters.x * ( _DefVorASpeedX * _DefNoiseTypeAMult );
-				float mulTime831 = _TimeParameters.x * ( _DefVorASpeedY * _DefNoiseTypeAMult );
+				float mulTime830 = _TimeParameters.x * ( _DefVorASpeedX * _DefNoiseTypeAOverallSpeed );
+				float mulTime831 = _TimeParameters.x * ( _DefVorASpeedY * _DefNoiseTypeAOverallSpeed );
 				float2 appendResult836 = (float2(mulTime830 , mulTime831));
 				float2 texCoord844 = IN.ase_texcoord1.xy * appendResult834 + appendResult836;
 				float2 appendResult850 = (float2(_DefTypeAAnchorX , _DefTypeAAnchorY));
@@ -2627,46 +2746,47 @@ Shader "BUDU Shaders/BWaterToon"
 				float cos855 = cos( mulTime849 );
 				float sin855 = sin( mulTime849 );
 				float2 rotator855 = mul( texCoord844 - appendResult850 , float2x2( cos855 , -sin855 , sin855 , cos855 )) + appendResult850;
-				float2 coords867 = rotator855 * _DefNoiseAScale;
+				float2 temp_output_968_0 = ( (( _DeformToggle )?( (NoiseTypeRef447*_DeformScale + -0.5) ):( Zero911 )) + rotator855 );
+				float2 coords867 = temp_output_968_0 * _DefNoiseAScale;
 				float2 id867 = 0;
 				float2 uv867 = 0;
 				float fade867 = 0.5;
 				float voroi867 = 0;
 				float rest867 = 0;
-				for( int it867 = 0; it867 <3; it867++ ){
+				for( int it867 = 0; it867 <2; it867++ ){
 				voroi867 += fade867 * voronoi867( coords867, time867, id867, uv867, 0,voronoiSmoothId867 );
 				rest867 += fade867;
 				coords867 *= 2;
 				fade867 *= 0.5;
 				}//Voronoi867
 				voroi867 /= rest867;
-				float4 temp_cast_23 = (voroi867).xxxx;
-				float simplePerlin3D865 = snoise( float3( rotator855 ,  0.0 )*( _DefNoiseAScale * _DefPerlinScale ) );
+				float4 temp_cast_28 = (voroi867).xxxx;
+				float simplePerlin3D865 = snoise( float3( temp_output_968_0 ,  0.0 )*( _DefNoiseAScale * _DefPerlinAScale ) );
 				simplePerlin3D865 = simplePerlin3D865*0.5 + 0.5;
-				float4 temp_cast_25 = (simplePerlin3D865).xxxx;
-				float4 temp_cast_26 = (Gray913).xxxx;
+				float4 temp_cast_30 = (simplePerlin3D865).xxxx;
+				float4 temp_cast_31 = (Gray913).xxxx;
 				#if defined( _NOISETYPEA_NONE )
-				float4 staticSwitch869 = temp_cast_26;
+				float4 staticSwitch869 = temp_cast_31;
 				#elif defined( _NOISETYPEA_VORONOI )
-				float4 staticSwitch869 = temp_cast_23;
+				float4 staticSwitch869 = temp_cast_28;
 				#elif defined( _NOISETYPEA_PERLIN )
-				float4 staticSwitch869 = temp_cast_25;
+				float4 staticSwitch869 = temp_cast_30;
 				#elif defined( _NOISETYPEA_TEXTURE )
-				float4 staticSwitch869 = tex2D( _DefNoiseAMap, rotator855 );
+				float4 staticSwitch869 = tex2D( _DefNoiseAMap, temp_output_968_0 );
 				#else
-				float4 staticSwitch869 = temp_cast_26;
+				float4 staticSwitch869 = temp_cast_31;
 				#endif
 				float3 linearToGamma874 = LinearToGamma22( saturate( staticSwitch869 ).rgb );
 				float3 saferPower881 = abs( (( _DefNoiseAInvert )?( ( 1.0 - linearToGamma874 ) ):( linearToGamma874 )) );
-				float3 temp_cast_30 = (_DefNoiseTypeAExponential).xxx;
-				float3 temp_output_881_0 = pow( saferPower881 , temp_cast_30 );
-				float4 temp_cast_31 = ((0)).xxxx;
+				float3 temp_cast_35 = (_DefNoiseTypeAExponential).xxx;
+				float3 temp_output_881_0 = pow( saferPower881 , temp_cast_35 );
+				float4 temp_cast_36 = (Gray913).xxxx;
 				float mulTime860 = _TimeParameters.x * _DefVorBAngle;
 				float time868 = mulTime860;
 				float2 voronoiSmoothId868 = 0;
 				float2 appendResult835 = (float2(_DefVorBTileX , _DefVorBTileY));
-				float mulTime832 = _TimeParameters.x * ( _DefVorBSpeedX * _DefNoiseTypeBMult );
-				float mulTime833 = _TimeParameters.x * ( _DefVorBSpeedY * _DefNoiseTypeBMult );
+				float mulTime832 = _TimeParameters.x * ( _DefVorBSpeedX * _DefNoiseTypeBOverallSpeed );
+				float mulTime833 = _TimeParameters.x * ( _DefVorBSpeedY * _DefNoiseTypeBOverallSpeed );
 				float2 appendResult837 = (float2(mulTime832 , mulTime833));
 				float2 texCoord845 = IN.ase_texcoord1.xy * appendResult835 + ( appendResult837 + 0.0 );
 				float2 appendResult852 = (float2(_DefTypeBAnchorX , _DefTypeBAnchorY));
@@ -2674,41 +2794,42 @@ Shader "BUDU Shaders/BWaterToon"
 				float cos856 = cos( mulTime851 );
 				float sin856 = sin( mulTime851 );
 				float2 rotator856 = mul( texCoord845 - appendResult852 , float2x2( cos856 , -sin856 , sin856 , cos856 )) + appendResult852;
-				float2 coords868 = rotator856 * _DefNoiseBScale;
+				float2 temp_output_969_0 = ( (( _DeformToggle )?( (NoiseTypeRef447*_DeformScale + -0.5) ):( Zero911 )) + rotator856 );
+				float2 coords868 = temp_output_969_0 * _DefNoiseBScale;
 				float2 id868 = 0;
 				float2 uv868 = 0;
 				float fade868 = 0.5;
 				float voroi868 = 0;
 				float rest868 = 0;
-				for( int it868 = 0; it868 <3; it868++ ){
+				for( int it868 = 0; it868 <2; it868++ ){
 				voroi868 += fade868 * voronoi868( coords868, time868, id868, uv868, 0,voronoiSmoothId868 );
 				rest868 += fade868;
 				coords868 *= 2;
 				fade868 *= 0.5;
 				}//Voronoi868
 				voroi868 /= rest868;
-				float4 temp_cast_32 = (voroi868).xxxx;
-				float simplePerlin3D866 = snoise( float3( rotator856 ,  0.0 )*( _DefNoiseBScale * _DefPerlinScale ) );
+				float4 temp_cast_37 = (voroi868).xxxx;
+				float simplePerlin3D866 = snoise( float3( temp_output_969_0 ,  0.0 )*( _DefNoiseBScale * _DefPerlinBScale ) );
 				simplePerlin3D866 = simplePerlin3D866*0.5 + 0.5;
-				float4 temp_cast_34 = (simplePerlin3D866).xxxx;
-				float4 temp_cast_35 = ((0)).xxxx;
+				float4 temp_cast_39 = (simplePerlin3D866).xxxx;
+				float4 temp_cast_40 = (Gray913).xxxx;
 				#if defined( _NOISETYPEB_NONE )
-				float4 staticSwitch870 = temp_cast_35;
+				float4 staticSwitch870 = temp_cast_40;
 				#elif defined( _NOISETYPEB_VORONOI )
-				float4 staticSwitch870 = temp_cast_32;
+				float4 staticSwitch870 = temp_cast_37;
 				#elif defined( _NOISETYPEB_PERLIN )
-				float4 staticSwitch870 = temp_cast_34;
+				float4 staticSwitch870 = temp_cast_39;
 				#elif defined( _NOISETYPEB_TEXTURE )
-				float4 staticSwitch870 = tex2D( _DefNoiseBMap, rotator856 );
+				float4 staticSwitch870 = tex2D( _DefNoiseBMap, temp_output_969_0 );
 				#else
-				float4 staticSwitch870 = temp_cast_35;
+				float4 staticSwitch870 = temp_cast_40;
 				#endif
 				float3 linearToGamma873 = LinearToGamma22( saturate( staticSwitch870 ).rgb );
 				float3 saferPower882 = abs( (( _DefNoiseBInvert )?( ( 1.0 - linearToGamma873 ) ):( linearToGamma873 )) );
-				float3 temp_cast_39 = (_DefNoiseTypeBExponential).xxx;
-				float3 temp_output_882_0 = pow( saferPower882 , temp_cast_39 );
+				float3 temp_cast_44 = (_DefNoiseTypeBExponential).xxx;
+				float3 temp_output_882_0 = pow( saferPower882 , temp_cast_44 );
 				float dotResult885 = dot( temp_output_881_0 , temp_output_882_0 );
-				float3 temp_cast_40 = (dotResult885).xxx;
+				float3 temp_cast_45 = (dotResult885).xxx;
 				#if defined( _DEFNOISEMIXTYPE_MULTIPLY )
 				float3 staticSwitch888 = ( temp_output_881_0 * temp_output_882_0 );
 				#elif defined( _DEFNOISEMIXTYPE_ADD )
@@ -2718,7 +2839,7 @@ Shader "BUDU Shaders/BWaterToon"
 				#elif defined( _DEFNOISEMIXTYPE_DIVIDE )
 				float3 staticSwitch888 = ( temp_output_881_0 / temp_output_882_0 );
 				#elif defined( _DEFNOISEMIXTYPE_DOT )
-				float3 staticSwitch888 = temp_cast_40;
+				float3 staticSwitch888 = temp_cast_45;
 				#else
 				float3 staticSwitch888 = ( temp_output_881_0 * temp_output_882_0 );
 				#endif
@@ -2733,8 +2854,9 @@ Shader "BUDU Shaders/BWaterToon"
 				#else
 				float3 staticSwitch891 = gammaToLinear889;
 				#endif
-				float4 CausticRef902 = ( saturate( saturate( (saturate( CalculateContrast(_DefNoiseContrast,float4( (staticSwitch891*_DefNoiseFinalScale + _DefNoiseFinalOffset) , 0.0 )) )*_DefNoiseGradeScale + _DefNoiseGradeOffset) ) ) * _MiddleWaveIntensity );
-				float4 FinalCompRef461 = ( ( ( ( ( float4( SaturateDepthRef450 , 0.0 ) * saturate( staticSwitch375 ) ) + float4( 0,0,0,0 ) ) + ( CausticRef902 * float4( DepthRef451 , 0.0 ) ) ) * 0 ) + 1.0 );
+				float4 CausticRef902 = (( _MiddleWave )?( ( saturate( (saturate( CalculateContrast(_DefNoiseContrast,float4( (staticSwitch891*_DefNoiseFinalScale + _DefNoiseFinalOffset) , 0.0 )) )*_DefNoiseGradeScale + _DefNoiseGradeOffset) ) * _MiddleWaveIntensity ) ):( temp_cast_26 ));
+				float4 temp_output_925_0 = ( CausticRef902 * float4( DepthRef451 , 0.0 ) );
+				float4 FinalCompRef461 = ( temp_output_345_0 + temp_output_925_0 );
 				
 
 				surfaceDescription.Alpha = FinalCompRef461.r;
@@ -2819,9 +2941,10 @@ Shader "BUDU Shaders/BWaterToon"
 
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
-			#pragma shader_feature_local _DEPTHGRADETYPE2_LINEAR _DEPTHGRADETYPE2_NORMAL _DEPTHGRADETYPE2_GAMMA
+			#pragma shader_feature_local _DEPTHGRADETYPE_LINEAR _DEPTHGRADETYPE_NORMAL _DEPTHGRADETYPE_GAMMA
 			#pragma shader_feature_local _TEXTUREGRADETYPE_LINEAR _TEXTUREGRADETYPE_NORMAL _TEXTUREGRADETYPE_GAMMA
-			#pragma shader_feature_local _NOISETYPE_VORAVORB _NOISETYPE_VORAPERA _NOISETYPE_VORAPERB _NOISETYPE_PERAPERB _NOISETYPE_VORBPERA _NOISETYPE_VORBPERB
+			#pragma shader_feature_local _FOAMBLENDTYPE_MULTIPLY _FOAMBLENDTYPE_SUBTRACT _FOAMBLENDTYPE_DIVIDE _FOAMBLENDTYPE_CROSS
+			#pragma shader_feature_local _NOISETYPE_VORAVORB _NOISETYPE_VORAPERA _NOISETYPE_VORAPERB _NOISETYPE_PERAPERB _NOISETYPE_VORBPERA _NOISETYPE_VORBPERB _NOISETYPE_OFF
 			#pragma shader_feature_local _DEFNOISEGRADETYPE_LINEAR _DEFNOISEGRADETYPE_NORMAL _DEFNOISEGRADETYPE_GAMMA
 			#pragma shader_feature_local _DEFNOISEMIXTYPE_MULTIPLY _DEFNOISEMIXTYPE_ADD _DEFNOISEMIXTYPE_SUBTRACT _DEFNOISEMIXTYPE_DIVIDE _DEFNOISEMIXTYPE_DOT
 			#pragma shader_feature_local _NOISETYPEA_NONE _NOISETYPEA_VORONOI _NOISETYPEA_PERLIN _NOISETYPEA_TEXTURE
@@ -2848,12 +2971,13 @@ Shader "BUDU Shaders/BWaterToon"
 			CBUFFER_START(UnityPerMaterial)
 			float4 _ShoreColor;
 			int _ShoreSetting;
-			float _DefVorATileY;
-			float _DefVorATileX;
+			float _DeformScale;
+			float _DeformToggle;
 			float _DefVorAAngle;
 			float _DefNoiseAScale;
 			float _DefNoiseAInvert;
 			float _DefNoiseContrast;
+			float _MiddleWave;
 			float _FoamGradeOffset;
 			float _FoamGradeScale;
 			float _FoamSpeedY;
@@ -2868,45 +2992,45 @@ Shader "BUDU Shaders/BWaterToon"
 			float _WaveSpeedX;
 			float _MiddleWaveEdgeControl;
 			float _ShoreTileY;
+			float _ShoreTileX;
+			float _NoiseGradeOffset;
+			float _DefVorATileX;
+			float _DefVorATileY;
 			float _DefVorASpeedX;
-			float _DefNoiseTypeAMult;
-			float _DefVorASpeedY;
-			float _DefTypeAAnchorX;
+			float _DefNoiseTypeAOverallSpeed;
 			float _DefNoiseGradeOffset;
 			float _DefNoiseGradeScale;
 			float _DefNoiseFinalOffset;
 			float _DefNoiseFinalScale;
 			float _DefNoiseTypeBExponential;
+			float _DefPerlinBScale;
 			float _DefTypeBRotSpeed;
 			float _DefTypeBAnchorY;
 			float _DefTypeBAnchorX;
 			float _DefVorBSpeedY;
-			float _ShoreTileX;
-			float _DefNoiseTypeBMult;
+			float _DefNoiseTypeBOverallSpeed;
+			float _DefVorBSpeedX;
 			float _DefVorBTileY;
 			float _DefVorBTileX;
 			float _DefVorBAngle;
 			float _DefNoiseBScale;
 			float _DefNoiseBInvert;
 			float _DefNoiseTypeAExponential;
-			float _DefPerlinScale;
+			float _DefPerlinAScale;
 			float _DefTypeARotSpeed;
 			float _DefTypeAAnchorY;
-			float _DefVorBSpeedX;
-			float _NoiseGradeOffset;
+			float _DefTypeAAnchorX;
+			float _DefVorASpeedY;
 			float _NoiseGradeScale;
 			float _PerBScale;
-			float _GradeExponential;
-			float _GradeOffset;
-			float _GradeScale;
-			float _DepthExponential;
-			float _DepthDistance;
+			float _PerBSpeedY;
+			float _PerBSpeedX;
 			float _DepthSize;
 			float _ShoreCBRotSpeed;
 			float _ShoreCBAnchorY;
 			float _ShoreCBAnchorX;
-			float _InvertShoreTexture;
 			float _ShoreCBSpeedY;
+			float _ShoreCBSpeedX;
 			float _ShoreCBTileY;
 			float _ShoreCBTileX;
 			float _ShoreCRotSpeed;
@@ -2916,12 +3040,18 @@ Shader "BUDU Shaders/BWaterToon"
 			float _ShoreCSpeedX;
 			float _ShoreCTileY;
 			float _ShoreCTileX;
-			float _ShoreCBSpeedX;
-			float _MiddleWaveIntensity;
-			float _VorAScale;
-			float _VorASmooth;
-			float _PerBSpeedY;
-			float _PerBSpeedX;
+			int _MiddleFold;
+			int _NoiseFold;
+			int _AFoamFold;
+			int _AShoreFold;
+			int _AlphaSetting;
+			int _DepthSetting;
+			int _ShoreMapB;
+			int _ShoreMapA;
+			float _DepthDistance;
+			float _DepthExponential;
+			float _GradeScale;
+			float _GradeOffset;
 			float _PerBTileY;
 			float _PerBTileX;
 			float _PerAScale;
@@ -2929,18 +3059,24 @@ Shader "BUDU Shaders/BWaterToon"
 			float _PerASpeedX;
 			float _PerATileY;
 			float _PerATileX;
-			float _VorAAngleSpeed;
 			float _VorBSpeedY;
+			float _VorBSpeedX;
 			float _VorBTileY;
 			float _VorBTileX;
+			float _MiddleWaveIntensity;
 			float _VorBSmooth;
-			float _VorBAngleSpeed;
 			float _VorBScale;
 			float _VorASpeedY;
 			float _VorASpeedX;
 			float _VorATileY;
 			float _VorATileX;
-			float _VorBSpeedX;
+			float _VorASmooth;
+			float _VorAAngleSpeed;
+			float _VorAScale;
+			float _InvertShoreTexture;
+			float _ShoreWaves;
+			float _GradeExponential;
+			float _VorBAngleSpeed;
 			float _ClipThreshold;
 			#ifdef ASE_TESSELLATION
 				float _TessPhongStrength;
@@ -3124,7 +3260,7 @@ Shader "BUDU Shaders/BWaterToon"
 				 		float2 g = float2( i, j );
 				 		float2 o = voronoihash868( n + g );
 						o = ( sin( time + o * 6.2831 ) * 0.5 + 0.5 ); float2 r = f - g - o;
-						float d = 0.707 * sqrt(dot( r, r ));
+						float d = 0.5 * dot( r, r );
 				 		if( d<F1 ) {
 				 			F2 = F1;
 				 			F1 = d; mg = g; mr = r; id = o;
@@ -3290,17 +3426,19 @@ Shader "BUDU Shaders/BWaterToon"
 				float3 temp_cast_4 = (temp_output_344_0).xxx;
 				float3 linearToGamma337 = LinearToGamma22( temp_cast_4 );
 				float3 temp_cast_5 = (temp_output_344_0).xxx;
-				#if defined( _DEPTHGRADETYPE2_LINEAR )
+				#if defined( _DEPTHGRADETYPE_LINEAR )
 				float3 staticSwitch338 = gammaToLinear336;
-				#elif defined( _DEPTHGRADETYPE2_NORMAL )
+				#elif defined( _DEPTHGRADETYPE_NORMAL )
 				float3 staticSwitch338 = temp_cast_2;
-				#elif defined( _DEPTHGRADETYPE2_GAMMA )
+				#elif defined( _DEPTHGRADETYPE_GAMMA )
 				float3 staticSwitch338 = linearToGamma337;
 				#else
 				float3 staticSwitch338 = gammaToLinear336;
 				#endif
 				float3 temp_output_156_0 = ( 1.0 - staticSwitch338 );
 				float3 SaturateDepthRef450 = saturate( temp_output_156_0 );
+				float Zero911 = 0.0;
+				float4 temp_cast_7 = (Zero911).xxxx;
 				float mulTime166 = _TimeParameters.x * _VorAAngleSpeed;
 				float time294 = mulTime166;
 				float2 voronoiSmoothId294 = 0;
@@ -3368,9 +3506,11 @@ Shader "BUDU Shaders/BWaterToon"
 				#elif defined( _NOISETYPE_PERAPERB )
 				float staticSwitch415 = ( simplePerlin3D305 * simplePerlin3D292 );
 				#elif defined( _NOISETYPE_VORBPERA )
-				float staticSwitch415 = ( voroi295 * simplePerlin3D292 );
-				#elif defined( _NOISETYPE_VORBPERB )
 				float staticSwitch415 = ( voroi295 * simplePerlin3D305 );
+				#elif defined( _NOISETYPE_VORBPERB )
+				float staticSwitch415 = ( voroi295 * simplePerlin3D292 );
+				#elif defined( _NOISETYPE_OFF )
+				float staticSwitch415 = Zero911;
 				#else
 				float staticSwitch415 = ( voroi294 * voroi295 );
 				#endif
@@ -3378,20 +3518,33 @@ Shader "BUDU Shaders/BWaterToon"
 				float temp_output_325_0 = (NoiseTypeRef447*_NoiseGradeScale + _NoiseGradeOffset);
 				float2 appendResult315 = (float2(_ShoreTileX , _ShoreTileY));
 				float3 saferPower927 = abs( saturate( ( 1.0 - temp_output_156_0 ) ) );
-				float3 temp_cast_9 = (_MiddleWaveEdgeControl).xxx;
-				float3 DepthRef451 = pow( saferPower927 , temp_cast_9 );
+				float3 temp_cast_10 = (_MiddleWaveEdgeControl).xxx;
+				float3 DepthRef451 = pow( saferPower927 , temp_cast_10 );
 				float mulTime329 = _TimeParameters.x * _WaveSpeedX;
 				float mulTime378 = _TimeParameters.x * _WaveSpeedY;
 				float2 appendResult377 = (float2(mulTime329 , mulTime378));
 				float2 texCoord179 = IN.ase_texcoord1.xy * ( temp_output_325_0 * appendResult315 ) + ( DepthRef451 + float3( appendResult377 ,  0.0 ) ).xy;
 				float4 temp_output_383_0 = saturate( tex2D( _ShoreTexture, texCoord179 ) );
+				float4 temp_output_353_0 = ((( _InvertShoreTexture )?( ( 1.0 - temp_output_383_0 ) ):( temp_output_383_0 ))*_ShoreGradeScale + _ShoreGradeOffset);
 				float2 appendResult388 = (float2(_FoamTileX , _FoamTileY));
 				float mulTime386 = _TimeParameters.x * _FoamSpeedX;
 				float mulTime392 = _TimeParameters.x * _FoamSpeedY;
 				float2 appendResult393 = (float2(mulTime386 , mulTime392));
 				float2 texCoord384 = IN.ase_texcoord1.xy * ( float3( (( _AffectFoamDeformation )?( ( temp_output_325_0 + appendResult388 ) ):( ( temp_output_325_0 * appendResult388 ) )) ,  0.0 ) - ( 1.0 - DepthRef451 ) ).xy + appendResult393;
 				float4 temp_output_409_0 = saturate( tex2D( _FoamTexture, texCoord384 ) );
-				float4 DepthTextureRef455 = ( ((( _InvertShoreTexture )?( ( 1.0 - temp_output_383_0 ) ):( temp_output_383_0 ))*_ShoreGradeScale + _ShoreGradeOffset) * ((( _InvertFoamTexture )?( ( 1.0 - temp_output_409_0 ) ):( temp_output_409_0 ))*_FoamGradeScale + _FoamGradeOffset) );
+				float4 temp_output_426_0 = ((( _InvertFoamTexture )?( ( 1.0 - temp_output_409_0 ) ):( temp_output_409_0 ))*_FoamGradeScale + _FoamGradeOffset);
+				#if defined( _FOAMBLENDTYPE_MULTIPLY )
+				float4 staticSwitch957 = ( temp_output_353_0 * temp_output_426_0 );
+				#elif defined( _FOAMBLENDTYPE_SUBTRACT )
+				float4 staticSwitch957 = ( temp_output_353_0 - temp_output_426_0 );
+				#elif defined( _FOAMBLENDTYPE_DIVIDE )
+				float4 staticSwitch957 = ( temp_output_353_0 / temp_output_426_0 );
+				#elif defined( _FOAMBLENDTYPE_CROSS )
+				float4 staticSwitch957 = float4( cross( temp_output_426_0.rgb , temp_output_353_0.rgb ) , 0.0 );
+				#else
+				float4 staticSwitch957 = ( temp_output_353_0 * temp_output_426_0 );
+				#endif
+				float4 DepthTextureRef455 = (( _ShoreWaves )?( staticSwitch957 ):( temp_cast_7 ));
 				float3 gammaToLinear373 = Gamma22ToLinear( DepthTextureRef455.rgb );
 				float3 linearToGamma374 = LinearToGamma22( DepthTextureRef455.rgb );
 				#if defined( _TEXTUREGRADETYPE_LINEAR )
@@ -3403,14 +3556,16 @@ Shader "BUDU Shaders/BWaterToon"
 				#else
 				float4 staticSwitch375 = float4( gammaToLinear373 , 0.0 );
 				#endif
+				float4 temp_output_345_0 = ( float4( SaturateDepthRef450 , 0.0 ) * saturate( staticSwitch375 ) );
+				float4 temp_cast_26 = (Zero911).xxxx;
 				float Gray913 = 0.5;
-				float4 temp_cast_22 = (Gray913).xxxx;
+				float4 temp_cast_27 = (Gray913).xxxx;
 				float mulTime857 = _TimeParameters.x * _DefVorAAngle;
 				float time867 = mulTime857;
 				float2 voronoiSmoothId867 = 0;
 				float2 appendResult834 = (float2(_DefVorATileX , _DefVorATileY));
-				float mulTime830 = _TimeParameters.x * ( _DefVorASpeedX * _DefNoiseTypeAMult );
-				float mulTime831 = _TimeParameters.x * ( _DefVorASpeedY * _DefNoiseTypeAMult );
+				float mulTime830 = _TimeParameters.x * ( _DefVorASpeedX * _DefNoiseTypeAOverallSpeed );
+				float mulTime831 = _TimeParameters.x * ( _DefVorASpeedY * _DefNoiseTypeAOverallSpeed );
 				float2 appendResult836 = (float2(mulTime830 , mulTime831));
 				float2 texCoord844 = IN.ase_texcoord1.xy * appendResult834 + appendResult836;
 				float2 appendResult850 = (float2(_DefTypeAAnchorX , _DefTypeAAnchorY));
@@ -3418,46 +3573,47 @@ Shader "BUDU Shaders/BWaterToon"
 				float cos855 = cos( mulTime849 );
 				float sin855 = sin( mulTime849 );
 				float2 rotator855 = mul( texCoord844 - appendResult850 , float2x2( cos855 , -sin855 , sin855 , cos855 )) + appendResult850;
-				float2 coords867 = rotator855 * _DefNoiseAScale;
+				float2 temp_output_968_0 = ( (( _DeformToggle )?( (NoiseTypeRef447*_DeformScale + -0.5) ):( Zero911 )) + rotator855 );
+				float2 coords867 = temp_output_968_0 * _DefNoiseAScale;
 				float2 id867 = 0;
 				float2 uv867 = 0;
 				float fade867 = 0.5;
 				float voroi867 = 0;
 				float rest867 = 0;
-				for( int it867 = 0; it867 <3; it867++ ){
+				for( int it867 = 0; it867 <2; it867++ ){
 				voroi867 += fade867 * voronoi867( coords867, time867, id867, uv867, 0,voronoiSmoothId867 );
 				rest867 += fade867;
 				coords867 *= 2;
 				fade867 *= 0.5;
 				}//Voronoi867
 				voroi867 /= rest867;
-				float4 temp_cast_23 = (voroi867).xxxx;
-				float simplePerlin3D865 = snoise( float3( rotator855 ,  0.0 )*( _DefNoiseAScale * _DefPerlinScale ) );
+				float4 temp_cast_28 = (voroi867).xxxx;
+				float simplePerlin3D865 = snoise( float3( temp_output_968_0 ,  0.0 )*( _DefNoiseAScale * _DefPerlinAScale ) );
 				simplePerlin3D865 = simplePerlin3D865*0.5 + 0.5;
-				float4 temp_cast_25 = (simplePerlin3D865).xxxx;
-				float4 temp_cast_26 = (Gray913).xxxx;
+				float4 temp_cast_30 = (simplePerlin3D865).xxxx;
+				float4 temp_cast_31 = (Gray913).xxxx;
 				#if defined( _NOISETYPEA_NONE )
-				float4 staticSwitch869 = temp_cast_26;
+				float4 staticSwitch869 = temp_cast_31;
 				#elif defined( _NOISETYPEA_VORONOI )
-				float4 staticSwitch869 = temp_cast_23;
+				float4 staticSwitch869 = temp_cast_28;
 				#elif defined( _NOISETYPEA_PERLIN )
-				float4 staticSwitch869 = temp_cast_25;
+				float4 staticSwitch869 = temp_cast_30;
 				#elif defined( _NOISETYPEA_TEXTURE )
-				float4 staticSwitch869 = tex2D( _DefNoiseAMap, rotator855 );
+				float4 staticSwitch869 = tex2D( _DefNoiseAMap, temp_output_968_0 );
 				#else
-				float4 staticSwitch869 = temp_cast_26;
+				float4 staticSwitch869 = temp_cast_31;
 				#endif
 				float3 linearToGamma874 = LinearToGamma22( saturate( staticSwitch869 ).rgb );
 				float3 saferPower881 = abs( (( _DefNoiseAInvert )?( ( 1.0 - linearToGamma874 ) ):( linearToGamma874 )) );
-				float3 temp_cast_30 = (_DefNoiseTypeAExponential).xxx;
-				float3 temp_output_881_0 = pow( saferPower881 , temp_cast_30 );
-				float4 temp_cast_31 = ((0)).xxxx;
+				float3 temp_cast_35 = (_DefNoiseTypeAExponential).xxx;
+				float3 temp_output_881_0 = pow( saferPower881 , temp_cast_35 );
+				float4 temp_cast_36 = (Gray913).xxxx;
 				float mulTime860 = _TimeParameters.x * _DefVorBAngle;
 				float time868 = mulTime860;
 				float2 voronoiSmoothId868 = 0;
 				float2 appendResult835 = (float2(_DefVorBTileX , _DefVorBTileY));
-				float mulTime832 = _TimeParameters.x * ( _DefVorBSpeedX * _DefNoiseTypeBMult );
-				float mulTime833 = _TimeParameters.x * ( _DefVorBSpeedY * _DefNoiseTypeBMult );
+				float mulTime832 = _TimeParameters.x * ( _DefVorBSpeedX * _DefNoiseTypeBOverallSpeed );
+				float mulTime833 = _TimeParameters.x * ( _DefVorBSpeedY * _DefNoiseTypeBOverallSpeed );
 				float2 appendResult837 = (float2(mulTime832 , mulTime833));
 				float2 texCoord845 = IN.ase_texcoord1.xy * appendResult835 + ( appendResult837 + 0.0 );
 				float2 appendResult852 = (float2(_DefTypeBAnchorX , _DefTypeBAnchorY));
@@ -3465,41 +3621,42 @@ Shader "BUDU Shaders/BWaterToon"
 				float cos856 = cos( mulTime851 );
 				float sin856 = sin( mulTime851 );
 				float2 rotator856 = mul( texCoord845 - appendResult852 , float2x2( cos856 , -sin856 , sin856 , cos856 )) + appendResult852;
-				float2 coords868 = rotator856 * _DefNoiseBScale;
+				float2 temp_output_969_0 = ( (( _DeformToggle )?( (NoiseTypeRef447*_DeformScale + -0.5) ):( Zero911 )) + rotator856 );
+				float2 coords868 = temp_output_969_0 * _DefNoiseBScale;
 				float2 id868 = 0;
 				float2 uv868 = 0;
 				float fade868 = 0.5;
 				float voroi868 = 0;
 				float rest868 = 0;
-				for( int it868 = 0; it868 <3; it868++ ){
+				for( int it868 = 0; it868 <2; it868++ ){
 				voroi868 += fade868 * voronoi868( coords868, time868, id868, uv868, 0,voronoiSmoothId868 );
 				rest868 += fade868;
 				coords868 *= 2;
 				fade868 *= 0.5;
 				}//Voronoi868
 				voroi868 /= rest868;
-				float4 temp_cast_32 = (voroi868).xxxx;
-				float simplePerlin3D866 = snoise( float3( rotator856 ,  0.0 )*( _DefNoiseBScale * _DefPerlinScale ) );
+				float4 temp_cast_37 = (voroi868).xxxx;
+				float simplePerlin3D866 = snoise( float3( temp_output_969_0 ,  0.0 )*( _DefNoiseBScale * _DefPerlinBScale ) );
 				simplePerlin3D866 = simplePerlin3D866*0.5 + 0.5;
-				float4 temp_cast_34 = (simplePerlin3D866).xxxx;
-				float4 temp_cast_35 = ((0)).xxxx;
+				float4 temp_cast_39 = (simplePerlin3D866).xxxx;
+				float4 temp_cast_40 = (Gray913).xxxx;
 				#if defined( _NOISETYPEB_NONE )
-				float4 staticSwitch870 = temp_cast_35;
+				float4 staticSwitch870 = temp_cast_40;
 				#elif defined( _NOISETYPEB_VORONOI )
-				float4 staticSwitch870 = temp_cast_32;
+				float4 staticSwitch870 = temp_cast_37;
 				#elif defined( _NOISETYPEB_PERLIN )
-				float4 staticSwitch870 = temp_cast_34;
+				float4 staticSwitch870 = temp_cast_39;
 				#elif defined( _NOISETYPEB_TEXTURE )
-				float4 staticSwitch870 = tex2D( _DefNoiseBMap, rotator856 );
+				float4 staticSwitch870 = tex2D( _DefNoiseBMap, temp_output_969_0 );
 				#else
-				float4 staticSwitch870 = temp_cast_35;
+				float4 staticSwitch870 = temp_cast_40;
 				#endif
 				float3 linearToGamma873 = LinearToGamma22( saturate( staticSwitch870 ).rgb );
 				float3 saferPower882 = abs( (( _DefNoiseBInvert )?( ( 1.0 - linearToGamma873 ) ):( linearToGamma873 )) );
-				float3 temp_cast_39 = (_DefNoiseTypeBExponential).xxx;
-				float3 temp_output_882_0 = pow( saferPower882 , temp_cast_39 );
+				float3 temp_cast_44 = (_DefNoiseTypeBExponential).xxx;
+				float3 temp_output_882_0 = pow( saferPower882 , temp_cast_44 );
 				float dotResult885 = dot( temp_output_881_0 , temp_output_882_0 );
-				float3 temp_cast_40 = (dotResult885).xxx;
+				float3 temp_cast_45 = (dotResult885).xxx;
 				#if defined( _DEFNOISEMIXTYPE_MULTIPLY )
 				float3 staticSwitch888 = ( temp_output_881_0 * temp_output_882_0 );
 				#elif defined( _DEFNOISEMIXTYPE_ADD )
@@ -3509,7 +3666,7 @@ Shader "BUDU Shaders/BWaterToon"
 				#elif defined( _DEFNOISEMIXTYPE_DIVIDE )
 				float3 staticSwitch888 = ( temp_output_881_0 / temp_output_882_0 );
 				#elif defined( _DEFNOISEMIXTYPE_DOT )
-				float3 staticSwitch888 = temp_cast_40;
+				float3 staticSwitch888 = temp_cast_45;
 				#else
 				float3 staticSwitch888 = ( temp_output_881_0 * temp_output_882_0 );
 				#endif
@@ -3524,8 +3681,9 @@ Shader "BUDU Shaders/BWaterToon"
 				#else
 				float3 staticSwitch891 = gammaToLinear889;
 				#endif
-				float4 CausticRef902 = ( saturate( saturate( (saturate( CalculateContrast(_DefNoiseContrast,float4( (staticSwitch891*_DefNoiseFinalScale + _DefNoiseFinalOffset) , 0.0 )) )*_DefNoiseGradeScale + _DefNoiseGradeOffset) ) ) * _MiddleWaveIntensity );
-				float4 FinalCompRef461 = ( ( ( ( ( float4( SaturateDepthRef450 , 0.0 ) * saturate( staticSwitch375 ) ) + float4( 0,0,0,0 ) ) + ( CausticRef902 * float4( DepthRef451 , 0.0 ) ) ) * 0 ) + 1.0 );
+				float4 CausticRef902 = (( _MiddleWave )?( ( saturate( (saturate( CalculateContrast(_DefNoiseContrast,float4( (staticSwitch891*_DefNoiseFinalScale + _DefNoiseFinalOffset) , 0.0 )) )*_DefNoiseGradeScale + _DefNoiseGradeOffset) ) * _MiddleWaveIntensity ) ):( temp_cast_26 ));
+				float4 temp_output_925_0 = ( CausticRef902 * float4( DepthRef451 , 0.0 ) );
+				float4 FinalCompRef461 = ( temp_output_345_0 + temp_output_925_0 );
 				
 
 				surfaceDescription.Alpha = FinalCompRef461.r;
@@ -3621,9 +3779,10 @@ Shader "BUDU Shaders/BWaterToon"
 
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
-			#pragma shader_feature_local _DEPTHGRADETYPE2_LINEAR _DEPTHGRADETYPE2_NORMAL _DEPTHGRADETYPE2_GAMMA
+			#pragma shader_feature_local _DEPTHGRADETYPE_LINEAR _DEPTHGRADETYPE_NORMAL _DEPTHGRADETYPE_GAMMA
 			#pragma shader_feature_local _TEXTUREGRADETYPE_LINEAR _TEXTUREGRADETYPE_NORMAL _TEXTUREGRADETYPE_GAMMA
-			#pragma shader_feature_local _NOISETYPE_VORAVORB _NOISETYPE_VORAPERA _NOISETYPE_VORAPERB _NOISETYPE_PERAPERB _NOISETYPE_VORBPERA _NOISETYPE_VORBPERB
+			#pragma shader_feature_local _FOAMBLENDTYPE_MULTIPLY _FOAMBLENDTYPE_SUBTRACT _FOAMBLENDTYPE_DIVIDE _FOAMBLENDTYPE_CROSS
+			#pragma shader_feature_local _NOISETYPE_VORAVORB _NOISETYPE_VORAPERA _NOISETYPE_VORAPERB _NOISETYPE_PERAPERB _NOISETYPE_VORBPERA _NOISETYPE_VORBPERB _NOISETYPE_OFF
 			#pragma shader_feature_local _DEFNOISEGRADETYPE_LINEAR _DEFNOISEGRADETYPE_NORMAL _DEFNOISEGRADETYPE_GAMMA
 			#pragma shader_feature_local _DEFNOISEMIXTYPE_MULTIPLY _DEFNOISEMIXTYPE_ADD _DEFNOISEMIXTYPE_SUBTRACT _DEFNOISEMIXTYPE_DIVIDE _DEFNOISEMIXTYPE_DOT
 			#pragma shader_feature_local _NOISETYPEA_NONE _NOISETYPEA_VORONOI _NOISETYPEA_PERLIN _NOISETYPEA_TEXTURE
@@ -3651,12 +3810,13 @@ Shader "BUDU Shaders/BWaterToon"
 			CBUFFER_START(UnityPerMaterial)
 			float4 _ShoreColor;
 			int _ShoreSetting;
-			float _DefVorATileY;
-			float _DefVorATileX;
+			float _DeformScale;
+			float _DeformToggle;
 			float _DefVorAAngle;
 			float _DefNoiseAScale;
 			float _DefNoiseAInvert;
 			float _DefNoiseContrast;
+			float _MiddleWave;
 			float _FoamGradeOffset;
 			float _FoamGradeScale;
 			float _FoamSpeedY;
@@ -3671,45 +3831,45 @@ Shader "BUDU Shaders/BWaterToon"
 			float _WaveSpeedX;
 			float _MiddleWaveEdgeControl;
 			float _ShoreTileY;
+			float _ShoreTileX;
+			float _NoiseGradeOffset;
+			float _DefVorATileX;
+			float _DefVorATileY;
 			float _DefVorASpeedX;
-			float _DefNoiseTypeAMult;
-			float _DefVorASpeedY;
-			float _DefTypeAAnchorX;
+			float _DefNoiseTypeAOverallSpeed;
 			float _DefNoiseGradeOffset;
 			float _DefNoiseGradeScale;
 			float _DefNoiseFinalOffset;
 			float _DefNoiseFinalScale;
 			float _DefNoiseTypeBExponential;
+			float _DefPerlinBScale;
 			float _DefTypeBRotSpeed;
 			float _DefTypeBAnchorY;
 			float _DefTypeBAnchorX;
 			float _DefVorBSpeedY;
-			float _ShoreTileX;
-			float _DefNoiseTypeBMult;
+			float _DefNoiseTypeBOverallSpeed;
+			float _DefVorBSpeedX;
 			float _DefVorBTileY;
 			float _DefVorBTileX;
 			float _DefVorBAngle;
 			float _DefNoiseBScale;
 			float _DefNoiseBInvert;
 			float _DefNoiseTypeAExponential;
-			float _DefPerlinScale;
+			float _DefPerlinAScale;
 			float _DefTypeARotSpeed;
 			float _DefTypeAAnchorY;
-			float _DefVorBSpeedX;
-			float _NoiseGradeOffset;
+			float _DefTypeAAnchorX;
+			float _DefVorASpeedY;
 			float _NoiseGradeScale;
 			float _PerBScale;
-			float _GradeExponential;
-			float _GradeOffset;
-			float _GradeScale;
-			float _DepthExponential;
-			float _DepthDistance;
+			float _PerBSpeedY;
+			float _PerBSpeedX;
 			float _DepthSize;
 			float _ShoreCBRotSpeed;
 			float _ShoreCBAnchorY;
 			float _ShoreCBAnchorX;
-			float _InvertShoreTexture;
 			float _ShoreCBSpeedY;
+			float _ShoreCBSpeedX;
 			float _ShoreCBTileY;
 			float _ShoreCBTileX;
 			float _ShoreCRotSpeed;
@@ -3719,12 +3879,18 @@ Shader "BUDU Shaders/BWaterToon"
 			float _ShoreCSpeedX;
 			float _ShoreCTileY;
 			float _ShoreCTileX;
-			float _ShoreCBSpeedX;
-			float _MiddleWaveIntensity;
-			float _VorAScale;
-			float _VorASmooth;
-			float _PerBSpeedY;
-			float _PerBSpeedX;
+			int _MiddleFold;
+			int _NoiseFold;
+			int _AFoamFold;
+			int _AShoreFold;
+			int _AlphaSetting;
+			int _DepthSetting;
+			int _ShoreMapB;
+			int _ShoreMapA;
+			float _DepthDistance;
+			float _DepthExponential;
+			float _GradeScale;
+			float _GradeOffset;
 			float _PerBTileY;
 			float _PerBTileX;
 			float _PerAScale;
@@ -3732,18 +3898,24 @@ Shader "BUDU Shaders/BWaterToon"
 			float _PerASpeedX;
 			float _PerATileY;
 			float _PerATileX;
-			float _VorAAngleSpeed;
 			float _VorBSpeedY;
+			float _VorBSpeedX;
 			float _VorBTileY;
 			float _VorBTileX;
+			float _MiddleWaveIntensity;
 			float _VorBSmooth;
-			float _VorBAngleSpeed;
 			float _VorBScale;
 			float _VorASpeedY;
 			float _VorASpeedX;
 			float _VorATileY;
 			float _VorATileX;
-			float _VorBSpeedX;
+			float _VorASmooth;
+			float _VorAAngleSpeed;
+			float _VorAScale;
+			float _InvertShoreTexture;
+			float _ShoreWaves;
+			float _GradeExponential;
+			float _VorBAngleSpeed;
 			float _ClipThreshold;
 			#ifdef ASE_TESSELLATION
 				float _TessPhongStrength;
@@ -3927,7 +4099,7 @@ Shader "BUDU Shaders/BWaterToon"
 				 		float2 g = float2( i, j );
 				 		float2 o = voronoihash868( n + g );
 						o = ( sin( time + o * 6.2831 ) * 0.5 + 0.5 ); float2 r = f - g - o;
-						float d = 0.707 * sqrt(dot( r, r ));
+						float d = 0.5 * dot( r, r );
 				 		if( d<F1 ) {
 				 			F2 = F1;
 				 			F1 = d; mg = g; mr = r; id = o;
@@ -4100,17 +4272,19 @@ Shader "BUDU Shaders/BWaterToon"
 				float3 temp_cast_4 = (temp_output_344_0).xxx;
 				float3 linearToGamma337 = LinearToGamma22( temp_cast_4 );
 				float3 temp_cast_5 = (temp_output_344_0).xxx;
-				#if defined( _DEPTHGRADETYPE2_LINEAR )
+				#if defined( _DEPTHGRADETYPE_LINEAR )
 				float3 staticSwitch338 = gammaToLinear336;
-				#elif defined( _DEPTHGRADETYPE2_NORMAL )
+				#elif defined( _DEPTHGRADETYPE_NORMAL )
 				float3 staticSwitch338 = temp_cast_2;
-				#elif defined( _DEPTHGRADETYPE2_GAMMA )
+				#elif defined( _DEPTHGRADETYPE_GAMMA )
 				float3 staticSwitch338 = linearToGamma337;
 				#else
 				float3 staticSwitch338 = gammaToLinear336;
 				#endif
 				float3 temp_output_156_0 = ( 1.0 - staticSwitch338 );
 				float3 SaturateDepthRef450 = saturate( temp_output_156_0 );
+				float Zero911 = 0.0;
+				float4 temp_cast_7 = (Zero911).xxxx;
 				float mulTime166 = _TimeParameters.x * _VorAAngleSpeed;
 				float time294 = mulTime166;
 				float2 voronoiSmoothId294 = 0;
@@ -4178,9 +4352,11 @@ Shader "BUDU Shaders/BWaterToon"
 				#elif defined( _NOISETYPE_PERAPERB )
 				float staticSwitch415 = ( simplePerlin3D305 * simplePerlin3D292 );
 				#elif defined( _NOISETYPE_VORBPERA )
-				float staticSwitch415 = ( voroi295 * simplePerlin3D292 );
-				#elif defined( _NOISETYPE_VORBPERB )
 				float staticSwitch415 = ( voroi295 * simplePerlin3D305 );
+				#elif defined( _NOISETYPE_VORBPERB )
+				float staticSwitch415 = ( voroi295 * simplePerlin3D292 );
+				#elif defined( _NOISETYPE_OFF )
+				float staticSwitch415 = Zero911;
 				#else
 				float staticSwitch415 = ( voroi294 * voroi295 );
 				#endif
@@ -4188,20 +4364,33 @@ Shader "BUDU Shaders/BWaterToon"
 				float temp_output_325_0 = (NoiseTypeRef447*_NoiseGradeScale + _NoiseGradeOffset);
 				float2 appendResult315 = (float2(_ShoreTileX , _ShoreTileY));
 				float3 saferPower927 = abs( saturate( ( 1.0 - temp_output_156_0 ) ) );
-				float3 temp_cast_9 = (_MiddleWaveEdgeControl).xxx;
-				float3 DepthRef451 = pow( saferPower927 , temp_cast_9 );
+				float3 temp_cast_10 = (_MiddleWaveEdgeControl).xxx;
+				float3 DepthRef451 = pow( saferPower927 , temp_cast_10 );
 				float mulTime329 = _TimeParameters.x * _WaveSpeedX;
 				float mulTime378 = _TimeParameters.x * _WaveSpeedY;
 				float2 appendResult377 = (float2(mulTime329 , mulTime378));
 				float2 texCoord179 = IN.ase_texcoord2.xy * ( temp_output_325_0 * appendResult315 ) + ( DepthRef451 + float3( appendResult377 ,  0.0 ) ).xy;
 				float4 temp_output_383_0 = saturate( tex2D( _ShoreTexture, texCoord179 ) );
+				float4 temp_output_353_0 = ((( _InvertShoreTexture )?( ( 1.0 - temp_output_383_0 ) ):( temp_output_383_0 ))*_ShoreGradeScale + _ShoreGradeOffset);
 				float2 appendResult388 = (float2(_FoamTileX , _FoamTileY));
 				float mulTime386 = _TimeParameters.x * _FoamSpeedX;
 				float mulTime392 = _TimeParameters.x * _FoamSpeedY;
 				float2 appendResult393 = (float2(mulTime386 , mulTime392));
 				float2 texCoord384 = IN.ase_texcoord2.xy * ( float3( (( _AffectFoamDeformation )?( ( temp_output_325_0 + appendResult388 ) ):( ( temp_output_325_0 * appendResult388 ) )) ,  0.0 ) - ( 1.0 - DepthRef451 ) ).xy + appendResult393;
 				float4 temp_output_409_0 = saturate( tex2D( _FoamTexture, texCoord384 ) );
-				float4 DepthTextureRef455 = ( ((( _InvertShoreTexture )?( ( 1.0 - temp_output_383_0 ) ):( temp_output_383_0 ))*_ShoreGradeScale + _ShoreGradeOffset) * ((( _InvertFoamTexture )?( ( 1.0 - temp_output_409_0 ) ):( temp_output_409_0 ))*_FoamGradeScale + _FoamGradeOffset) );
+				float4 temp_output_426_0 = ((( _InvertFoamTexture )?( ( 1.0 - temp_output_409_0 ) ):( temp_output_409_0 ))*_FoamGradeScale + _FoamGradeOffset);
+				#if defined( _FOAMBLENDTYPE_MULTIPLY )
+				float4 staticSwitch957 = ( temp_output_353_0 * temp_output_426_0 );
+				#elif defined( _FOAMBLENDTYPE_SUBTRACT )
+				float4 staticSwitch957 = ( temp_output_353_0 - temp_output_426_0 );
+				#elif defined( _FOAMBLENDTYPE_DIVIDE )
+				float4 staticSwitch957 = ( temp_output_353_0 / temp_output_426_0 );
+				#elif defined( _FOAMBLENDTYPE_CROSS )
+				float4 staticSwitch957 = float4( cross( temp_output_426_0.rgb , temp_output_353_0.rgb ) , 0.0 );
+				#else
+				float4 staticSwitch957 = ( temp_output_353_0 * temp_output_426_0 );
+				#endif
+				float4 DepthTextureRef455 = (( _ShoreWaves )?( staticSwitch957 ):( temp_cast_7 ));
 				float3 gammaToLinear373 = Gamma22ToLinear( DepthTextureRef455.rgb );
 				float3 linearToGamma374 = LinearToGamma22( DepthTextureRef455.rgb );
 				#if defined( _TEXTUREGRADETYPE_LINEAR )
@@ -4213,14 +4402,16 @@ Shader "BUDU Shaders/BWaterToon"
 				#else
 				float4 staticSwitch375 = float4( gammaToLinear373 , 0.0 );
 				#endif
+				float4 temp_output_345_0 = ( float4( SaturateDepthRef450 , 0.0 ) * saturate( staticSwitch375 ) );
+				float4 temp_cast_26 = (Zero911).xxxx;
 				float Gray913 = 0.5;
-				float4 temp_cast_22 = (Gray913).xxxx;
+				float4 temp_cast_27 = (Gray913).xxxx;
 				float mulTime857 = _TimeParameters.x * _DefVorAAngle;
 				float time867 = mulTime857;
 				float2 voronoiSmoothId867 = 0;
 				float2 appendResult834 = (float2(_DefVorATileX , _DefVorATileY));
-				float mulTime830 = _TimeParameters.x * ( _DefVorASpeedX * _DefNoiseTypeAMult );
-				float mulTime831 = _TimeParameters.x * ( _DefVorASpeedY * _DefNoiseTypeAMult );
+				float mulTime830 = _TimeParameters.x * ( _DefVorASpeedX * _DefNoiseTypeAOverallSpeed );
+				float mulTime831 = _TimeParameters.x * ( _DefVorASpeedY * _DefNoiseTypeAOverallSpeed );
 				float2 appendResult836 = (float2(mulTime830 , mulTime831));
 				float2 texCoord844 = IN.ase_texcoord2.xy * appendResult834 + appendResult836;
 				float2 appendResult850 = (float2(_DefTypeAAnchorX , _DefTypeAAnchorY));
@@ -4228,46 +4419,47 @@ Shader "BUDU Shaders/BWaterToon"
 				float cos855 = cos( mulTime849 );
 				float sin855 = sin( mulTime849 );
 				float2 rotator855 = mul( texCoord844 - appendResult850 , float2x2( cos855 , -sin855 , sin855 , cos855 )) + appendResult850;
-				float2 coords867 = rotator855 * _DefNoiseAScale;
+				float2 temp_output_968_0 = ( (( _DeformToggle )?( (NoiseTypeRef447*_DeformScale + -0.5) ):( Zero911 )) + rotator855 );
+				float2 coords867 = temp_output_968_0 * _DefNoiseAScale;
 				float2 id867 = 0;
 				float2 uv867 = 0;
 				float fade867 = 0.5;
 				float voroi867 = 0;
 				float rest867 = 0;
-				for( int it867 = 0; it867 <3; it867++ ){
+				for( int it867 = 0; it867 <2; it867++ ){
 				voroi867 += fade867 * voronoi867( coords867, time867, id867, uv867, 0,voronoiSmoothId867 );
 				rest867 += fade867;
 				coords867 *= 2;
 				fade867 *= 0.5;
 				}//Voronoi867
 				voroi867 /= rest867;
-				float4 temp_cast_23 = (voroi867).xxxx;
-				float simplePerlin3D865 = snoise( float3( rotator855 ,  0.0 )*( _DefNoiseAScale * _DefPerlinScale ) );
+				float4 temp_cast_28 = (voroi867).xxxx;
+				float simplePerlin3D865 = snoise( float3( temp_output_968_0 ,  0.0 )*( _DefNoiseAScale * _DefPerlinAScale ) );
 				simplePerlin3D865 = simplePerlin3D865*0.5 + 0.5;
-				float4 temp_cast_25 = (simplePerlin3D865).xxxx;
-				float4 temp_cast_26 = (Gray913).xxxx;
+				float4 temp_cast_30 = (simplePerlin3D865).xxxx;
+				float4 temp_cast_31 = (Gray913).xxxx;
 				#if defined( _NOISETYPEA_NONE )
-				float4 staticSwitch869 = temp_cast_26;
+				float4 staticSwitch869 = temp_cast_31;
 				#elif defined( _NOISETYPEA_VORONOI )
-				float4 staticSwitch869 = temp_cast_23;
+				float4 staticSwitch869 = temp_cast_28;
 				#elif defined( _NOISETYPEA_PERLIN )
-				float4 staticSwitch869 = temp_cast_25;
+				float4 staticSwitch869 = temp_cast_30;
 				#elif defined( _NOISETYPEA_TEXTURE )
-				float4 staticSwitch869 = tex2D( _DefNoiseAMap, rotator855 );
+				float4 staticSwitch869 = tex2D( _DefNoiseAMap, temp_output_968_0 );
 				#else
-				float4 staticSwitch869 = temp_cast_26;
+				float4 staticSwitch869 = temp_cast_31;
 				#endif
 				float3 linearToGamma874 = LinearToGamma22( saturate( staticSwitch869 ).rgb );
 				float3 saferPower881 = abs( (( _DefNoiseAInvert )?( ( 1.0 - linearToGamma874 ) ):( linearToGamma874 )) );
-				float3 temp_cast_30 = (_DefNoiseTypeAExponential).xxx;
-				float3 temp_output_881_0 = pow( saferPower881 , temp_cast_30 );
-				float4 temp_cast_31 = ((0)).xxxx;
+				float3 temp_cast_35 = (_DefNoiseTypeAExponential).xxx;
+				float3 temp_output_881_0 = pow( saferPower881 , temp_cast_35 );
+				float4 temp_cast_36 = (Gray913).xxxx;
 				float mulTime860 = _TimeParameters.x * _DefVorBAngle;
 				float time868 = mulTime860;
 				float2 voronoiSmoothId868 = 0;
 				float2 appendResult835 = (float2(_DefVorBTileX , _DefVorBTileY));
-				float mulTime832 = _TimeParameters.x * ( _DefVorBSpeedX * _DefNoiseTypeBMult );
-				float mulTime833 = _TimeParameters.x * ( _DefVorBSpeedY * _DefNoiseTypeBMult );
+				float mulTime832 = _TimeParameters.x * ( _DefVorBSpeedX * _DefNoiseTypeBOverallSpeed );
+				float mulTime833 = _TimeParameters.x * ( _DefVorBSpeedY * _DefNoiseTypeBOverallSpeed );
 				float2 appendResult837 = (float2(mulTime832 , mulTime833));
 				float2 texCoord845 = IN.ase_texcoord2.xy * appendResult835 + ( appendResult837 + 0.0 );
 				float2 appendResult852 = (float2(_DefTypeBAnchorX , _DefTypeBAnchorY));
@@ -4275,41 +4467,42 @@ Shader "BUDU Shaders/BWaterToon"
 				float cos856 = cos( mulTime851 );
 				float sin856 = sin( mulTime851 );
 				float2 rotator856 = mul( texCoord845 - appendResult852 , float2x2( cos856 , -sin856 , sin856 , cos856 )) + appendResult852;
-				float2 coords868 = rotator856 * _DefNoiseBScale;
+				float2 temp_output_969_0 = ( (( _DeformToggle )?( (NoiseTypeRef447*_DeformScale + -0.5) ):( Zero911 )) + rotator856 );
+				float2 coords868 = temp_output_969_0 * _DefNoiseBScale;
 				float2 id868 = 0;
 				float2 uv868 = 0;
 				float fade868 = 0.5;
 				float voroi868 = 0;
 				float rest868 = 0;
-				for( int it868 = 0; it868 <3; it868++ ){
+				for( int it868 = 0; it868 <2; it868++ ){
 				voroi868 += fade868 * voronoi868( coords868, time868, id868, uv868, 0,voronoiSmoothId868 );
 				rest868 += fade868;
 				coords868 *= 2;
 				fade868 *= 0.5;
 				}//Voronoi868
 				voroi868 /= rest868;
-				float4 temp_cast_32 = (voroi868).xxxx;
-				float simplePerlin3D866 = snoise( float3( rotator856 ,  0.0 )*( _DefNoiseBScale * _DefPerlinScale ) );
+				float4 temp_cast_37 = (voroi868).xxxx;
+				float simplePerlin3D866 = snoise( float3( temp_output_969_0 ,  0.0 )*( _DefNoiseBScale * _DefPerlinBScale ) );
 				simplePerlin3D866 = simplePerlin3D866*0.5 + 0.5;
-				float4 temp_cast_34 = (simplePerlin3D866).xxxx;
-				float4 temp_cast_35 = ((0)).xxxx;
+				float4 temp_cast_39 = (simplePerlin3D866).xxxx;
+				float4 temp_cast_40 = (Gray913).xxxx;
 				#if defined( _NOISETYPEB_NONE )
-				float4 staticSwitch870 = temp_cast_35;
+				float4 staticSwitch870 = temp_cast_40;
 				#elif defined( _NOISETYPEB_VORONOI )
-				float4 staticSwitch870 = temp_cast_32;
+				float4 staticSwitch870 = temp_cast_37;
 				#elif defined( _NOISETYPEB_PERLIN )
-				float4 staticSwitch870 = temp_cast_34;
+				float4 staticSwitch870 = temp_cast_39;
 				#elif defined( _NOISETYPEB_TEXTURE )
-				float4 staticSwitch870 = tex2D( _DefNoiseBMap, rotator856 );
+				float4 staticSwitch870 = tex2D( _DefNoiseBMap, temp_output_969_0 );
 				#else
-				float4 staticSwitch870 = temp_cast_35;
+				float4 staticSwitch870 = temp_cast_40;
 				#endif
 				float3 linearToGamma873 = LinearToGamma22( saturate( staticSwitch870 ).rgb );
 				float3 saferPower882 = abs( (( _DefNoiseBInvert )?( ( 1.0 - linearToGamma873 ) ):( linearToGamma873 )) );
-				float3 temp_cast_39 = (_DefNoiseTypeBExponential).xxx;
-				float3 temp_output_882_0 = pow( saferPower882 , temp_cast_39 );
+				float3 temp_cast_44 = (_DefNoiseTypeBExponential).xxx;
+				float3 temp_output_882_0 = pow( saferPower882 , temp_cast_44 );
 				float dotResult885 = dot( temp_output_881_0 , temp_output_882_0 );
-				float3 temp_cast_40 = (dotResult885).xxx;
+				float3 temp_cast_45 = (dotResult885).xxx;
 				#if defined( _DEFNOISEMIXTYPE_MULTIPLY )
 				float3 staticSwitch888 = ( temp_output_881_0 * temp_output_882_0 );
 				#elif defined( _DEFNOISEMIXTYPE_ADD )
@@ -4319,7 +4512,7 @@ Shader "BUDU Shaders/BWaterToon"
 				#elif defined( _DEFNOISEMIXTYPE_DIVIDE )
 				float3 staticSwitch888 = ( temp_output_881_0 / temp_output_882_0 );
 				#elif defined( _DEFNOISEMIXTYPE_DOT )
-				float3 staticSwitch888 = temp_cast_40;
+				float3 staticSwitch888 = temp_cast_45;
 				#else
 				float3 staticSwitch888 = ( temp_output_881_0 * temp_output_882_0 );
 				#endif
@@ -4334,8 +4527,9 @@ Shader "BUDU Shaders/BWaterToon"
 				#else
 				float3 staticSwitch891 = gammaToLinear889;
 				#endif
-				float4 CausticRef902 = ( saturate( saturate( (saturate( CalculateContrast(_DefNoiseContrast,float4( (staticSwitch891*_DefNoiseFinalScale + _DefNoiseFinalOffset) , 0.0 )) )*_DefNoiseGradeScale + _DefNoiseGradeOffset) ) ) * _MiddleWaveIntensity );
-				float4 FinalCompRef461 = ( ( ( ( ( float4( SaturateDepthRef450 , 0.0 ) * saturate( staticSwitch375 ) ) + float4( 0,0,0,0 ) ) + ( CausticRef902 * float4( DepthRef451 , 0.0 ) ) ) * 0 ) + 1.0 );
+				float4 CausticRef902 = (( _MiddleWave )?( ( saturate( (saturate( CalculateContrast(_DefNoiseContrast,float4( (staticSwitch891*_DefNoiseFinalScale + _DefNoiseFinalOffset) , 0.0 )) )*_DefNoiseGradeScale + _DefNoiseGradeOffset) ) * _MiddleWaveIntensity ) ):( temp_cast_26 ));
+				float4 temp_output_925_0 = ( CausticRef902 * float4( DepthRef451 , 0.0 ) );
+				float4 FinalCompRef461 = ( temp_output_345_0 + temp_output_925_0 );
 				
 
 				surfaceDescription.Alpha = FinalCompRef461.r;
@@ -4380,16 +4574,16 @@ Shader "BUDU Shaders/BWaterToon"
 /*ASEBEGIN
 Version=19404
 Node;AmplifyShaderEditor.CommentaryNode;452;-9440,-912;Inherit;False;2222.72;727.0552;Depth Settings;23;451;927;930;926;924;450;404;156;338;337;336;344;343;340;342;341;339;428;92;91;89;90;93;Depth Settings;1,1,1,1;0;0
-Node;AmplifyShaderEditor.CommentaryNode;815;-9440,2928;Inherit;False;5780.81;1630.3;Noise and Caustic Animation Settings;92;929;928;921;902;907;900;899;898;897;896;895;894;891;892;893;890;889;888;887;886;885;884;883;882;881;878;880;879;877;876;875;873;874;872;871;869;870;867;863;868;861;862;866;865;864;860;859;858;857;856;855;853;854;848;847;846;852;851;850;849;845;844;906;841;842;843;838;840;839;836;835;834;905;837;829;828;827;826;831;830;833;832;823;822;821;825;824;820;816;817;819;818;Noise and Caustic Animation Settings;0.7926196,0.4496855,1,1;0;0
-Node;AmplifyShaderEditor.CommentaryNode;449;-9442,-82;Inherit;False;2180;1650.667;Noise Settings;58;440;439;432;431;401;354;357;398;444;443;442;441;434;433;435;436;402;355;161;159;310;311;358;399;446;445;438;437;422;348;403;162;312;400;421;420;430;429;423;408;326;406;327;166;293;356;305;292;295;294;417;366;419;297;416;418;415;447;Noise Settings;0.7926196,0.4496855,1,1;0;0
+Node;AmplifyShaderEditor.CommentaryNode;815;-9440,2928;Inherit;False;6060.832;1640.845;Noise and Caustic Animation Settings;102;902;929;907;928;900;899;898;897;896;895;894;891;892;893;890;889;888;887;886;885;884;883;882;881;878;880;879;877;876;875;873;874;872;871;869;870;867;863;868;861;862;866;865;864;860;859;858;857;856;855;853;854;848;847;846;852;851;850;849;845;844;906;841;842;843;838;840;839;836;835;834;905;837;829;828;827;826;831;830;833;832;823;822;821;825;824;820;816;817;819;818;948;949;961;964;968;969;970;971;972;973;974;Noise and Caustic Animation Settings;0.7926196,0.4496855,1,1;0;0
+Node;AmplifyShaderEditor.CommentaryNode;449;-9442,-82;Inherit;False;2180;1650.667;Noise Settings;59;440;439;432;431;401;354;357;398;444;443;442;441;434;433;435;436;402;355;161;159;310;311;358;399;446;445;438;437;422;348;403;162;312;400;421;420;430;429;423;408;326;406;327;166;293;356;305;292;295;294;417;366;419;297;416;418;415;447;947;Noise Settings;0.7926196,0.4496855,1,1;0;0
 Node;AmplifyShaderEditor.RangedFloatNode;93;-9360,-864;Inherit;False;Property;_DepthDistance;Depth Distance;19;0;Create;True;0;0;0;True;0;False;1;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;90;-9360,-704;Inherit;False;Property;_GradeScale;Grade Scale;21;0;Create;True;0;0;0;True;0;False;1;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;89;-9392,-784;Inherit;False;Property;_DepthExponential;Depth Exponential;20;0;Create;True;0;0;0;True;0;False;1;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;91;-9360,-624;Inherit;False;Property;_GradeOffset;Grade Offset;22;0;Create;True;0;0;0;True;0;False;0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;92;-9392,-544;Inherit;False;Property;_GradeExponential;Grade Exponential;23;0;Create;True;0;0;0;True;0;False;1;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;818;-9184,4080;Inherit;False;Property;_DefVorBSpeedX;DefVorBSpeedX;100;0;Create;True;0;0;0;False;0;False;0;0;-0.5;0.5;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;819;-9136,4160;Inherit;False;Property;_DefNoiseTypeBMult;DefNoiseTypeBMult;95;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;817;-9184,4240;Inherit;False;Property;_DefVorBSpeedY;DefVorBSpeedY;101;0;Create;True;0;0;0;False;0;False;0;0;-0.5;0.5;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;818;-9280,4144;Inherit;False;Property;_DefVorBSpeedX;DefVorBSpeedX;101;0;Create;True;0;0;0;False;0;False;0;0;-0.5;0.5;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;817;-9280,4304;Inherit;False;Property;_DefVorBSpeedY;DefVorBSpeedY;102;0;Create;True;0;0;0;False;0;False;0;0;-0.5;0.5;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;819;-9280,4224;Inherit;False;Property;_DefNoiseTypeBOverallSpeed;DefNoiseTypeBOverallSpeed;96;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;440;-9232,1088;Inherit;False;Property;_PerASpeedY;Per A Speed Y;47;0;Create;True;0;0;0;False;0;False;0.1;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;439;-9232,1008;Inherit;False;Property;_PerASpeedX;Per A Speed X;46;0;Create;True;0;0;0;False;0;False;0.1;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;354;-9392,160;Inherit;False;Property;_VorASpeedX;Vor A Speed X;33;0;Create;True;0;0;0;False;0;False;0.1;0;0;0;0;1;FLOAT;0
@@ -4402,11 +4596,11 @@ Node;AmplifyShaderEditor.FunctionNode;428;-9152,-784;Inherit;False;BDepthFade;-1
 Node;AmplifyShaderEditor.ProjectionParams;339;-9088,-608;Inherit;False;0;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.ScreenPosInputsNode;341;-9088,-448;Float;False;0;False;0;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.RangedFloatNode;342;-9024,-272;Inherit;False;Property;_DepthSize;Depth Size;24;0;Create;True;0;0;0;False;0;False;1;1;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;816;-9248,3376;Inherit;False;Property;_DefVorASpeedX;DefVorASpeedX;87;0;Create;True;0;0;0;False;0;False;0;0;-0.5;0.5;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;820;-9248,3536;Inherit;False;Property;_DefVorASpeedY;DefVorASpeedY;88;0;Create;True;0;0;0;False;0;False;0;0;-0.5;0.5;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;824;-8912,4080;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;825;-8912,4240;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;821;-9184,3456;Inherit;False;Property;_DefNoiseTypeAMult;DefNoiseTypeAMult;82;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;824;-9008,4144;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;825;-9008,4304;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;816;-9360,3312;Inherit;False;Property;_DefVorASpeedX;DefVorASpeedX;88;0;Create;True;0;0;0;False;0;False;0;0;-0.5;0.5;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;820;-9360,3472;Inherit;False;Property;_DefVorASpeedY;DefVorASpeedY;89;0;Create;True;0;0;0;False;0;False;0;0;-0.5;0.5;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;821;-9360,3392;Inherit;False;Property;_DefNoiseTypeAOverallSpeed;DefNoiseTypeAOverallSpeed;83;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleTimeNode;444;-9040,1088;Inherit;False;1;0;FLOAT;0.1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleTimeNode;443;-9040,1008;Inherit;False;1;0;FLOAT;0.1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleTimeNode;402;-9168,240;Inherit;False;1;0;FLOAT;0.1;False;1;FLOAT;0
@@ -4425,10 +4619,11 @@ Node;AmplifyShaderEditor.SimpleTimeNode;435;-9040,1360;Inherit;False;1;0;FLOAT;0
 Node;AmplifyShaderEditor.SimpleTimeNode;436;-9040,1456;Inherit;False;1;0;FLOAT;0.1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;340;-8848,-736;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleAddOpNode;343;-8832,-448;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;822;-8960,3376;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;823;-8960,3536;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleTimeNode;832;-8768,4080;Inherit;False;1;0;FLOAT;1;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleTimeNode;833;-8768,4240;Inherit;False;1;0;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.CommentaryNode;914;-5248,1696;Inherit;False;545.9636;828.2447;Local Vars;15;911;910;909;908;913;912;934;939;940;941;942;943;944;945;960;Local Vars;1,1,1,1;0;0
+Node;AmplifyShaderEditor.SimpleTimeNode;832;-8864,4144;Inherit;False;1;0;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleTimeNode;833;-8864,4304;Inherit;False;1;0;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;822;-9072,3312;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;823;-9072,3472;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.DynamicAppendNode;446;-8848,1024;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.DynamicAppendNode;445;-8848,864;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.DynamicAppendNode;403;-8976,176;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
@@ -4440,191 +4635,205 @@ Node;AmplifyShaderEditor.RangedFloatNode;348;-8752,64;Inherit;False;Property;_Vo
 Node;AmplifyShaderEditor.DynamicAppendNode;438;-8848,1200;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.DynamicAppendNode;437;-8848,1392;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.SimpleSubtractOpNode;344;-8672,-608;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleTimeNode;830;-8816,3376;Inherit;False;1;0;FLOAT;1;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleTimeNode;831;-8816,3536;Inherit;False;1;0;FLOAT;1;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;826;-8768,3248;Inherit;False;Property;_DefVorATileY;DefVorATileY;86;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;827;-8768,3168;Inherit;False;Property;_DefVorATileX;DefVorATileX;85;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;828;-8768,3904;Inherit;False;Property;_DefVorBTileX;DefVorBTileX;98;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;829;-8768,3984;Inherit;False;Property;_DefVorBTileY;DefVorBTileY;99;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.DynamicAppendNode;837;-8576,4160;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.RangedFloatNode;905;-8576,4064;Inherit;False;Constant;_Float0;Float 0;105;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;910;-5184,1824;Inherit;False;Constant;_Zero1;[Zero];19;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;828;-8864,3968;Inherit;False;Property;_DefVorBTileX;DefVorBTileX;99;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;829;-8864,4048;Inherit;False;Property;_DefVorBTileY;DefVorBTileY;100;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.DynamicAppendNode;837;-8672,4224;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.RangedFloatNode;905;-8672,4128;Inherit;False;Constant;_Float0;Float 0;105;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleTimeNode;830;-8928,3312;Inherit;False;1;0;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleTimeNode;831;-8928,3472;Inherit;False;1;0;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;826;-8880,3184;Inherit;False;Property;_DefVorATileY;DefVorATileY;87;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;827;-8880,3104;Inherit;False;Property;_DefVorATileX;DefVorATileX;86;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;421;-8464,1264;Inherit;False;Property;_PerBScale;PerBScale;48;0;Create;True;0;0;0;False;0;False;4;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;420;-8464,1040;Inherit;False;Property;_PerAScale;PerAScale;43;0;Create;True;0;0;0;False;0;False;4;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.TextureCoordinatesNode;430;-8688,976;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.TextureCoordinatesNode;429;-8688,1200;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SimpleTimeNode;423;-8512,544;Inherit;False;1;0;FLOAT;1;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;408;-8512,464;Inherit;False;Property;_VorBSmooth;Vor B Smooth;42;0;Create;True;0;0;0;False;0;False;1;1;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;326;-8480,384;Inherit;False;Property;_VorBScale;VorBScale;36;0;Create;True;0;0;0;False;0;False;4;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;406;-8512,224;Inherit;False;Property;_VorASmooth;Vor A Smooth;35;0;Create;True;0;0;0;False;0;False;1;1;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;327;-8480,144;Inherit;False;Property;_VorAScale;VorAScale;29;0;Create;True;0;0;0;False;0;False;4;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleTimeNode;166;-8512,64;Inherit;False;1;0;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.TextureCoordinatesNode;293;-8784,144;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.TextureCoordinatesNode;356;-8784,384;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.GammaToLinearNode;336;-8512,-656;Inherit;False;3;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.LinearToGammaNode;337;-8512,-544;Inherit;False;3;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.CommentaryNode;914;-6688,1632;Inherit;False;545.9636;828.2447;Local Vars;7;911;910;909;908;913;912;934;Local Vars;1,1,1,1;0;0
-Node;AmplifyShaderEditor.DynamicAppendNode;834;-8576,3200;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.DynamicAppendNode;835;-8560,3936;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.DynamicAppendNode;836;-8576,3440;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.RangedFloatNode;839;-8528,3552;Inherit;False;Property;_DefTypeAAnchorX;DefTypeAAnchorX;90;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;840;-8528,3632;Inherit;False;Property;_DefTypeAAnchorY;DefTypeAAnchorY;91;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;838;-8528,3712;Inherit;False;Property;_DefTypeARotSpeed;DefTypeARotSpeed;89;0;Create;True;0;0;0;True;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;843;-8528,4272;Inherit;False;Property;_DefTypeBAnchorX;DefTypeBAnchorX;103;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;842;-8528,4352;Inherit;False;Property;_DefTypeBAnchorY;DefTypeBAnchorY;104;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;841;-8528,4432;Inherit;False;Property;_DefTypeBRotSpeed;DefTypeBRotSpeed;102;0;Create;True;0;0;0;True;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleAddOpNode;906;-8432,4112;Inherit;False;2;2;0;FLOAT2;0,0;False;1;FLOAT;0;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.NoiseGeneratorNode;305;-8272,976;Inherit;True;Simplex3D;True;False;2;0;FLOAT3;1,1,0;False;1;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;408;-8512,464;Inherit;False;Property;_VorBSmooth;Vor B Smooth;42;0;Create;True;0;0;0;False;0;False;1;1;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;406;-8512,224;Inherit;False;Property;_VorASmooth;Vor A Smooth;35;0;Create;True;0;0;0;False;0;False;1;1;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;911;-4976,1824;Inherit;False;Zero;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.GetLocalVarNode;964;-9296,3744;Inherit;False;447;NoiseTypeRef;1;0;OBJECT;;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;971;-9360,3824;Inherit;False;Property;_DeformScale;DeformScale;122;0;Create;True;0;0;0;False;0;False;0;0;-1;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.DynamicAppendNode;835;-8656,4000;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.RangedFloatNode;843;-8624,4336;Inherit;False;Property;_DefTypeBAnchorX;DefTypeBAnchorX;104;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;842;-8624,4416;Inherit;False;Property;_DefTypeBAnchorY;DefTypeBAnchorY;105;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;841;-8624,4496;Inherit;False;Property;_DefTypeBRotSpeed;DefTypeBRotSpeed;103;0;Create;True;0;0;0;True;0;False;0;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleAddOpNode;906;-8528,4176;Inherit;False;2;2;0;FLOAT2;0,0;False;1;FLOAT;0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.DynamicAppendNode;834;-8688,3136;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.DynamicAppendNode;836;-8688,3376;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.RangedFloatNode;839;-8640,3488;Inherit;False;Property;_DefTypeAAnchorX;DefTypeAAnchorX;91;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;840;-8640,3568;Inherit;False;Property;_DefTypeAAnchorY;DefTypeAAnchorY;92;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;838;-8640,3648;Inherit;False;Property;_DefTypeARotSpeed;DefTypeARotSpeed;90;0;Create;True;0;0;0;True;0;False;0;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.StaticSwitch;338;-8288,-624;Inherit;False;Property;_DepthGradeType;DepthGradeType;0;0;Create;True;0;0;0;False;0;False;0;0;0;True;;KeywordEnum;3;Linear;Normal;Gamma;Create;True;True;All;9;1;FLOAT3;0,0,0;False;0;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT3;0,0,0;False;4;FLOAT3;0,0,0;False;5;FLOAT3;0,0,0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.NoiseGeneratorNode;292;-8272,1200;Inherit;True;Simplex3D;True;False;2;0;FLOAT3;1,1,0;False;1;FLOAT;1;False;1;FLOAT;0
-Node;AmplifyShaderEditor.VoronoiNode;295;-8320,320;Inherit;True;0;0;1;0;2;False;1;False;True;False;4;0;FLOAT2;0,0;False;1;FLOAT;0;False;2;FLOAT;3;False;3;FLOAT;0;False;3;FLOAT;0;FLOAT2;1;FLOAT2;2
+Node;AmplifyShaderEditor.NoiseGeneratorNode;305;-8272,976;Inherit;True;Simplex3D;True;False;2;0;FLOAT3;1,1,0;False;1;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.VoronoiNode;294;-8320,48;Inherit;True;0;0;1;0;2;False;1;False;True;False;4;0;FLOAT2;0,0;False;1;FLOAT;0;False;2;FLOAT;3;False;3;FLOAT;0;False;3;FLOAT;0;FLOAT2;1;FLOAT2;2
-Node;AmplifyShaderEditor.StaticSwitch;338;-8288,-624;Inherit;False;Property;_DepthGradeType2;DepthGradeType2;0;0;Create;True;0;0;0;False;0;False;0;0;0;True;;KeywordEnum;3;Linear;Normal;Gamma;Create;True;True;All;9;1;FLOAT3;0,0,0;False;0;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT3;0,0,0;False;4;FLOAT3;0,0,0;False;5;FLOAT3;0,0,0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT3;0,0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.TextureCoordinatesNode;844;-8352,3216;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.TextureCoordinatesNode;845;-8352,3984;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SimpleTimeNode;849;-8320,3712;Inherit;False;1;0;FLOAT;1;False;1;FLOAT;0
-Node;AmplifyShaderEditor.DynamicAppendNode;850;-8304,3584;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.SimpleTimeNode;851;-8320,4432;Inherit;False;1;0;FLOAT;1;False;1;FLOAT;0
-Node;AmplifyShaderEditor.DynamicAppendNode;852;-8304,4304;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.RangedFloatNode;846;-8400,3088;Inherit;False;Property;_DefVorAAngle;DefVorAAngle;84;0;Create;True;0;0;0;False;0;False;0.1;0;-8;8;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;847;-8352,3376;Inherit;False;Property;_DefNoiseAScale;DefNoiseAScale;83;0;Create;True;0;0;0;False;0;False;8;1;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;848;-8352,3456;Inherit;False;Property;_DefPerlinScale;DefPerlinScale;78;0;Create;True;0;0;0;False;0;False;1;1;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;854;-8400,3808;Inherit;False;Property;_DefVorBAngle;DefVorBAngle;97;0;Create;True;0;0;0;False;0;False;0.1;0;-8;8;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;853;-8336,3904;Inherit;False;Property;_DefNoiseBScale;DefNoiseBScale;96;0;Create;True;0;0;0;False;0;False;5;1;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;912;-6624,1840;Inherit;False;Constant;_Gray;[Gray];19;0;Create;True;0;0;0;False;0;False;0.5;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;417;-8016,1088;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;366;-8016,864;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;419;-8016,1312;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.VoronoiNode;295;-8320,320;Inherit;True;0;0;1;0;2;False;1;False;True;False;4;0;FLOAT2;0,0;False;1;FLOAT;0;False;2;FLOAT;3;False;3;FLOAT;0;False;3;FLOAT;0;FLOAT2;1;FLOAT2;2
+Node;AmplifyShaderEditor.ScaleAndOffsetNode;970;-9072,3792;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;0.5;False;2;FLOAT;-0.5;False;1;FLOAT;0
+Node;AmplifyShaderEditor.TextureCoordinatesNode;845;-8448,4048;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SimpleTimeNode;851;-8416,4496;Inherit;False;1;0;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.DynamicAppendNode;852;-8400,4368;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.TextureCoordinatesNode;844;-8464,3152;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SimpleTimeNode;849;-8432,3648;Inherit;False;1;0;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.DynamicAppendNode;850;-8416,3520;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.GetLocalVarNode;974;-9040,3712;Inherit;False;911;Zero;1;0;OBJECT;;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;297;-8016,-32;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;416;-8016,192;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;418;-8016,416;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;419;-8016,1072;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;417;-8016,1296;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;366;-8016,848;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.GetLocalVarNode;947;-8000,688;Inherit;False;911;Zero;1;0;OBJECT;;False;1;FLOAT;0
 Node;AmplifyShaderEditor.OneMinusNode;156;-8032,-624;Inherit;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.RotatorNode;855;-8112,3568;Inherit;False;3;0;FLOAT2;0,0;False;1;FLOAT2;0,0;False;2;FLOAT;1;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.RotatorNode;856;-8112,4272;Inherit;False;3;0;FLOAT2;0,0;False;1;FLOAT2;1,1;False;2;FLOAT;1;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.SimpleTimeNode;857;-8112,3088;Inherit;False;1;0;FLOAT;1;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;858;-8080,3376;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;859;-8096,3904;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleTimeNode;860;-8112,3808;Inherit;False;1;0;FLOAT;1;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RegisterLocalVarNode;913;-6416,1840;Inherit;False;Gray;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.StaticSwitch;415;-7760,576;Inherit;False;Property;_NoiseType;Noise Type;26;0;Create;True;0;0;0;False;0;False;0;0;0;True;;KeywordEnum;6;VorAVorB;VorAPerA;VorAPerB;PerAPerB;VorBPerA;VorBPerB;Create;True;True;All;9;1;FLOAT;0;False;0;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT;0;False;7;FLOAT;0;False;8;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;846;-8400,3088;Inherit;False;Property;_DefVorAAngle;DefVorAAngle;85;0;Create;True;0;0;0;False;0;False;0.1;0;-8;8;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;912;-5184,1904;Inherit;False;Constant;_Gray;[Gray];19;0;Create;True;0;0;0;False;0;False;0.5;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;853;-8352,3888;Inherit;False;Property;_DefNoiseBScale;DefNoiseBScale;97;0;Create;True;0;0;0;False;0;False;5;1;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;854;-8416,3808;Inherit;False;Property;_DefVorBAngle;DefVorBAngle;98;0;Create;True;0;0;0;False;0;False;0.1;0;-8;8;0;1;FLOAT;0
+Node;AmplifyShaderEditor.ToggleSwitchNode;973;-8848,3744;Inherit;False;Property;_DeformToggle;DeformToggle;123;0;Create;True;0;0;0;False;0;False;0;True;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;961;-8448,3968;Inherit;False;Property;_DefPerlinBScale;DefPerlinBScale;78;0;Create;True;0;0;0;False;0;False;1;1;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RotatorNode;856;-8224,4128;Inherit;False;3;0;FLOAT2;0,0;False;1;FLOAT2;1,1;False;2;FLOAT;1;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.RangedFloatNode;847;-8464,3312;Inherit;False;Property;_DefNoiseAScale;DefNoiseAScale;84;0;Create;True;0;0;0;False;0;False;8;1;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;848;-8464,3392;Inherit;False;Property;_DefPerlinAScale;DefPerlinAScale;79;0;Create;True;0;0;0;False;0;False;1;1;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RotatorNode;855;-8224,3504;Inherit;False;3;0;FLOAT2;0,0;False;1;FLOAT2;0,0;False;2;FLOAT;1;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.StaticSwitch;415;-7760,576;Inherit;False;Property;_NoiseType;Noise Type;26;0;Create;True;0;0;0;False;0;False;0;0;0;True;;KeywordEnum;7;VorAVorB;VorAPerA;VorAPerB;PerAPerB;VorBPerA;VorBPerB;Off;Create;True;True;All;9;1;FLOAT;0;False;0;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT;0;False;7;FLOAT;0;False;8;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.OneMinusNode;924;-7872,-544;Inherit;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.GetLocalVarNode;864;-7824,4464;Inherit;False;-1;;1;0;OBJECT;;False;1;FLOAT;0
-Node;AmplifyShaderEditor.NoiseGeneratorNode;865;-7872,3344;Inherit;True;Simplex3D;True;False;2;0;FLOAT3;0,0,0;False;1;FLOAT;7;False;1;FLOAT;0
-Node;AmplifyShaderEditor.NoiseGeneratorNode;866;-7872,4048;Inherit;True;Simplex3D;True;False;2;0;FLOAT3;0,0,0;False;1;FLOAT;12;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SamplerNode;862;-7920,4272;Inherit;True;Property;_DefNoiseBMap;DefNoiseBMap;92;0;Create;True;0;0;0;False;1;Space(10);False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SamplerNode;861;-7920,3568;Inherit;True;Property;_DefNoiseAMap;DefNoiseAMap;79;0;Create;True;0;0;0;False;1;Space(10);False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.VoronoiNode;868;-7824,3776;Inherit;True;0;1;1;3;3;False;1;False;False;False;4;0;FLOAT2;0,0;False;1;FLOAT;0;False;2;FLOAT;5;False;3;FLOAT;0;False;3;FLOAT;0;FLOAT2;1;FLOAT2;2
-Node;AmplifyShaderEditor.GetLocalVarNode;863;-7824,2992;Inherit;False;913;Gray;1;0;OBJECT;;False;1;FLOAT;0
-Node;AmplifyShaderEditor.VoronoiNode;867;-7824,3072;Inherit;True;0;0;1;3;3;False;1;False;False;False;4;0;FLOAT2;0,0;False;1;FLOAT;0;False;2;FLOAT;5;False;3;FLOAT;0;False;3;FLOAT;0;FLOAT2;1;FLOAT2;2
-Node;AmplifyShaderEditor.CommentaryNode;457;-9440,1632;Inherit;False;2708.8;1196.2;Depth Texture Settings;47;388;638;637;636;634;455;381;353;426;362;361;372;425;424;410;371;411;383;409;64;380;179;384;453;333;346;393;392;386;315;377;325;313;314;378;329;387;391;390;389;322;321;448;376;330;917;918;Depth Texture Settings;0.7926196,0.4496855,1,1;0;0
+Node;AmplifyShaderEditor.SimpleTimeNode;857;-8112,3088;Inherit;False;1;0;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;859;-8096,3904;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;913;-4976,1904;Inherit;False;Gray;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleTimeNode;860;-8128,3808;Inherit;False;1;0;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;858;-8080,3312;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleAddOpNode;969;-8048,4128;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT2;0,0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.SimpleAddOpNode;968;-8048,3504;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT2;0,0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.RegisterLocalVarNode;447;-7504,576;Inherit;False;NoiseTypeRef;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SaturateNode;926;-7728,-544;Inherit;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.RangedFloatNode;930;-7872,-464;Inherit;False;Property;_MiddleWaveEdgeControl;Middle Wave Edge Control;107;0;Create;True;0;0;0;False;0;False;1;1;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.StaticSwitch;870;-7504,3984;Inherit;False;Property;_NoiseTypeB;NoiseTypeB;70;0;Create;True;0;0;0;True;0;False;0;0;0;True;;KeywordEnum;4;None;Voronoi;Perlin;Texture;Create;True;True;All;9;1;COLOR;0,0,0,0;False;0;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;4;COLOR;0,0,0,0;False;5;COLOR;0,0,0,0;False;6;COLOR;0,0,0,0;False;7;COLOR;0,0,0,0;False;8;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.StaticSwitch;869;-7504,3296;Inherit;False;Property;_NoiseTypeA;NoiseTypeA;69;0;Create;True;0;0;0;True;3;Space(50);Header(Noise);Space(5);False;0;0;0;True;;KeywordEnum;4;None;Voronoi;Perlin;Texture;Create;True;True;All;9;1;COLOR;0,0,0,0;False;0;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;4;COLOR;0,0,0,0;False;5;COLOR;0,0,0,0;False;6;COLOR;0,0,0,0;False;7;COLOR;0,0,0,0;False;8;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.GetLocalVarNode;448;-9280,2112;Inherit;False;447;NoiseTypeRef;1;0;OBJECT;;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;321;-9280,2192;Inherit;False;Property;_NoiseGradeScale;Noise Grade Scale;27;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;322;-9280,2272;Inherit;False;Property;_NoiseGradeOffset;Noise Grade Offset;28;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;930;-7872,-464;Inherit;False;Property;_MiddleWaveEdgeControl;Middle Wave Edge Control;108;0;Create;True;0;0;0;False;0;False;1;1;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.CommentaryNode;457;-9440,1632;Inherit;False;3611.687;1203.334;Alpha Texture Settings;53;455;957;956;951;950;381;353;426;362;361;372;425;424;410;371;411;383;409;380;64;179;384;636;333;346;393;918;453;637;392;386;315;377;917;634;638;313;314;378;329;387;391;325;388;376;330;448;322;321;390;389;958;959;Alpha Texture Settings;0.7926196,0.4496855,1,1;0;0
+Node;AmplifyShaderEditor.NoiseGeneratorNode;866;-7872,4048;Inherit;True;Simplex3D;True;False;2;0;FLOAT3;0,0,0;False;1;FLOAT;12;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SamplerNode;862;-7920,4272;Inherit;True;Property;_DefNoiseBMap;DefNoiseBMap;93;0;Create;True;0;0;0;False;1;Space(10);False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.GetLocalVarNode;863;-7824,2992;Inherit;False;913;Gray;1;0;OBJECT;;False;1;FLOAT;0
+Node;AmplifyShaderEditor.GetLocalVarNode;864;-7824,4464;Inherit;False;913;Gray;1;0;OBJECT;;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SamplerNode;861;-7920,3568;Inherit;True;Property;_DefNoiseAMap;DefNoiseAMap;80;0;Create;True;0;0;0;False;1;Space(10);False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.NoiseGeneratorNode;865;-7872,3344;Inherit;True;Simplex3D;True;False;2;0;FLOAT3;0,0,0;False;1;FLOAT;7;False;1;FLOAT;0
+Node;AmplifyShaderEditor.VoronoiNode;868;-7824,3776;Inherit;True;0;0;1;3;2;False;1;False;False;False;4;0;FLOAT2;0,0;False;1;FLOAT;0;False;2;FLOAT;5;False;3;FLOAT;0;False;3;FLOAT;0;FLOAT2;1;FLOAT2;2
+Node;AmplifyShaderEditor.VoronoiNode;867;-7824,3072;Inherit;True;0;0;1;3;2;False;1;False;False;False;4;0;FLOAT2;0,0;False;1;FLOAT;0;False;2;FLOAT;5;False;3;FLOAT;0;False;3;FLOAT;0;FLOAT2;1;FLOAT2;2
+Node;AmplifyShaderEditor.PowerNode;927;-7584,-544;Inherit;False;True;2;0;FLOAT3;0,0,0;False;1;FLOAT;10;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.RangedFloatNode;389;-9216,2448;Inherit;False;Property;_FoamTileY;FoamTileY;14;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;390;-9216,2368;Inherit;False;Property;_FoamTileX;FoamTileX;13;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.PowerNode;927;-7584,-544;Inherit;False;True;2;0;FLOAT3;0,0,0;False;1;FLOAT;10;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.RangedFloatNode;322;-9408,2272;Inherit;False;Property;_NoiseGradeOffset;Noise Grade Offset;28;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.StaticSwitch;870;-7504,3984;Inherit;False;Property;_NoiseTypeB;NoiseTypeB;70;0;Create;True;0;0;0;True;0;False;0;0;0;True;;KeywordEnum;4;None;Voronoi;Perlin;Texture;Create;True;True;All;9;1;COLOR;0,0,0,0;False;0;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;4;COLOR;0,0,0,0;False;5;COLOR;0,0,0,0;False;6;COLOR;0,0,0,0;False;7;COLOR;0,0,0,0;False;8;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.StaticSwitch;869;-7504,3296;Inherit;False;Property;_NoiseTypeA;NoiseTypeA;69;0;Create;True;0;0;0;True;0;False;0;0;0;True;;KeywordEnum;4;None;Voronoi;Perlin;Texture;Create;True;True;All;9;1;COLOR;0,0,0,0;False;0;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;4;COLOR;0,0,0,0;False;5;COLOR;0,0,0,0;False;6;COLOR;0,0,0,0;False;7;COLOR;0,0,0,0;False;8;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.GetLocalVarNode;448;-9408,2112;Inherit;False;447;NoiseTypeRef;1;0;OBJECT;;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;321;-9408,2192;Inherit;False;Property;_NoiseGradeScale;Noise Grade Scale;27;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;451;-7440,-544;Inherit;False;DepthRef;-1;True;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.DynamicAppendNode;388;-8992,2416;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.ScaleAndOffsetNode;325;-9184,2160;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;1;False;2;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SaturateNode;871;-7296,3312;Inherit;False;1;0;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.SaturateNode;872;-7280,4000;Inherit;False;1;0;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.RangedFloatNode;330;-9424,1760;Inherit;False;Property;_WaveSpeedX;WaveSpeedX;7;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;376;-9424,1840;Inherit;False;Property;_WaveSpeedY;WaveSpeedY;8;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.ScaleAndOffsetNode;325;-9056,2160;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;1;False;2;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.DynamicAppendNode;388;-8992,2416;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.RegisterLocalVarNode;451;-7440,-544;Inherit;False;DepthRef;-1;True;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.LinearToGammaNode;874;-7120,3296;Inherit;False;3;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.LinearToGammaNode;873;-7120,3968;Inherit;False;3;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.RangedFloatNode;391;-9248,2624;Inherit;False;Property;_FoamSpeedY;FoamSpeedY;18;0;Create;True;0;0;0;False;0;False;0.1;0.1;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;387;-9248,2544;Inherit;False;Property;_FoamSpeedX;FoamSpeedX;17;0;Create;True;0;0;0;False;0;False;0.1;0.1;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.GetLocalVarNode;638;-9024,2720;Inherit;False;451;DepthRef;1;0;OBJECT;;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.SimpleAddOpNode;634;-8800,2416;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT2;0,0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;917;-8832,2272;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT2;0,0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.LinearToGammaNode;874;-7136,3312;Inherit;False;3;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.LinearToGammaNode;873;-7120,4000;Inherit;False;3;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.SimpleTimeNode;329;-9248,1760;Inherit;False;1;0;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleTimeNode;378;-9248,1840;Inherit;False;1;0;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;314;-9248,2016;Inherit;False;Property;_ShoreTileY;ShoreTileY;6;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;313;-9248,1936;Inherit;False;Property;_ShoreTileX;ShoreTileX;5;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.GetLocalVarNode;638;-9024,2720;Inherit;False;451;DepthRef;1;0;OBJECT;;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.SimpleAddOpNode;634;-8800,2416;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT2;0,0;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;917;-8832,2272;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT2;0,0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.SimpleTimeNode;386;-9024,2544;Inherit;False;1;0;FLOAT;0.02;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleTimeNode;392;-9024,2624;Inherit;False;1;0;FLOAT;0.02;False;1;FLOAT;0
+Node;AmplifyShaderEditor.OneMinusNode;637;-8832,2720;Inherit;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.ToggleSwitchNode;918;-8672,2336;Inherit;False;Property;_AffectFoamDeformation;AffectFoamDeformation;106;0;Create;True;0;0;0;False;0;False;0;True;2;0;FLOAT2;0,0;False;1;FLOAT2;0,0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.OneMinusNode;875;-6880,4080;Inherit;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.OneMinusNode;876;-6880,3376;Inherit;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.DynamicAppendNode;377;-8992,1792;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.DynamicAppendNode;315;-8992,1952;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.SimpleTimeNode;386;-9024,2544;Inherit;False;1;0;FLOAT;0.02;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleTimeNode;392;-9024,2624;Inherit;False;1;0;FLOAT;0.02;False;1;FLOAT;0
 Node;AmplifyShaderEditor.GetLocalVarNode;453;-9024,1680;Inherit;False;451;DepthRef;1;0;OBJECT;;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.OneMinusNode;637;-8832,2720;Inherit;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.ToggleSwitchNode;918;-8656,2272;Inherit;False;Property;_AffectFoamDeformation;AffectFoamDeformation;105;0;Create;True;0;0;0;False;0;False;0;True;2;0;FLOAT2;0,0;False;1;FLOAT2;0,0;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.ToggleSwitchNode;877;-6688,3296;Inherit;False;Property;_DefNoiseAInvert;DefNoiseAInvert;80;0;Create;True;0;0;0;False;0;False;0;True;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.ToggleSwitchNode;879;-6688,4000;Inherit;False;Property;_DefNoiseBInvert;DefNoiseBInvert;93;0;Create;True;0;0;0;False;0;False;0;True;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.RangedFloatNode;880;-6720,4112;Inherit;False;Property;_DefNoiseTypeBExponential;DefNoiseTypeBExponential;94;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;878;-6720,3408;Inherit;False;Property;_DefNoiseTypeAExponential;DefNoiseTypeAExponential;81;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.DynamicAppendNode;393;-8832,2560;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.SimpleSubtractOpNode;636;-8384,2432;Inherit;False;2;0;FLOAT2;0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.ToggleSwitchNode;879;-6688,4000;Inherit;False;Property;_DefNoiseBInvert;DefNoiseBInvert;94;0;Create;True;0;0;0;False;0;False;0;True;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.RangedFloatNode;880;-6720,4112;Inherit;False;Property;_DefNoiseTypeBExponential;DefNoiseTypeBExponential;95;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.ToggleSwitchNode;877;-6688,3312;Inherit;False;Property;_DefNoiseAInvert;DefNoiseAInvert;81;0;Create;True;0;0;0;False;0;False;0;True;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.RangedFloatNode;878;-6720,3424;Inherit;False;Property;_DefNoiseTypeAExponential;DefNoiseTypeAExponential;82;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;346;-8832,1968;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT2;0,0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.SimpleAddOpNode;333;-8800,1760;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;FLOAT2;0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.SimpleSubtractOpNode;636;-8656,2416;Inherit;False;2;0;FLOAT2;0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.PowerNode;881;-6448,3296;Inherit;True;True;2;0;FLOAT3;0,0,0;False;1;FLOAT;1;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.TextureCoordinatesNode;384;-8224,2416;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.PowerNode;882;-6448,4000;Inherit;True;True;2;0;FLOAT3;0,0,0;False;1;FLOAT;1;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.TextureCoordinatesNode;384;-8496,2416;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.TextureCoordinatesNode;179;-8496,1904;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.PowerNode;881;-6448,3312;Inherit;True;True;2;0;FLOAT3;0,0,0;False;1;FLOAT;1;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.TextureCoordinatesNode;179;-8224,1904;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SimpleSubtractOpNode;883;-6176,3664;Inherit;True;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.SimpleDivideOpNode;884;-6176,3904;Inherit;True;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.DotProductOpNode;885;-6176,4128;Inherit;True;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleAddOpNode;886;-6176,3440;Inherit;True;2;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;887;-6176,3216;Inherit;True;2;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.SamplerNode;380;-8272,2400;Inherit;True;Property;_FoamTexture;Foam Texture;11;0;Create;True;0;0;0;True;0;False;-1;136144d880a69254ea8b2d639e2fe9c5;136144d880a69254ea8b2d639e2fe9c5;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SamplerNode;64;-8000,1904;Inherit;True;Property;_ShoreTexture;Shore Texture;3;0;Create;True;0;0;0;True;0;False;-1;c662692ad44de0b45ba4f81297e97381;c662692ad44de0b45ba4f81297e97381;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SamplerNode;380;-8000,2400;Inherit;True;Property;_FoamTexture;Foam Texture;11;0;Create;True;0;0;0;True;0;False;-1;136144d880a69254ea8b2d639e2fe9c5;136144d880a69254ea8b2d639e2fe9c5;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.StaticSwitch;888;-5920,3712;Inherit;False;Property;_DefNoiseMixType;DefNoiseMixType;71;0;Create;True;0;0;0;False;0;False;0;0;0;True;;KeywordEnum;5;Multiply;Add;Subtract;Divide;Dot;Create;True;True;All;9;1;FLOAT3;0,0,0;False;0;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT3;0,0,0;False;4;FLOAT3;0,0,0;False;5;FLOAT3;0,0,0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT3;0,0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.SamplerNode;64;-8272,1904;Inherit;True;Property;_ShoreTexture;Shore Texture;3;0;Create;True;0;0;0;True;0;False;-1;c662692ad44de0b45ba4f81297e97381;c662692ad44de0b45ba4f81297e97381;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SaturateNode;409;-7984,2400;Inherit;False;1;0;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.SaturateNode;383;-7984,1904;Inherit;False;1;0;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.SaturateNode;409;-7712,2400;Inherit;False;1;0;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.SaturateNode;383;-7712,1904;Inherit;False;1;0;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.GammaToLinearNode;889;-5664,3696;Inherit;False;3;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.LinearToGammaNode;890;-5664,3808;Inherit;False;3;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.OneMinusNode;411;-7824,2480;Inherit;False;1;0;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.OneMinusNode;371;-7824,1984;Inherit;False;1;0;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.OneMinusNode;411;-7552,2480;Inherit;False;1;0;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.OneMinusNode;371;-7552,1984;Inherit;False;1;0;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.RangedFloatNode;893;-5472,3936;Inherit;False;Property;_DefNoiseFinalScale;DefNoiseFinalScale;76;0;Create;True;0;0;0;False;0;False;1;0;0;50;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;892;-5472,4016;Inherit;False;Property;_DefNoiseFinalOffset;DefNoiseFinalOffset;77;0;Create;True;0;0;0;False;0;False;0;0;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.StaticSwitch;891;-5440,3712;Inherit;True;Property;_DefNoiseGradeType;DefNoiseGradeType;72;0;Create;True;0;0;0;False;0;False;0;0;0;True;;KeywordEnum;3;Linear;Normal;Gamma;Create;True;True;All;9;1;FLOAT3;0,0,0;False;0;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT3;0,0,0;False;4;FLOAT3;0,0,0;False;5;FLOAT3;0,0,0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT3;0,0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.ToggleSwitchNode;410;-7680,2400;Inherit;True;Property;_InvertFoamTexture;Invert Foam Texture;12;0;Create;True;0;0;0;False;0;False;1;True;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.RangedFloatNode;424;-7648,2624;Inherit;False;Property;_FoamGradeScale;Foam Grade Scale;15;0;Create;True;0;0;0;False;0;False;1;1;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;425;-7648,2704;Inherit;False;Property;_FoamGradeOffset;Foam Grade Offset;16;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.ToggleSwitchNode;372;-7680,1904;Inherit;True;Property;_InvertShoreTexture;Invert Shore Texture;4;0;Create;True;0;0;0;False;0;False;0;True;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.RangedFloatNode;361;-7648,2128;Inherit;False;Property;_ShoreGradeScale;Shore Grade Scale;9;0;Create;True;0;0;0;False;0;False;1;1;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;362;-7648,2208;Inherit;False;Property;_ShoreGradeOffset;Shore Grade Offset;10;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.ToggleSwitchNode;410;-7408,2400;Inherit;True;Property;_InvertFoamTexture;Invert Foam Texture;12;0;Create;True;0;0;0;False;0;False;1;True;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.RangedFloatNode;424;-7376,2624;Inherit;False;Property;_FoamGradeScale;Foam Grade Scale;15;0;Create;True;0;0;0;False;0;False;1;1;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;425;-7376,2704;Inherit;False;Property;_FoamGradeOffset;Foam Grade Offset;16;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.ToggleSwitchNode;372;-7408,1904;Inherit;True;Property;_InvertShoreTexture;Invert Shore Texture;4;0;Create;True;0;0;0;False;0;False;0;True;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.RangedFloatNode;361;-7376,2128;Inherit;False;Property;_ShoreGradeScale;Shore Grade Scale;9;0;Create;True;0;0;0;False;0;False;1;1;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;362;-7376,2208;Inherit;False;Property;_ShoreGradeOffset;Shore Grade Offset;10;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.StaticSwitch;891;-5456,3712;Inherit;True;Property;_DefNoiseGradeType;DefNoiseGradeType;72;0;Create;True;0;0;0;False;0;False;0;0;0;True;;KeywordEnum;3;Linear;Normal;Gamma;Create;True;True;All;9;1;FLOAT3;0,0,0;False;0;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT3;0,0,0;False;4;FLOAT3;0,0,0;False;5;FLOAT3;0,0,0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.ScaleAndOffsetNode;894;-5184,3712;Inherit;False;3;0;FLOAT3;0,0,0;False;1;FLOAT;1;False;2;FLOAT;0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.RangedFloatNode;895;-5184,3856;Inherit;False;Property;_DefNoiseContrast;DefNoiseContrast;73;0;Create;True;0;0;0;False;0;False;1;1;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.ScaleAndOffsetNode;426;-7408,2400;Inherit;False;3;0;COLOR;0,0,0,0;False;1;FLOAT;10;False;2;FLOAT;-1.49;False;1;COLOR;0
-Node;AmplifyShaderEditor.ScaleAndOffsetNode;353;-7408,1904;Inherit;False;3;0;COLOR;0,0,0,0;False;1;FLOAT;10;False;2;FLOAT;-1.49;False;1;COLOR;0
+Node;AmplifyShaderEditor.ScaleAndOffsetNode;426;-7136,2400;Inherit;False;3;0;COLOR;0,0,0,0;False;1;FLOAT;10;False;2;FLOAT;-1.49;False;1;COLOR;0
+Node;AmplifyShaderEditor.ScaleAndOffsetNode;353;-7136,1904;Inherit;False;3;0;COLOR;0,0,0,0;False;1;FLOAT;10;False;2;FLOAT;-1.49;False;1;COLOR;0
 Node;AmplifyShaderEditor.SimpleContrastOpNode;896;-4960,3712;Inherit;True;2;1;COLOR;0,0,0,0;False;0;FLOAT;4;False;1;COLOR;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;381;-7168,1904;Inherit;True;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;381;-6864,1904;Inherit;True;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.SimpleSubtractOpNode;950;-6864,2128;Inherit;True;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.SimpleDivideOpNode;951;-6864,2352;Inherit;True;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.CrossProductOpNode;956;-6880,2592;Inherit;True;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.SaturateNode;897;-4736,3712;Inherit;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.RangedFloatNode;898;-4784,3936;Inherit;False;Property;_DefNoiseGradeScale;DefNoiseGradeScale;74;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;899;-4816,4016;Inherit;False;Property;_DefNoiseGradeOffset;DefNoiseGradeOffset;75;0;Create;True;0;0;0;False;0;False;0.1;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.CommentaryNode;460;-7152,464;Inherit;False;1805.333;376.3334;Final Comp;13;461;916;925;903;920;904;345;454;413;375;374;373;456;Final Comp;0,0,0,1;0;0
-Node;AmplifyShaderEditor.RegisterLocalVarNode;455;-6960,1904;Inherit;False;DepthTextureRef;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.StaticSwitch;957;-6608,2224;Inherit;False;Property;_FoamBlendType;FoamBlendType;119;0;Create;True;0;0;0;False;0;False;0;0;0;True;;KeywordEnum;4;Multiply;Subtract;Divide;Cross;Create;True;True;All;9;1;COLOR;0,0,0,0;False;0;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;4;COLOR;0,0,0,0;False;5;COLOR;0,0,0,0;False;6;COLOR;0,0,0,0;False;7;COLOR;0,0,0,0;False;8;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.GetLocalVarNode;959;-6544,2144;Inherit;False;911;Zero;1;0;OBJECT;;False;1;FLOAT;0
 Node;AmplifyShaderEditor.ScaleAndOffsetNode;900;-4576,3728;Inherit;False;3;0;COLOR;0,0,0,0;False;1;FLOAT;2;False;2;FLOAT;1;False;1;COLOR;0
+Node;AmplifyShaderEditor.ToggleSwitchNode;958;-6352,2224;Inherit;False;Property;_ShoreWaves;ShoreWaves;120;0;Create;True;0;0;0;False;0;False;1;True;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.RangedFloatNode;928;-4320,3808;Inherit;False;Property;_MiddleWaveIntensity;Middle Wave Intensity;107;0;Create;True;0;0;0;False;0;False;0.5;0.5;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SaturateNode;907;-4336,3728;Inherit;False;1;0;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.CommentaryNode;460;-7152,464;Inherit;False;1540.513;378.4077;Final Comp;13;461;345;925;904;920;413;454;375;374;373;456;916;962;Final Comp;0,0,0,1;0;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;455;-6096,2224;Inherit;False;DepthTextureRef;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;929;-4032,3728;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
 Node;AmplifyShaderEditor.GetLocalVarNode;456;-7120,624;Inherit;False;455;DepthTextureRef;1;0;OBJECT;;False;1;COLOR;0
-Node;AmplifyShaderEditor.SaturateNode;907;-4352,3728;Inherit;False;1;0;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.GetLocalVarNode;949;-4064,3632;Inherit;False;911;Zero;1;0;OBJECT;;False;1;FLOAT;0
+Node;AmplifyShaderEditor.ToggleSwitchNode;948;-3872,3728;Inherit;False;Property;_MiddleWave;MiddleWave;118;0;Create;True;0;0;0;False;0;False;1;True;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.SaturateNode;404;-7872,-624;Inherit;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.GammaToLinearNode;373;-6848,576;Inherit;False;3;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.LinearToGammaNode;374;-6848,688;Inherit;False;3;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.RangedFloatNode;928;-4320,3808;Inherit;False;Property;_MiddleWaveIntensity;Middle Wave Intensity;106;0;Create;True;0;0;0;False;0;False;0.5;0.5;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SaturateNode;921;-4192,3728;Inherit;False;1;0;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;902;-3648,3728;Inherit;False;CausticRef;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.RegisterLocalVarNode;450;-7440,-624;Inherit;False;SaturateDepthRef;-1;True;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.StaticSwitch;375;-6624,592;Inherit;True;Property;_TextureGradeType;TextureGradeType;1;0;Create;True;0;0;0;False;0;False;0;0;0;True;;KeywordEnum;3;Linear;Normal;Gamma;Create;True;True;All;9;1;COLOR;0,0,0,0;False;0;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;4;COLOR;0,0,0,0;False;5;COLOR;0,0,0,0;False;6;COLOR;0,0,0,0;False;7;COLOR;0,0,0,0;False;8;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;929;-4032,3728;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.SaturateNode;413;-6336,592;Inherit;False;1;0;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.GetLocalVarNode;920;-6320,752;Inherit;False;451;DepthRef;1;0;OBJECT;;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.GetLocalVarNode;904;-6320,672;Inherit;False;902;CausticRef;1;0;OBJECT;;False;1;COLOR;0
 Node;AmplifyShaderEditor.GetLocalVarNode;454;-6400,512;Inherit;False;450;SaturateDepthRef;1;0;OBJECT;;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.RegisterLocalVarNode;902;-3872,3728;Inherit;False;CausticRef;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;345;-6176,528;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.GetLocalVarNode;904;-6224,672;Inherit;False;902;CausticRef;1;0;OBJECT;;False;1;COLOR;0
-Node;AmplifyShaderEditor.GetLocalVarNode;920;-6224,752;Inherit;False;451;DepthRef;1;0;OBJECT;;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.SimpleAddOpNode;903;-6000,528;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;925;-6032,672;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT3;0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.SimpleAddOpNode;916;-5856,528;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.IntNode;935;-5888,928;Inherit;False;Constant;_Int0;Int 0;109;0;Create;True;0;0;0;False;0;False;0;0;False;0;1;INT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;936;-5728,912;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;INT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.RangedFloatNode;938;-5669.852,1047.721;Inherit;False;Constant;_Float1;Float 1;109;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleAddOpNode;937;-5497.185,900.3882;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.SaturateNode;413;-6336,592;Inherit;False;1;0;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;925;-6128,672;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT3;0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;345;-6128,528;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.SimpleAddOpNode;916;-5936,608;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.CommentaryNode;593;-7168,-912;Inherit;False;2505.732;1290.468;Double Texture Map Control Settings;45;592;349;623;606;459;625;624;622;604;621;620;619;586;587;585;616;617;618;588;474;469;613;612;611;610;615;614;602;584;583;582;581;609;505;504;506;580;599;464;597;465;596;458;579;933;Double Texture Map Control Settings;1,0.5333334,0,1;0;0
-Node;AmplifyShaderEditor.RegisterLocalVarNode;461;-5568,528;Inherit;False;FinalCompRef;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;461;-5824,608;Inherit;False;FinalCompRef;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.RangedFloatNode;908;-5184,1744;Inherit;False;Constant;_One1;[One];20;0;Create;True;0;0;0;False;0;False;1;1;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;909;-4976,1744;Inherit;False;One;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.TexturePropertyNode;579;-6304,-848;Inherit;True;Property;_ShoreColorMap;Shore Color Map;53;0;Create;True;0;0;0;False;0;False;None;None;False;white;Auto;Texture2D;-1;0;2;SAMPLER2D;0;SAMPLERSTATE;1
 Node;AmplifyShaderEditor.SamplerNode;458;-6080,-640;Inherit;True;Property;_ShoreT;ShoreT;53;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SamplerNode;596;-6080,-128;Inherit;True;Property;_ShoreT1;ShoreT;53;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
@@ -4664,20 +4873,26 @@ Node;AmplifyShaderEditor.SimpleAddOpNode;604;-5728,-544;Inherit;False;2;2;0;COLO
 Node;AmplifyShaderEditor.SimpleSubtractOpNode;622;-5728,-432;Inherit;False;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;624;-5728,-320;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.SimpleDivideOpNode;625;-5728,-208;Inherit;False;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.RangedFloatNode;908;-6624,1680;Inherit;False;Constant;_One1;[One];20;0;Create;True;0;0;0;False;0;False;1;1;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RegisterLocalVarNode;909;-6416,1680;Inherit;False;One;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;910;-6624,1760;Inherit;False;Constant;_Zero1;[Zero];19;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RegisterLocalVarNode;911;-6416,1760;Inherit;False;Zero;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;459;-5040,-448;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.SaturateNode;606;-5216,-448;Inherit;False;1;0;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.RegisterLocalVarNode;592;-4880,-448;Inherit;False;ShoreRef;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.GetLocalVarNode;462;-5184,1440;Inherit;False;461;FinalCompRef;1;0;OBJECT;;False;1;COLOR;0
 Node;AmplifyShaderEditor.RangedFloatNode;351;-5248,1520;Inherit;False;Property;_ClipThreshold;ClipThreshold;25;0;Create;True;0;0;0;False;0;False;0.5;0;0;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.GetLocalVarNode;932;-5152,1360;Inherit;False;592;ShoreRef;1;0;OBJECT;;False;1;COLOR;0
 Node;AmplifyShaderEditor.ColorNode;349;-5280,-640;Inherit;False;Property;_ShoreColor;Shore Color;2;1;[HDR];Create;True;0;0;0;False;0;False;1,1,1,1;0,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.GetLocalVarNode;933;-5744,-640;Inherit;False;909;One;1;0;OBJECT;;False;1;FLOAT;0
-Node;AmplifyShaderEditor.StaticSwitch;623;-5536,-448;Inherit;False;Property;_ShoreTextureBlendingType;Shore Texture Blending Type;68;0;Create;True;0;0;0;False;0;False;0;0;0;True;;KeywordEnum;6;NoTexture;OneTexture;Additive;Subtractive;Multiplicative;Divide;Create;True;True;All;9;1;COLOR;0,0,0,0;False;0;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;4;COLOR;0,0,0,0;False;5;COLOR;0,0,0,0;False;6;COLOR;0,0,0,0;False;7;COLOR;0,0,0,0;False;8;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.IntNode;934;-6384,1936;Inherit;False;Property;_ShoreSetting;ShoreSetting;108;1;[HideInInspector];Create;True;0;0;0;True;0;False;0;0;False;0;1;INT;0
+Node;AmplifyShaderEditor.StaticSwitch;623;-5536,-448;Inherit;False;Property;_ShoreTextureBlendingType;Shore Texture Blending Type;68;0;Create;True;0;0;0;False;0;False;0;0;0;True;;KeywordEnum;6;NoTexture;OneLayer;Additive;Subtractive;Multiplicative;Divide;Create;True;True;All;9;1;COLOR;0,0,0,0;False;0;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;4;COLOR;0,0,0,0;False;5;COLOR;0,0,0,0;False;6;COLOR;0,0,0,0;False;7;COLOR;0,0,0,0;False;8;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.IntNode;939;-5200,2000;Inherit;False;Property;_ShoreMapA;ShoreMapA;110;1;[HideInInspector];Create;True;0;0;0;True;0;False;0;0;False;0;1;INT;0
+Node;AmplifyShaderEditor.IntNode;934;-4944,2000;Inherit;False;Property;_ShoreSetting;ShoreSetting;109;1;[HideInInspector];Create;True;0;0;0;True;0;False;0;0;False;0;1;INT;0
+Node;AmplifyShaderEditor.IntNode;941;-4944,2080;Inherit;False;Property;_DepthSetting;DepthSetting;117;1;[HideInInspector];Create;True;0;0;0;True;0;False;0;0;False;0;1;INT;0
+Node;AmplifyShaderEditor.IntNode;942;-4944,2160;Inherit;False;Property;_AlphaSetting;AlphaSetting;111;1;[HideInInspector];Create;True;0;0;0;True;0;False;0;0;False;0;1;INT;0
+Node;AmplifyShaderEditor.IntNode;940;-5200,2080;Inherit;False;Property;_ShoreMapB;ShoreMapB;113;1;[HideInInspector];Create;True;0;0;0;True;0;False;0;0;False;0;1;INT;0
+Node;AmplifyShaderEditor.IntNode;943;-5200,2160;Inherit;False;Property;_AShoreFold;AShoreFold;112;1;[HideInInspector];Create;True;0;0;0;True;0;False;0;0;False;0;1;INT;0
+Node;AmplifyShaderEditor.IntNode;944;-5200,2240;Inherit;False;Property;_AFoamFold;AFoamFold;114;1;[HideInInspector];Create;True;0;0;0;True;0;False;0;0;False;0;1;INT;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;592;-4880,-448;Inherit;False;ShoreRef;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.IntNode;945;-5200,2400;Inherit;False;Property;_NoiseFold;NoiseFold;115;1;[HideInInspector];Create;True;0;0;0;True;0;False;0;0;False;0;1;INT;0
+Node;AmplifyShaderEditor.SimpleSubtractOpNode;962;-5952,512;Inherit;False;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.RangedFloatNode;972;-9360,3904;Inherit;False;Property;_DeformOffset;DeformOffset;121;0;Create;True;0;0;0;False;0;False;0;0;-1;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.IntNode;960;-5200,2320;Inherit;False;Property;_MiddleFold;MiddleFold;116;1;[HideInInspector];Create;True;0;0;0;True;0;False;0;0;False;0;1;INT;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;106;-3776,96;Float;False;False;-1;2;UnityEditor.ShaderGraphUnlitGUI;0;18;New Amplify Shader;7489fd76ebdb00b448e337e26be4b0c3;True;ExtraPrePass;0;0;ExtraPrePass;5;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Unlit;True;5;True;12;all;0;False;True;1;1;False;;0;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;0;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;108;256,-208;Float;False;False;-1;2;UnityEditor.ShaderGraphUnlitGUI;0;18;New Amplify Shader;7489fd76ebdb00b448e337e26be4b0c3;True;ShadowCaster;0;2;ShadowCaster;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Unlit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;True;1;LightMode=ShadowCaster;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;109;256,-208;Float;False;False;-1;2;UnityEditor.ShaderGraphUnlitGUI;0;18;New Amplify Shader;7489fd76ebdb00b448e337e26be4b0c3;True;DepthOnly;0;3;DepthOnly;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Unlit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;True;True;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;False;False;True;1;LightMode=DepthOnly;False;False;0;;0;0;Standard;0;False;0
@@ -4709,12 +4924,12 @@ WireConnection;340;0;428;0
 WireConnection;340;1;339;1
 WireConnection;343;0;341;4
 WireConnection;343;1;342;0
+WireConnection;832;0;824;0
+WireConnection;833;0;825;0
 WireConnection;822;0;816;0
 WireConnection;822;1;821;0
 WireConnection;823;0;820;0
 WireConnection;823;1;821;0
-WireConnection;832;0;824;0
-WireConnection;833;0;825;0
 WireConnection;446;0;443;0
 WireConnection;446;1;444;0
 WireConnection;445;0;442;0
@@ -4733,10 +4948,10 @@ WireConnection;437;0;435;0
 WireConnection;437;1;436;0
 WireConnection;344;0;343;0
 WireConnection;344;1;340;0
-WireConnection;830;0;822;0
-WireConnection;831;0;823;0
 WireConnection;837;0;832;0
 WireConnection;837;1;833;0
+WireConnection;830;0;822;0
+WireConnection;831;0;823;0
 WireConnection;430;0;445;0
 WireConnection;430;1;446;0
 WireConnection;429;0;438;0
@@ -4749,86 +4964,98 @@ WireConnection;356;0;312;0
 WireConnection;356;1;400;0
 WireConnection;336;0;344;0
 WireConnection;337;0;344;0
-WireConnection;834;0;827;0
-WireConnection;834;1;826;0
+WireConnection;911;0;910;0
 WireConnection;835;0;828;0
 WireConnection;835;1;829;0
-WireConnection;836;0;830;0
-WireConnection;836;1;831;0
 WireConnection;906;0;837;0
 WireConnection;906;1;905;0
-WireConnection;305;0;430;0
-WireConnection;305;1;420;0
+WireConnection;834;0;827;0
+WireConnection;834;1;826;0
+WireConnection;836;0;830;0
+WireConnection;836;1;831;0
+WireConnection;338;1;336;0
+WireConnection;338;0;344;0
+WireConnection;338;2;337;0
 WireConnection;292;0;429;0
 WireConnection;292;1;421;0
-WireConnection;295;0;356;0
-WireConnection;295;1;423;0
-WireConnection;295;2;326;0
-WireConnection;295;3;408;0
+WireConnection;305;0;430;0
+WireConnection;305;1;420;0
 WireConnection;294;0;293;0
 WireConnection;294;1;166;0
 WireConnection;294;2;327;0
 WireConnection;294;3;406;0
-WireConnection;338;1;336;0
-WireConnection;338;0;344;0
-WireConnection;338;2;337;0
-WireConnection;844;0;834;0
-WireConnection;844;1;836;0
+WireConnection;295;0;356;0
+WireConnection;295;1;423;0
+WireConnection;295;2;326;0
+WireConnection;295;3;408;0
+WireConnection;970;0;964;0
+WireConnection;970;1;971;0
 WireConnection;845;0;835;0
 WireConnection;845;1;906;0
-WireConnection;849;0;838;0
-WireConnection;850;0;839;0
-WireConnection;850;1;840;0
 WireConnection;851;0;841;0
 WireConnection;852;0;843;0
 WireConnection;852;1;842;0
-WireConnection;417;0;295;0
-WireConnection;417;1;292;0
-WireConnection;366;0;305;0
-WireConnection;366;1;292;0
-WireConnection;419;0;295;0
-WireConnection;419;1;305;0
+WireConnection;844;0;834;0
+WireConnection;844;1;836;0
+WireConnection;849;0;838;0
+WireConnection;850;0;839;0
+WireConnection;850;1;840;0
 WireConnection;297;0;294;0
 WireConnection;297;1;295;0
 WireConnection;416;0;294;0
 WireConnection;416;1;305;0
 WireConnection;418;0;294;0
 WireConnection;418;1;292;0
+WireConnection;419;0;295;0
+WireConnection;419;1;305;0
+WireConnection;417;0;295;0
+WireConnection;417;1;292;0
+WireConnection;366;0;305;0
+WireConnection;366;1;292;0
 WireConnection;156;0;338;0
-WireConnection;855;0;844;0
-WireConnection;855;1;850;0
-WireConnection;855;2;849;0
+WireConnection;973;0;974;0
+WireConnection;973;1;970;0
 WireConnection;856;0;845;0
 WireConnection;856;1;852;0
 WireConnection;856;2;851;0
-WireConnection;857;0;846;0
-WireConnection;858;0;847;0
-WireConnection;858;1;848;0
-WireConnection;859;0;853;0
-WireConnection;859;1;848;0
-WireConnection;860;0;854;0
-WireConnection;913;0;912;0
+WireConnection;855;0;844;0
+WireConnection;855;1;850;0
+WireConnection;855;2;849;0
 WireConnection;415;1;297;0
 WireConnection;415;0;416;0
 WireConnection;415;2;418;0
 WireConnection;415;3;366;0
-WireConnection;415;4;417;0
-WireConnection;415;5;419;0
+WireConnection;415;4;419;0
+WireConnection;415;5;417;0
+WireConnection;415;6;947;0
 WireConnection;924;0;156;0
-WireConnection;865;0;855;0
-WireConnection;865;1;858;0
-WireConnection;866;0;856;0
-WireConnection;866;1;859;0
-WireConnection;862;1;856;0
-WireConnection;861;1;855;0
-WireConnection;868;0;856;0
-WireConnection;868;1;860;0
-WireConnection;868;2;853;0
-WireConnection;867;0;855;0
-WireConnection;867;1;857;0
-WireConnection;867;2;847;0
+WireConnection;857;0;846;0
+WireConnection;859;0;853;0
+WireConnection;859;1;961;0
+WireConnection;913;0;912;0
+WireConnection;860;0;854;0
+WireConnection;858;0;847;0
+WireConnection;858;1;848;0
+WireConnection;969;0;973;0
+WireConnection;969;1;856;0
+WireConnection;968;0;973;0
+WireConnection;968;1;855;0
 WireConnection;447;0;415;0
 WireConnection;926;0;924;0
+WireConnection;866;0;969;0
+WireConnection;866;1;859;0
+WireConnection;862;1;969;0
+WireConnection;861;1;968;0
+WireConnection;865;0;968;0
+WireConnection;865;1;858;0
+WireConnection;868;0;969;0
+WireConnection;868;1;860;0
+WireConnection;868;2;853;0
+WireConnection;867;0;968;0
+WireConnection;867;1;857;0
+WireConnection;867;2;847;0
+WireConnection;927;0;926;0
+WireConnection;927;1;930;0
 WireConnection;870;1;864;0
 WireConnection;870;0;868;0
 WireConnection;870;2;866;0
@@ -4837,53 +5064,51 @@ WireConnection;869;1;863;0
 WireConnection;869;0;867;0
 WireConnection;869;2;865;0
 WireConnection;869;3;861;0
-WireConnection;927;0;926;0
-WireConnection;927;1;930;0
-WireConnection;871;0;869;0
-WireConnection;872;0;870;0
+WireConnection;451;0;927;0
+WireConnection;388;0;390;0
+WireConnection;388;1;389;0
 WireConnection;325;0;448;0
 WireConnection;325;1;321;0
 WireConnection;325;2;322;0
-WireConnection;388;0;390;0
-WireConnection;388;1;389;0
-WireConnection;451;0;927;0
-WireConnection;874;0;871;0
-WireConnection;873;0;872;0
-WireConnection;329;0;330;0
-WireConnection;378;0;376;0
+WireConnection;871;0;869;0
+WireConnection;872;0;870;0
 WireConnection;634;0;325;0
 WireConnection;634;1;388;0
 WireConnection;917;0;325;0
 WireConnection;917;1;388;0
+WireConnection;874;0;871;0
+WireConnection;873;0;872;0
+WireConnection;329;0;330;0
+WireConnection;378;0;376;0
+WireConnection;386;0;387;0
+WireConnection;392;0;391;0
+WireConnection;637;0;638;0
+WireConnection;918;0;917;0
+WireConnection;918;1;634;0
 WireConnection;875;0;873;0
 WireConnection;876;0;874;0
 WireConnection;377;0;329;0
 WireConnection;377;1;378;0
 WireConnection;315;0;313;0
 WireConnection;315;1;314;0
-WireConnection;386;0;387;0
-WireConnection;392;0;391;0
-WireConnection;637;0;638;0
-WireConnection;918;0;917;0
-WireConnection;918;1;634;0
-WireConnection;877;0;874;0
-WireConnection;877;1;876;0
-WireConnection;879;0;873;0
-WireConnection;879;1;875;0
 WireConnection;393;0;386;0
 WireConnection;393;1;392;0
+WireConnection;636;0;918;0
+WireConnection;636;1;637;0
+WireConnection;879;0;873;0
+WireConnection;879;1;875;0
+WireConnection;877;0;874;0
+WireConnection;877;1;876;0
 WireConnection;346;0;325;0
 WireConnection;346;1;315;0
 WireConnection;333;0;453;0
 WireConnection;333;1;377;0
-WireConnection;636;0;918;0
-WireConnection;636;1;637;0
-WireConnection;881;0;877;0
-WireConnection;881;1;878;0
-WireConnection;882;0;879;0
-WireConnection;882;1;880;0
 WireConnection;384;0;636;0
 WireConnection;384;1;393;0
+WireConnection;882;0;879;0
+WireConnection;882;1;880;0
+WireConnection;881;0;877;0
+WireConnection;881;1;878;0
 WireConnection;179;0;346;0
 WireConnection;179;1;333;0
 WireConnection;883;0;881;0
@@ -4896,26 +5121,26 @@ WireConnection;886;0;881;0
 WireConnection;886;1;882;0
 WireConnection;887;0;881;0
 WireConnection;887;1;882;0
+WireConnection;64;1;179;0
 WireConnection;380;1;384;0
 WireConnection;888;1;887;0
 WireConnection;888;0;886;0
 WireConnection;888;2;883;0
 WireConnection;888;3;884;0
 WireConnection;888;4;885;0
-WireConnection;64;1;179;0
 WireConnection;409;0;380;0
 WireConnection;383;0;64;0
 WireConnection;889;0;888;0
 WireConnection;890;0;888;0
 WireConnection;411;0;409;0
 WireConnection;371;0;383;0
-WireConnection;891;1;889;0
-WireConnection;891;0;888;0
-WireConnection;891;2;890;0
 WireConnection;410;0;409;0
 WireConnection;410;1;411;0
 WireConnection;372;0;383;0
 WireConnection;372;1;371;0
+WireConnection;891;1;889;0
+WireConnection;891;0;888;0
+WireConnection;891;2;890;0
 WireConnection;894;0;891;0
 WireConnection;894;1;893;0
 WireConnection;894;2;892;0
@@ -4929,36 +5154,45 @@ WireConnection;896;1;894;0
 WireConnection;896;0;895;0
 WireConnection;381;0;353;0
 WireConnection;381;1;426;0
+WireConnection;950;0;353;0
+WireConnection;950;1;426;0
+WireConnection;951;0;353;0
+WireConnection;951;1;426;0
+WireConnection;956;0;426;0
+WireConnection;956;1;353;0
 WireConnection;897;0;896;0
-WireConnection;455;0;381;0
+WireConnection;957;1;381;0
+WireConnection;957;0;950;0
+WireConnection;957;2;951;0
+WireConnection;957;3;956;0
 WireConnection;900;0;897;0
 WireConnection;900;1;898;0
 WireConnection;900;2;899;0
+WireConnection;958;0;959;0
+WireConnection;958;1;957;0
 WireConnection;907;0;900;0
+WireConnection;455;0;958;0
+WireConnection;929;0;907;0
+WireConnection;929;1;928;0
+WireConnection;948;0;949;0
+WireConnection;948;1;929;0
 WireConnection;404;0;156;0
 WireConnection;373;0;456;0
 WireConnection;374;0;456;0
-WireConnection;921;0;907;0
+WireConnection;902;0;948;0
 WireConnection;450;0;404;0
 WireConnection;375;1;373;0
 WireConnection;375;0;456;0
 WireConnection;375;2;374;0
-WireConnection;929;0;921;0
-WireConnection;929;1;928;0
 WireConnection;413;0;375;0
-WireConnection;902;0;929;0
-WireConnection;345;0;454;0
-WireConnection;345;1;413;0
-WireConnection;903;0;345;0
 WireConnection;925;0;904;0
 WireConnection;925;1;920;0
-WireConnection;916;0;903;0
+WireConnection;345;0;454;0
+WireConnection;345;1;413;0
+WireConnection;916;0;345;0
 WireConnection;916;1;925;0
-WireConnection;936;0;916;0
-WireConnection;936;1;935;0
-WireConnection;937;0;936;0
-WireConnection;937;1;938;0
-WireConnection;461;0;937;0
+WireConnection;461;0;916;0
+WireConnection;909;0;908;0
 WireConnection;458;0;579;0
 WireConnection;458;1;465;0
 WireConnection;596;0;579;0
@@ -5001,20 +5235,20 @@ WireConnection;624;0;458;0
 WireConnection;624;1;596;0
 WireConnection;625;0;458;0
 WireConnection;625;1;596;0
-WireConnection;909;0;908;0
-WireConnection;911;0;910;0
 WireConnection;459;0;349;0
 WireConnection;459;1;606;0
 WireConnection;606;0;623;0
-WireConnection;592;0;459;0
 WireConnection;623;1;933;0
 WireConnection;623;0;458;0
 WireConnection;623;2;604;0
 WireConnection;623;3;622;0
 WireConnection;623;4;624;0
 WireConnection;623;5;625;0
+WireConnection;592;0;459;0
+WireConnection;962;0;345;0
+WireConnection;962;1;925;0
 WireConnection;107;2;932;0
 WireConnection;107;3;462;0
 WireConnection;107;4;351;0
 ASEEND*/
-//CHKSM=94A037A3D202488EF77EAE0273ECBF0D7819D430
+//CHKSM=BFBCFB2F8FFCF806FC8C1009B2A2DDB13EF0F498
