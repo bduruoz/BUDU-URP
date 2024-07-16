@@ -188,7 +188,7 @@ namespace AmplifyShaderEditor
 			m_sizeIsDirty = true;
 		}
 
-        void ChangePorts()
+		void ChangePorts()
 		{
 			m_previewMaterialPassId = 0;
 		}

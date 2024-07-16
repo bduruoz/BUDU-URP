@@ -8,99 +8,118 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: BWaterSurface
-  m_Shader: {fileID: 4800000, guid: 8e31880eca74c0c48a998702cb100670, type: 3}
+  m_Shader: {fileID: 4800000, guid: 09555ef6b2afcc94f98555f2ba0b10af, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _DEFNOISEGRADETYPE_LINEAR
-  - _DEFNOISEMIXTYPE_MULTIPLY
-  - _DEPTHGRADETYPE_NORMAL
-  - _FOAMBLENDTYPE_MULTIPLY
+  - _DEFNOISEMIXTYPE_FMODINVERT
+  - _DEFORMANOISETYPE_TEXTURE
+  - _DEFORMBNOISETYPE_TEXTURE
+  - _DEFORMGRADETYPE_NORMAL
+  - _DEFORMMIXTYPE_ONENOISE
+  - _DEF_VORCAUSTIC_A_TYPE_CAUSTIC1
+  - _DEF_VORCAUSTIC_B_TYPE_CAUSTIC1
+  - _DEF_VORCELL_A_TYPE_CELL3
+  - _DEF_VORCELL_B_TYPE_CELL3
+  - _DEPTHGRADETYPE_GAMMA
+  - _ENVIRONMENTREFLECTIONS_OFF
+  - _FLOWMAPGRADE_LINEAR
+  - _FLOWTYPE_TEXTUREMAP
   - _NOISETYPEA_TEXTURE
-  - _NOISETYPEB_TEXTURE
-  - _NOISETYPE_VORAPERA
-  - _SHORETEXTUREBLENDINGTYPE_NOTEXTURE
-  - _TEXTUREGRADETYPE_LINEAR
+  - _NOISETYPEB_PERLIN
+  - _RECEIVE_SHADOWS_OFF
+  - _SPECULARHIGHLIGHTS_OFF
   m_InvalidKeywords:
-  - _AFFECTFOAMDEFORMATION_ON
+  - _DEFNOISEAINVERT_ON
+  - _DEFNOISEBINVERT_ON
+  - _DEFORMAINVERT_ON
   - _DEFORMTOGGLE_ON
-  - _DEPTHGRADETYPE2_LINEAR
+  - _DEF_VORCAUSTIC_A_TYPE1_CAUSTIC3
+  - _DEF_VORCAUSTIC_A_TYPE2_CAUSTIC3
+  - _DEF_VORCAUSTIC_B_TYPE1_CAUSTIC3
+  - _DEF_VORCELL_A_TYPE1_CELL3
+  - _DEF_VORCELL_A_TYPE2_CELL3
+  - _DEF_VORCELL_B_TYPE1_CELL3
+  - _FLOWTYPE_DEPTH
   - _MIDDLEWAVE_ON
   - _RECEIVESHADOWS_OFF
-  - _RECEIVE_SHADOWS_OFF
-  - _SHOREWAVES_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3010
+  m_CustomRenderQueue: 3020
   stringTagMap: {}
   disabledShaderPasses: []
-  m_LockedProperties: 
+  m_LockedProperties: _TextureSample0
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
     - _BluricRefractionPattern:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 4a93585e268ba1d4d92236a0f56411f9, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DefNoiseAMap:
-        m_Texture: {fileID: 2800000, guid: ae2961e4565cb064c93a32ffb6aed3a2, type: 3}
+        m_Texture: {fileID: 2800000, guid: 26618d122339924438d8e330b8c53aa3, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DefNoiseBMap:
-        m_Texture: {fileID: 2800000, guid: 042609a17b64fe24e9e0e0465c6547ce, type: 3}
+        m_Texture: {fileID: 2800000, guid: 26618d122339924438d8e330b8c53aa3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DeformAMap:
+        m_Texture: {fileID: 2800000, guid: c662692ad44de0b45ba4f81297e97381, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DeformBMap:
+        m_Texture: {fileID: 2800000, guid: c662692ad44de0b45ba4f81297e97381, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _FlowBW:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _FlowMap:
+        m_Texture: {fileID: 2800000, guid: 8cf783ef2e210d94fb2d234801d68e11, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _FoamTexture:
-        m_Texture: {fileID: 2800000, guid: ae2961e4565cb064c93a32ffb6aed3a2, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormNoiseAMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: f1c6b2ef2ce80ac4c871600c83b25cab, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormNoiseBMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: e4ba6f1dd4e4943489c35db5ae259d7c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _Normal:
-        m_Texture: {fileID: 0}
+    - _NormalAMap:
+        m_Texture: {fileID: 2800000, guid: f1c6b2ef2ce80ac4c871600c83b25cab, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _NormalMap:
+    - _NormalBMap:
         m_Texture: {fileID: 2800000, guid: 378dedd44b461754d8593bce6b12220d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ReflectMap:
-        m_Texture: {fileID: 8900000, guid: 8111a7f033d63654ab72b7bb19f143cf, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _ShoreColorMap:
-        m_Texture: {fileID: 2800000, guid: ba79def5542b6034a929cff9bd6bf12b, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _ShoreMap:
-        m_Texture: {fileID: 2800000, guid: 8f10bd51af147c44abd1826f330be8fa, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _ShoreMap1:
-        m_Texture: {fileID: 2800000, guid: 8f10bd51af147c44abd1826f330be8fa, type: 3}
+        m_Texture: {fileID: 8900000, guid: eca1c1c2fb415a743b4a918b8648b779, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ShoreTexture:
-        m_Texture: {fileID: 2800000, guid: c6236064e2809c14cb52d44625df6da7, type: 3}
+        m_Texture: {fileID: 2800000, guid: b9e2c74514d1bb4488d9af4b5a8bc0ef, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _Tex:
-        m_Texture: {fileID: 0}
+    - _SurfaceColorMapA:
+        m_Texture: {fileID: 2800000, guid: ba79def5542b6034a929cff9bd6bf12b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _Texture0:
-        m_Texture: {fileID: 2800000, guid: 8f10bd51af147c44abd1826f330be8fa, type: 3}
+    - _SurfaceColorMapB:
+        m_Texture: {fileID: 2800000, guid: ba79def5542b6034a929cff9bd6bf12b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _TextureSample0:
-        m_Texture: {fileID: 2800000, guid: 8f10bd51af147c44abd1826f330be8fa, type: 3}
+    - _TextureSample1:
+        m_Texture: {fileID: 2800000, guid: 032137d15ff4d9f4a8ddc47c9c194dcc, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _texcoord:
@@ -121,378 +140,319 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _ADist: 1.57
-    - _AExp: 1
     - _AFoamFold: 0
-    - _AGExp: 1
-    - _AGO: 0
-    - _AGS: 1
     - _AShoreFold: 0
-    - _AffectFoamDeformation: 1
+    - _AffectFoamDeformation: 0
     - _AlphaCutoff: 0.5
-    - _AlphaSetting: 1
+    - _CMReflect: 0
     - _CMXPos: 0
     - _CMYPos: 0
     - _CMZPos: 0
-    - _ClipThreshold: 0
-    - _CubeMapRotate1: 0
-    - _DefNoiseAInvert: 0
-    - _DefNoiseAOverScrSpeed: 1
-    - _DefNoiseAScale: 1
-    - _DefNoiseBInvert: 0
-    - _DefNoiseBOverScrSpeed: 1
-    - _DefNoiseBScale: 4.19
+    - _ClipThreshold: 0.5
+    - _Contrasttttt: 0.83
+    - _CubeMapRotate: 0
+    - _DefNoiseAInvert: 1
+    - _DefNoiseAScale: 5
+    - _DefNoiseBInvert: 1
+    - _DefNoiseBScale: 1.6
     - _DefNoiseContrast: 1
     - _DefNoiseFinalOffset: 0
-    - _DefNoiseFinalScale: 4
+    - _DefNoiseFinalScale: 1
     - _DefNoiseGradeOffset: 0
     - _DefNoiseGradeScale: 1
     - _DefNoiseGradeType: 0
-    - _DefNoiseMixType: 0
-    - _DefNoiseTypeAExponential: 1
-    - _DefNoiseTypeAMult: 1
-    - _DefNoiseTypeAOverallSpeed: 1
-    - _DefNoiseTypeBExponential: 0.96
-    - _DefNoiseTypeBMult: 2.96
-    - _DefNoiseTypeBOverallSpeed: 1
-    - _DefPerlinAScale: 0
+    - _DefNoiseMixType: 8
+    - _DefNoiseTypeAExponential: 0.75
+    - _DefNoiseTypeAOverallSpeed: 0
+    - _DefNoiseTypeBExponential: 1
+    - _DefNoiseTypeBOverallSpeed: 3
+    - _DefPerlinAScale: 1
     - _DefPerlinBScale: 1
-    - _DefPerlinScale: 10
-    - _DefTypeAAnchorX: 0
-    - _DefTypeAAnchorY: 0
-    - _DefTypeARotSpeed: 0
-    - _DefTypeBAnchorX: 0
-    - _DefTypeBAnchorY: 0
+    - _DefTypeAAnchorX: 2
+    - _DefTypeAAnchorY: 2
+    - _DefTypeARot: 80
+    - _DefTypeARotSpeed: 5
+    - _DefTypeBAnchorX: 2
+    - _DefTypeBAnchorY: 2
+    - _DefTypeBRot: 60
     - _DefTypeBRotSpeed: 0
     - _DefVorAAngle: 1
+    - _DefVorAOffsetX: 0
+    - _DefVorAOffsetY: 0
     - _DefVorASmooth: 0
     - _DefVorASpeedX: 0.1
-    - _DefVorASpeedY: 0.2
-    - _DefVorATileX: 5
-    - _DefVorATileY: 5
+    - _DefVorASpeedY: 0.1
+    - _DefVorATileX: 3
+    - _DefVorATileY: 3
     - _DefVorBAngle: -1
+    - _DefVorBOffsetX: 0
+    - _DefVorBOffsetY: 0
     - _DefVorBSmooth: 0
     - _DefVorBSpeedX: -0.1
-    - _DefVorBSpeedY: 0.1
-    - _DefVorBTileX: 3
-    - _DefVorBTileY: 3
-    - _Def_VorCaustic_A_Type: 2
+    - _DefVorBSpeedY: -0.1
+    - _DefVorBTileX: 4
+    - _DefVorBTileY: 4
+    - _Def_VorCaustic_A_Type: 0
+    - _Def_VorCaustic_A_Type1: 2
+    - _Def_VorCaustic_A_Type2: 2
     - _Def_VorCaustic_B_Type: 0
-    - _Def_VorCell_A_Type: 0
-    - _Def_VorCell_B_Type: 0
-    - _DeformOffset: -0.483
-    - _DeformScale: 0.203
+    - _Def_VorCaustic_B_Type1: 2
+    - _Def_VorCell_A_Type: 2
+    - _Def_VorCell_A_Type1: 2
+    - _Def_VorCell_A_Type2: 2
+    - _Def_VorCell_B_Type: 2
+    - _Def_VorCell_B_Type1: 2
+    - _DeformAAnchorX: 0
+    - _DeformAAnchorY: 0
+    - _DeformAAngle: 4
+    - _DeformAContrast: 1
+    - _DeformAFold: 0
+    - _DeformAIntensity: 1
+    - _DeformAInvert: 1
+    - _DeformANoiseType: 4
+    - _DeformAOffsetX: 0
+    - _DeformAOffsetY: 0
+    - _DeformAOverallSpeed: 1
+    - _DeformARotate: 30
+    - _DeformARotateSpeed: 0
+    - _DeformAScale: 4
+    - _DeformASmooth: 0
+    - _DeformASpeedX: 0.1
+    - _DeformASpeedY: 0.05
+    - _DeformATileX: 1
+    - _DeformATileY: 1
+    - _DeformBAnchorX: 0
+    - _DeformBAnchorY: 0
+    - _DeformBAngle: 4
+    - _DeformBContrast: 1
+    - _DeformBFold: 0
+    - _DeformBIntensity: 1
+    - _DeformBInvert: 0
+    - _DeformBNoiseType: 4
+    - _DeformBOffsetX: 0
+    - _DeformBOffsetY: 0
+    - _DeformBOverallSpeed: 1
+    - _DeformBRotate: 0
+    - _DeformBRotateSpeed: 0
+    - _DeformBScale: 4.16
+    - _DeformBSmooth: 0
+    - _DeformBSpeedX: -0.05
+    - _DeformBSpeedY: -0.1
+    - _DeformBTileX: 1
+    - _DeformBTileY: 1
+    - _DeformFinalBias: 0
+    - _DeformFinalContrast: 1
+    - _DeformGradeType: 1
+    - _DeformMixType: 1
+    - _DeformNormScale: 1.41
+    - _DeformNormToggle: 0
+    - _DeformScale: 0.04
+    - _DeformSettings: 0
     - _DeformToggle: 1
-    - _DepthDistance: 1.27
-    - _DepthExponential: 2
-    - _DepthFadeDistance: 1500
-    - _DepthGradeType: 1
-    - _DepthGradeType1: 0
-    - _DepthGradeType2: 0
-    - _DepthInvert: 1
-    - _DepthSetting: 0
-    - _DepthSize: -1
+    - _DepthDistance: 4
+    - _DepthExponential: 1
+    - _DepthGradeType: 2
+    - _DepthSettings: 0
+    - _DepthSize: 1
     - _Displacement: 0
     - _DstBlend: 0
-    - _EdgeWaveExponential: 2.25
-    - _EdgeWaveMultiplier: 2.99
-    - _EnvironmentReflections: 1
-    - _Exponential: 2.27
-    - _FBias: 0
-    - _FPower: 0.82
-    - _FScale: 1.83
-    - _FSwitch: 1
-    - _FinalOffset: -2
-    - _FinalScale: 5
-    - _Float0: 0.04
-    - _Float1: 0.4
-    - _Float10: 0.3
-    - _Float11: 0
-    - _Float12: 0
-    - _Float2: 1
-    - _Float3: 0.2
-    - _Float4: 1
-    - _Float5: 1
-    - _Float6: 1
-    - _Float7: 2.66
-    - _Float8: 2
-    - _Float9: 0
-    - _FoamBlendType: 0
-    - _FoamGradeOffset: 1.1
-    - _FoamGradeScale: 12.78
-    - _FoamShoreWidth: 0
-    - _FoamSpeed: 0.1
-    - _FoamSpeedX: -0.1
-    - _FoamSpeedY: -0.1
-    - _FoamTileX: 2
-    - _FoamTileX1: 0
-    - _FoamTileY: 2
-    - _FoamTileY1: 0
-    - _FogDepthDistance: 3.12
-    - _FogDepthExponential: 0.94
+    - _EdgeControl: 1
+    - _EdgeWaveExponential: 1
+    - _EdgeWaveMultiplier: 1
+    - _EnvironmentReflections: 0
+    - _FlowDepthBias: 0
+    - _FlowDepthContrast: 1
+    - _FlowMapExp: 1
+    - _FlowMapGrade: 0
+    - _FlowMapSettings: 0
+    - _FlowMapToggle: 0
+    - _FlowType: 1
+    - _FoamAnchorX: 0.24
+    - _FoamAnchorY: 0.95
+    - _FoamBlendType: 1
+    - _FoamContrast: 2.08
+    - _FoamGradeOffset: 0
+    - _FoamGradeScale: 1
+    - _FoamOffsetX: 0.167
+    - _FoamOffsetY: 0.156
+    - _FoamOverallSpeed: 1
+    - _FoamRotate: 0.28
+    - _FoamRotateSpeed: 1.62
+    - _FoamSpeedX: 0.1
+    - _FoamSpeedY: 0.1
+    - _FoamTileX: 1
+    - _FoamTileY: 1
+    - _FogDepthDistance: 0
+    - _FogDepthExponential: 11.88
     - _FogDepthGradeType: 0
-    - _FogDepthOffset: 0
-    - _FogDepthScale: 1
-    - _FogGradeExponential: 0.23
-    - _FresnelBias: 0
-    - _FresnelInvert: 0
-    - _FresnelPower: 2.18
-    - _FresnelScale: 4.39
-    - _GradeExponential: 0.85
+    - _FogDepthOffset: 0.52
+    - _FogDepthScale: 2.96
+    - _FogGradeExponential: 3
+    - _FogToggle: 0
+    - _GradeExponential: 0.43
     - _GradeOffset: 0
-    - _GradeScale: 0.9
+    - _GradeScale: 1
     - _InvertFoamTexture: 0
     - _InvertShoreTexture: 0
-    - _InvertTexture: 1
-    - _MiddleFold: 1
+    - _MiddleBumpIntensity: 1
+    - _MiddleNAFold: 1
+    - _MiddleNBFold: 1
     - _MiddleWave: 1
-    - _MiddleWaveEdgeControl: 0.3
     - _MiddleWaveIntensity: 1
-    - _NewMax: 1
-    - _NewMin: 0.95
-    - _NoiseAInvert: 0
-    - _NoiseBInvert: 0
-    - _NoiseContrast: 1
-    - _NoiseFinalOffset: 0
-    - _NoiseFinalScale: 1
+    - _MirrorRefIntensity: 0.428
+    - _MirrorReflect: 0
+    - _NoiseA_Contrast: 1
+    - _NoiseA_Intensity: 1
+    - _NoiseB_Contrast: 1
+    - _NoiseB_Intensity: 0.543
     - _NoiseFold: 1
-    - _NoiseGradeOffset: 0.3
+    - _NoiseGradeOffset: 0
     - _NoiseGradeScale: 1
-    - _NoiseGradeType: 0
-    - _NoiseMixType: 0
-    - _NoiseType: 1
-    - _NoiseTypeA: 3
-    - _NoiseTypeAExponential: 1
+    - _NoiseTypeA: 4
     - _NoiseTypeB: 3
-    - _NoiseTypeBExponential: 1
-    - _NormMiddleWaveIntensity: 0.208
+    - _NormARot: 29
+    - _NormA_Contrast: 1.77
+    - _NormBRot: 29
+    - _NormB_Contrast: 1.2
+    - _NormGenAFold: 0
+    - _NormGenBFold: 0
+    - _NormMapAFold: 0
+    - _NormMapBFold: 0
     - _NormNoiseAInvert: 0
     - _NormNoiseAOverScrSpeed: 1
-    - _NormNoiseAScale: 2
+    - _NormNoiseAScale: 8.67
     - _NormNoiseBInvert: 0
     - _NormNoiseBOverScrSpeed: 1
-    - _NormNoiseBScale: 0.3
-    - _NormNoiseContrast: 4.94
-    - _NormNoiseFinalOffset: 0
+    - _NormNoiseBScale: 5
+    - _NormNoiseContrast: 1
+    - _NormNoiseFinalOffset: 0.43
     - _NormNoiseFinalScale: 1
-    - _NormNoiseGradeOffset: 0
-    - _NormNoiseGradeScale: 5.47
-    - _NormNoiseGradeType: 2
-    - _NormNoiseMixType: 1
-    - _NormNoiseTypeA: 2
-    - _NormNoiseTypeAExponential: 9
-    - _NormNoiseTypeAMult: 3
-    - _NormNoiseTypeB: 0
-    - _NormNoiseTypeBExponential: 7.8
-    - _NormNoiseTypeBMult: 2
+    - _NormNoiseGradeOffset: 0.1
+    - _NormNoiseGradeScale: 1
+    - _NormNoiseGradeType: 0
+    - _NormNoiseMixType: 3
+    - _NormNoiseTypeA: 4
+    - _NormNoiseTypeAExponential: 1
+    - _NormNoiseTypeB: 4
+    - _NormNoiseTypeBExponential: 1
     - _NormPerlinAScale: 1
     - _NormPerlinBScale: 1
-    - _NormPerlinScale: 10
     - _NormTypeAAnchorX: 0
     - _NormTypeAAnchorY: 0
-    - _NormTypeARotSpeed: 0
+    - _NormTypeARotSpeed: 0.18
     - _NormTypeBAnchorX: 0
     - _NormTypeBAnchorY: 0
     - _NormTypeBRotSpeed: 0
-    - _NormVorAAngle: 0.7
-    - _NormVorASmooth: 0
-    - _NormVorASpeedX: 0.01
-    - _NormVorASpeedY: 0.035
-    - _NormVorATileX: 2
-    - _NormVorATileY: 7
-    - _NormVorBAngle: 0.62
-    - _NormVorBSmooth: 0
-    - _NormVorBSpeedX: 0.03
-    - _NormVorBSpeedY: -0.04
-    - _NormVorBTileX: 0.65
-    - _NormVorBTileY: 2.5
-    - _NormVoronoi_A_Type: 5
+    - _NormVorAAngle: 2.74
+    - _NormVorAOffsetX: 0.395
+    - _NormVorAOffsetY: 0.151
+    - _NormVorASmooth: 0.243
+    - _NormVorASpeedX: 0.5
+    - _NormVorASpeedY: 0.5
+    - _NormVorATileX: 1
+    - _NormVorATileY: 1
+    - _NormVorBAngle: 8
+    - _NormVorBOffsetX: 0.221
+    - _NormVorBOffsetY: 0.121
+    - _NormVorBSmooth: 0.161
+    - _NormVorBSpeedX: 0
+    - _NormVorBSpeedY: 0
+    - _NormVorBTileX: 1
+    - _NormVorBTileY: 1
     - _Norm_VorCausric_B_Type: 0
-    - _Norm_VorCaustic_A_Type: 5
+    - _Norm_VorCaustic_A_Type: 0
     - _Norm_VorCell_A_Type: 0
     - _Norm_VorCell_B_Type: 0
-    - _Norm_Voronoi_A_Type: 5
-    - _Norm_Voronoi_B_Type: 7
-    - _Normal: 1
-    - _NormalScale: 0.05
-    - _NormalSize: 1
-    - _NormalStrenggth: 10
-    - _OldMax: 1
-    - _OldMin: -1
-    - _PatternHeight: 1
+    - _Normal: 0
+    - _NormalMix: 2
+    - _NormalStrength: 10
+    - _NormalTxt: 0
+    - _NrmAInt: 1.03
+    - _NrmBInt: 0.25
+    - _PatternHeight: 10
     - _PatternRotator: 0
-    - _PerAScale: 1
-    - _PerASpeedX: 0.13
-    - _PerASpeedY: 0.1
-    - _PerATileX: 5
-    - _PerATileY: 5
-    - _PerBScale: 1
-    - _PerBSpeedX: -0.1
-    - _PerBSpeedY: -0.1
-    - _PerBTileX: 15
-    - _PerBTileY: 15
-    - _QueueControl: 1
-    - _QueueOffset: 0
-    - _RORORRO: 6.55
+    - _QueueControl: 0
+    - _QueueOffset: 20
     - _ReceiveShadows: 0
-    - _Reflect: 1
-    - _ReflectionMultiplier: 1
-    - _ReflectionStrength: 0.681
-    - _RefrControl: 0
+    - _Reflect: 0
+    - _ReflectionMultiplier: 2.58
+    - _ReflectionStrength: 1
     - _RefractSize: 1
-    - _Refraction: 0
-    - _Refraction1: 0
-    - _RefractionBirinci: 1
-    - _RefractionInvert: 0
-    - _Refractionikinci: 0
-    - _Rotate: 0
+    - _RefractionToggle: 0
     - _SSBluricTransparent: 0
     - _SSOffX: 0
     - _SSOffY: 0
     - _SSSize: 1
-    - _SSTileX: 1
-    - _SSTileY: 1
-    - _ScreenContrast: 0.47
-    - _ShoreBumpIntensity: 1
-    - _ShoreBumpScale: 0.02
-    - _ShoreCAnchorX: 2
-    - _ShoreCAnchorY: 2
-    - _ShoreCBAnchorX: 0
-    - _ShoreCBAnchorY: 0
-    - _ShoreCBRotSpeed: 0
-    - _ShoreCBSpeedX: 0.05
-    - _ShoreCBSpeedY: -0.1
-    - _ShoreCBTileX: 3
-    - _ShoreCBTileY: 3
-    - _ShoreCRotSpeed: 0
-    - _ShoreCSpeedX: -0.1
-    - _ShoreCSpeedY: -0.1
-    - _ShoreCTileX: 4
-    - _ShoreCTileY: 4
+    - _SSTileX: 4
+    - _SSTileY: 4
+    - _ScreenContrast: 0.209
+    - _ShoreBumpIntensity: 0.529
     - _ShoreGradeOffset: 0
-    - _ShoreGradeScale: 1.44
-    - _ShoreMapA: 0
-    - _ShoreMapB: 0
-    - _ShoreSetting: 1
-    - _ShoreTAInvert: 0
-    - _ShoreTBInvert: 0
-    - _ShoreTextureBlendingType: 0
-    - _ShoreTileX: 3
-    - _ShoreTileX1: 1
-    - _ShoreTileY: 3
-    - _ShoreTileY1: 1
-    - _ShoreWaves: 1
-    - _Size: 1
-    - _Smoothnes: 0.85
-    - _Specular: 2.06
-    - _SpecularHighlights: 1
+    - _ShoreGradeScale: 1
+    - _ShoreIntensity: 1
+    - _ShoreTileX: 1
+    - _ShoreTileY: 1
+    - _ShoreToggle: 0
+    - _Smoothness: 0.5
+    - _Specular: 0.5
+    - _SpecularHighlights: 0
     - _SrcBlend: 1
-    - _TessValue: 1
+    - _SurfCTypeAOverallSpeed: 1
+    - _SurfCTypeBOverallSpeed: 1
+    - _SurfaceCAAnchorX: 0
+    - _SurfaceCAAnchorY: 0
+    - _SurfaceCAOffsetX: 0
+    - _SurfaceCAOffsetY: 0
+    - _SurfaceCARot: 35
+    - _SurfaceCARotSpeed: 0
+    - _SurfaceCAScale: 1
+    - _SurfaceCASpeedX: 0.03
+    - _SurfaceCASpeedY: -0.1
+    - _SurfaceCATileX: 4
+    - _SurfaceCATileY: 4
+    - _SurfaceCBAnchorX: 0
+    - _SurfaceCBAnchorY: 0
+    - _SurfaceCBOffsetX: 0.5
+    - _SurfaceCBOffsetY: 0.5
+    - _SurfaceCBRot: 0
+    - _SurfaceCBRotSpeed: 0
+    - _SurfaceCBScale: 0.88
+    - _SurfaceCBSpeedX: -0.1
+    - _SurfaceCBSpeedY: 0.05
+    - _SurfaceCBTileX: 4
+    - _SurfaceCBTileY: 4
+    - _SurfaceCMapAIntensity: 0.761
+    - _SurfaceCMapAInv: 0
+    - _SurfaceCMapBIntensity: 0.55
+    - _SurfaceCMapBInv: 0
+    - _SurfaceDeformBias: 0
+    - _SurfaceDeformContrast: 1
+    - _SurfaceDeformScale: 0.48
+    - _SurfaceDeformation: 0
+    - _SurfaceMapA: 1
+    - _SurfaceMapB: 1
+    - _SurfaceTextureBlendingType: 2
+    - _SurfaceWaves: 0
     - _TextureGradeType: 0
-    - _TextureOff: -65.7
-    - _TextureScl: 66.6
-    - _ToggleSwitch0: 0
-    - _TransAmbient: 0.1
-    - _TransDirect: 0.9
-    - _TransNormal: 0.5
-    - _TransScattering: 2
-    - _TransShadow: 0.5
-    - _TransStrength: 1
-    - _TransmissionShadow: 0.5
-    - _TransparentIntensity: 0.744
-    - _TypeAScale: 4
-    - _TypeBScale: 4
-    - _VorAAngleSpeed: 1
-    - _VorAScale: 5
-    - _VorASmooth: 2
-    - _VorASpeedX: -0.12
-    - _VorASpeedY: -0.1
-    - _VorATileX: 3
-    - _VorATileY: 3
-    - _VorAnchorX: 1
-    - _VorAnchorY: 1
-    - _VorAngle: 0
-    - _VorBAngleSpeed: 1
-    - _VorBScale: 6
-    - _VorBSmooth: 0.3
-    - _VorBSpeedX: -0.07
-    - _VorBSpeedY: -0.04
-    - _VorBTileX: 5
-    - _VorBTileY: 5
-    - _VorOctave: 1
-    - _VorOffset: 1.29
-    - _VorOffsetX: 0
-    - _VorOffsetY: 0
-    - _VorRotate: 0
-    - _VorScale: 4
-    - _VorSmootness: 0
-    - _VorTileY: 4
-    - _VorTilex: 4
-    - _Voronoi1Speed: 0.15
-    - _Voronoi2Speed: 0.1
-    - _VoronoiAAngleSpeed: 0
-    - _VoronoiASpeedX: 0
-    - _VoronoiASpeedY: 0
-    - _VoronoiA_Type: 3
-    - _VoronoiA_Type1: 5
-    - _VoronoiA_Type2: 3
-    - _VoronoiA_Type3: 5
-    - _VoronoiAngleSpeed: 0.84
-    - _VoronoiBAngleSpeed: 0
-    - _VoronoiBSpeedX: 0
-    - _VoronoiBSpeedY: 0
-    - _VoronoiCellCount: 5
-    - _VoronoiHeight: 5
-    - _VoronoiOffsetX: 0
-    - _VoronoiOffsetY: 0
-    - _VoronoiSpeed: 0
-    - _VoronoiTileX: 2
-    - _VoronoiTileY: 2
-    - _Voronoi_A_Type: 5
-    - _Voronoi_B_Type: 7
-    - _WaveLength: 3.36
-    - _WaveSpeed: 0.1
-    - _WaveSpeedX: -0.2
-    - _WaveSpeedY: -0.2
+    - _TransparentIntensity: 1
+    - _WaveAnchorX: 0.68
+    - _WaveAnchorY: 0.46
+    - _WaveContrast: 1.38
+    - _WaveFlowType: 0
+    - _WaveLength: 4
+    - _WaveOffsetX: 0.143
+    - _WaveOffsetY: 0.113
+    - _WaveOverallSpeed: 1
+    - _WaveRotate: 55.3
+    - _WaveRotateSpeed: 3.5
+    - _WaveSpeedX: 1
+    - _WaveSpeedY: 1
     - _ZWrite: 1
-    - _aFoamTileX: 1
-    - _aFoamTileY: 1
-    - _bFoamTileX: 3
-    - _bFoamTileY: 3
-    - _cFoamTileX: 2
-    - _cFoamTileY: 2
-    - _cx: 0
-    - _cy: 1
-    - _dfgsdgdfsgsd: -1
-    - _dist: 2
-    - _exp: 1.5
-    - _fdist: 6.37
-    - _fexp: 0.65
-    - _fgexp: 0.43
-    - _fgoff: 0
-    - _fgscl: 1
-    - _gexp: 0.25
-    - _goff: 0.2
-    - _gscl: 0.7
-    - _oox: -1.9
-    - _ooy: -2.1
-    - _ox: 2
-    - _oy: -2
-    - _str: 0.3
-    - _vorScale: 2.72
     m_Colors:
-    - _BaseColor: {r: 0, g: 0.30610716, b: 0.5786163, a: 1}
-    - _Color0: {r: 0, g: 0, b: 0, a: 1}
-    - _Color1: {r: 0, g: 1, b: 0.1833334, a: 1}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
-    - _FoamColor: {r: 1, g: 1, b: 1, a: 1}
-    - _FogColor: {r: 0, g: 0.37013498, b: 0.495, a: 1}
-    - _Period: {r: 5, g: 5, b: 5, a: 0}
-    - _RefColor: {r: 0.509434, g: 0, b: 0, a: 0}
-    - _ReflectColor: {r: 0.4659686, g: 0.8272251, b: 1, a: 1}
-    - _RefractColor: {r: 1, g: 1, b: 1, a: 0}
-    - _ShoreColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Vector0: {r: 0, g: 0, b: 0, a: 0}
-    - _Vector1: {r: 1, g: 1, b: 1, a: 0}
-    - _VoronoiAngleOffset: {r: 0, g: 0, b: 0, a: 0}
+    - _FogColor: {r: 0, g: 0.5249081, b: 0.6792453, a: 1}
+    - _MirrorRefColor: {r: 1, g: 1, b: 1, a: 1}
+    - _ReflectColor: {r: 1, g: 1, b: 1, a: 1}
+    - _RefractColor: {r: 0.5471698, g: 0.5471698, b: 0.5471698, a: 0}
+    - _SurfaceColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

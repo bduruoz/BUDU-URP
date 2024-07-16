@@ -2,11 +2,12 @@
 using UnityEditor;
 using System;
 using budu;
+using AmplifyShaderEditor;
 
 public class BWaterToonEditor : ShaderGUI
 {
-    bool checkShoreColor, checkDepthSetting, checkAlphaSetting;
-    bool aboutFold, shoreMAFold, shoreMBFold, shoreTXFold, foamFold, noiseFold, middleWaveFold;
+    bool checkShoreColor, checkDepthSetting, checkAlphaSetting, checkMiddle;
+    bool aboutFold, shoreMAFold, shoreMBFold, shoreTXFold, foamFold, noiseFold, middleWaveFold, midNAFold, midNBFold;
     int tempVar;
     
     public override void OnGUI(MaterialEditor materialEditor, MaterialProperty[] properties)
@@ -15,6 +16,7 @@ public class BWaterToonEditor : ShaderGUI
         loadMaterialVariables(targetMat);
 
         GUIStyle style = new GUIStyle();
+        GUIStyle style2 = new GUIStyle();
 
         #region BUDU Water Toon Shader Title
         Texture banner = (Texture)AssetDatabase.LoadAssetAtPath("Assets/_Main/Shaders/Editor/GUI/BUDUWaterToonTitle.png", typeof(Texture));
@@ -33,176 +35,177 @@ public class BWaterToonEditor : ShaderGUI
         GUI.backgroundColor = bdColors.White(255);
         #endregion
 
-        #region Shore Settings
+        #region Shore Texture Settings
         style.normal.background = MakeBackground(1, 32, bdColors.GrayP(18, 204));
         style.fontSize = 16;
         style.normal.textColor = bdColors.NexusOrange();
 
+        checkShoreColor = EditorGUILayout.ToggleLeft("SHORE COLOR & TEXTURE SETTINGS", checkShoreColor, style);
+        targetMat.SetInt("_ShoreSetting",Convert.ToInt16(checkShoreColor));
         EditorGUILayout.BeginVertical();
+        if(checkShoreColor)
         {
-            checkShoreColor = EditorGUILayout.ToggleLeft("SHORE SETTINS", checkShoreColor, style);
-            targetMat.SetInt("_ShoreSetting",Convert.ToInt16(checkShoreColor));
-            EditorGUILayout.BeginVertical();   
-            if(checkShoreColor)
+            EditorGUI.indentLevel++;
+            MaterialProperty sc = ShaderGUI.FindProperty("_ShoreColor", properties);
+            MaterialProperty shtb = ShaderGUI.FindProperty("_ShoreTextureBlendingType", properties);
+
+            materialEditor.ColorProperty(sc, "Shore Color");
+            materialEditor.ShaderProperty(shtb, "Texture Blending Type");
+
+            MaterialProperty scm = ShaderGUI.FindProperty("_ShoreColorMap", properties);
+
+            MaterialProperty sctx = ShaderGUI.FindProperty("_ShoreCTileX", properties);
+            MaterialProperty scty = ShaderGUI.FindProperty("_ShoreCTileY", properties);
+            MaterialProperty scsx = ShaderGUI.FindProperty("_ShoreCSpeedX", properties);
+            MaterialProperty scsy = ShaderGUI.FindProperty("_ShoreCSpeedY", properties);
+            MaterialProperty scax = ShaderGUI.FindProperty("_ShoreCAnchorX", properties);
+            MaterialProperty scay = ShaderGUI.FindProperty("_ShoreCAnchorY", properties);
+            MaterialProperty scrot = ShaderGUI.FindProperty("_ShoreCRotSpeed", properties);
+
+            MaterialProperty scbtx = ShaderGUI.FindProperty("_ShoreCBTileX", properties);
+            MaterialProperty scbty = ShaderGUI.FindProperty("_ShoreCBTileY", properties);
+            MaterialProperty scbsx = ShaderGUI.FindProperty("_ShoreCBSpeedX", properties);
+            MaterialProperty scbsy = ShaderGUI.FindProperty("_ShoreCBSpeedY", properties);
+            MaterialProperty scbax = ShaderGUI.FindProperty("_ShoreCBAnchorX", properties);
+            MaterialProperty scbay = ShaderGUI.FindProperty("_ShoreCBAnchorY", properties);
+            MaterialProperty scbrot = ShaderGUI.FindProperty("_ShoreCBRotSpeed", properties);
+
+            switch((int)(shtb.floatValue))
             {
-                MaterialProperty sc = ShaderGUI.FindProperty("_ShoreColor", properties);
-                MaterialProperty shtb = ShaderGUI.FindProperty("_ShoreTextureBlendingType", properties);
+                case 0:
+                    #region No Texture
+                    // No Parameters
+                    #endregion
+                    break;
+                case 1:
+                    #region One Texture
+                    materialEditor.TextureProperty(scm, "Shore Map");
+                    style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(30));
+                    EditorGUILayout.BeginVertical(style);
+                    shoreMAFold = EditorGUILayout.Foldout(shoreMAFold, "Map A Controls", toggleOnLabelClick: true);
+                    targetMat.SetInt("_ShoreMapA", Convert.ToInt16(shoreMAFold));
 
-                materialEditor.ColorProperty(sc, "Shore Color");
-                materialEditor.ShaderProperty(shtb, "Texture Blending Type");
+                    if(shoreMAFold)
+                    {
+                        EditorGUILayout.BeginHorizontal();
+                        EditorGUIUtility.labelWidth = 130;
+                        EditorGUIUtility.fieldWidth = 50;
+                        materialEditor.FloatProperty(sctx, "Map A Tile X");
+                        materialEditor.FloatProperty(scty, "Map A Tile Y");
+                        EditorGUIUtility.labelWidth = 0;
+                        EditorGUIUtility.fieldWidth = 0;
+                        EditorGUILayout.EndHorizontal();
+                        EditorGUILayout.BeginHorizontal();
+                        EditorGUIUtility.labelWidth = 130;
+                        EditorGUIUtility.fieldWidth = 50;
+                        materialEditor.FloatProperty(scsx, "Map A Speeed X");
+                        materialEditor.FloatProperty(scsy, "Map A Speed Y");
+                        EditorGUIUtility.labelWidth = 0;
+                        EditorGUIUtility.fieldWidth = 0;
+                        EditorGUILayout.EndHorizontal();
+                        EditorGUILayout.BeginHorizontal();
+                        EditorGUIUtility.labelWidth = 130;
+                        EditorGUIUtility.fieldWidth = 50;
+                        materialEditor.FloatProperty(scax, "Map A Anchor X");
+                        materialEditor.FloatProperty(scay, "Map A Anchor Y");
+                        EditorGUIUtility.labelWidth = 0;
+                        EditorGUIUtility.fieldWidth = 0;
+                        EditorGUILayout.EndHorizontal();
+                        materialEditor.FloatProperty(scrot, "Rotation Speed");
+                    }
+                    EditorGUILayout.EndVertical();
+                    #endregion
+                    break;
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                    #region Add Sub Mult Div
+                    materialEditor.TextureProperty(scm, "Shore Map");
 
-                MaterialProperty scm = ShaderGUI.FindProperty("_ShoreColorMap", properties);
+                    #region Map A Settings
+                    style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(30));
+                    EditorGUILayout.BeginVertical(style);
+                    shoreMAFold = EditorGUILayout.Foldout(shoreMAFold, "Map A Controls", toggleOnLabelClick: true);
+                    targetMat.SetInt("_ShoreMapA", Convert.ToInt16(shoreMAFold));
+                    if(shoreMAFold)
+                    {
+                        EditorGUI.indentLevel++;
+                        EditorGUILayout.BeginHorizontal();
+                        EditorGUIUtility.labelWidth = 130;
+                        EditorGUIUtility.fieldWidth = 50;
+                        materialEditor.FloatProperty(sctx, "Map A Tile X");
+                        materialEditor.FloatProperty(scty, "Map A Tile Y");
+                        EditorGUIUtility.labelWidth = 0;
+                        EditorGUIUtility.fieldWidth = 0;
+                        EditorGUILayout.EndHorizontal();
+                        EditorGUILayout.BeginHorizontal();
+                        EditorGUIUtility.labelWidth = 130;
+                        EditorGUIUtility.fieldWidth = 50;
+                        materialEditor.FloatProperty(scsx, "Map A Speeed X");
+                        materialEditor.FloatProperty(scsy, "Map A Speed Y");
+                        EditorGUIUtility.labelWidth = 0;
+                        EditorGUIUtility.fieldWidth = 0;
+                        EditorGUILayout.EndHorizontal();
+                        EditorGUILayout.BeginHorizontal();
+                        EditorGUIUtility.labelWidth = 130;
+                        EditorGUIUtility.fieldWidth = 50;
+                        materialEditor.FloatProperty(scax, "Map A Anchor X");
+                        materialEditor.FloatProperty(scay, "Map A Anchor Y");
+                        EditorGUIUtility.labelWidth = 0;
+                        EditorGUIUtility.fieldWidth = 0;
+                        EditorGUILayout.EndHorizontal();
+                        materialEditor.FloatProperty(scrot, "Rotation Speed");
+                        EditorGUI.indentLevel--;
+                    }
+                    EditorGUILayout.EndVertical();
 
-                MaterialProperty sctx = ShaderGUI.FindProperty("_ShoreCTileX", properties);
-                MaterialProperty scty = ShaderGUI.FindProperty("_ShoreCTileY", properties);
-                MaterialProperty scsx = ShaderGUI.FindProperty("_ShoreCSpeedX", properties);
-                MaterialProperty scsy = ShaderGUI.FindProperty("_ShoreCSpeedY", properties);
-                MaterialProperty scax = ShaderGUI.FindProperty("_ShoreCAnchorX", properties);
-                MaterialProperty scay = ShaderGUI.FindProperty("_ShoreCAnchorY", properties);
-                MaterialProperty scrot = ShaderGUI.FindProperty("_ShoreCRotSpeed", properties);
+                    style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(60));
+                    EditorGUILayout.BeginVertical(style);
+                    shoreMBFold = EditorGUILayout.Foldout(shoreMBFold, "Map B Controls", toggleOnLabelClick: true);
+                    targetMat.SetInt("_ShoreMapB", Convert.ToInt16(shoreMBFold));
+                    #endregion
 
-                MaterialProperty scbtx = ShaderGUI.FindProperty("_ShoreCBTileX", properties);
-                MaterialProperty scbty = ShaderGUI.FindProperty("_ShoreCBTileY", properties);
-                MaterialProperty scbsx = ShaderGUI.FindProperty("_ShoreCBSpeedX", properties);
-                MaterialProperty scbsy = ShaderGUI.FindProperty("_ShoreCBSpeedY", properties);
-                MaterialProperty scbax = ShaderGUI.FindProperty("_ShoreCBAnchorX", properties);
-                MaterialProperty scbay = ShaderGUI.FindProperty("_ShoreCBAnchorY", properties);
-                MaterialProperty scbrot = ShaderGUI.FindProperty("_ShoreCBRotSpeed", properties);
+                    #region Map B Settings
+                    if(shoreMBFold)
+                    {
+                        EditorGUI.indentLevel++;
+                        EditorGUILayout.BeginHorizontal();
+                        EditorGUIUtility.labelWidth = 130;
+                        EditorGUIUtility.fieldWidth = 50;
+                        materialEditor.FloatProperty(scbtx, "Map B Tile X");
+                        materialEditor.FloatProperty(scbty, "Map B Tile Y");
+                        EditorGUIUtility.labelWidth = 0;
+                        EditorGUIUtility.fieldWidth = 0;
+                        EditorGUILayout.EndHorizontal();
+                        EditorGUILayout.BeginHorizontal();
+                        EditorGUIUtility.labelWidth = 130;
+                        EditorGUIUtility.fieldWidth = 50;
+                        materialEditor.FloatProperty(scbsx, "Map B Speeed X");
+                        materialEditor.FloatProperty(scbsy, "Map B Speed Y");
+                        EditorGUIUtility.labelWidth = 0;
+                        EditorGUIUtility.fieldWidth = 0;
+                        EditorGUILayout.EndHorizontal();
+                        EditorGUILayout.BeginHorizontal();
+                        EditorGUIUtility.labelWidth = 130;
+                        EditorGUIUtility.fieldWidth = 50;
+                        materialEditor.FloatProperty(scbax, "Map B Anchor X");
+                        materialEditor.FloatProperty(scbay, "Map B Anchor Y");
+                        EditorGUIUtility.labelWidth = 0;
+                        EditorGUIUtility.fieldWidth = 0;
+                        EditorGUILayout.EndHorizontal();
+                        materialEditor.FloatProperty(scbrot, "Map B Rotation Speed");
+                        EditorGUI.indentLevel--;
+                    }
+                    EditorGUILayout.EndVertical();
+                    #endregion
+                    #endregion
+                    break;
 
-                switch((int)(shtb.floatValue))
-                {
-                    case 0:
-                        #region No Texture
-                        // No Parameters
-                        #endregion
-                        break;
-                    case 1:
-                        #region One Texture
-                        materialEditor.TextureProperty(scm, "Shore Map");
-                        style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(30));
-                        EditorGUILayout.BeginVertical(style);
-                        shoreMAFold = EditorGUILayout.Foldout(shoreMAFold, "Map A Controls", toggleOnLabelClick: true);
-                        targetMat.SetInt("_ShoreMapA", Convert.ToInt16(shoreMAFold));
-
-                        if(shoreMAFold)
-                        {
-                            EditorGUILayout.BeginHorizontal();
-                            EditorGUIUtility.labelWidth = 130;
-                            EditorGUIUtility.fieldWidth = 50;
-                            materialEditor.FloatProperty(sctx, "Map A Tile X");
-                            materialEditor.FloatProperty(scty, "Map A Tile Y");
-                            EditorGUIUtility.labelWidth = 0;
-                            EditorGUIUtility.fieldWidth = 0;
-                            EditorGUILayout.EndHorizontal();
-                            EditorGUILayout.BeginHorizontal();
-                            EditorGUIUtility.labelWidth = 130;
-                            EditorGUIUtility.fieldWidth = 50;
-                            materialEditor.FloatProperty(scsx, "Map A Speeed X");
-                            materialEditor.FloatProperty(scsy, "Map A Speed Y");
-                            EditorGUIUtility.labelWidth = 0;
-                            EditorGUIUtility.fieldWidth = 0;
-                            EditorGUILayout.EndHorizontal();
-                            EditorGUILayout.BeginHorizontal();
-                            EditorGUIUtility.labelWidth = 130;
-                            EditorGUIUtility.fieldWidth = 50;
-                            materialEditor.FloatProperty(scax, "Map A Anchor X");
-                            materialEditor.FloatProperty(scay, "Map A Anchor Y");
-                            EditorGUIUtility.labelWidth = 0;
-                            EditorGUIUtility.fieldWidth = 0;
-                            EditorGUILayout.EndHorizontal();
-                            materialEditor.FloatProperty(scrot, "Rotation Speed");
-                        }
-                        EditorGUILayout.EndVertical();
-                        #endregion
-                        break;
-                    case 2:
-                    case 3:
-                    case 4:
-                    case 5:
-                        #region Add Sub Mult Div
-                        materialEditor.TextureProperty(scm, "Shore Map");
-
-                        #region Map A Settings
-                        style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(30));
-                        EditorGUILayout.BeginVertical(style);
-                        shoreMAFold = EditorGUILayout.Foldout(shoreMAFold, "Map A Controls", toggleOnLabelClick: true);
-                        targetMat.SetInt("_ShoreMapA", Convert.ToInt16(shoreMAFold));
-                        if(shoreMAFold)
-                        {
-                            EditorGUILayout.BeginHorizontal();
-                            EditorGUIUtility.labelWidth = 130;
-                            EditorGUIUtility.fieldWidth = 50;
-                            materialEditor.FloatProperty(sctx, "Map A Tile X");
-                            materialEditor.FloatProperty(scty, "Map A Tile Y");
-                            EditorGUIUtility.labelWidth = 0;
-                            EditorGUIUtility.fieldWidth = 0;
-                            EditorGUILayout.EndHorizontal();
-                            EditorGUILayout.BeginHorizontal();
-                            EditorGUIUtility.labelWidth = 130;
-                            EditorGUIUtility.fieldWidth = 50;
-                            materialEditor.FloatProperty(scsx, "Map A Speeed X");
-                            materialEditor.FloatProperty(scsy, "Map A Speed Y");
-                            EditorGUIUtility.labelWidth = 0;
-                            EditorGUIUtility.fieldWidth = 0;
-                            EditorGUILayout.EndHorizontal();
-                            EditorGUILayout.BeginHorizontal();
-                            EditorGUIUtility.labelWidth = 130;
-                            EditorGUIUtility.fieldWidth = 50;
-                            materialEditor.FloatProperty(scax, "Map A Anchor X");
-                            materialEditor.FloatProperty(scay, "Map A Anchor Y");
-                            EditorGUIUtility.labelWidth = 0;
-                            EditorGUIUtility.fieldWidth = 0;
-                            EditorGUILayout.EndHorizontal();
-                            materialEditor.FloatProperty(scrot, "Rotation Speed");
-                        }
-                        EditorGUILayout.EndVertical();
-
-                        style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(60));
-                        EditorGUILayout.BeginVertical(style);
-                        shoreMBFold = EditorGUILayout.Foldout(shoreMBFold, "Map B Controls", toggleOnLabelClick: true);
-                        targetMat.SetInt("_ShoreMapB", Convert.ToInt16(shoreMBFold));
-                        #endregion
-
-                        #region Map B Settings
-                        if(shoreMBFold)
-                        {
-                            EditorGUILayout.BeginHorizontal();
-                            EditorGUIUtility.labelWidth = 130;
-                            EditorGUIUtility.fieldWidth = 50;
-                            materialEditor.FloatProperty(scbtx, "Map B Tile X");
-                            materialEditor.FloatProperty(scbty, "Map B Tile Y");
-                            EditorGUIUtility.labelWidth = 0;
-                            EditorGUIUtility.fieldWidth = 0;
-                            EditorGUILayout.EndHorizontal();
-                            EditorGUILayout.BeginHorizontal();
-                            EditorGUIUtility.labelWidth = 130;
-                            EditorGUIUtility.fieldWidth = 50;
-                            materialEditor.FloatProperty(scbsx, "Map B Speeed X");
-                            materialEditor.FloatProperty(scbsy, "Map B Speed Y");
-                            EditorGUIUtility.labelWidth = 0;
-                            EditorGUIUtility.fieldWidth = 0;
-                            EditorGUILayout.EndHorizontal();
-                            EditorGUILayout.BeginHorizontal();
-                            EditorGUIUtility.labelWidth = 130;
-                            EditorGUIUtility.fieldWidth = 50;
-                            materialEditor.FloatProperty(scbax, "Map B Anchor X");
-                            materialEditor.FloatProperty(scbay, "Map B Anchor Y");
-                            EditorGUIUtility.labelWidth = 0;
-                            EditorGUIUtility.fieldWidth = 0;
-                            EditorGUILayout.EndHorizontal();
-                            materialEditor.FloatProperty(scbrot, "Map B Rotation Speed");
-                        }
-                        EditorGUILayout.EndVertical();
-                        #endregion
-                        #endregion
-                        break;
-
-                }
             }
-            EditorGUILayout.EndVertical();
+            EditorGUI.indentLevel--;
         }
-        GUILayout.EndVertical();
-        EditorGUILayout.Space();
+        EditorGUILayout.EndVertical();
         #endregion
 
         #region Depth Settings
@@ -214,6 +217,7 @@ public class BWaterToonEditor : ShaderGUI
         targetMat.SetInt("_DepthSetting",Convert.ToInt16(checkDepthSetting));
         if(checkDepthSetting)
         {
+            EditorGUI.indentLevel++;
             MaterialProperty ddist = ShaderGUI.FindProperty("_DepthDistance", properties);
             MaterialProperty dexp = ShaderGUI.FindProperty("_DepthExponential",properties);
             MaterialProperty dGrScl = ShaderGUI.FindProperty("_GradeScale", properties);
@@ -231,8 +235,8 @@ public class BWaterToonEditor : ShaderGUI
             materialEditor.FloatProperty(dGrExp, "Grade Exponential");
             materialEditor.FloatProperty(dsize, "Depth Size");
             materialEditor.FloatProperty(dMid, "Middle Wave Edge Control");
+            EditorGUI.indentLevel--;
         }
-
         #endregion
 
         #region Alpha Settings
@@ -244,24 +248,24 @@ public class BWaterToonEditor : ShaderGUI
         targetMat.SetInt("_AlphaSetting", Convert.ToInt16(checkAlphaSetting));
         if(checkAlphaSetting)
         {
+            EditorGUI.indentLevel++;
             #region Shore Wave Settings
             style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(20));
             EditorGUILayout.BeginVertical(style);
 
             MaterialProperty clipThres = ShaderGUI.FindProperty("_ClipThreshold",properties);
             MaterialProperty shortog = ShaderGUI.FindProperty("_ShoreWaves", properties);
-            MaterialProperty midtog = ShaderGUI.FindProperty("_MiddleWave", properties);
             MaterialProperty txGradeType = ShaderGUI.FindProperty("_TextureGradeType", properties);
 
             materialEditor.ShaderProperty(clipThres, "Alpha Clip Threshold");
             materialEditor.ShaderProperty(shortog, "Shore Toggle");
-            materialEditor.ShaderProperty(midtog, "Middle Wave Toggle");
             materialEditor.ShaderProperty(txGradeType, "Grade Type");
 
-            shoreTXFold = EditorGUILayout.Foldout(shoreTXFold, "Alpha Shore Settings", toggleOnLabelClick: true);
+            shoreTXFold = EditorGUILayout.Foldout(shoreTXFold, "Shore Settings", toggleOnLabelClick: true);
             targetMat.SetInt("_AShoreFold", Convert.ToInt16(shoreTXFold));
             if(shoreTXFold)
             {
+                EditorGUI.indentLevel++;
                 MaterialProperty shtxt = ShaderGUI.FindProperty("_ShoreTexture", properties);
                 MaterialProperty shInv = ShaderGUI.FindProperty("_InvertShoreTexture", properties);
                 MaterialProperty shGrScl = ShaderGUI.FindProperty("_ShoreGradeScale", properties);
@@ -294,16 +298,19 @@ public class BWaterToonEditor : ShaderGUI
                 EditorGUIUtility.labelWidth = 0;
                 EditorGUIUtility.fieldWidth = 0;
                 EditorGUILayout.EndHorizontal();
+                EditorGUI.indentLevel--;
             }
             EditorGUILayout.EndVertical();
             #endregion
 
+            #region Shore Foam Settings
             style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(40));
             EditorGUILayout.BeginVertical(style);
-            foamFold = EditorGUILayout.Foldout(foamFold, "Alpha Foam Settings", toggleOnLabelClick: true);
+            foamFold = EditorGUILayout.Foldout(foamFold, "Foam Settings", toggleOnLabelClick: true);
             targetMat.SetInt("_AFoamFold", Convert.ToInt16(foamFold));
             if(foamFold)
             {
+                EditorGUI.indentLevel++;
                 MaterialProperty fmblendt = ShaderGUI.FindProperty("_FoamBlendType", properties);
 
                 MaterialProperty fmtxt = ShaderGUI.FindProperty("_FoamTexture", properties);
@@ -344,28 +351,29 @@ public class BWaterToonEditor : ShaderGUI
                 EditorGUIUtility.labelWidth = 0;
                 EditorGUIUtility.fieldWidth = 0;
                 EditorGUILayout.EndHorizontal();
-
+                EditorGUI.indentLevel--;
             }
             EditorGUILayout.EndVertical();
+            #endregion
 
+            #region Deform Noise Settings
             style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(60));
             EditorGUILayout.BeginVertical(style);
-            noiseFold = EditorGUILayout.Foldout(noiseFold, "Alpha Noise Settings", toggleOnLabelClick: true);
+            noiseFold = EditorGUILayout.Foldout(noiseFold, "Deform Noise Settings", toggleOnLabelClick: true);
             targetMat.SetInt("_NoiseFold", Convert.ToInt16(noiseFold));
             if(noiseFold)
             {
-                MaterialProperty noiseType = ShaderGUI.FindProperty("_NoiseType",properties);
-
+                EditorGUI.indentLevel++;
+                MaterialProperty noiseType = ShaderGUI.FindProperty("_NoiseType", properties);
                 materialEditor.ShaderProperty(noiseType, "Noise Type");
-
                 switch((int)noiseType.floatValue)
                 {
                     case 0:
                         // Vor A - Vor B
                         EditorGUILayout.Space(5);
                         EditorGUILayout.BeginVertical();
-                        style.fontSize = 12;
-                        style.alignment = TextAnchor.LowerLeft;
+                        style.fontSize = 14;
+                        style.alignment = TextAnchor.MiddleLeft;
                         style.fontStyle = FontStyle.Bold;
                         EditorGUILayout.LabelField("Voronoi Type A", style);
                         vorA(materialEditor, properties);
@@ -381,8 +389,8 @@ public class BWaterToonEditor : ShaderGUI
                         // Vor A - Per A
                         EditorGUILayout.Space(5);
                         EditorGUILayout.BeginVertical();
-                        style.fontSize = 12;
-                        style.alignment = TextAnchor.LowerLeft;
+                        style.fontSize = 14;
+                        style.alignment = TextAnchor.MiddleLeft;
                         style.fontStyle = FontStyle.Bold;
                         EditorGUILayout.LabelField("Voronoi Type A", style);
                         vorA(materialEditor, properties);
@@ -398,8 +406,8 @@ public class BWaterToonEditor : ShaderGUI
                         // Vor A - Per B
                         EditorGUILayout.Space(5);
                         EditorGUILayout.BeginVertical();
-                        style.fontSize = 12;
-                        style.alignment = TextAnchor.LowerLeft;
+                        style.fontSize = 14;
+                        style.alignment = TextAnchor.MiddleLeft;
                         style.fontStyle = FontStyle.Bold;
                         EditorGUILayout.LabelField("Voronoi Type A", style);
                         vorA(materialEditor, properties);
@@ -415,8 +423,8 @@ public class BWaterToonEditor : ShaderGUI
                         // Per A - Per B
                         EditorGUILayout.Space(5);
                         EditorGUILayout.BeginVertical();
-                        style.fontSize = 12;
-                        style.alignment = TextAnchor.LowerLeft;
+                        style.fontSize = 14;
+                        style.alignment = TextAnchor.MiddleLeft;
                         style.fontStyle = FontStyle.Bold;
                         EditorGUILayout.LabelField("Perlin Type A", style);
                         perA(materialEditor, properties);
@@ -432,8 +440,8 @@ public class BWaterToonEditor : ShaderGUI
                         // Vor B - Per A
                         EditorGUILayout.Space(5);
                         EditorGUILayout.BeginVertical();
-                        style.fontSize = 12;
-                        style.alignment = TextAnchor.LowerLeft;
+                        style.fontSize = 14;
+                        style.alignment = TextAnchor.MiddleLeft;
                         style.fontStyle = FontStyle.Bold;
                         EditorGUILayout.LabelField("Voronoi Type B", style);
                         vorB(materialEditor, properties);
@@ -449,8 +457,8 @@ public class BWaterToonEditor : ShaderGUI
                         // Vor B - Per B
                         EditorGUILayout.Space(5);
                         EditorGUILayout.BeginVertical();
-                        style.fontSize = 12;
-                        style.alignment = TextAnchor.LowerLeft;
+                        style.fontSize = 14;
+                        style.alignment = TextAnchor.MiddleLeft;
                         style.fontStyle = FontStyle.Bold;
                         EditorGUILayout.LabelField("Voronoi Type B", style);
                         vorB(materialEditor, properties);
@@ -462,10 +470,11 @@ public class BWaterToonEditor : ShaderGUI
                         EditorGUILayout.EndVertical();
                         EditorGUILayout.Space(5);
                         break;
-
                 }
+                EditorGUI.indentLevel--;
             }
             EditorGUILayout.EndVertical();
+            #endregion
 
             #region Middle Wave Settingsa
             style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(80));
@@ -474,171 +483,137 @@ public class BWaterToonEditor : ShaderGUI
             targetMat.SetInt("_MiddleFold", Convert.ToInt16(middleWaveFold));
             if(middleWaveFold)
             {
-                MaterialProperty midwaveInt = ShaderGUI.FindProperty("_MiddleWaveIntensity", properties);
-                MaterialProperty defNoGradeScale = ShaderGUI.FindProperty("_DefNoiseGradeScale", properties);
-                MaterialProperty defNoGradeOffset = ShaderGUI.FindProperty("_DefNoiseGradeOffset", properties);
-                MaterialProperty defNoContrast = ShaderGUI.FindProperty("_DefNoiseContrast", properties);
-                MaterialProperty defNoFinalScale = ShaderGUI.FindProperty("_DefNoiseFinalScale", properties);
-                MaterialProperty defNoFinalOffset = ShaderGUI.FindProperty("_DefNoiseFinalOffset", properties);
-
-                MaterialProperty defNoGradeType = ShaderGUI.FindProperty("_DefNoiseGradeType", properties);
-                MaterialProperty defNoiseMixType = ShaderGUI.FindProperty("_DefNoiseMixType", properties);
-
-                MaterialProperty deformScale = ShaderGUI.FindProperty("_DeformScale", properties);
-                MaterialProperty deformTog = ShaderGUI.FindProperty("_DeformToggle", properties);
-                //MaterialProperty deformOffset = ShaderGUI.FindProperty("_DeformOffset", properties);
-
-                materialEditor.ShaderProperty(midwaveInt, "Middle Wave Intensity");
-
-                materialEditor.ShaderProperty(defNoGradeType, "Grade Type");
-                materialEditor.ShaderProperty(defNoiseMixType, "Mix Type");
-
-                materialEditor.ShaderProperty(defNoContrast, "Noise Contrast");
-                materialEditor.ShaderProperty(defNoGradeScale, "Noise Grade Scale");
-                materialEditor.ShaderProperty(defNoGradeOffset, "Noise Grade Offset");
-                materialEditor.ShaderProperty(defNoFinalScale, "Final Scale");
-                materialEditor.ShaderProperty(defNoFinalOffset, "Final Offset");
-
-
-                materialEditor.ShaderProperty(deformTog, "Deform Toggle");
-                materialEditor.ShaderProperty(deformScale, "Deform Scale");
-                //materialEditor.ShaderProperty(deformOffset, "Deform Offset");
-
-                MaterialProperty defNoiseTAExp = ShaderGUI.FindProperty("_DefNoiseTypeAExponential", properties);
-                MaterialProperty defNoiseTAInv = ShaderGUI.FindProperty("_DefNoiseAInvert", properties);
-                MaterialProperty noiseTypeA = ShaderGUI.FindProperty("_NoiseTypeA", properties);
-
-                MaterialProperty defVorAAngle = ShaderGUI.FindProperty("_DefVorAAngle", properties);
-                MaterialProperty defVorAScale = ShaderGUI.FindProperty("_DefNoiseAScale", properties);
-                MaterialProperty defPerlinAScale = ShaderGUI.FindProperty("_DefPerlinAScale", properties);
-
-                MaterialProperty defVorATileX = ShaderGUI.FindProperty("_DefVorATileX", properties);
-                MaterialProperty defVorATileY = ShaderGUI.FindProperty("_DefVorATileY", properties);
-                MaterialProperty defVorASpeedX = ShaderGUI.FindProperty("_DefVorASpeedX", properties);
-                MaterialProperty defVorASpeedY = ShaderGUI.FindProperty("_DefVorASpeedY", properties);
-                MaterialProperty defVorAOverallSpeed = ShaderGUI.FindProperty("_DefNoiseTypeAOverallSpeed", properties);
-                MaterialProperty defTypeAAnchorX = ShaderGUI.FindProperty("_DefTypeAAnchorX", properties);
-                MaterialProperty defTypeAAnchorY = ShaderGUI.FindProperty("_DefTypeAAnchorY", properties);
-                MaterialProperty defTypeARotSpeed = ShaderGUI.FindProperty("_DefTypeARotSpeed", properties);
-                MaterialProperty defTypeATexture = ShaderGUI.FindProperty("_DefNoiseAMap", properties);
-
-                EditorGUILayout.Space(5);
-                EditorGUILayout.LabelField("Noise Type A");
-
-                materialEditor.ShaderProperty(defNoiseTAExp, "Type A Exponential");
-                materialEditor.ShaderProperty(defNoiseTAInv, "Type A Invert");
-                materialEditor.ShaderProperty(noiseTypeA, "Type A");
-                materialEditor.ShaderProperty(defTypeATexture, "Texture Map A");
-                materialEditor.ShaderProperty(defVorAAngle, "Voronoi Angle");
-                materialEditor.ShaderProperty(defVorAScale, "Noise Scale");
-                materialEditor.ShaderProperty(defPerlinAScale, "Perlin Scale");
-
-                EditorGUILayout.BeginHorizontal();
+                #region Middle Wave Default Settings
+                EditorGUI.indentLevel++;
+                checkMiddle = EditorGUILayout.Toggle("Middle Wave", checkMiddle);
+                targetMat.SetInt("_MiddleWave",Convert.ToInt16(checkMiddle));
+                if(checkMiddle)
                 {
-                    EditorGUIUtility.labelWidth = 130;
-                    EditorGUIUtility.fieldWidth = 50;
-                    materialEditor.ShaderProperty(defVorATileX, "Tile X");
-                    materialEditor.ShaderProperty(defVorATileY, "Tile Y");
-                    EditorGUIUtility.labelWidth = 0;
-                    EditorGUIUtility.fieldWidth = 0;
+                    MaterialProperty midwaveInt = ShaderGUI.FindProperty("_MiddleWaveIntensity", properties);
+                    MaterialProperty defNoGradeScale = ShaderGUI.FindProperty("_DefNoiseGradeScale", properties);
+                    MaterialProperty defNoGradeOffset = ShaderGUI.FindProperty("_DefNoiseGradeOffset", properties);
+                    MaterialProperty defNoContrast = ShaderGUI.FindProperty("_DefNoiseContrast", properties);
+                    MaterialProperty defNoFinalScale = ShaderGUI.FindProperty("_DefNoiseFinalScale", properties);
+                    MaterialProperty defNoFinalOffset = ShaderGUI.FindProperty("_DefNoiseFinalOffset", properties);
+
+                    MaterialProperty defNoGradeType = ShaderGUI.FindProperty("_DefNoiseGradeType", properties);
+                    MaterialProperty defNoiseMixType = ShaderGUI.FindProperty("_DefNoiseMixType", properties);
+
+                    MaterialProperty deformScale = ShaderGUI.FindProperty("_DeformScale", properties);
+                    MaterialProperty deformTog = ShaderGUI.FindProperty("_DeformToggle", properties);
+                    //MaterialProperty deformOffset = ShaderGUI.FindProperty("_DeformOffset", properties);
+
+                    materialEditor.ShaderProperty(midwaveInt, "Middle Wave Intensity");
+
+                    materialEditor.ShaderProperty(defNoGradeType, "Grade Type");
+                    materialEditor.ShaderProperty(defNoiseMixType, "Mix Type");
+
+                    materialEditor.ShaderProperty(defNoContrast, "Noise Contrast");
+                    materialEditor.ShaderProperty(defNoGradeScale, "Noise Grade Scale");
+                    materialEditor.ShaderProperty(defNoGradeOffset, "Noise Grade Offset");
+                    materialEditor.ShaderProperty(defNoFinalScale, "Final Scale");
+                    materialEditor.ShaderProperty(defNoFinalOffset, "Final Offset");
+
+
+                    materialEditor.ShaderProperty(deformTog, "Deform Toggle");
+                    materialEditor.ShaderProperty(deformScale, "Deform Scale");
+                    //materialEditor.ShaderProperty(deformOffset, "Deform Offset");
+                    EditorGUI.indentLevel--;
+                    #endregion
+
+                    #region Middle Wave Noise A Settings
+                    midNAFold = EditorGUILayout.Foldout(midNAFold, "Noise Type A", toggleOnLabelClick: true);
+                    targetMat.SetInt("_MiddleNAFold", Convert.ToInt16(midNAFold));
+                    if(midNAFold)
+                    {
+                        EditorGUI.indentLevel++;
+                        MaterialProperty noiseTypeA = ShaderGUI.FindProperty("_NoiseTypeA", properties);
+                        MaterialProperty defNoiseTAExp = ShaderGUI.FindProperty("_DefNoiseTypeAExponential", properties);
+                        MaterialProperty defNoiseTAInv = ShaderGUI.FindProperty("_DefNoiseAInvert", properties);
+                        MaterialProperty defVorAAngle = ShaderGUI.FindProperty("_DefVorAAngle", properties);
+                        MaterialProperty defVorAScale = ShaderGUI.FindProperty("_DefNoiseAScale", properties);
+                        MaterialProperty defPerlinAScale = ShaderGUI.FindProperty("_DefPerlinAScale", properties);
+                        MaterialProperty defTypeATexture = ShaderGUI.FindProperty("_DefNoiseAMap", properties);
+
+                        materialEditor.ShaderProperty(noiseTypeA, "Type A");
+                        materialEditor.ShaderProperty(defNoiseTAExp, "Type A Exponential");
+                        materialEditor.ShaderProperty(defNoiseTAInv, "Type A Invert");
+                        switch((int)noiseTypeA.floatValue)
+                        {
+                            case 0:
+                                // None
+                                break;
+                            case 1:
+                                // Voronoi
+                                materialEditor.ShaderProperty(defVorAAngle, "Voronoi Angle");
+                                materialEditor.ShaderProperty(defVorAScale, "Noise Scale");
+                                midWaveSetA(materialEditor, properties);
+                                break;
+                            case 2:
+                                // Perlin
+                                materialEditor.ShaderProperty(defVorAScale, "Noise Scale");
+                                materialEditor.ShaderProperty(defPerlinAScale, "Perlin Scale");
+                                midWaveSetA(materialEditor, properties);
+                                break;
+                            case 3:
+                                // Texture
+                                materialEditor.ShaderProperty(defTypeATexture, "Texture Map A");
+                                midWaveSetA(materialEditor, properties);
+                                break;
+                        }
+                        EditorGUI.indentLevel--;
+                    }
+                    #endregion
+
+                    #region Middle Wave Noise B Settings
+                    midNBFold = EditorGUILayout.Foldout(midNBFold, "Noise Type B", toggleOnLabelClick: true);
+                    targetMat.SetInt("_MiddleNBFold", Convert.ToInt16(midNBFold));
+                    if(midNBFold)
+                    {
+                        EditorGUI.indentLevel++;
+                        MaterialProperty noiseTypeB = ShaderGUI.FindProperty("_NoiseTypeB", properties);
+                        MaterialProperty defNoiseTBExp = ShaderGUI.FindProperty("_DefNoiseTypeBExponential", properties);
+                        MaterialProperty defNoiseTBInv = ShaderGUI.FindProperty("_DefNoiseBInvert", properties);
+                        MaterialProperty defVorBAngle = ShaderGUI.FindProperty("_DefVorBAngle", properties);
+                        MaterialProperty defVorBScale = ShaderGUI.FindProperty("_DefNoiseBScale", properties);
+                        MaterialProperty defPerlinBScale = ShaderGUI.FindProperty("_DefPerlinBScale", properties);
+                        MaterialProperty defTypeBTexture = ShaderGUI.FindProperty("_DefNoiseBMap", properties);
+
+                        materialEditor.ShaderProperty(noiseTypeB, "Type B");
+                        materialEditor.ShaderProperty(defNoiseTBExp, "Type B Exponential");
+                        materialEditor.ShaderProperty(defNoiseTBInv, "Type B Invert");
+
+                        switch((int)noiseTypeB.floatValue)
+                        {
+                            case 0:
+                                // None
+                                break;
+                            case 1:
+                                // Voronoi
+                                materialEditor.ShaderProperty(defVorBAngle, "Voronoi Angle");
+                                materialEditor.ShaderProperty(defVorBScale, "Noise Scale");
+                                midWaveSetB(materialEditor, properties);
+                                break;
+                            case 2:
+                                // Perlin
+                                materialEditor.ShaderProperty(defVorBScale, "Noise Scale");
+                                materialEditor.ShaderProperty(defPerlinBScale, "Perlin Scale");
+                                midWaveSetB(materialEditor, properties);
+                                break;
+                            case 3:
+                                // Texture
+                                materialEditor.ShaderProperty(defTypeBTexture, "Texture Map B");
+                                midWaveSetB(materialEditor, properties);
+                                break;
+                        }
+                        EditorGUI.indentLevel--;
+                    }
                 }
-                EditorGUILayout.EndHorizontal();
-
-                EditorGUILayout.BeginHorizontal();
-                {
-                    EditorGUIUtility.labelWidth = 130;
-                    EditorGUIUtility.fieldWidth = 50;
-                    materialEditor.ShaderProperty(defVorASpeedX, "Speed X");
-                    materialEditor.ShaderProperty(defVorASpeedY, "Speed Y");
-                    EditorGUIUtility.labelWidth = 0;
-                    EditorGUIUtility.fieldWidth = 0;
-                }
-                EditorGUILayout.EndHorizontal();
-
-                materialEditor.ShaderProperty(defVorAOverallSpeed, "Overall Speed");
-
-                EditorGUILayout.BeginHorizontal();
-                {
-                    EditorGUIUtility.labelWidth = 130;
-                    EditorGUIUtility.fieldWidth = 50;
-                    materialEditor.ShaderProperty(defTypeAAnchorX, "Anchor X");
-                    materialEditor.ShaderProperty(defTypeAAnchorY, "Anchor Y");
-                    EditorGUIUtility.labelWidth = 0;
-                    EditorGUIUtility.fieldWidth = 0;
-                }
-                EditorGUILayout.EndHorizontal();
-
-                materialEditor.ShaderProperty(defTypeARotSpeed, "Rotate Speed");
-
-                MaterialProperty defNoiseTBExp = ShaderGUI.FindProperty("_DefNoiseTypeBExponential", properties);
-                MaterialProperty defNoiseTBInv = ShaderGUI.FindProperty("_DefNoiseBInvert", properties);
-                MaterialProperty noiseTypeB = ShaderGUI.FindProperty("_NoiseTypeB", properties);
-
-                MaterialProperty defVorBAngle = ShaderGUI.FindProperty("_DefVorBAngle", properties);
-                MaterialProperty defVorBScale = ShaderGUI.FindProperty("_DefNoiseBScale", properties);
-                MaterialProperty defPerlinBScale = ShaderGUI.FindProperty("_DefPerlinBScale", properties);
-                MaterialProperty defVorBTileX = ShaderGUI.FindProperty("_DefVorBTileX", properties);
-                MaterialProperty defVorBTileY = ShaderGUI.FindProperty("_DefVorBTileY", properties);
-                MaterialProperty defVorBSpeedX = ShaderGUI.FindProperty("_DefVorBSpeedX", properties);
-                MaterialProperty defVorBSpeedY = ShaderGUI.FindProperty("_DefVorBSpeedY", properties);
-                MaterialProperty defVorBOverallSpeed = ShaderGUI.FindProperty("_DefNoiseTypeBOverallSpeed", properties);
-                MaterialProperty defTypeBAnchorX = ShaderGUI.FindProperty("_DefTypeBAnchorX", properties);
-                MaterialProperty defTypeBAnchorY = ShaderGUI.FindProperty("_DefTypeBAnchorY", properties);
-                MaterialProperty defTypeBRotSpeed = ShaderGUI.FindProperty("_DefTypeBRotSpeed", properties);
-                MaterialProperty defTypeBTexture = ShaderGUI.FindProperty("_DefNoiseBMap", properties);
-
-                EditorGUILayout.Space(5);
-                EditorGUILayout.LabelField("Noise Type B");
-
-                materialEditor.ShaderProperty(defNoiseTBExp, "Type B Exponential");
-                materialEditor.ShaderProperty(defNoiseTBInv, "Type B Invert");
-                materialEditor.ShaderProperty(noiseTypeB, "Type B");
-                materialEditor.ShaderProperty(defTypeBTexture, "Texture Map B");
-
-                materialEditor.ShaderProperty(defVorBAngle, "Voronoi Angle");
-                materialEditor.ShaderProperty(defVorBScale, "Noise Scale");
-                materialEditor.ShaderProperty(defPerlinBScale, "Perlin Scale");
-
-                EditorGUILayout.BeginHorizontal();
-                {
-                    EditorGUIUtility.labelWidth = 130;
-                    EditorGUIUtility.fieldWidth = 50;
-                    materialEditor.ShaderProperty(defVorBTileX, "Tile X");
-                    materialEditor.ShaderProperty(defVorBTileY, "Tile Y");
-                    EditorGUIUtility.labelWidth = 0;
-                    EditorGUIUtility.fieldWidth = 0;
-                }
-                EditorGUILayout.EndHorizontal();
-
-                EditorGUILayout.BeginHorizontal();
-                {
-                    EditorGUIUtility.labelWidth = 130;
-                    EditorGUIUtility.fieldWidth = 50;
-                    materialEditor.ShaderProperty(defVorBSpeedX, "Speed X");
-                    materialEditor.ShaderProperty(defVorBSpeedY, "Speed Y");
-                    EditorGUIUtility.labelWidth = 0;
-                    EditorGUIUtility.fieldWidth = 0;
-                }
-                EditorGUILayout.EndHorizontal();
-
-                materialEditor.ShaderProperty(defVorBOverallSpeed, "Overall Speed");
-
-                EditorGUILayout.BeginHorizontal();
-                {
-                    EditorGUIUtility.labelWidth = 130;
-                    EditorGUIUtility.fieldWidth = 50;
-                    materialEditor.ShaderProperty(defTypeBAnchorX, "Anchor X");
-                    materialEditor.ShaderProperty(defTypeBAnchorY, "Anchor Y");
-                    EditorGUIUtility.labelWidth = 0;
-                    EditorGUIUtility.fieldWidth = 0;
-                }
-                EditorGUILayout.EndHorizontal();
-
-                materialEditor.ShaderProperty(defTypeBRotSpeed, "Rotate Speed");
-
+                #endregion
             }
             EditorGUILayout.EndVertical();
             #endregion
+            EditorGUI.indentLevel--;
         }
 
         #endregion
@@ -671,6 +646,15 @@ public class BWaterToonEditor : ShaderGUI
 
     void loadMaterialVariables(Material targetMat)
     {
+        tempVar = targetMat.GetInt("_MiddleNAFold");
+        midNAFold = tempVar == 1 ? true : false;
+
+        tempVar = targetMat.GetInt("_MiddleNBFold");
+        midNBFold = tempVar == 1 ? true : false;
+
+        tempVar = targetMat.GetInt("_MiddleWave");
+        checkMiddle = tempVar == 1 ? true : false;
+
         tempVar = targetMat.GetInt("_MiddleFold");
         middleWaveFold = tempVar == 1 ? true : false;
 
@@ -701,6 +685,130 @@ public class BWaterToonEditor : ShaderGUI
 
     }
 
+    private void midWaveSetA(MaterialEditor materialEditor, MaterialProperty[] properties)
+    {
+        GUIStyle sty = new GUIStyle();
+
+        MaterialProperty defVorATileX = ShaderGUI.FindProperty("_DefVorATileX", properties);
+        MaterialProperty defVorATileY = ShaderGUI.FindProperty("_DefVorATileY", properties);
+        MaterialProperty defVorASpeedX = ShaderGUI.FindProperty("_DefVorASpeedX", properties);
+        MaterialProperty defVorASpeedY = ShaderGUI.FindProperty("_DefVorASpeedY", properties);
+        MaterialProperty defVorAOverallSpeed = ShaderGUI.FindProperty("_DefNoiseTypeAOverallSpeed", properties);
+        MaterialProperty defTypeAAnchorX = ShaderGUI.FindProperty("_DefTypeAAnchorX", properties);
+        MaterialProperty defTypeAAnchorY = ShaderGUI.FindProperty("_DefTypeAAnchorY", properties);
+        MaterialProperty defTypeARotSpeed = ShaderGUI.FindProperty("_DefTypeARotSpeed", properties);
+
+        EditorGUI.indentLevel++;
+        EditorGUILayout.BeginHorizontal();
+        {
+            EditorGUIUtility.labelWidth = 170;
+            EditorGUIUtility.fieldWidth = 30;
+            materialEditor.ShaderProperty(defVorATileX, "Tile X");
+            materialEditor.ShaderProperty(defVorATileY, "Tile Y");
+            EditorGUIUtility.labelWidth = 0;
+            EditorGUIUtility.fieldWidth = 0;
+        }
+        EditorGUILayout.EndHorizontal();
+
+        EditorGUILayout.BeginHorizontal();
+        {
+            EditorGUIUtility.labelWidth = 170;
+            EditorGUIUtility.fieldWidth = 30;
+            materialEditor.FloatProperty(defVorASpeedX, "Speed X");
+            materialEditor.FloatProperty(defVorASpeedY, "Speed Y");
+            EditorGUIUtility.labelWidth = 0;
+            EditorGUIUtility.fieldWidth = 0;
+        }
+        EditorGUILayout.EndHorizontal();
+
+        EditorGUILayout.BeginHorizontal();
+        {
+            EditorGUIUtility.labelWidth = 170;
+            EditorGUIUtility.fieldWidth = 30;
+            materialEditor.ShaderProperty(defVorAOverallSpeed, "Overall Speed");
+            materialEditor.ShaderProperty(defTypeARotSpeed, "Rotate Speed");
+            EditorGUIUtility.labelWidth = 0;
+            EditorGUIUtility.fieldWidth = 0;
+        }
+        EditorGUILayout.EndHorizontal();
+
+        EditorGUILayout.BeginHorizontal();
+        {
+            EditorGUIUtility.labelWidth = 170;
+            EditorGUIUtility.fieldWidth = 30;
+            materialEditor.ShaderProperty(defTypeAAnchorX, "Anchor X");
+            materialEditor.ShaderProperty(defTypeAAnchorY, "Anchor Y");
+            EditorGUIUtility.labelWidth = 0;
+            EditorGUIUtility.fieldWidth = 0;
+        }
+        EditorGUILayout.EndHorizontal();
+
+
+
+
+        EditorGUI.indentLevel--;
+    }
+
+    private void midWaveSetB(MaterialEditor materialEditor, MaterialProperty[] properties)
+    {
+        GUIStyle sty = new GUIStyle();
+
+        MaterialProperty defVorBTileX = ShaderGUI.FindProperty("_DefVorBTileX", properties);
+        MaterialProperty defVorBTileY = ShaderGUI.FindProperty("_DefVorBTileY", properties);
+        MaterialProperty defVorBSpeedX = ShaderGUI.FindProperty("_DefVorBSpeedX", properties);
+        MaterialProperty defVorBSpeedY = ShaderGUI.FindProperty("_DefVorBSpeedY", properties);
+        MaterialProperty defVorBOverallSpeed = ShaderGUI.FindProperty("_DefNoiseTypeBOverallSpeed", properties);
+        MaterialProperty defTypeBAnchorX = ShaderGUI.FindProperty("_DefTypeBAnchorX", properties);
+        MaterialProperty defTypeBAnchorY = ShaderGUI.FindProperty("_DefTypeBAnchorY", properties);
+        MaterialProperty defTypeBRotSpeed = ShaderGUI.FindProperty("_DefTypeBRotSpeed", properties);
+
+        EditorGUI.indentLevel++;
+        EditorGUILayout.BeginHorizontal();
+        {
+            EditorGUIUtility.labelWidth = 170;
+            EditorGUIUtility.fieldWidth = 30;
+            materialEditor.ShaderProperty(defVorBTileX, "Tile X");
+            materialEditor.ShaderProperty(defVorBTileY, "Tile Y");
+            EditorGUIUtility.labelWidth = 0;
+            EditorGUIUtility.fieldWidth = 0;
+        }
+        EditorGUILayout.EndHorizontal();
+
+        EditorGUILayout.BeginHorizontal();
+        {
+            EditorGUIUtility.labelWidth = 170;
+            EditorGUIUtility.fieldWidth = 30;
+            materialEditor.FloatProperty(defVorBSpeedX, "Speed X");
+            materialEditor.FloatProperty(defVorBSpeedY, "Speed Y");
+            EditorGUIUtility.labelWidth = 0;
+            EditorGUIUtility.fieldWidth = 0;
+        }
+        EditorGUILayout.EndHorizontal();
+
+        EditorGUILayout.BeginHorizontal();
+        {
+            EditorGUIUtility.labelWidth = 170;
+            EditorGUIUtility.fieldWidth = 30;
+            materialEditor.ShaderProperty(defVorBOverallSpeed, "Overall Speed");
+            materialEditor.ShaderProperty(defTypeBRotSpeed, "Rotate Speed");
+            EditorGUIUtility.labelWidth = 0;
+            EditorGUIUtility.fieldWidth = 0;
+        }
+        EditorGUILayout.EndHorizontal();
+
+        EditorGUILayout.BeginHorizontal();
+        {
+            EditorGUIUtility.labelWidth = 170;
+            EditorGUIUtility.fieldWidth = 30;
+            materialEditor.ShaderProperty(defTypeBAnchorX, "Anchor X");
+            materialEditor.ShaderProperty(defTypeBAnchorY, "Anchor Y");
+            EditorGUIUtility.labelWidth = 0;
+            EditorGUIUtility.fieldWidth = 0;
+        }
+        EditorGUILayout.EndHorizontal();
+        EditorGUI.indentLevel--;
+    }
+
     private void vorA(MaterialEditor materialEditor, MaterialProperty[] properties)
     {
         MaterialProperty vAscl = ShaderGUI.FindProperty("_VorAScale", properties);
@@ -712,7 +820,7 @@ public class BWaterToonEditor : ShaderGUI
         MaterialProperty vAspy = ShaderGUI.FindProperty("_VorASpeedY", properties);
 
         materialEditor.FloatProperty(vAscl, "Voronoi A Scale");
-        materialEditor.FloatProperty(vAsmt, "Voronoi A Smooth");
+        materialEditor.RangeProperty(vAsmt, "Voronoi A Smooth");
         materialEditor.FloatProperty(vAang, "Voronoi A Angle");
         EditorGUILayout.BeginHorizontal();
         {
@@ -747,7 +855,7 @@ public class BWaterToonEditor : ShaderGUI
         MaterialProperty vBspy = ShaderGUI.FindProperty("_VorBSpeedY", properties);
 
         materialEditor.FloatProperty(vBscl, "Voronoi B Scale");
-        materialEditor.FloatProperty(vBsmt, "Voronoi B Smooth");
+        materialEditor.RangeProperty(vBsmt, "Voronoi B Smooth");
         materialEditor.FloatProperty(vBang, "Voronoi B Angle");
         EditorGUILayout.BeginHorizontal();
         {

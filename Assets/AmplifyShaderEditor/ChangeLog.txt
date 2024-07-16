@@ -1,3 +1,24 @@
+v1.9.5.1
+
+   Nodes
+      * Fixed "Transform Position" breaking when using "Clip" transform target
+
+v1.9.5
+
+   Editor
+      * Added ability to sort input and output ports, on a per node basis 
+      * Additional change to old fix related to nodes sometimes missing attributes (#296)
+
+   Nodes
+      * Fixed "SRP Bake GI" node support for adaptive probe volumes
+      * Changed "Transform Position" node output to vec4 with target transform "Clip"
+      * Changed "SRP Baked GI" input port "Screen Position" now expects Normalized (xyz/w)
+      * Added "Instance ID" node "Procedural" toggle to support procedural instancing
+      * Added "Transform Position" node "Screen" target transform
+      * Added "Use Alpha" option to "Color" node to output RGB when false (default = true)
+      * Added extra RGB output port to "Color" nodes
+      * Added extra RGB output port to "Texture Sample" node
+
 v1.9.4.4
 
    Editor
