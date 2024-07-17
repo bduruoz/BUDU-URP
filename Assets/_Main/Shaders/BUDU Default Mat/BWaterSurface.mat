@@ -12,8 +12,8 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
+  - _DEFNOISEGRADETYPE1_LINEAR
   - _DEFNOISEGRADETYPE_LINEAR
-  - _DEFNOISEMIXTYPE_FMODINVERT
   - _DEFORMANOISETYPE_TEXTURE
   - _DEFORMBNOISETYPE_TEXTURE
   - _DEFORMGRADETYPE_NORMAL
@@ -22,18 +22,23 @@ Material:
   - _DEF_VORCAUSTIC_B_TYPE_CAUSTIC1
   - _DEF_VORCELL_A_TYPE_CELL3
   - _DEF_VORCELL_B_TYPE_CELL3
-  - _DEPTHGRADETYPE_GAMMA
+  - _DEPTHGRADETYPE_LINEAR
   - _ENVIRONMENTREFLECTIONS_OFF
   - _FLOWMAPGRADE_LINEAR
   - _FLOWTYPE_TEXTUREMAP
+  - _FOAMBLENDTYPE_SUBTRACT
+  - _FOGDEPTHGRADETYPE_LINEAR
+  - _NOISEMIXTYPE_ONENOISE
   - _NOISETYPEA_TEXTURE
   - _NOISETYPEB_PERLIN
+  - _NORMMIXTYPE_NONE
   - _RECEIVE_SHADOWS_OFF
   - _SPECULARHIGHLIGHTS_OFF
   m_InvalidKeywords:
+  - _AFFECTFOAMDEFORMATION_ON
   - _DEFNOISEAINVERT_ON
   - _DEFNOISEBINVERT_ON
-  - _DEFORMAINVERT_ON
+  - _DEFNOISEMIXTYPE_FMODINVERT
   - _DEFORMTOGGLE_ON
   - _DEF_VORCAUSTIC_A_TYPE1_CAUSTIC3
   - _DEF_VORCAUSTIC_A_TYPE2_CAUSTIC3
@@ -42,8 +47,10 @@ Material:
   - _DEF_VORCELL_A_TYPE2_CELL3
   - _DEF_VORCELL_B_TYPE1_CELL3
   - _FLOWTYPE_DEPTH
-  - _MIDDLEWAVE_ON
+  - _FOGTOGGLE_ON
+  - _NOISENORMMIXTYPE_NONE
   - _RECEIVESHADOWS_OFF
+  - _SHORETOGGLE_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -83,7 +90,15 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _FoamTexture:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: ae2961e4565cb064c93a32ffb6aed3a2, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NoiseAMap:
+        m_Texture: {fileID: 2800000, guid: c662692ad44de0b45ba4f81297e97381, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NoiseBMap:
+        m_Texture: {fileID: 2800000, guid: c662692ad44de0b45ba4f81297e97381, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormNoiseAMap:
@@ -107,7 +122,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ShoreTexture:
-        m_Texture: {fileID: 2800000, guid: b9e2c74514d1bb4488d9af4b5a8bc0ef, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SurfaceColorMapA:
@@ -140,9 +155,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AFoamFold: 0
-    - _AShoreFold: 0
-    - _AffectFoamDeformation: 0
+    - _AFoamFold: 1
+    - _AShoreFold: 1
+    - _AffectFoamDef: 0
+    - _AffectFoamDeformation: 1
+    - _AffectShoreDef: 0
     - _AlphaCutoff: 0.5
     - _CMReflect: 0
     - _CMXPos: 0
@@ -156,14 +173,18 @@ Material:
     - _DefNoiseBInvert: 1
     - _DefNoiseBScale: 1.6
     - _DefNoiseContrast: 1
+    - _DefNoiseContrast1: 1
     - _DefNoiseFinalOffset: 0
     - _DefNoiseFinalScale: 1
-    - _DefNoiseGradeOffset: 0
+    - _DefNoiseGradeOffset: -1
+    - _DefNoiseGradeOffset1: 0
     - _DefNoiseGradeScale: 1
+    - _DefNoiseGradeScale1: 1
     - _DefNoiseGradeType: 0
+    - _DefNoiseGradeType1: 0
     - _DefNoiseMixType: 8
     - _DefNoiseTypeAExponential: 0.75
-    - _DefNoiseTypeAOverallSpeed: 0
+    - _DefNoiseTypeAOverallSpeed: 0.63
     - _DefNoiseTypeBExponential: 1
     - _DefNoiseTypeBOverallSpeed: 3
     - _DefPerlinAScale: 1
@@ -176,7 +197,7 @@ Material:
     - _DefTypeBAnchorY: 2
     - _DefTypeBRot: 60
     - _DefTypeBRotSpeed: 0
-    - _DefVorAAngle: 1
+    - _DefVorAAngle: 0.5
     - _DefVorAOffsetX: 0
     - _DefVorAOffsetY: 0
     - _DefVorASmooth: 0
@@ -206,19 +227,19 @@ Material:
     - _DeformAAnchorY: 0
     - _DeformAAngle: 4
     - _DeformAContrast: 1
-    - _DeformAFold: 0
+    - _DeformAFold: 1
     - _DeformAIntensity: 1
-    - _DeformAInvert: 1
+    - _DeformAInvert: 0
     - _DeformANoiseType: 4
     - _DeformAOffsetX: 0
     - _DeformAOffsetY: 0
     - _DeformAOverallSpeed: 1
-    - _DeformARotate: 30
+    - _DeformARotate: 0
     - _DeformARotateSpeed: 0
     - _DeformAScale: 4
-    - _DeformASmooth: 0
-    - _DeformASpeedX: 0.1
-    - _DeformASpeedY: 0.05
+    - _DeformASmooth: 0.04
+    - _DeformASpeedX: 0.01
+    - _DeformASpeedY: 0.01
     - _DeformATileX: 1
     - _DeformATileY: 1
     - _DeformBAnchorX: 0
@@ -241,18 +262,18 @@ Material:
     - _DeformBTileX: 1
     - _DeformBTileY: 1
     - _DeformFinalBias: 0
-    - _DeformFinalContrast: 1
+    - _DeformFinalContrast: 2
     - _DeformGradeType: 1
     - _DeformMixType: 1
     - _DeformNormScale: 1.41
     - _DeformNormToggle: 0
-    - _DeformScale: 0.04
-    - _DeformSettings: 0
+    - _DeformScale: 0.83
+    - _DeformSettings: 1
     - _DeformToggle: 1
-    - _DepthDistance: 4
-    - _DepthExponential: 1
-    - _DepthGradeType: 2
-    - _DepthSettings: 0
+    - _DepthDistance: 1.8
+    - _DepthExponential: 0.4
+    - _DepthGradeType: 0
+    - _DepthSettings: 1
     - _DepthSize: 1
     - _Displacement: 0
     - _DstBlend: 0
@@ -264,20 +285,26 @@ Material:
     - _FlowDepthContrast: 1
     - _FlowMapExp: 1
     - _FlowMapGrade: 0
-    - _FlowMapSettings: 0
+    - _FlowMapSettings: 1
     - _FlowMapToggle: 0
     - _FlowType: 1
-    - _FoamAnchorX: 0.24
-    - _FoamAnchorY: 0.95
-    - _FoamBlendType: 1
-    - _FoamContrast: 2.08
+    - _FoamAnchorX: 0
+    - _FoamAnchorY: 0
+    - _FoamBlendType: 3
+    - _FoamContrast: 1
+    - _FoamDeformIntensity: 0.1
+    - _FoamDeformOffset: 0
+    - _FoamDeformScale: 1
+    - _FoamDeformStrength: 0.1
+    - _FoamFold: 1
     - _FoamGradeOffset: 0
     - _FoamGradeScale: 1
-    - _FoamOffsetX: 0.167
-    - _FoamOffsetY: 0.156
+    - _FoamIntensity: 1
+    - _FoamOffsetX: 0
+    - _FoamOffsetY: 0
     - _FoamOverallSpeed: 1
-    - _FoamRotate: 0.28
-    - _FoamRotateSpeed: 1.62
+    - _FoamRotate: 0
+    - _FoamRotateSpeed: 0
     - _FoamSpeedX: 0.1
     - _FoamSpeedY: 0.1
     - _FoamTileX: 1
@@ -288,7 +315,7 @@ Material:
     - _FogDepthOffset: 0.52
     - _FogDepthScale: 2.96
     - _FogGradeExponential: 3
-    - _FogToggle: 0
+    - _FogToggle: 1
     - _GradeExponential: 0.43
     - _GradeOffset: 0
     - _GradeScale: 1
@@ -297,8 +324,9 @@ Material:
     - _MiddleBumpIntensity: 1
     - _MiddleNAFold: 1
     - _MiddleNBFold: 1
-    - _MiddleWave: 1
+    - _MiddleWave: 0
     - _MiddleWaveIntensity: 1
+    - _MiddleWaveIntensity1: 0.5
     - _MirrorRefIntensity: 0.428
     - _MirrorReflect: 0
     - _NoiseA_Contrast: 1
@@ -308,6 +336,8 @@ Material:
     - _NoiseFold: 1
     - _NoiseGradeOffset: 0
     - _NoiseGradeScale: 1
+    - _NoiseMixType: 1
+    - _NoiseNormMixType: 0
     - _NoiseTypeA: 4
     - _NoiseTypeB: 3
     - _NormARot: 29
@@ -318,6 +348,7 @@ Material:
     - _NormGenBFold: 0
     - _NormMapAFold: 0
     - _NormMapBFold: 0
+    - _NormMixType: 0
     - _NormNoiseAInvert: 0
     - _NormNoiseAOverScrSpeed: 1
     - _NormNoiseAScale: 8.67
@@ -359,6 +390,7 @@ Material:
     - _NormVorBSpeedY: 0
     - _NormVorBTileX: 1
     - _NormVorBTileY: 1
+    - _NormWaveIntensity: 0.5
     - _Norm_VorCausric_B_Type: 0
     - _Norm_VorCaustic_A_Type: 0
     - _Norm_VorCell_A_Type: 0
@@ -386,13 +418,28 @@ Material:
     - _SSTileX: 4
     - _SSTileY: 4
     - _ScreenContrast: 0.209
+    - _ShoreAnchorX: 0
+    - _ShoreAnchorY: 0
     - _ShoreBumpIntensity: 0.529
+    - _ShoreContrast: 1
+    - _ShoreDeformIntensity: 0.21
+    - _ShoreDeformOffset: 0
+    - _ShoreDeformScale: 1
+    - _ShoreDeformStrength: 1
+    - _ShoreFold: 1
     - _ShoreGradeOffset: 0
     - _ShoreGradeScale: 1
     - _ShoreIntensity: 1
+    - _ShoreOffsetX: 0
+    - _ShoreOffsetY: 0
+    - _ShoreOverallSpeed: 1
+    - _ShoreRotate: 0
+    - _ShoreRotateSpeed: 0
+    - _ShoreSpeedX: 0.1
+    - _ShoreSpeedY: 0.1
     - _ShoreTileX: 1
     - _ShoreTileY: 1
-    - _ShoreToggle: 0
+    - _ShoreToggle: 1
     - _Smoothness: 0.5
     - _Specular: 0.5
     - _SpecularHighlights: 0
@@ -437,7 +484,7 @@ Material:
     - _TransparentIntensity: 1
     - _WaveAnchorX: 0.68
     - _WaveAnchorY: 0.46
-    - _WaveContrast: 1.38
+    - _WaveContrast: 1
     - _WaveFlowType: 0
     - _WaveLength: 4
     - _WaveOffsetX: 0.143

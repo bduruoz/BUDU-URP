@@ -172,7 +172,7 @@ public class BWaterSurfaceEditor : ShaderGUI
             EditorGUILayout.BeginVertical(style);
 
             #region Middle Wave Default Settings
-            MaterialProperty defNoiseMixType = ShaderGUI.FindProperty("_DefNoiseMixType", properties);
+            MaterialProperty defNoiseMixType = ShaderGUI.FindProperty("_NoiseMixType", properties);
             materialEditor.ShaderProperty(defNoiseMixType, "Mix Type");
             if((int)defNoiseMixType.floatValue > 0)
             {
@@ -228,6 +228,124 @@ public class BWaterSurfaceEditor : ShaderGUI
             EditorGUI.indentLevel--;
         }
         #endregion
+
+        #region Fog Settings
+        /*
+        style.normal.background = MakeBackground(1, 32, bdColors.GrayP(18, 204));
+        style.fontSize = 16;
+        style.normal.textColor = bdColors.NexusOrange();
+
+        checkFog = EditorGUILayout.ToggleLeft("FOG SETTINGS", checkFog, style);
+        targetMat.SetInt("_FogToggle", Convert.ToInt16(checkFog));
+        EditorGUILayout.BeginVertical();
+        if(checkFog)
+        {
+            EditorGUI.indentLevel++;
+
+            MaterialProperty fogCol = ShaderGUI.FindProperty("_FogColor", properties);
+            MaterialProperty fogGradType = ShaderGUI.FindProperty("_FogDepthGradeType", properties);
+            MaterialProperty fogDepthDist = ShaderGUI.FindProperty("_FogDepthDistance", properties);
+            MaterialProperty fogDepthExp = ShaderGUI.FindProperty("_FogDepthExponential", properties);
+            MaterialProperty fogDepthScl = ShaderGUI.FindProperty("_FogDepthScale", properties);
+            MaterialProperty fogDepthOff = ShaderGUI.FindProperty("_FogDepthOffset", properties);
+            MaterialProperty fogGradeExp = ShaderGUI.FindProperty("_FogGradeExponential", properties);
+
+            materialEditor.ShaderProperty(fogCol, "Fog Color");
+            materialEditor.ShaderProperty(fogGradType, "Fog Depth Grade Type");
+            materialEditor.ShaderProperty(fogDepthDist, "Fog Depth Distance");
+            materialEditor.ShaderProperty(fogDepthExp, "Fog Depth Exponential");
+            materialEditor.ShaderProperty(fogDepthScl, "Fog Depth Scale");
+            materialEditor.ShaderProperty(fogDepthOff, "Fog Depth Offset");
+            materialEditor.ShaderProperty(fogGradeExp, "Fog Depth Exponential");
+
+            EditorGUI.indentLevel--;
+        }
+        EditorGUILayout.EndVertical();
+        */
+        #endregion
+
+        #region Shore and Foam Settings
+        style.normal.background = MakeBackground(1, 32, bdColors.GrayP(18, 204));
+        style.fontSize = 16;
+        style.normal.textColor = bdColors.NexusOrange();
+
+        checkShore = EditorGUILayout.ToggleLeft("SHORE | FOAM SETTINGS", checkShore, style);
+        targetMat.SetInt("_ShoreToggle", Convert.ToInt16(checkShore));
+        EditorGUILayout.BeginVertical();
+        if(checkShore)
+        {
+            EditorGUI.indentLevel++;
+            #region Shore Settings
+            style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(20));
+            EditorGUILayout.BeginVertical(style);
+            shoreTXFold = EditorGUILayout.Foldout(shoreTXFold, "Shore Settings", toggleOnLabelClick: true);
+            targetMat.SetInt("_ShoreFold", Convert.ToInt16(shoreTXFold));
+            if(shoreTXFold)
+            {
+                EditorGUI.indentLevel++;
+                MaterialProperty shtxt = ShaderGUI.FindProperty("_ShoreTexture", properties);
+                MaterialProperty affShoreDef = ShaderGUI.FindProperty("_AffectShoreDef",properties);
+                MaterialProperty shGrScl = ShaderGUI.FindProperty("_ShoreGradeScale", properties);
+                MaterialProperty shGrOff = ShaderGUI.FindProperty("_ShoreGradeOffset", properties);
+                materialEditor.TextureProperty(shtxt, "Shore Texture");
+                materialEditor.ShaderProperty(affShoreDef, "Deformation");
+                if(affShoreDef.floatValue>0)
+                {
+                    MaterialProperty shoreDefScl = ShaderGUI.FindProperty("_ShoreDeformScale", properties);
+                    MaterialProperty shoreDefOff = ShaderGUI.FindProperty("_ShoreDeformOffset", properties);
+                    MaterialProperty shoreDefInt = ShaderGUI.FindProperty("_ShoreDeformStrength", properties);
+                    materialEditor.RangeProperty(shoreDefInt, "Deform Strength");
+                    materialEditor.ShaderProperty(shoreDefScl, "Deform Scale");
+                    materialEditor.ShaderProperty(shoreDefOff, "Deform Offset");
+                }
+                ShoreTextureSet(materialEditor, properties);
+                materialEditor.FloatProperty(shGrScl, "Grade Scale");
+                materialEditor.FloatProperty(shGrOff, "Grade Offset");
+            }
+            EditorGUILayout.EndVertical();
+            #endregion
+            #region Foam Settings
+            style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(40));
+            EditorGUILayout.BeginVertical(style);
+            foamFold = EditorGUILayout.Foldout(foamFold, "Foam Settings", toggleOnLabelClick: true);
+            targetMat.SetInt("_FoamFold", Convert.ToInt16(foamFold));
+            if(foamFold)
+            {
+                EditorGUI.indentLevel++;
+                MaterialProperty fmblendt = ShaderGUI.FindProperty("_FoamBlendType", properties);
+                MaterialProperty fmtxt = ShaderGUI.FindProperty("_FoamTexture", properties);
+                MaterialProperty fmAff = ShaderGUI.FindProperty("_AffectFoamDef", properties);
+                MaterialProperty fmGrScl = ShaderGUI.FindProperty("_FoamGradeScale", properties);
+                MaterialProperty fmGrOff = ShaderGUI.FindProperty("_FoamGradeOffset", properties);
+
+                materialEditor.ShaderProperty(fmblendt, "Foam Blend Type");
+                if(fmblendt.floatValue > 0f)
+                {
+                    materialEditor.TextureProperty(fmtxt, "Foam Texture");
+                    materialEditor.ShaderProperty(fmAff, "Affect Foam Deformation");
+                    if(fmAff.floatValue > 0f)
+                    {
+                        MaterialProperty foamDefInt = ShaderGUI.FindProperty("_FoamDeformStrength", properties);
+                        MaterialProperty foamGrScl = ShaderGUI.FindProperty("_FoamGradeScale", properties);
+                        MaterialProperty foamGrOff = ShaderGUI.FindProperty("_FoamGradeOffset", properties);
+                        materialEditor.ShaderProperty(foamDefInt, "Deform Strength");
+                        materialEditor.ShaderProperty(foamGrScl, "Deform Scale");
+                        materialEditor.ShaderProperty(foamGrOff, "Deform Offset");
+                    }
+                    FoamTextureSet(materialEditor,properties);
+                    materialEditor.FloatProperty(fmGrScl, "Grade Scale");
+                    materialEditor.FloatProperty(fmGrOff, "Grade Offset");
+                }
+                EditorGUI.indentLevel--;
+            }
+            EditorGUILayout.EndVertical();
+            #endregion
+            EditorGUI.indentLevel--;
+        }
+        EditorGUILayout.EndVertical();
+        #endregion
+
+
 
 
         /*
@@ -324,161 +442,6 @@ EditorGUILayout.EndVertical();
 
 
 
-#region Shore Settings
-style.normal.background = MakeBackground(1, 32, bdColors.GrayP(18, 204));
-style.fontSize = 16;
-style.normal.textColor = bdColors.NexusOrange();
-
-checkShore = EditorGUILayout.ToggleLeft("SHORE SETTINGS", checkShore, style);
-targetMat.SetInt("_ShoreToggle", Convert.ToInt16(checkShore));
-EditorGUILayout.BeginVertical();
-if(checkShore)
-{
-EditorGUI.indentLevel++;
-MaterialProperty shoreInt = ShaderGUI.FindProperty("_ShoreIntensity", properties);
-materialEditor.ShaderProperty(shoreInt, "Shore Intensity");
-
-#region Shore Settings
-style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(20));
-EditorGUILayout.BeginVertical(style);
-
-MaterialProperty txGradeType = ShaderGUI.FindProperty("_TextureGradeType", properties);
-
-shoreTXFold = EditorGUILayout.Foldout(shoreTXFold, "Shore Settings", toggleOnLabelClick: true);
-targetMat.SetInt("_AShoreFold", Convert.ToInt16(shoreTXFold));
-if(shoreTXFold)
-{
-EditorGUI.indentLevel++;
-materialEditor.ShaderProperty(txGradeType, "Grade Type");
-MaterialProperty shtxt = ShaderGUI.FindProperty("_ShoreTexture", properties);
-MaterialProperty shInv = ShaderGUI.FindProperty("_InvertShoreTexture", properties);
-MaterialProperty shGrScl = ShaderGUI.FindProperty("_ShoreGradeScale", properties);
-MaterialProperty shGrOff = ShaderGUI.FindProperty("_ShoreGradeOffset", properties);
-
-MaterialProperty shtix = ShaderGUI.FindProperty("_ShoreTileX", properties);
-MaterialProperty shtiy = ShaderGUI.FindProperty("_ShoreTileY", properties);
-MaterialProperty shspx = ShaderGUI.FindProperty("_WaveSpeedX", properties);
-MaterialProperty shspy = ShaderGUI.FindProperty("_WaveSpeedY", properties);
-
-materialEditor.TextureProperty(shtxt, "Shore Texture");
-materialEditor.ShaderProperty(shInv, "Invert Shore Texture");
-materialEditor.FloatProperty(shGrScl, "Grade Scale");
-materialEditor.FloatProperty(shGrOff, "Grade Offset");
-
-EditorGUILayout.BeginHorizontal();
-EditorGUIUtility.labelWidth = 130;
-EditorGUIUtility.fieldWidth = 50;
-materialEditor.FloatProperty(shtix, "Tile X");
-materialEditor.FloatProperty(shtiy, "Tile Y");
-EditorGUIUtility.labelWidth = 0;
-EditorGUIUtility.fieldWidth = 0;
-EditorGUILayout.EndHorizontal();
-
-EditorGUILayout.BeginHorizontal();
-EditorGUIUtility.labelWidth = 130;
-EditorGUIUtility.fieldWidth = 50;
-materialEditor.FloatProperty(shspx, "Speed X");
-materialEditor.FloatProperty(shspy, "Speed Y");
-EditorGUIUtility.labelWidth = 0;
-EditorGUIUtility.fieldWidth = 0;
-EditorGUILayout.EndHorizontal();
-EditorGUI.indentLevel--;
-}
-
-EditorGUILayout.EndVertical();
-#endregion
-#region Foam Settings
-style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(40));
-EditorGUILayout.BeginVertical(style);
-foamFold = EditorGUILayout.Foldout(foamFold, "Foam Settings", toggleOnLabelClick: true);
-targetMat.SetInt("_AFoamFold", Convert.ToInt16(foamFold));
-if(foamFold)
-{
-
-EditorGUI.indentLevel++;
-MaterialProperty fmblendt = ShaderGUI.FindProperty("_FoamBlendType", properties);
-
-MaterialProperty fmtxt = ShaderGUI.FindProperty("_FoamTexture", properties);
-MaterialProperty fmInv = ShaderGUI.FindProperty("_InvertFoamTexture", properties);
-MaterialProperty fmGrScl = ShaderGUI.FindProperty("_FoamGradeScale", properties);
-MaterialProperty fmGrOff = ShaderGUI.FindProperty("_FoamGradeOffset", properties);
-
-MaterialProperty fmAff = ShaderGUI.FindProperty("_AffectFoamDeformation", properties);
-
-MaterialProperty fmtix = ShaderGUI.FindProperty("_FoamTileX", properties);
-MaterialProperty fmtiy = ShaderGUI.FindProperty("_FoamTileY", properties);
-MaterialProperty fmspx = ShaderGUI.FindProperty("_FoamSpeedX", properties);
-MaterialProperty fmspy = ShaderGUI.FindProperty("_FoamSpeedY", properties);
-
-materialEditor.ShaderProperty(fmblendt, "Foam Blend Type");
-
-if(fmblendt.floatValue > 0f)
-{
-materialEditor.ShaderProperty(fmAff, "Affect Foam Deformation");
-
-materialEditor.TextureProperty(fmtxt, "Foam Texture");
-materialEditor.ShaderProperty(fmInv, "Invert Foam Texture");
-materialEditor.FloatProperty(fmGrScl, "Grade Scale");
-materialEditor.FloatProperty(fmGrOff, "Grade Offset");
-
-EditorGUILayout.BeginHorizontal();
-EditorGUIUtility.labelWidth = 130;
-EditorGUIUtility.fieldWidth = 50;
-materialEditor.FloatProperty(fmtix, "Tile X");
-materialEditor.FloatProperty(fmtiy, "Tile Y");
-EditorGUIUtility.labelWidth = 0;
-EditorGUIUtility.fieldWidth = 0;
-EditorGUILayout.EndHorizontal();
-
-EditorGUILayout.BeginHorizontal();
-EditorGUIUtility.labelWidth = 130;
-EditorGUIUtility.fieldWidth = 50;
-materialEditor.FloatProperty(fmspx, "Speed X");
-materialEditor.FloatProperty(fmspy, "Speed Y");
-EditorGUIUtility.labelWidth = 0;
-EditorGUIUtility.fieldWidth = 0;
-EditorGUILayout.EndHorizontal();
-}
-EditorGUI.indentLevel--;
-}
-EditorGUILayout.EndVertical();
-#endregion
-#region Depth Settings
-style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(60));
-EditorGUILayout.BeginVertical(style);
-
-checkDepth = EditorGUILayout.Foldout(checkDepth, "Depth Settings", toggleOnLabelClick: true);
-targetMat.SetInt("_DepthSettings", Convert.ToInt16(checkDepth));
-if(checkDepth)
-{
-EditorGUI.indentLevel++;
-MaterialProperty ddist = ShaderGUI.FindProperty("_DepthDistance", properties);
-MaterialProperty dexp = ShaderGUI.FindProperty("_DepthExponential", properties);
-MaterialProperty dGrScl = ShaderGUI.FindProperty("_GradeScale", properties);
-MaterialProperty dGrOff = ShaderGUI.FindProperty("_GradeOffset", properties);
-MaterialProperty dGrExp = ShaderGUI.FindProperty("_GradeExponential", properties);
-MaterialProperty dsize = ShaderGUI.FindProperty("_DepthSize", properties);
-MaterialProperty dgt = ShaderGUI.FindProperty("_DepthGradeType", properties);
-MaterialProperty dMid = ShaderGUI.FindProperty("_EdgeControl", properties);
-
-materialEditor.ShaderProperty(dgt, "Depth Grade Type");
-materialEditor.FloatProperty(ddist, "Depth Distance");
-materialEditor.FloatProperty(dexp, "Depth Exponential");
-materialEditor.FloatProperty(dGrScl, "Grade Scale");
-materialEditor.FloatProperty(dGrOff, "Grade Offset");
-materialEditor.FloatProperty(dGrExp, "Grade Exponential");
-materialEditor.FloatProperty(dsize, "Depth Size");
-materialEditor.FloatProperty(dMid, "Edge Control");
-EditorGUI.indentLevel--;
-}
-EditorGUILayout.EndVertical();
-
-#endregion
-
-EditorGUI.indentLevel--;
-}
-EditorGUILayout.EndVertical();
-#endregion
 
 
 
@@ -853,39 +816,6 @@ EditorGUILayout.EndVertical();
 EditorGUILayout.Space(5);
 #endregion
 
-#region Fog Settings
-style.normal.background = MakeBackground(1, 32, bdColors.GrayP(18, 204));
-style.fontSize = 16;
-style.normal.textColor = bdColors.NexusOrange();
-
-checkFog = EditorGUILayout.ToggleLeft("FOG SETTINGS", checkFog, style);
-targetMat.SetInt("_FogToggle", Convert.ToInt16(checkFog));
-EditorGUILayout.BeginVertical();
-if(checkFog)
-{
-EditorGUI.indentLevel++;
-
-MaterialProperty fogCol = ShaderGUI.FindProperty("_FogColor", properties);
-MaterialProperty fogGradType = ShaderGUI.FindProperty("_FogDepthGradeType", properties);
-MaterialProperty fogDepthDist = ShaderGUI.FindProperty("_FogDepthDistance", properties);
-MaterialProperty fogDepthExp = ShaderGUI.FindProperty("_FogDepthExponential", properties);
-MaterialProperty fogDepthScl = ShaderGUI.FindProperty("_FogDepthScale", properties);
-MaterialProperty fogDepthOff = ShaderGUI.FindProperty("_FogDepthOffset", properties);
-MaterialProperty fogGradeExp = ShaderGUI.FindProperty("_FogGradeExponential", properties);
-
-materialEditor.ShaderProperty(fogCol, "Fog Color");
-materialEditor.ShaderProperty(fogGradType, "Fog Depth Grade Type");
-materialEditor.ShaderProperty(fogDepthDist, "Fog Depth Distance");
-materialEditor.ShaderProperty(fogDepthExp, "Fog Depth Exponential");
-materialEditor.ShaderProperty(fogDepthScl, "Fog Depth Scale");
-materialEditor.ShaderProperty(fogDepthOff, "Fog Depth Offset");
-materialEditor.ShaderProperty(fogGradeExp, "Fog Depth Exponential");
-
-EditorGUI.indentLevel--;
-}
-EditorGUILayout.EndVertical();
-
-#endregion
 
 #region Other Shader Settings
 MaterialProperty spec = ShaderGUI.FindProperty("_Specular", properties);
@@ -955,6 +885,14 @@ materialEditor.DoubleSidedGIField();
         tempVar = targetMat.GetInt("_MiddleWave");
         checkMiddle = tempVar == 1 ? true : false;
 
+        tempVar = targetMat.GetInt("_ShoreToggle");
+        checkShore = tempVar == 1 ? true : false;
+
+        tempVar = targetMat.GetInt("_ShoreFold");
+        shoreTXFold = tempVar == 1 ? true : false;
+
+        tempVar = targetMat.GetInt("_FoamFold");
+        foamFold = tempVar == 1 ? true : false;
 
         //tempVar = targetMat.GetInt("_SSBluricTransparent");
         //checkSSBlur = tempVar == 1 ? true : false;
@@ -974,18 +912,8 @@ materialEditor.DoubleSidedGIField();
         //tempVar = targetMat.GetInt("_NormalTxt");
         //checkNormTxt = tempVar == 1 ? true : false;
 
-        //tempVar = targetMat.GetInt("_ShoreToggle");
-        //checkShore = tempVar == 1 ? true : false;
-
         //tempVar = targetMat.GetInt("_FogToggle");
         //checkFog = tempVar == 1 ? true : false;
-
-
-        //tempVar = targetMat.GetInt("_AShoreFold");
-        //shoreTXFold = tempVar == 1 ? true : false;
-
-        //tempVar = targetMat.GetInt("_AFoamFold");
-        //foamFold = tempVar == 1 ? true : false;
 
         //tempVar = targetMat.GetInt("_RefractionToggle");
         //checkRefract = tempVar == 1 ? true : false;
@@ -1123,7 +1051,7 @@ materialEditor.DoubleSidedGIField();
         selectedNoise.NoiseType = "_NoiseTypeA";
         selectedNoise.VorCellOct = "_Def_VorCell_A_Type";
         selectedNoise.VorCaustOct = "_Def_VorCaustic_A_Type";
-        selectedNoise.TextureMap = "_DefNoiseAMap";
+        selectedNoise.TextureMap = "_DeformAMap";
         selectedNoise.NoiseAngle = "_DefVorAAngle";
         selectedNoise.NoiseSmooth = "_DefVorASmooth";
         selectedNoise.NoiseScale = "_DefNoiseAScale";
@@ -1155,7 +1083,7 @@ materialEditor.DoubleSidedGIField();
         selectedNoise.NoiseType = "_NoiseTypeB";
         selectedNoise.VorCellOct = "_Def_VorCell_B_Type";
         selectedNoise.VorCaustOct = "_Def_VorCaustic_B_Type";
-        selectedNoise.TextureMap = "_DefNoiseBMap";
+        selectedNoise.TextureMap = "_DeformBMap";
         selectedNoise.NoiseAngle = "_DefVorBAngle";
         selectedNoise.NoiseSmooth = "_DefVorBSmooth";
         selectedNoise.NoiseScale = "_DefNoiseBScale";
@@ -1205,6 +1133,44 @@ materialEditor.DoubleSidedGIField();
         }            
     }
 
+    private void ShoreTextureSet(MaterialEditor materialEditor, MaterialProperty[] properties)
+    {
+        BD_ScaleOffset_GUI selected = new BD_ScaleOffset_GUI();
+        selected.Invert = "_InvertShoreTexture";
+        selected.Intensity = "_ShoreIntensity";
+        selected.Contrast = "_ShoreContrast";
+        selected.Tile.x = "_ShoreTileX";
+        selected.Tile.y = "_ShoreTileY";
+        selected.Offset.x = "_ShoreOffsetX";
+        selected.Offset.y = "_ShoreOffsetY";
+        selected.Speed.x = "_ShoreSpeedX";
+        selected.Speed.y = "_ShoreSpeedY";
+        selected.Anchor.x = "_ShoreAnchorX";
+        selected.Anchor.y = "_ShoreAnchorY";
+        selected.OverallSpeed = "_ShoreOverallSpeed";
+        selected.Rotate = "_ShoreRotate";
+        selected.RotateSpeed = "_ShoreRotateSpeed";
+        BDShaderGUI.ScaleOffsetGUI(materialEditor, properties, selected);
+    }
+    private void FoamTextureSet(MaterialEditor materialEditor, MaterialProperty[] properties)
+    {
+        BD_ScaleOffset_GUI selected = new BD_ScaleOffset_GUI();
+        selected.Invert = "_InvertFoamTexture";
+        selected.Intensity = "_FoamIntensity";
+        selected.Contrast = "_FoamContrast";
+        selected.Tile.x = "_FoamTileX";
+        selected.Tile.y = "_FoamTileY";
+        selected.Offset.x = "_FoamOffsetX";
+        selected.Offset.y = "_FoamOffsetY";
+        selected.Speed.x = "_FoamSpeedX";
+        selected.Speed.y = "_FoamSpeedY";
+        selected.Anchor.x = "_FoamAnchorX";
+        selected.Anchor.y = "_FoamAnchorY";
+        selected.OverallSpeed = "_FoamOverallSpeed";
+        selected.Rotate = "_FoamRotate";
+        selected.RotateSpeed = "_FoamRotateSpeed";
+        BDShaderGUI.ScaleOffsetGUI(materialEditor, properties, selected);
+    }
 
 
 
@@ -1215,10 +1181,9 @@ materialEditor.DoubleSidedGIField();
 
 
 
+    /// asagisi dogru degil su an
 
-/// asagisi dogru degil su an
-
-private void normTxtA(MaterialEditor materialEditor, MaterialProperty[] properties)
+    private void normTxtA(MaterialEditor materialEditor, MaterialProperty[] properties)
     {
         MaterialProperty normVorATileX = ShaderGUI.FindProperty("_NormVorATileX", properties);
         MaterialProperty normVorATileY = ShaderGUI.FindProperty("_NormVorATileY", properties);
