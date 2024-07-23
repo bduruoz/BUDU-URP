@@ -1,6 +1,6 @@
 // Made with Amplify Shader Editor v1.9.5.1
 // Available at the Unity Asset Store - http://u3d.as/y3X 
-Shader "BUDU Shaders/BWaterSurfaceEski"
+Shader "BUDU Shaders/Old/BWaterSurfaceEski"
 {
 	Properties
 	{
@@ -526,7 +526,7 @@ Shader "BUDU Shaders/BWaterSurfaceEski"
 			float _SurfaceCASpeedX;
 			float _SurfaceCAOffsetX;
 			float _DeformBOffsetX;
-			float _WaveSpeedX;
+			int _SurfaceMapB;
 			float _DeformBSpeedX;
 			float _DeformBSpeedY;
 			float _SurfaceCBRotSpeed;
@@ -561,20 +561,25 @@ Shader "BUDU Shaders/BWaterSurfaceEski"
 			float _SurfaceCATileY;
 			float _SurfaceCATileX;
 			float _SurfaceCMapAInv;
+			float _DefVorBOffsetX;
+			float _DefVorBTileY;
+			float _DefVorBTileX;
+			float _DefPerlinBScale;
+			float _DefNoiseBScale;
+			float _DefVorBSmooth;
+			float _DefVorBAngle;
 			float _NoiseB_Contrast;
 			float _DefNoiseTypeBExponential;
 			float _NoiseA_Contrast;
 			float _DefNoiseFinalOffset;
 			float _DefNoiseFinalScale;
 			float _DefNoiseContrast;
+			float _DefVorBSpeedX;
 			float _DefNoiseGradeOffset;
-			float _DefNoiseGradeScale;
 			float _MiddleWaveIntensity;
-			int _FlowMapSettings;
 			int _DeformBFold;
 			int _DeformAFold;
 			int _MiddleNBFold;
-			float _DefVorBAngle;
 			int _MiddleNAFold;
 			int _NormGenAFold;
 			int _NormGenBFold;
@@ -584,16 +589,18 @@ Shader "BUDU Shaders/BWaterSurfaceEski"
 			int _NoiseFold;
 			int _AFoamFold;
 			int _AShoreFold;
-			int _SurfaceMapB;
-			int _SurfaceMapA;
+			float _DefNoiseGradeScale;
+			float _DefNoiseTypeBOverallSpeed;
+			float _DefVorBSpeedY;
+			float _DefVorBOffsetY;
+			float _SurfaceWaves;
 			float _ShoreTileY;
 			float _ShoreTileX;
 			float _WaveSpeedY;
+			float _WaveSpeedX;
+			int _SurfaceMapA;
 			int _DeformSettings;
-			float _DefVorBSmooth;
-			float _DefNoiseBScale;
-			float _DefPerlinBScale;
-			float _SurfaceWaves;
+			int _FlowMapSettings;
 			float _DefNoiseTypeAExponential;
 			float _DeformScale;
 			float _DefTypeARot;
@@ -615,13 +622,6 @@ Shader "BUDU Shaders/BWaterSurfaceEski"
 			float _DefTypeBRotSpeed;
 			float _DefTypeBAnchorY;
 			float _DefTypeBAnchorX;
-			float _DefVorBOffsetY;
-			float _DefVorBSpeedY;
-			float _DefNoiseTypeBOverallSpeed;
-			float _DefVorBSpeedX;
-			float _DefVorBOffsetX;
-			float _DefVorBTileY;
-			float _DefVorBTileX;
 			float _SurfaceCBScale;
 			float _SurfaceCMapBIntensity;
 			#ifdef ASE_TRANSMISSION
@@ -3057,7 +3057,7 @@ Shader "BUDU Shaders/BWaterSurfaceEski"
 			float _SurfaceCASpeedX;
 			float _SurfaceCAOffsetX;
 			float _DeformBOffsetX;
-			float _WaveSpeedX;
+			int _SurfaceMapB;
 			float _DeformBSpeedX;
 			float _DeformBSpeedY;
 			float _SurfaceCBRotSpeed;
@@ -3092,20 +3092,25 @@ Shader "BUDU Shaders/BWaterSurfaceEski"
 			float _SurfaceCATileY;
 			float _SurfaceCATileX;
 			float _SurfaceCMapAInv;
+			float _DefVorBOffsetX;
+			float _DefVorBTileY;
+			float _DefVorBTileX;
+			float _DefPerlinBScale;
+			float _DefNoiseBScale;
+			float _DefVorBSmooth;
+			float _DefVorBAngle;
 			float _NoiseB_Contrast;
 			float _DefNoiseTypeBExponential;
 			float _NoiseA_Contrast;
 			float _DefNoiseFinalOffset;
 			float _DefNoiseFinalScale;
 			float _DefNoiseContrast;
+			float _DefVorBSpeedX;
 			float _DefNoiseGradeOffset;
-			float _DefNoiseGradeScale;
 			float _MiddleWaveIntensity;
-			int _FlowMapSettings;
 			int _DeformBFold;
 			int _DeformAFold;
 			int _MiddleNBFold;
-			float _DefVorBAngle;
 			int _MiddleNAFold;
 			int _NormGenAFold;
 			int _NormGenBFold;
@@ -3115,16 +3120,18 @@ Shader "BUDU Shaders/BWaterSurfaceEski"
 			int _NoiseFold;
 			int _AFoamFold;
 			int _AShoreFold;
-			int _SurfaceMapB;
-			int _SurfaceMapA;
+			float _DefNoiseGradeScale;
+			float _DefNoiseTypeBOverallSpeed;
+			float _DefVorBSpeedY;
+			float _DefVorBOffsetY;
+			float _SurfaceWaves;
 			float _ShoreTileY;
 			float _ShoreTileX;
 			float _WaveSpeedY;
+			float _WaveSpeedX;
+			int _SurfaceMapA;
 			int _DeformSettings;
-			float _DefVorBSmooth;
-			float _DefNoiseBScale;
-			float _DefPerlinBScale;
-			float _SurfaceWaves;
+			int _FlowMapSettings;
 			float _DefNoiseTypeAExponential;
 			float _DeformScale;
 			float _DefTypeARot;
@@ -3146,13 +3153,6 @@ Shader "BUDU Shaders/BWaterSurfaceEski"
 			float _DefTypeBRotSpeed;
 			float _DefTypeBAnchorY;
 			float _DefTypeBAnchorX;
-			float _DefVorBOffsetY;
-			float _DefVorBSpeedY;
-			float _DefNoiseTypeBOverallSpeed;
-			float _DefVorBSpeedX;
-			float _DefVorBOffsetX;
-			float _DefVorBTileY;
-			float _DefVorBTileX;
 			float _SurfaceCBScale;
 			float _SurfaceCMapBIntensity;
 			#ifdef ASE_TRANSMISSION
@@ -3489,7 +3489,7 @@ Shader "BUDU Shaders/BWaterSurfaceEski"
 			float _SurfaceCASpeedX;
 			float _SurfaceCAOffsetX;
 			float _DeformBOffsetX;
-			float _WaveSpeedX;
+			int _SurfaceMapB;
 			float _DeformBSpeedX;
 			float _DeformBSpeedY;
 			float _SurfaceCBRotSpeed;
@@ -3524,20 +3524,25 @@ Shader "BUDU Shaders/BWaterSurfaceEski"
 			float _SurfaceCATileY;
 			float _SurfaceCATileX;
 			float _SurfaceCMapAInv;
+			float _DefVorBOffsetX;
+			float _DefVorBTileY;
+			float _DefVorBTileX;
+			float _DefPerlinBScale;
+			float _DefNoiseBScale;
+			float _DefVorBSmooth;
+			float _DefVorBAngle;
 			float _NoiseB_Contrast;
 			float _DefNoiseTypeBExponential;
 			float _NoiseA_Contrast;
 			float _DefNoiseFinalOffset;
 			float _DefNoiseFinalScale;
 			float _DefNoiseContrast;
+			float _DefVorBSpeedX;
 			float _DefNoiseGradeOffset;
-			float _DefNoiseGradeScale;
 			float _MiddleWaveIntensity;
-			int _FlowMapSettings;
 			int _DeformBFold;
 			int _DeformAFold;
 			int _MiddleNBFold;
-			float _DefVorBAngle;
 			int _MiddleNAFold;
 			int _NormGenAFold;
 			int _NormGenBFold;
@@ -3547,16 +3552,18 @@ Shader "BUDU Shaders/BWaterSurfaceEski"
 			int _NoiseFold;
 			int _AFoamFold;
 			int _AShoreFold;
-			int _SurfaceMapB;
-			int _SurfaceMapA;
+			float _DefNoiseGradeScale;
+			float _DefNoiseTypeBOverallSpeed;
+			float _DefVorBSpeedY;
+			float _DefVorBOffsetY;
+			float _SurfaceWaves;
 			float _ShoreTileY;
 			float _ShoreTileX;
 			float _WaveSpeedY;
+			float _WaveSpeedX;
+			int _SurfaceMapA;
 			int _DeformSettings;
-			float _DefVorBSmooth;
-			float _DefNoiseBScale;
-			float _DefPerlinBScale;
-			float _SurfaceWaves;
+			int _FlowMapSettings;
 			float _DefNoiseTypeAExponential;
 			float _DeformScale;
 			float _DefTypeARot;
@@ -3578,13 +3585,6 @@ Shader "BUDU Shaders/BWaterSurfaceEski"
 			float _DefTypeBRotSpeed;
 			float _DefTypeBAnchorY;
 			float _DefTypeBAnchorX;
-			float _DefVorBOffsetY;
-			float _DefVorBSpeedY;
-			float _DefNoiseTypeBOverallSpeed;
-			float _DefVorBSpeedX;
-			float _DefVorBOffsetX;
-			float _DefVorBTileY;
-			float _DefVorBTileX;
 			float _SurfaceCBScale;
 			float _SurfaceCMapBIntensity;
 			#ifdef ASE_TRANSMISSION
@@ -5740,7 +5740,7 @@ Shader "BUDU Shaders/BWaterSurfaceEski"
 			float _SurfaceCASpeedX;
 			float _SurfaceCAOffsetX;
 			float _DeformBOffsetX;
-			float _WaveSpeedX;
+			int _SurfaceMapB;
 			float _DeformBSpeedX;
 			float _DeformBSpeedY;
 			float _SurfaceCBRotSpeed;
@@ -5775,20 +5775,25 @@ Shader "BUDU Shaders/BWaterSurfaceEski"
 			float _SurfaceCATileY;
 			float _SurfaceCATileX;
 			float _SurfaceCMapAInv;
+			float _DefVorBOffsetX;
+			float _DefVorBTileY;
+			float _DefVorBTileX;
+			float _DefPerlinBScale;
+			float _DefNoiseBScale;
+			float _DefVorBSmooth;
+			float _DefVorBAngle;
 			float _NoiseB_Contrast;
 			float _DefNoiseTypeBExponential;
 			float _NoiseA_Contrast;
 			float _DefNoiseFinalOffset;
 			float _DefNoiseFinalScale;
 			float _DefNoiseContrast;
+			float _DefVorBSpeedX;
 			float _DefNoiseGradeOffset;
-			float _DefNoiseGradeScale;
 			float _MiddleWaveIntensity;
-			int _FlowMapSettings;
 			int _DeformBFold;
 			int _DeformAFold;
 			int _MiddleNBFold;
-			float _DefVorBAngle;
 			int _MiddleNAFold;
 			int _NormGenAFold;
 			int _NormGenBFold;
@@ -5798,16 +5803,18 @@ Shader "BUDU Shaders/BWaterSurfaceEski"
 			int _NoiseFold;
 			int _AFoamFold;
 			int _AShoreFold;
-			int _SurfaceMapB;
-			int _SurfaceMapA;
+			float _DefNoiseGradeScale;
+			float _DefNoiseTypeBOverallSpeed;
+			float _DefVorBSpeedY;
+			float _DefVorBOffsetY;
+			float _SurfaceWaves;
 			float _ShoreTileY;
 			float _ShoreTileX;
 			float _WaveSpeedY;
+			float _WaveSpeedX;
+			int _SurfaceMapA;
 			int _DeformSettings;
-			float _DefVorBSmooth;
-			float _DefNoiseBScale;
-			float _DefPerlinBScale;
-			float _SurfaceWaves;
+			int _FlowMapSettings;
 			float _DefNoiseTypeAExponential;
 			float _DeformScale;
 			float _DefTypeARot;
@@ -5829,13 +5836,6 @@ Shader "BUDU Shaders/BWaterSurfaceEski"
 			float _DefTypeBRotSpeed;
 			float _DefTypeBAnchorY;
 			float _DefTypeBAnchorX;
-			float _DefVorBOffsetY;
-			float _DefVorBSpeedY;
-			float _DefNoiseTypeBOverallSpeed;
-			float _DefVorBSpeedX;
-			float _DefVorBOffsetX;
-			float _DefVorBTileY;
-			float _DefVorBTileX;
 			float _SurfaceCBScale;
 			float _SurfaceCMapBIntensity;
 			#ifdef ASE_TRANSMISSION
@@ -7994,7 +7994,7 @@ Shader "BUDU Shaders/BWaterSurfaceEski"
 			float _SurfaceCASpeedX;
 			float _SurfaceCAOffsetX;
 			float _DeformBOffsetX;
-			float _WaveSpeedX;
+			int _SurfaceMapB;
 			float _DeformBSpeedX;
 			float _DeformBSpeedY;
 			float _SurfaceCBRotSpeed;
@@ -8029,20 +8029,25 @@ Shader "BUDU Shaders/BWaterSurfaceEski"
 			float _SurfaceCATileY;
 			float _SurfaceCATileX;
 			float _SurfaceCMapAInv;
+			float _DefVorBOffsetX;
+			float _DefVorBTileY;
+			float _DefVorBTileX;
+			float _DefPerlinBScale;
+			float _DefNoiseBScale;
+			float _DefVorBSmooth;
+			float _DefVorBAngle;
 			float _NoiseB_Contrast;
 			float _DefNoiseTypeBExponential;
 			float _NoiseA_Contrast;
 			float _DefNoiseFinalOffset;
 			float _DefNoiseFinalScale;
 			float _DefNoiseContrast;
+			float _DefVorBSpeedX;
 			float _DefNoiseGradeOffset;
-			float _DefNoiseGradeScale;
 			float _MiddleWaveIntensity;
-			int _FlowMapSettings;
 			int _DeformBFold;
 			int _DeformAFold;
 			int _MiddleNBFold;
-			float _DefVorBAngle;
 			int _MiddleNAFold;
 			int _NormGenAFold;
 			int _NormGenBFold;
@@ -8052,16 +8057,18 @@ Shader "BUDU Shaders/BWaterSurfaceEski"
 			int _NoiseFold;
 			int _AFoamFold;
 			int _AShoreFold;
-			int _SurfaceMapB;
-			int _SurfaceMapA;
+			float _DefNoiseGradeScale;
+			float _DefNoiseTypeBOverallSpeed;
+			float _DefVorBSpeedY;
+			float _DefVorBOffsetY;
+			float _SurfaceWaves;
 			float _ShoreTileY;
 			float _ShoreTileX;
 			float _WaveSpeedY;
+			float _WaveSpeedX;
+			int _SurfaceMapA;
 			int _DeformSettings;
-			float _DefVorBSmooth;
-			float _DefNoiseBScale;
-			float _DefPerlinBScale;
-			float _SurfaceWaves;
+			int _FlowMapSettings;
 			float _DefNoiseTypeAExponential;
 			float _DeformScale;
 			float _DefTypeARot;
@@ -8083,13 +8090,6 @@ Shader "BUDU Shaders/BWaterSurfaceEski"
 			float _DefTypeBRotSpeed;
 			float _DefTypeBAnchorY;
 			float _DefTypeBAnchorX;
-			float _DefVorBOffsetY;
-			float _DefVorBSpeedY;
-			float _DefNoiseTypeBOverallSpeed;
-			float _DefVorBSpeedX;
-			float _DefVorBOffsetX;
-			float _DefVorBTileY;
-			float _DefVorBTileX;
 			float _SurfaceCBScale;
 			float _SurfaceCMapBIntensity;
 			#ifdef ASE_TRANSMISSION
@@ -8461,7 +8461,7 @@ Shader "BUDU Shaders/BWaterSurfaceEski"
 			float _SurfaceCASpeedX;
 			float _SurfaceCAOffsetX;
 			float _DeformBOffsetX;
-			float _WaveSpeedX;
+			int _SurfaceMapB;
 			float _DeformBSpeedX;
 			float _DeformBSpeedY;
 			float _SurfaceCBRotSpeed;
@@ -8496,20 +8496,25 @@ Shader "BUDU Shaders/BWaterSurfaceEski"
 			float _SurfaceCATileY;
 			float _SurfaceCATileX;
 			float _SurfaceCMapAInv;
+			float _DefVorBOffsetX;
+			float _DefVorBTileY;
+			float _DefVorBTileX;
+			float _DefPerlinBScale;
+			float _DefNoiseBScale;
+			float _DefVorBSmooth;
+			float _DefVorBAngle;
 			float _NoiseB_Contrast;
 			float _DefNoiseTypeBExponential;
 			float _NoiseA_Contrast;
 			float _DefNoiseFinalOffset;
 			float _DefNoiseFinalScale;
 			float _DefNoiseContrast;
+			float _DefVorBSpeedX;
 			float _DefNoiseGradeOffset;
-			float _DefNoiseGradeScale;
 			float _MiddleWaveIntensity;
-			int _FlowMapSettings;
 			int _DeformBFold;
 			int _DeformAFold;
 			int _MiddleNBFold;
-			float _DefVorBAngle;
 			int _MiddleNAFold;
 			int _NormGenAFold;
 			int _NormGenBFold;
@@ -8519,16 +8524,18 @@ Shader "BUDU Shaders/BWaterSurfaceEski"
 			int _NoiseFold;
 			int _AFoamFold;
 			int _AShoreFold;
-			int _SurfaceMapB;
-			int _SurfaceMapA;
+			float _DefNoiseGradeScale;
+			float _DefNoiseTypeBOverallSpeed;
+			float _DefVorBSpeedY;
+			float _DefVorBOffsetY;
+			float _SurfaceWaves;
 			float _ShoreTileY;
 			float _ShoreTileX;
 			float _WaveSpeedY;
+			float _WaveSpeedX;
+			int _SurfaceMapA;
 			int _DeformSettings;
-			float _DefVorBSmooth;
-			float _DefNoiseBScale;
-			float _DefPerlinBScale;
-			float _SurfaceWaves;
+			int _FlowMapSettings;
 			float _DefNoiseTypeAExponential;
 			float _DeformScale;
 			float _DefTypeARot;
@@ -8550,13 +8557,6 @@ Shader "BUDU Shaders/BWaterSurfaceEski"
 			float _DefTypeBRotSpeed;
 			float _DefTypeBAnchorY;
 			float _DefTypeBAnchorX;
-			float _DefVorBOffsetY;
-			float _DefVorBSpeedY;
-			float _DefNoiseTypeBOverallSpeed;
-			float _DefVorBSpeedX;
-			float _DefVorBOffsetX;
-			float _DefVorBTileY;
-			float _DefVorBTileX;
 			float _SurfaceCBScale;
 			float _SurfaceCMapBIntensity;
 			#ifdef ASE_TRANSMISSION
@@ -8865,7 +8865,7 @@ Shader "BUDU Shaders/BWaterSurfaceEski"
 			float _SurfaceCASpeedX;
 			float _SurfaceCAOffsetX;
 			float _DeformBOffsetX;
-			float _WaveSpeedX;
+			int _SurfaceMapB;
 			float _DeformBSpeedX;
 			float _DeformBSpeedY;
 			float _SurfaceCBRotSpeed;
@@ -8900,20 +8900,25 @@ Shader "BUDU Shaders/BWaterSurfaceEski"
 			float _SurfaceCATileY;
 			float _SurfaceCATileX;
 			float _SurfaceCMapAInv;
+			float _DefVorBOffsetX;
+			float _DefVorBTileY;
+			float _DefVorBTileX;
+			float _DefPerlinBScale;
+			float _DefNoiseBScale;
+			float _DefVorBSmooth;
+			float _DefVorBAngle;
 			float _NoiseB_Contrast;
 			float _DefNoiseTypeBExponential;
 			float _NoiseA_Contrast;
 			float _DefNoiseFinalOffset;
 			float _DefNoiseFinalScale;
 			float _DefNoiseContrast;
+			float _DefVorBSpeedX;
 			float _DefNoiseGradeOffset;
-			float _DefNoiseGradeScale;
 			float _MiddleWaveIntensity;
-			int _FlowMapSettings;
 			int _DeformBFold;
 			int _DeformAFold;
 			int _MiddleNBFold;
-			float _DefVorBAngle;
 			int _MiddleNAFold;
 			int _NormGenAFold;
 			int _NormGenBFold;
@@ -8923,16 +8928,18 @@ Shader "BUDU Shaders/BWaterSurfaceEski"
 			int _NoiseFold;
 			int _AFoamFold;
 			int _AShoreFold;
-			int _SurfaceMapB;
-			int _SurfaceMapA;
+			float _DefNoiseGradeScale;
+			float _DefNoiseTypeBOverallSpeed;
+			float _DefVorBSpeedY;
+			float _DefVorBOffsetY;
+			float _SurfaceWaves;
 			float _ShoreTileY;
 			float _ShoreTileX;
 			float _WaveSpeedY;
+			float _WaveSpeedX;
+			int _SurfaceMapA;
 			int _DeformSettings;
-			float _DefVorBSmooth;
-			float _DefNoiseBScale;
-			float _DefPerlinBScale;
-			float _SurfaceWaves;
+			int _FlowMapSettings;
 			float _DefNoiseTypeAExponential;
 			float _DeformScale;
 			float _DefTypeARot;
@@ -8954,13 +8961,6 @@ Shader "BUDU Shaders/BWaterSurfaceEski"
 			float _DefTypeBRotSpeed;
 			float _DefTypeBAnchorY;
 			float _DefTypeBAnchorX;
-			float _DefVorBOffsetY;
-			float _DefVorBSpeedY;
-			float _DefNoiseTypeBOverallSpeed;
-			float _DefVorBSpeedX;
-			float _DefVorBOffsetX;
-			float _DefVorBTileY;
-			float _DefVorBTileX;
 			float _SurfaceCBScale;
 			float _SurfaceCMapBIntensity;
 			#ifdef ASE_TRANSMISSION
@@ -9702,13 +9702,8 @@ Node;AmplifyShaderEditor.IntNode;1914;-14736,2224;Inherit;False;Property;_Deform
 Node;AmplifyShaderEditor.IntNode;1915;-14736,2304;Inherit;False;Property;_DeformBFold;DeformBFold;121;1;[HideInInspector];Create;True;0;0;0;True;0;False;0;0;False;0;1;INT;0
 Node;AmplifyShaderEditor.SimpleAddOpNode;916;-4416,528;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.SimpleAddOpNode;1294;-4256,752;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.SaturateNode;413;-5056,592;Inherit;False;1;0;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.GammaToLinearNode;373;-5568,576;Inherit;False;3;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.LinearToGammaNode;374;-5568,688;Inherit;False;3;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;345;-4608,528;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;925;-4592,768;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT3;1,1,1;False;1;COLOR;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;1499;-4784,592;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.GetLocalVarNode;456;-5856,624;Inherit;False;455;ShoreTextureRef;1;0;OBJECT;;False;1;COLOR;0
 Node;AmplifyShaderEditor.SimpleAddOpNode;1660;-5024,896;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.GetLocalVarNode;1426;-9312,-4128;Inherit;False;911;Zero;1;0;OBJECT;;False;1;FLOAT;0
 Node;AmplifyShaderEditor.GetLocalVarNode;1422;-10032,-4208;Inherit;False;909;One;1;0;OBJECT;;False;1;FLOAT;0
@@ -9724,7 +9719,6 @@ Node;AmplifyShaderEditor.WorldNormalVector;1001;-8832,-208;Inherit;False;True;1;
 Node;AmplifyShaderEditor.RegisterLocalVarNode;1003;-8640,-208;Float;False;NewNormals;-1;True;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.RegisterLocalVarNode;1002;-8640,-64;Inherit;False;NewObjectNormal;-1;True;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.DotProductOpNode;995;-9936,-720;Inherit;True;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.ToggleSwitchNode;1936;-4944,352;Inherit;False;Property;_FlowMapToggle;FlowMapToggle;306;0;Create;True;0;0;0;False;0;False;0;True;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.GetLocalVarNode;1409;-2992,1312;Inherit;False;1353;Specular;1;0;OBJECT;;False;1;COLOR;0
 Node;AmplifyShaderEditor.SaturateNode;897;-23952,784;Inherit;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.GetLocalVarNode;1440;-28848,880;Inherit;False;447;NoiseTypeRef;1;0;OBJECT;;False;1;COLOR;0
@@ -9734,10 +9728,7 @@ Node;AmplifyShaderEditor.FunctionNode;1953;-10032,-208;Inherit;False;Normal Reco
 Node;AmplifyShaderEditor.GetLocalVarNode;1274;-7840,-1776;Inherit;True;1002;NewObjectNormal;1;0;OBJECT;;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;1261;-6096,-1728;Inherit;False;3;3;0;FLOAT;0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
 Node;AmplifyShaderEditor.GetLocalVarNode;1664;-5152,416;Inherit;False;1654;FlowMapRef;1;0;OBJECT;;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.StaticSwitch;375;-5344,592;Inherit;True;Property;_TextureGradeType;TextureGradeType;2;0;Create;True;0;0;0;False;0;False;0;0;0;True;;KeywordEnum;3;Linear;Normal;Gamma;Create;True;True;All;9;1;COLOR;0,0,0,0;False;0;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;4;COLOR;0,0,0,0;False;5;COLOR;0,0,0,0;False;6;COLOR;0,0,0,0;False;7;COLOR;0,0,0,0;False;8;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.RangedFloatNode;1498;-5056,672;Inherit;False;Property;_ShoreIntensity;ShoreIntensity;253;0;Create;True;0;0;0;False;0;False;1;0;0;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.GetLocalVarNode;1657;-5296,832;Inherit;False;1654;FlowMapRef;1;0;OBJECT;;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.GetLocalVarNode;904;-4816,768;Inherit;False;902;CausticAnimRef;1;0;OBJECT;;False;1;COLOR;0
 Node;AmplifyShaderEditor.GetLocalVarNode;920;-5472,960;Inherit;False;451;DepthRef;1;0;OBJECT;;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;1659;-5280,976;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.GetLocalVarNode;1000;-9568,-96;Inherit;False;1116;BumpForSmooth;1;0;OBJECT;;False;1;FLOAT3;0
@@ -9881,14 +9872,14 @@ Node;AmplifyShaderEditor.UnpackScaleNormalNode;1566;-3984,10304;Inherit;False;Ob
 Node;AmplifyShaderEditor.SamplerNode;1516;-4896,10336;Inherit;True;Property;_NormalAMap;NormalAMap;135;1;[NoScaleOffset];Create;True;0;0;0;False;0;False;-1;9a4a55d8d2e54394d97426434477cdcf;9a4a55d8d2e54394d97426434477cdcf;True;0;True;bump;Auto;True;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;6;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT3;5
 Node;AmplifyShaderEditor.SamplerNode;1517;-4896,10544;Inherit;True;Property;_NormalBMap;NormalBMap;179;1;[NoScaleOffset];Create;True;0;0;0;False;0;False;-1;302951faffe230848aa0d3df7bb70faa;302951faffe230848aa0d3df7bb70faa;True;0;True;bump;Auto;True;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;6;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT3;5
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;1557;-4144,10208;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.FunctionNode;1950;-4864,10240;Inherit;False;Normal Reconstruct Z;-1;;420;63ba85b764ae0c84ab3d698b86364ae9;0;1;1;FLOAT2;0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.FunctionNode;1951;-4848,10848;Inherit;False;Normal Reconstruct Z;-1;;421;63ba85b764ae0c84ab3d698b86364ae9;0;1;1;FLOAT2;0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.FunctionNode;1952;-3728,10304;Inherit;False;Normal Reconstruct Z;-1;;422;63ba85b764ae0c84ab3d698b86364ae9;0;1;1;FLOAT2;0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.FunctionNode;1950;-4864,10240;Inherit;False;Normal Reconstruct Z;-1;;444;63ba85b764ae0c84ab3d698b86364ae9;0;1;1;FLOAT2;0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.FunctionNode;1951;-4848,10848;Inherit;False;Normal Reconstruct Z;-1;;445;63ba85b764ae0c84ab3d698b86364ae9;0;1;1;FLOAT2;0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.FunctionNode;1952;-3728,10304;Inherit;False;Normal Reconstruct Z;-1;;446;63ba85b764ae0c84ab3d698b86364ae9;0;1;1;FLOAT2;0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.GetLocalVarNode;1524;-5152,10368;Inherit;False;1522;Noise_A_UV;1;0;OBJECT;;False;1;COLOR;0
 Node;AmplifyShaderEditor.RegisterLocalVarNode;1522;-8176,9392;Inherit;False;Noise_A_UV;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.SimpleAddOpNode;1445;-8736,9056;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT2;0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.RegisterLocalVarNode;1103;-2864,9552;Inherit;False;WaveNormalRef;-1;True;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.FunctionNode;1107;-3920,9552;Inherit;True;Normal From Height;-1;;424;1942fe2c5f1a1f94881a33d532e4afeb;0;2;20;FLOAT;0;False;110;FLOAT;10;False;2;FLOAT3;40;FLOAT3;0
+Node;AmplifyShaderEditor.FunctionNode;1107;-3920,9552;Inherit;True;Normal From Height;-1;;447;1942fe2c5f1a1f94881a33d532e4afeb;0;2;20;FLOAT;0;False;110;FLOAT;10;False;2;FLOAT3;40;FLOAT3;0
 Node;AmplifyShaderEditor.RangedFloatNode;1100;-4544,9792;Inherit;False;Property;_MiddleBumpIntensity;Middle Bump Intensity;211;0;Create;True;0;0;0;False;0;False;0.5;0.5;0;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;1110;-4544,10000;Inherit;False;Property;_NormalStrength;NormalStrength;215;0;Create;True;0;0;0;False;0;False;1;0;-1;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.TFHCRemapNode;1510;-4144,9824;Inherit;False;5;0;FLOAT;0;False;1;FLOAT;-1;False;2;FLOAT;1;False;3;FLOAT;-50;False;4;FLOAT;50;False;1;FLOAT;0
@@ -9980,8 +9971,8 @@ Node;AmplifyShaderEditor.ToggleSwitchNode;1434;-5056,6704;Inherit;False;Property
 Node;AmplifyShaderEditor.RegisterLocalVarNode;455;-4832,6704;Inherit;False;ShoreTextureRef;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.RangedFloatNode;1750;-6928,6752;Inherit;False;Property;_WaveContrast;WaveContrast;292;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;1752;-6928,7200;Inherit;False;Property;_FoamContrast;FoamContrast;293;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.FunctionNode;2026;-6736,6656;Inherit;False;BUDUContrast;-1;;430;bbef371528583124ab5d8e8ec0c6a0f1;0;2;1;COLOR;0,0,0,0;False;3;FLOAT;1;False;1;COLOR;0
-Node;AmplifyShaderEditor.FunctionNode;2027;-6720,7136;Inherit;False;BUDUContrast;-1;;431;bbef371528583124ab5d8e8ec0c6a0f1;0;2;1;COLOR;0,0,0,0;False;3;FLOAT;1;False;1;COLOR;0
+Node;AmplifyShaderEditor.FunctionNode;2026;-6736,6656;Inherit;False;BUDUContrast;-1;;448;bbef371528583124ab5d8e8ec0c6a0f1;0;2;1;COLOR;0,0,0,0;False;3;FLOAT;1;False;1;COLOR;0
+Node;AmplifyShaderEditor.FunctionNode;2027;-6720,7136;Inherit;False;BUDUContrast;-1;;449;bbef371528583124ab5d8e8ec0c6a0f1;0;2;1;COLOR;0,0,0,0;False;3;FLOAT;1;False;1;COLOR;0
 Node;AmplifyShaderEditor.GetLocalVarNode;453;-8144,6016;Inherit;False;451;DepthRef;1;0;OBJECT;;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.GetLocalVarNode;1655;-8144,6096;Inherit;False;1654;FlowMapRef;1;0;OBJECT;;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.StaticSwitch;1704;-7952,6032;Inherit;False;Property;_WaveFlowType;WaveFlowType;279;0;Create;True;0;0;0;False;0;False;0;0;0;True;;KeywordEnum;2;DepthMap;FlowMap;Create;True;True;All;9;1;FLOAT3;0,0,0;False;0;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT3;0,0,0;False;4;FLOAT3;0,0,0;False;5;FLOAT3;0,0,0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT3;0,0,0;False;1;FLOAT3;0
@@ -9992,6 +9983,15 @@ Node;AmplifyShaderEditor.RegisterLocalVarNode;1736;-8608,6880;Inherit;False;Nois
 Node;AmplifyShaderEditor.GetLocalVarNode;448;-9040,6832;Inherit;False;447;NoiseTypeRef;1;0;OBJECT;;False;1;COLOR;0
 Node;AmplifyShaderEditor.GetLocalVarNode;1433;-5248,6624;Inherit;False;911;Zero;1;0;OBJECT;;False;1;FLOAT;0
 Node;AmplifyShaderEditor.GetLocalVarNode;932;-17780,2000;Inherit;False;592;SurfaceRef;1;0;OBJECT;;False;1;COLOR;0
+Node;AmplifyShaderEditor.SaturateNode;413;-5056,592;Inherit;False;1;0;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.GammaToLinearNode;373;-5568,576;Inherit;False;3;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.LinearToGammaNode;374;-5568,688;Inherit;False;3;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.StaticSwitch;375;-5344,592;Inherit;False;Property;_TextureGradeType;TextureGradeType;2;0;Create;True;0;0;0;False;0;False;0;0;0;True;;KeywordEnum;3;Linear;Normal;Gamma;Create;True;True;All;9;1;COLOR;0,0,0,0;False;0;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;4;COLOR;0,0,0,0;False;5;COLOR;0,0,0,0;False;6;COLOR;0,0,0,0;False;7;COLOR;0,0,0,0;False;8;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.RangedFloatNode;1498;-5056,672;Inherit;False;Property;_ShoreIntensity;ShoreIntensity;253;0;Create;True;0;0;0;False;0;False;1;0;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;1499;-4784,592;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.ToggleSwitchNode;1936;-4944,352;Inherit;False;Property;_FlowMapToggle;FlowMapToggle;306;0;Create;True;0;0;0;False;0;False;0;True;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.GetLocalVarNode;456;-5856,624;Inherit;False;455;ShoreTextureRef;1;0;OBJECT;;False;1;COLOR;0
+Node;AmplifyShaderEditor.GetLocalVarNode;904;-4816,768;Inherit;False;902;CausticAnimRef;1;0;OBJECT;;False;1;COLOR;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;1964;-2400,1248;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;19;New Amplify Shader;dcf3e680117c48a4cb69c2c58c49ec28;True;ExtraPrePass;0;0;ExtraPrePass;5;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;True;1;1;False;;0;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;0;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;1966;-2400,1248;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;19;New Amplify Shader;dcf3e680117c48a4cb69c2c58c49ec28;True;ShadowCaster;0;2;ShadowCaster;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;True;1;LightMode=ShadowCaster;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;1967;-2400,1248;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;19;New Amplify Shader;dcf3e680117c48a4cb69c2c58c49ec28;True;DepthOnly;0;3;DepthOnly;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;True;True;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;False;False;True;1;LightMode=DepthOnly;False;False;0;;0;0;Standard;0;False;0
@@ -10001,7 +10001,7 @@ Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;1970;-2400,1248;Float;False
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;1971;-2400,1248;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;19;New Amplify Shader;dcf3e680117c48a4cb69c2c58c49ec28;True;GBuffer;0;7;GBuffer;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;True;1;5;False;;10;False;;1;1;False;;10;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;2;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalGBuffer;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;1972;-2400,1248;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;19;New Amplify Shader;dcf3e680117c48a4cb69c2c58c49ec28;True;SceneSelectionPass;0;8;SceneSelectionPass;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=SceneSelectionPass;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;1973;-2400,1248;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;19;New Amplify Shader;dcf3e680117c48a4cb69c2c58c49ec28;True;ScenePickingPass;0;9;ScenePickingPass;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Picking;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;1965;-2528,1120;Float;False;True;-1;2;UnityEditor.ShaderGraphLitGUI;0;19;BUDU Shaders/BWaterSurfaceEski;dcf3e680117c48a4cb69c2c58c49ec28;True;Forward;0;1;Forward;21;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;2;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;UniversalMaterialType=SimpleLit;True;5;True;12;all;0;False;True;1;5;False;;10;False;;1;1;False;;10;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;2;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalForwardOnly;False;False;0;;0;0;Standard;42;Lighting Model;1;638562811704710514;Workflow;0;0;Surface;1;638562810384336113;  Refraction Model;0;0;  Blend;0;0;Two Sided;1;0;Fragment Normal Space,InvertActionOnDeselection;0;638563143681855284;Forward Only;1;638563143706380662;Transmission;0;0;  Transmission Shadow;0.5,False,;0;Translucency;0;0;  Translucency Strength;1,False,;0;  Normal Distortion;0.5,False,;0;  Scattering;2,False,;0;  Direct;0.9,False,;0;  Ambient;0.1,False,;0;  Shadow;0.5,False,;0;Cast Shadows;0;638562810458433399;  Use Shadow Threshold;0;0;Receive Shadows;1;638566203809555625;Receive SSAO;0;638563143823993041;GPU Instancing;1;0;LOD CrossFade;1;0;Built-in Fog;1;0;_FinalColorxAlpha;0;0;Meta Pass;1;638566279396307887;Override Baked GI;0;0;Extra Pre Pass;0;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,;0;  Type;0;0;  Tess;16,False,;0;  Min;10,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Write Depth;0;0;  Early Z;0;0;Vertex Position,InvertActionOnDeselection;1;0;Debug Display;0;0;Clear Coat;0;0;0;10;False;True;False;True;True;True;True;False;True;True;False;;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;1965;-2528,1120;Float;False;True;-1;2;UnityEditor.ShaderGraphLitGUI;0;19;BUDU Shaders/Old/BWaterSurfaceEski;dcf3e680117c48a4cb69c2c58c49ec28;True;Forward;0;1;Forward;21;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;2;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;UniversalMaterialType=SimpleLit;True;5;True;12;all;0;False;True;1;5;False;;10;False;;1;1;False;;10;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;2;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalForwardOnly;False;False;0;;0;0;Standard;42;Lighting Model;1;638562811704710514;Workflow;0;0;Surface;1;638562810384336113;  Refraction Model;0;0;  Blend;0;0;Two Sided;1;0;Fragment Normal Space,InvertActionOnDeselection;0;638563143681855284;Forward Only;1;638563143706380662;Transmission;0;0;  Transmission Shadow;0.5,False,;0;Translucency;0;0;  Translucency Strength;1,False,;0;  Normal Distortion;0.5,False,;0;  Scattering;2,False,;0;  Direct;0.9,False,;0;  Ambient;0.1,False,;0;  Shadow;0.5,False,;0;Cast Shadows;0;638562810458433399;  Use Shadow Threshold;0;0;Receive Shadows;1;638566203809555625;Receive SSAO;0;638563143823993041;GPU Instancing;1;0;LOD CrossFade;1;0;Built-in Fog;1;0;_FinalColorxAlpha;0;0;Meta Pass;1;638566279396307887;Override Baked GI;0;0;Extra Pre Pass;0;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,;0;  Type;0;0;  Tess;16,False,;0;  Min;10,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Write Depth;0;0;  Early Z;0;0;Vertex Position,InvertActionOnDeselection;1;0;Debug Display;0;0;Clear Coat;0;0;0;10;False;True;False;True;True;True;True;False;True;True;False;;False;0
 WireConnection;1907;0;354;0
 WireConnection;1907;1;1909;0
 WireConnection;1908;0;1909;0
@@ -10635,15 +10635,10 @@ WireConnection;916;0;345;0
 WireConnection;916;1;925;0
 WireConnection;1294;0;916;0
 WireConnection;1294;1;1162;0
-WireConnection;413;0;375;0
-WireConnection;373;0;456;0
-WireConnection;374;0;456;0
 WireConnection;345;0;1936;0
 WireConnection;345;1;1499;0
 WireConnection;925;0;904;0
 WireConnection;925;1;1660;0
-WireConnection;1499;0;413;0
-WireConnection;1499;1;1498;0
 WireConnection;1660;0;1657;0
 WireConnection;1660;1;1659;0
 WireConnection;1128;0;1130;0
@@ -10662,15 +10657,10 @@ WireConnection;1003;0;1001;0
 WireConnection;1002;0;1004;0
 WireConnection;995;0;996;0
 WireConnection;995;1;997;0
-WireConnection;1936;0;454;0
-WireConnection;1936;1;1664;0
 WireConnection;897;0;2031;0
 WireConnection;1261;0;1265;0
 WireConnection;1261;1;1257;0
 WireConnection;1261;2;1264;0
-WireConnection;375;1;373;0
-WireConnection;375;0;456;0
-WireConnection;375;2;374;0
 WireConnection;1659;0;920;0
 WireConnection;2035;4;1260;0
 WireConnection;2035;2;1254;0
@@ -10974,6 +10964,16 @@ WireConnection;325;0;448;0
 WireConnection;325;1;321;0
 WireConnection;325;2;322;0
 WireConnection;1736;0;325;0
+WireConnection;413;0;375;0
+WireConnection;373;0;456;0
+WireConnection;374;0;456;0
+WireConnection;375;1;373;0
+WireConnection;375;0;456;0
+WireConnection;375;2;374;0
+WireConnection;1499;0;413;0
+WireConnection;1499;1;1498;0
+WireConnection;1936;0;454;0
+WireConnection;1936;1;1664;0
 WireConnection;1965;0;1403;0
 ASEEND*/
-//CHKSM=0F7AE016206CE5AA9E90FC00D68224D5CDE02D05
+//CHKSM=BBEE4315C5689CA9607432C7A911CFBCE284DF8A

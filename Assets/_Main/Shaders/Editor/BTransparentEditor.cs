@@ -302,7 +302,7 @@ public class BTransparentEditor: ShaderGUI
         EditorGUILayout.Space(5);
         #endregion
 
-        #region Screen Space Bluric Transparent Settings
+        #region Screen Space Bluric Settings
         style.normal.background = MakeBackground(1, 1, bdColors.GrayP(18, 204));
         style.fontSize = 16;
         style.normal.textColor = bdColors.NexusOrange();
@@ -318,32 +318,15 @@ public class BTransparentEditor: ShaderGUI
         {
             EditorGUILayout.Space(4);
 
+            MaterialProperty sstog = ShaderGUI.FindProperty("_ScreenSpace",properties);                                                                       
             MaterialProperty ssbTxt = ShaderGUI.FindProperty("_BluricRefractionPattern", properties);
-            MaterialProperty ssbPHgt = ShaderGUI.FindProperty("_PatternHeight",properties);
-            MaterialProperty ssbPRot = ShaderGUI.FindProperty("_PatternRotator", properties);
             MaterialProperty ssbSize = ShaderGUI.FindProperty("_SSSize", properties);
 
-            MaterialProperty ssTileX = ShaderGUI.FindProperty("_SSTileX", properties);
-            MaterialProperty ssTileY = ShaderGUI.FindProperty("_SSTileY", properties);
-            MaterialProperty ssOffX = ShaderGUI.FindProperty("_SSOffX", properties);
-            MaterialProperty ssOffY = ShaderGUI.FindProperty("_SSOffY", properties);
-
+            materialEditor.ShaderProperty(sstog, "Bluric Noise");
             materialEditor.TextureProperty(ssbTxt, "Blur Pattern");
-
-            EditorGUILayout.BeginHorizontal();
-            EditorGUIUtility.labelWidth = 55;
-            EditorGUIUtility.fieldWidth = 35;
-            materialEditor.FloatProperty(ssTileX, "Tile X");
-            materialEditor.FloatProperty(ssTileY, "Tile Y");
-            materialEditor.FloatProperty(ssOffX, "Offset X");
-            materialEditor.FloatProperty(ssOffY, "Offset Y");
-            EditorGUIUtility.labelWidth = 0;
-            EditorGUIUtility.fieldWidth = 0;
-            EditorGUILayout.EndHorizontal();
-
-            materialEditor.RangeProperty(ssbPHgt, "Pattern Height");
-            materialEditor.RangeProperty(ssbPRot, "Pattern Rotator");
             materialEditor.FloatProperty(ssbSize, "Size");
+
+            BluricScaleOffset(materialEditor,properties,(int)sstog.floatValue);
         }
         EditorGUILayout.EndVertical();
         EditorGUILayout.Space(5);
@@ -647,4 +630,40 @@ public class BTransparentEditor: ShaderGUI
         result.Apply();
         return result;
     }
+
+    private void BluricScaleOffset(MaterialEditor materialEditor, MaterialProperty[] properties, int seltg)
+    {
+        BD_Misc_GUI selectedMisc = new BD_Misc_GUI();
+        selectedMisc.Invert = "";
+        selectedMisc.Intensity = "_PatternHeight";
+        selectedMisc.Contrast = "";
+        BDShaderGUI.MiscGUI(materialEditor, properties, selectedMisc);
+
+        BD_ScaleOffset_GUI selected = new BD_ScaleOffset_GUI();
+        selected.Tile.x = "_SSTileX";
+        selected.Tile.y = "_SSTileY";
+        selected.Speed.x = "";
+        selected.Speed.y = "";
+        selected.Anchor.x = "";
+        selected.Anchor.y = "";
+        selected.OverallSpeed = "";
+        selected.RotateSpeed = "";
+
+        switch(seltg)
+        {
+            case 0:
+                selected.Offset.x = "";
+                selected.Offset.y = "";
+                selected.Rotate = "";
+                break;
+            case 1:
+                selected.Offset.x = "_SSOffX";
+                selected.Offset.y = "_SSOffY";
+                selected.Rotate = "_PatternRotator";
+                break;
+        }
+
+        BDShaderGUI.ScaleOffsetGUI(materialEditor, properties, selected);
+    }
+
 }

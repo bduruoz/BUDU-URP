@@ -6,7 +6,7 @@ Preset:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: CarPaint_Test
+  m_Name: BlueCarPaint
   m_TargetType:
     m_NativeTypeID: 21
     m_ManagedTypePPtr: {fileID: 0}
@@ -26,47 +26,39 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_ValidKeywords.Array.size
-    value: 8
+    value: 6
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_ValidKeywords.Array.data[0]
-    value: _ENVIRONMENTREFLECTIONS_OFF
+    value: _FLAKESTYPE_GAMMA
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_ValidKeywords.Array.data[1]
-    value: _FLAKESTYPE_LINEAR
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_ValidKeywords.Array.data[2]
     value: _FRESNELTYPE_LINEAR
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: m_ValidKeywords.Array.data[3]
+    propertyPath: m_ValidKeywords.Array.data[2]
     value: _GRADTYPE_LINEAR
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: m_ValidKeywords.Array.data[4]
-    value: _PAINTMETHOD_FRESNEL
+    propertyPath: m_ValidKeywords.Array.data[3]
+    value: _PAINTMETHOD_GRADIENTY
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: m_ValidKeywords.Array.data[5]
+    propertyPath: m_ValidKeywords.Array.data[4]
     value: _REFFRSTYPE_LINEAR
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: m_ValidKeywords.Array.data[6]
+    propertyPath: m_ValidKeywords.Array.data[5]
     value: _SPECTYPE_LINEAR
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: m_ValidKeywords.Array.data[7]
-    value: _SPECULARHIGHLIGHTS_OFF
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
     propertyPath: m_InvalidKeywords.Array.size
-    value: 16
+    value: 18
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_InvalidKeywords.Array.data[0]
-    value: _AFFECTAO_ON
+    value: _AFFECTBODYFLAKES_ON
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_InvalidKeywords.Array.data[1]
@@ -74,7 +66,7 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_InvalidKeywords.Array.data[2]
-    value: _BODYNORMAL_ON
+    value: _AOTOGGLE_ON
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_InvalidKeywords.Array.data[3]
@@ -86,27 +78,27 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_InvalidKeywords.Array.data[5]
-    value: _KEYWORD0_FRESNEL
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_InvalidKeywords.Array.data[6]
-    value: _NORMAL_ON
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_InvalidKeywords.Array.data[7]
-    value: _PAINTMETHOD_GRADY
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_InvalidKeywords.Array.data[8]
     value: _REFLECTLIGHTAFFECT_ON
     objectReference: {fileID: 0}
   - target: {fileID: 0}
+    propertyPath: m_InvalidKeywords.Array.data[6]
+    value: _REFLECT_ON
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_InvalidKeywords.Array.data[7]
+    value: _REFRACTION_ON
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_InvalidKeywords.Array.data[8]
+    value: _REFRCONTROL_ON
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
     propertyPath: m_InvalidKeywords.Array.data[9]
-    value: _REFLECTNORMAL_ON
+    value: _RIMCATT_ON
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_InvalidKeywords.Array.data[10]
-    value: _REFLECT_ON
+    value: _RIMCONTOUR_ON
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_InvalidKeywords.Array.data[11]
@@ -114,11 +106,11 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_InvalidKeywords.Array.data[12]
-    value: _SPECULARSWITCH2_ON
+    value: _SPECULARSWITCH_ON
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_InvalidKeywords.Array.data[13]
-    value: _SPECULARSWITCH_ON
+    value: _SSBLURICTRANSPARENT_ON
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_InvalidKeywords.Array.data[14]
@@ -126,6 +118,14 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_InvalidKeywords.Array.data[15]
+    value: _TRANSPARENTFRESNELINVERT_ON
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_InvalidKeywords.Array.data[16]
+    value: _TRANSPARENTFRESNEL_ON
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_InvalidKeywords.Array.data[17]
     value: _TWOCOLORS_ON
     objectReference: {fileID: 0}
   - target: {fileID: 0}
@@ -158,7 +158,7 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_TexEnvs.Array.size
-    value: 19
+    value: 25
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_TexEnvs.Array.data[0].first
@@ -239,7 +239,7 @@ Preset:
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_TexEnvs.Array.data[3].second.m_Texture
     value: 
-    objectReference: {fileID: 2800000, guid: ae0130e6c3e94ee43b67fef77b52e0e9, type: 3}
+    objectReference: {fileID: 2800000, guid: e2a010c17feed9641be348286118b8c4, type: 3}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_TexEnvs.Array.data[3].second.m_Scale.x
     value: 1
@@ -258,7 +258,7 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_TexEnvs.Array.data[4].first
-    value: _EmissionMap
+    value: _BumpMap
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_TexEnvs.Array.data[4].second.m_Texture
@@ -282,12 +282,12 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_TexEnvs.Array.data[5].first
-    value: _FlakesNormalMap
+    value: _CurvatureTexture
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_TexEnvs.Array.data[5].second.m_Texture
     value: 
-    objectReference: {fileID: 2800000, guid: 4dc734acf00d0654ba5efff10b5dc09c, type: 3}
+    objectReference: {fileID: 2800000, guid: 86eccc92f93eca94387f602735a0ad5a, type: 3}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_TexEnvs.Array.data[5].second.m_Scale.x
     value: 1
@@ -306,12 +306,12 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_TexEnvs.Array.data[6].first
-    value: _FlakesTexture
+    value: _DetailAlbedoMap
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_TexEnvs.Array.data[6].second.m_Texture
     value: 
-    objectReference: {fileID: 2800000, guid: 751784a6737f94246a788c963b28d058, type: 3}
+    objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_TexEnvs.Array.data[6].second.m_Scale.x
     value: 1
@@ -330,7 +330,7 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_TexEnvs.Array.data[7].first
-    value: _Normal
+    value: _DetailMask
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_TexEnvs.Array.data[7].second.m_Texture
@@ -354,12 +354,12 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_TexEnvs.Array.data[8].first
-    value: _NormalMap
+    value: _DetailNormalMap
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_TexEnvs.Array.data[8].second.m_Texture
     value: 
-    objectReference: {fileID: 2800000, guid: a268ab862991c4743a9281c69bb2c36a, type: 3}
+    objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_TexEnvs.Array.data[8].second.m_Scale.x
     value: 1
@@ -378,12 +378,12 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_TexEnvs.Array.data[9].first
-    value: _ReflectMap
+    value: _EmissionMap
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_TexEnvs.Array.data[9].second.m_Texture
     value: 
-    objectReference: {fileID: 8900000, guid: 570964db9507cbd4dba05fa0fb80096f, type: 3}
+    objectReference: {fileID: 2800000, guid: 032137d15ff4d9f4a8ddc47c9c194dcc, type: 3}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_TexEnvs.Array.data[9].second.m_Scale.x
     value: 1
@@ -402,19 +402,19 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_TexEnvs.Array.data[10].first
-    value: _SpecularMap
+    value: _FlakesNormalMap
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_TexEnvs.Array.data[10].second.m_Texture
     value: 
-    objectReference: {fileID: 0}
+    objectReference: {fileID: 2800000, guid: 4dc734acf00d0654ba5efff10b5dc09c, type: 3}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_TexEnvs.Array.data[10].second.m_Scale.x
-    value: 8
+    value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_TexEnvs.Array.data[10].second.m_Scale.y
-    value: 8
+    value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_TexEnvs.Array.data[10].second.m_Offset.x
@@ -426,12 +426,12 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_TexEnvs.Array.data[11].first
-    value: _SpecularMap1
+    value: _FlakesTexture
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_TexEnvs.Array.data[11].second.m_Texture
     value: 
-    objectReference: {fileID: 0}
+    objectReference: {fileID: 2800000, guid: 751784a6737f94246a788c963b28d058, type: 3}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_TexEnvs.Array.data[11].second.m_Scale.x
     value: 1
@@ -450,7 +450,7 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_TexEnvs.Array.data[12].first
-    value: _SpecularMap2
+    value: _MainTex
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_TexEnvs.Array.data[12].second.m_Texture
@@ -474,19 +474,19 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_TexEnvs.Array.data[13].first
-    value: _TextureSample0
+    value: _MetallicGlossMap
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_TexEnvs.Array.data[13].second.m_Texture
     value: 
-    objectReference: {fileID: 2800000, guid: a268ab862991c4743a9281c69bb2c36a, type: 3}
+    objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_TexEnvs.Array.data[13].second.m_Scale.x
-    value: 8
+    value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_TexEnvs.Array.data[13].second.m_Scale.y
-    value: 8
+    value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_TexEnvs.Array.data[13].second.m_Offset.x
@@ -498,19 +498,19 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_TexEnvs.Array.data[14].first
-    value: _TextureSample1
+    value: _NormalMap
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_TexEnvs.Array.data[14].second.m_Texture
     value: 
-    objectReference: {fileID: 2800000, guid: 82613ce3d72c8b4408fde598fea137a1, type: 3}
+    objectReference: {fileID: 2800000, guid: 5062329c834beb9469cdb4211084bae3, type: 3}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_TexEnvs.Array.data[14].second.m_Scale.x
-    value: 1
+    value: 3
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_TexEnvs.Array.data[14].second.m_Scale.y
-    value: 1
+    value: 3
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_TexEnvs.Array.data[14].second.m_Offset.x
@@ -522,7 +522,7 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_TexEnvs.Array.data[15].first
-    value: _texcoord
+    value: _OcclusionMap
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_TexEnvs.Array.data[15].second.m_Texture
@@ -546,7 +546,7 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_TexEnvs.Array.data[16].first
-    value: unity_Lightmaps
+    value: _ParallaxMap
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_TexEnvs.Array.data[16].second.m_Texture
@@ -570,12 +570,12 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_TexEnvs.Array.data[17].first
-    value: unity_LightmapsInd
+    value: _ReflectMap
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_TexEnvs.Array.data[17].second.m_Texture
     value: 
-    objectReference: {fileID: 0}
+    objectReference: {fileID: 8900000, guid: 4722c5de5ad2a7045ba97a913c33f323, type: 3}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_TexEnvs.Array.data[17].second.m_Scale.x
     value: 1
@@ -594,7 +594,7 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_TexEnvs.Array.data[18].first
-    value: unity_ShadowMasks
+    value: _SpecGlossMap
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_TexEnvs.Array.data[18].second.m_Texture
@@ -617,12 +617,156 @@ Preset:
     value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_TexEnvs.Array.data[19].first
+    value: _SpecularMap
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_TexEnvs.Array.data[19].second.m_Texture
+    value: 
+    objectReference: {fileID: 2800000, guid: 032137d15ff4d9f4a8ddc47c9c194dcc, type: 3}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_TexEnvs.Array.data[19].second.m_Scale.x
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_TexEnvs.Array.data[19].second.m_Scale.y
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_TexEnvs.Array.data[19].second.m_Offset.x
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_TexEnvs.Array.data[19].second.m_Offset.y
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_TexEnvs.Array.data[20].first
+    value: _ThicknessMap
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_TexEnvs.Array.data[20].second.m_Texture
+    value: 
+    objectReference: {fileID: 2800000, guid: 8b4eb68c413d91e41a98881e30998e31, type: 3}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_TexEnvs.Array.data[20].second.m_Scale.x
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_TexEnvs.Array.data[20].second.m_Scale.y
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_TexEnvs.Array.data[20].second.m_Offset.x
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_TexEnvs.Array.data[20].second.m_Offset.y
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_TexEnvs.Array.data[21].first
+    value: _texcoord
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_TexEnvs.Array.data[21].second.m_Texture
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_TexEnvs.Array.data[21].second.m_Scale.x
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_TexEnvs.Array.data[21].second.m_Scale.y
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_TexEnvs.Array.data[21].second.m_Offset.x
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_TexEnvs.Array.data[21].second.m_Offset.y
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_TexEnvs.Array.data[22].first
+    value: unity_Lightmaps
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_TexEnvs.Array.data[22].second.m_Texture
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_TexEnvs.Array.data[22].second.m_Scale.x
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_TexEnvs.Array.data[22].second.m_Scale.y
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_TexEnvs.Array.data[22].second.m_Offset.x
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_TexEnvs.Array.data[22].second.m_Offset.y
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_TexEnvs.Array.data[23].first
+    value: unity_LightmapsInd
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_TexEnvs.Array.data[23].second.m_Texture
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_TexEnvs.Array.data[23].second.m_Scale.x
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_TexEnvs.Array.data[23].second.m_Scale.y
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_TexEnvs.Array.data[23].second.m_Offset.x
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_TexEnvs.Array.data[23].second.m_Offset.y
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_TexEnvs.Array.data[24].first
+    value: unity_ShadowMasks
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_TexEnvs.Array.data[24].second.m_Texture
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_TexEnvs.Array.data[24].second.m_Scale.x
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_TexEnvs.Array.data[24].second.m_Scale.y
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_TexEnvs.Array.data[24].second.m_Offset.x
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_TexEnvs.Array.data[24].second.m_Offset.y
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Ints.Array.size
     value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.size
-    value: 180
+    value: 218
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[0].first
@@ -662,7 +806,7 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[4].second
-    value: 0
+    value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[5].first
@@ -670,11 +814,11 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[5].second
-    value: 1
+    value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[6].first
-    value: _AffectAO_Color
+    value: _AffectAO_Rim
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[6].second
@@ -682,7 +826,7 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[7].first
-    value: _AffectAO_Rim
+    value: _AffectAO_Spec
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[7].second
@@ -690,23 +834,23 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[8].first
-    value: _AffectAO_Spec
+    value: _AffectBodyFlakes
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[8].second
-    value: 0
+    value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[9].first
-    value: _AffectAO_Spec1
+    value: _AffectReflectionFlakes
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[9].second
-    value: 0
+    value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[10].first
-    value: _AffectBodyFlakes
+    value: _AlphaClip
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[10].second
@@ -714,19 +858,19 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[11].first
-    value: _AffectReflectionFlakes
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[11].second
-    value: 1
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[12].first
     value: _AlphaCutoff
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[12].second
+    propertyPath: m_SavedProperties.m_Floats.Array.data[11].second
     value: 0.5
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[12].first
+    value: _AlphaToMask
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[12].second
+    value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[13].first
@@ -734,7 +878,7 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[13].second
-    value: 2
+    value: 1.75
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[14].first
@@ -742,7 +886,7 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[14].second
-    value: 0
+    value: 0.469
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[15].first
@@ -758,7 +902,7 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[16].second
-    value: 0
+    value: 0.7
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[17].first
@@ -778,15 +922,15 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[19].first
-    value: _BodyFNormalMulti
+    value: _Blend
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[19].second
-    value: 0.1
+    value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[20].first
-    value: _BodyNormal
+    value: _BlendModePreserveSpecular
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[20].second
@@ -794,23 +938,23 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[21].first
-    value: _BodyNormalMulti
+    value: _BodyFNormalMulti
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[21].second
-    value: 1
+    value: 0.5
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[22].first
-    value: _CMXPos
+    value: _BumpScale
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[22].second
-    value: 0
+    value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[23].first
-    value: _CMYPos
+    value: _CMXPos
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[23].second
@@ -818,7 +962,7 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[24].first
-    value: _CMZPos
+    value: _CMYPos
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[24].second
@@ -826,7 +970,7 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[25].first
-    value: _ColFresnelBias
+    value: _CMZPos
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[25].second
@@ -834,7 +978,7 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[26].first
-    value: _ColFresnelInvert
+    value: _ClearCoatMask
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[26].second
@@ -842,47 +986,47 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[27].first
-    value: _ColFresnelPower
+    value: _ClearCoatSmoothness
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[27].second
-    value: 2.19
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[28].first
-    value: _ColFresnelScale
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[28].second
-    value: 1.1
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[29].first
-    value: _ColorFresnelInvert
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[29].second
     value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[28].first
+    value: _ColFresnelBias
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[28].second
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[29].first
+    value: _ColFresnelPower
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[29].second
+    value: 0.45
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[30].first
-    value: _ColorFresnelSwitch
+    value: _ColFresnelScale
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[30].second
-    value: 1
+    value: 1.05
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[31].first
-    value: _CubeMapExtras
+    value: _ColorFresnelInvert
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[31].second
-    value: 1
+    value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[32].first
-    value: _CubeMapRotate
+    value: _ColorFresnelSwitch
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[32].second
@@ -890,31 +1034,31 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[33].first
-    value: _DstBlend
+    value: _CubeMapExtras
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[33].second
-    value: 0
+    value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[34].first
-    value: _Emission
+    value: _CubeMapRotate
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[34].second
-    value: 0.1
+    value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[35].first
-    value: _EmissionIntensity
+    value: _Cull
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[35].second
-    value: 0.5
+    value: 2
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[36].first
-    value: _EmissionInvert
+    value: _CurvFold
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[36].second
@@ -922,7 +1066,7 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[37].first
-    value: _EmissionMultiplier
+    value: _CurvatureScale
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[37].second
@@ -930,39 +1074,39 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[38].first
-    value: _EmissionToggle
+    value: _Cutoff
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[38].second
-    value: 0
+    value: 0.5
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[39].first
-    value: _EnvironmentReflections
+    value: _DPFold
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[39].second
-    value: 0
+    value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[40].first
-    value: _FFlakeControl
+    value: _Depth
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[40].second
-    value: -54.42
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[41].first
-    value: _FNOffsetX
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[41].second
     value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[41].first
+    value: _DepthContrast
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[41].second
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[42].first
-    value: _FNOffsetY
+    value: _DepthOffset
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[42].second
@@ -970,23 +1114,23 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[43].first
-    value: _FNTileX
+    value: _DepthScale
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[43].second
-    value: 3
+    value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[44].first
-    value: _FNTileY
+    value: _DepthToggle
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[44].second
-    value: 3
+    value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[45].first
-    value: _FNormalMultiplier
+    value: _DetailAlbedoMapScale
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[45].second
@@ -994,31 +1138,31 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[46].first
-    value: _FNormalScale
+    value: _DetailNormalMapScale
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[46].second
-    value: 0.1
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[47].first
-    value: _FallOff
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[47].second
     value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[47].first
+    value: _DstBlend
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[47].second
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[48].first
-    value: _FlakeControl
+    value: _DstBlendAlpha
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[48].second
-    value: 5.01
+    value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[49].first
-    value: _FlakesExtras
+    value: _EmissionIntensity
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[49].second
@@ -1026,15 +1170,15 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[50].first
-    value: _FlakesGloss
+    value: _EmissionInvert
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[50].second
-    value: 1.48
+    value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[51].first
-    value: _FlakesGlossy
+    value: _EmissionMultiplier
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[51].second
@@ -1042,7 +1186,7 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[52].first
-    value: _FlakesIn
+    value: _EmissionToggle
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[52].second
@@ -1050,111 +1194,111 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[53].first
-    value: _FlakesIntensity
+    value: _EnvironmentReflections
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[53].second
-    value: 2
+    value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[54].first
-    value: _FlakesMax
+    value: _FNOffsetX
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[54].second
-    value: 1
+    value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[55].first
-    value: _FlakesMin
+    value: _FNOffsetY
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[55].second
-    value: 0.304
+    value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[56].first
-    value: _FlakesNormal
+    value: _FNTileX
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[56].second
-    value: 1
+    value: 4
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[57].first
-    value: _FlakesNormalExtras
+    value: _FNTileY
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[57].second
-    value: 1
+    value: 4
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[58].first
-    value: _FlakesOut
+    value: _FNormalMultiplier
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[58].second
-    value: 0.168
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[59].first
-    value: _FlakesRotSpeed
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[59].second
-    value: 0.4
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[60].first
-    value: _FlakesSaturation
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[60].second
     value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[59].first
+    value: _FNormalScale
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[59].second
+    value: 0.2
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[60].first
+    value: _FallOff
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[60].second
+    value: 4
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[61].first
-    value: _FlakesSoftness
+    value: _FlakesExtras
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[61].second
-    value: 0.64
+    value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[62].first
-    value: _FlakesSpecular
+    value: _FlakesGloss
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[62].second
-    value: 0
+    value: 1.66
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[63].first
-    value: _FlakesSpecularAmbient
+    value: _FlakesGlossy
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[63].second
-    value: 0
+    value: 2
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[64].first
-    value: _FlakesSpecularIn
+    value: _FlakesIn
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[64].second
-    value: 0.1
+    value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[65].first
-    value: _FlakesSpecularOut
+    value: _FlakesIntensity
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[65].second
-    value: 0.3
+    value: 2
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[66].first
-    value: _FlakesSpecularSaturation
+    value: _FlakesMax
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[66].second
@@ -1162,119 +1306,119 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[67].first
-    value: _FlakesSwitch
+    value: _FlakesMin
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[67].second
-    value: 1
+    value: 0.606
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[68].first
-    value: _FlakesTextureIntensity
+    value: _FlakesNormal
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[68].second
-    value: 0.4
+    value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[69].first
-    value: _FlakesTileX
+    value: _FlakesNormalExtras
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[69].second
-    value: 2
+    value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[70].first
-    value: _FlakesTileY
+    value: _FlakesOut
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[70].second
-    value: 2
+    value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[71].first
-    value: _FlakesType
+    value: _FlakesRotSpeed
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[71].second
-    value: 0
+    value: 0.3
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[72].first
-    value: _FlakesWrapping
+    value: _FlakesSaturation
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[72].second
-    value: 0
+    value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[73].first
-    value: _Float0
+    value: _FlakesSoftness
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[73].second
-    value: 0.22
+    value: 0.29
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[74].first
-    value: _Float0b
+    value: _FlakesSpecular
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[74].second
-    value: 0.98
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[75].first
-    value: _Float1
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[75].second
-    value: 0.322
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[76].first
-    value: _Float1b
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[76].second
     value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[75].first
+    value: _FlakesSwitch
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[75].second
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[76].first
+    value: _FlakesTextureIntensity
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[76].second
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[77].first
-    value: _Float2
+    value: _FlakesTileX
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[77].second
-    value: 2
+    value: 3
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[78].first
-    value: _Float3
+    value: _FlakesTileY
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[78].second
-    value: 8
+    value: 3
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[79].first
-    value: _FresnelFold
+    value: _FlakesType
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[79].second
-    value: 1
+    value: 2
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[80].first
-    value: _FresnelSwitch
+    value: _FlakesWrapping
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[80].second
-    value: 1
+    value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[81].first
-    value: _FresnelType
+    value: _FresnelBias
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[81].second
@@ -1282,47 +1426,47 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[82].first
-    value: _Glossy
+    value: _FresnelFold
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[82].second
-    value: 2
+    value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[83].first
-    value: _Glossy1
+    value: _FresnelPower
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[83].second
-    value: 1
+    value: 3.81
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[84].first
-    value: _Glossy2
+    value: _FresnelScale
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[84].second
-    value: 21.6
+    value: 1.73
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[85].first
-    value: _GradOffset
+    value: _FresnelSwitch
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[85].second
-    value: -0.5
+    value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[86].first
-    value: _GradScale
+    value: _FresnelType
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[86].second
-    value: 2
+    value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[87].first
-    value: _GradType
+    value: _GlossMapScale
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[87].second
@@ -1330,7 +1474,7 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[88].first
-    value: _GradYInvert
+    value: _Glossiness
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[88].second
@@ -1338,23 +1482,23 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[89].first
-    value: _Keyword0
+    value: _Glossy
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[89].second
-    value: 0
+    value: 20
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[90].first
-    value: _NFallOff
+    value: _GlossyReflections
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[90].second
-    value: 5
+    value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[91].first
-    value: _NOffsetX
+    value: _GradOffset
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[91].second
@@ -1362,39 +1506,39 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[92].first
-    value: _NOffsetY
+    value: _GradScale
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[92].second
-    value: 0
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[93].first
-    value: _NTileX
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[93].second
-    value: 8
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[94].first
-    value: _NTileY
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[94].second
-    value: 8
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[95].first
-    value: _Normal
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[95].second
     value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[93].first
+    value: _GradType
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[93].second
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[94].first
+    value: _GradYInvert
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[94].second
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[95].first
+    value: _Metallic
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[95].second
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[96].first
-    value: _NormalMultiplier
+    value: _NFallOff
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[96].second
@@ -1402,15 +1546,15 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[97].first
-    value: _NormalScale
+    value: _NOffsetX
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[97].second
-    value: -0.1
+    value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[98].first
-    value: _OffsetX
+    value: _NOffsetY
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[98].second
@@ -1418,39 +1562,39 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[99].first
-    value: _OffsetY
+    value: _NTileX
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[99].second
-    value: 0
+    value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[100].first
-    value: _PaintMethod
+    value: _NTileY
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[100].second
-    value: 0
+    value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[101].first
-    value: _PatternHeight
+    value: _NewMax
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[101].second
-    value: 2.2
+    value: 1.25
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[102].first
-    value: _PatternRotator
+    value: _NewMin
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[102].second
-    value: 0
+    value: 0.97
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[103].first
-    value: _QueueControl
+    value: _Normal
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[103].second
@@ -1458,39 +1602,39 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[104].first
-    value: _QueueOffset
+    value: _NormalMultiplier
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[104].second
-    value: 0
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[105].first
-    value: _ReceiveShadows
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[105].second
     value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[105].first
+    value: _NormalScale
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[105].second
+    value: -0.035
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[106].first
-    value: _RefFNormalMulti
+    value: _OcclusionStrength
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[106].second
-    value: 0.7
+    value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[107].first
-    value: _RefFresnelBias
+    value: _OffsetX
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[107].second
-    value: 0.224
+    value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[108].first
-    value: _RefFresnelInvert
+    value: _OffsetY
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[108].second
@@ -1498,79 +1642,79 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[109].first
-    value: _RefFresnelPower
+    value: _OldMax
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[109].second
-    value: 1
+    value: 1.04
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[110].first
-    value: _RefFresnelScale
+    value: _OldMin
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[110].second
-    value: 2
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[111].first
-    value: _RefFresnelSwitch
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[111].second
-    value: 0
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[112].first
-    value: _RefFrsType
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[112].second
-    value: 0
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[113].first
-    value: _RefNormalMulti
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[113].second
-    value: 1
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[114].first
-    value: _Reflect
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[114].second
-    value: 1
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[115].first
-    value: _ReflectLightAdd
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[115].second
     value: 0.02
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[116].first
-    value: _ReflectLightAffect
+    propertyPath: m_SavedProperties.m_Floats.Array.data[111].first
+    value: _PaintMethod
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[116].second
+    propertyPath: m_SavedProperties.m_Floats.Array.data[111].second
     value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[112].first
+    value: _Parallax
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[112].second
+    value: 0.005
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[113].first
+    value: _PatternHeight
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[113].second
+    value: 1.51
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[114].first
+    value: _PatternRotator
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[114].second
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[115].first
+    value: _QueueControl
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[115].second
+    value: -1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[116].first
+    value: _QueueOffset
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[116].second
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[117].first
-    value: _ReflectLightPower
+    value: _RIFineTune
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[117].second
-    value: 1.22
+    value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[118].first
-    value: _ReflectNormal
+    value: _RIFold
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[118].second
@@ -1578,7 +1722,7 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[119].first
-    value: _ReflectionMultiplier
+    value: _ReceiveShadows
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[119].second
@@ -1586,15 +1730,15 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[120].first
-    value: _ReflectionStrength
+    value: _RefFNormalMulti
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[120].second
-    value: 0.35
+    value: 0.1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[121].first
-    value: _RimLightBias
+    value: _RefFresnelBias
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[121].second
@@ -1602,7 +1746,7 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[122].first
-    value: _RimLightIntensity
+    value: _RefFresnelInvert
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[122].second
@@ -1610,31 +1754,31 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[123].first
-    value: _RimLightInvert
+    value: _RefFresnelPower
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[123].second
-    value: 0
+    value: 0.85
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[124].first
-    value: _RimLightPower
+    value: _RefFresnelScale
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[124].second
-    value: 1
+    value: 1.3
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[125].first
-    value: _RimLightScale
+    value: _RefFresnelSwitch
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[125].second
-    value: 1
+    value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[126].first
-    value: _RimSwitch
+    value: _RefFrsType
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[126].second
@@ -1642,127 +1786,127 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[127].first
-    value: _SSBluricTransparent
+    value: _Reflect
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[127].second
-    value: 0
+    value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[128].first
-    value: _SSOffX
+    value: _ReflectLightAdd
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[128].second
-    value: 0
+    value: 0.1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[129].first
-    value: _SSOffY
+    value: _ReflectLightAffect
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[129].second
-    value: 0
+    value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[130].first
-    value: _SSSize
+    value: _ReflectLightPower
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[130].second
-    value: 10
+    value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[131].first
-    value: _SSTileX
+    value: _ReflectionCurvature
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[131].second
-    value: 1
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[132].first
-    value: _SSTileY
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[132].second
-    value: 1
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[133].first
-    value: _ShadeColorToggle
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[133].second
-    value: 1
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[134].first
-    value: _ShadeContrast
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[134].second
-    value: 1.694
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[135].first
-    value: _ShadeExtras
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[135].second
     value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[132].first
+    value: _ReflectionMultiplier
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[132].second
+    value: 6.25
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[133].first
+    value: _ReflectionStrength
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[133].second
+    value: 0.3
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[134].first
+    value: _RefrControl
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[134].second
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[135].first
+    value: _Refraction
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[135].second
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[136].first
-    value: _ShadingContrast
+    value: _RefractionInvert
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[136].second
-    value: 0.88
+    value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[137].first
-    value: _ShadingContribution
+    value: _RimCAtt
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[137].second
-    value: 0.879
+    value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[138].first
-    value: _ShadingIntensity
+    value: _RimContour
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[138].second
-    value: 1.217
+    value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[139].first
-    value: _ShadingOffset
+    value: _RimContourIntensity
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[139].second
-    value: 0.068
+    value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[140].first
-    value: _Smoothness
+    value: _RimContourOffset
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[140].second
-    value: 0.5
+    value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[141].first
-    value: _Softness
+    value: _RimContourScale
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[141].second
-    value: 0.01
+    value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[142].first
-    value: _Softness2
+    value: _RimLightBias
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[142].second
@@ -1770,7 +1914,7 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[143].first
-    value: _SpecMax
+    value: _RimLightIntensity
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[143].second
@@ -1778,7 +1922,7 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[144].first
-    value: _SpecMin
+    value: _RimLightInvert
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[144].second
@@ -1786,63 +1930,63 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[145].first
-    value: _SpecToggle
+    value: _RimLightPower
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[145].second
-    value: 1
+    value: 1.42
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[146].first
-    value: _SpecType
+    value: _RimLightScale
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[146].second
-    value: 0
+    value: 0.81
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[147].first
-    value: _Specular
+    value: _RimSwitch
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[147].second
-    value: 0.4
+    value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[148].first
-    value: _SpecularAmbient
+    value: _SSAnchorX
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[148].second
-    value: 0
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[149].first
-    value: _SpecularAmbient1
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[149].second
-    value: 0
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[150].first
-    value: _SpecularAmbient2
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[150].second
-    value: 0
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[151].first
-    value: _SpecularExtras
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[151].second
     value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[149].first
+    value: _SSAnchorY
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[149].second
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[150].first
+    value: _SSBluricTransparent
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[150].second
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[151].first
+    value: _SSOffX
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[151].second
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[152].first
-    value: _SpecularHighlights
+    value: _SSOffY
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[152].second
@@ -1850,39 +1994,39 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[153].first
-    value: _SpecularIn
+    value: _SSOffsetX
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[153].second
-    value: 0
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[154].first
-    value: _SpecularIn1
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[154].second
-    value: 0.2318832
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[155].first
-    value: _SpecularIn2
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[155].second
     value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[154].first
+    value: _SSOffsetY
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[154].second
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[155].first
+    value: _SSRotate
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[155].second
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[156].first
-    value: _SpecularIntensity
+    value: _SSSize
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[156].second
-    value: 5
+    value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[157].first
-    value: _SpecularIntensity1
+    value: _SSTileX
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[157].second
@@ -1890,15 +2034,15 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[158].first
-    value: _SpecularIntensity2
+    value: _SSTileY
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[158].second
-    value: 5
+    value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[159].first
-    value: _SpecularInvert
+    value: _ScreenContrast
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[159].second
@@ -1906,7 +2050,7 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[160].first
-    value: _SpecularInvert1
+    value: _ScreenSpace
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[160].second
@@ -1914,95 +2058,95 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[161].first
-    value: _SpecularInvert2
+    value: _ShadeColorToggle
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[161].second
-    value: 0
+    value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[162].first
-    value: _SpecularOut
+    value: _ShadeContrast
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[162].second
-    value: 1
+    value: 0.55
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[163].first
-    value: _SpecularOut1
+    value: _ShadeExtras
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[163].second
-    value: 0.8793107
+    value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[164].first
-    value: _SpecularOut2
+    value: _ShadingContrast
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[164].second
-    value: 0.91
+    value: 0.54
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[165].first
-    value: _SpecularSaturation
+    value: _ShadingContribution
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[165].second
-    value: 1
+    value: 0.937
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[166].first
-    value: _SpecularSaturation1
+    value: _ShadingIntensity
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[166].second
-    value: 1
+    value: 2
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[167].first
-    value: _SpecularSaturation2
+    value: _ShadingOffset
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[167].second
-    value: 1
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[168].first
-    value: _SpecularSwitch
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[168].second
-    value: 1
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[169].first
-    value: _SpecularSwitch1
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Floats.Array.data[169].second
     value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[168].first
+    value: _Shininess
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[168].second
+    value: 0.1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[169].first
+    value: _Smoothness
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[169].second
+    value: 0.5
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[170].first
-    value: _SpecularSwitch2
+    value: _SmoothnessTextureChannel
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[170].second
-    value: 1
+    value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[171].first
-    value: _SrcBlend
+    value: _Softness
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[171].second
-    value: 1
+    value: 0.35
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[172].first
-    value: _TexturedFlakes
+    value: _SpecMax
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[172].second
@@ -2010,31 +2154,31 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[173].first
-    value: _TexturedFlakesToggle
+    value: _SpecMin
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[173].second
-    value: 1
+    value: 0.05
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[174].first
-    value: _TileX
+    value: _SpecToggle
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[174].second
-    value: 5
+    value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[175].first
-    value: _TileY
+    value: _SpecType
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[175].second
-    value: 5
+    value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[176].first
-    value: _TriplanarMap
+    value: _Specular
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[176].second
@@ -2042,7 +2186,7 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[177].first
-    value: _TriplanarNMap
+    value: _SpecularAmbient
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[177].second
@@ -2050,7 +2194,7 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[178].first
-    value: _TwoColors
+    value: _SpecularExtras
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[178].second
@@ -2058,15 +2202,319 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[179].first
-    value: _ZWrite
+    value: _SpecularHighlights
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Floats.Array.data[179].second
     value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[180].first
+    value: _SpecularIn
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[180].second
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[181].first
+    value: _SpecularIntensity
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[181].second
+    value: 1.5
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[182].first
+    value: _SpecularInvert
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[182].second
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[183].first
+    value: _SpecularOut
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[183].second
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[184].first
+    value: _SpecularSaturation
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[184].second
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[185].first
+    value: _SpecularSwitch
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[185].second
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[186].first
+    value: _SrcBlend
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[186].second
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[187].first
+    value: _SrcBlendAlpha
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[187].second
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[188].first
+    value: _Surface
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[188].second
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[189].first
+    value: _SurfaceSettings
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[189].second
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[190].first
+    value: _TRFRFold
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[190].second
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[191].first
+    value: _TRFineTune
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[191].second
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[192].first
+    value: _TROffset
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[192].second
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[193].first
+    value: _TRScale
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[193].second
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[194].first
+    value: _TexturedFlakes
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[194].second
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[195].first
+    value: _TexturedFlakesToggle
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[195].second
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[196].first
+    value: _ThichnessInvert
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[196].second
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[197].first
+    value: _ThickFold
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[197].second
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[198].first
+    value: _ThickOffset
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[198].second
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[199].first
+    value: _ThickScale
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[199].second
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[200].first
+    value: _Thickness
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[200].second
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[201].first
+    value: _ThicknessIntensity
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[201].second
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[202].first
+    value: _TileX
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[202].second
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[203].first
+    value: _TileY
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[203].second
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[204].first
+    value: _TransOffset
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[204].second
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[205].first
+    value: _TransScale
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[205].second
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[206].first
+    value: _TransparentFresnel
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[206].second
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[207].first
+    value: _TransparentFresnelBias
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[207].second
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[208].first
+    value: _TransparentFresnelInvert
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[208].second
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[209].first
+    value: _TransparentFresnelPower
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[209].second
+    value: 2.36
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[210].first
+    value: _TransparentFresnelScale
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[210].second
+    value: 0.7
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[211].first
+    value: _TransparentIntensity
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[211].second
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[212].first
+    value: _TransparentToggle
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[212].second
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[213].first
+    value: _TriplanarMap
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[213].second
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[214].first
+    value: _TriplanarNMap
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[214].second
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[215].first
+    value: _TwoColors
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[215].second
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[216].first
+    value: _WorkflowMode
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[216].second
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[217].first
+    value: _ZWrite
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Floats.Array.data[217].second
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Colors.Array.size
-    value: 12
+    value: 17
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Colors.Array.data[0].first
@@ -2094,15 +2542,15 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Colors.Array.data[1].second.r
-    value: 0.6
+    value: 0.20862743
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Colors.Array.data[1].second.g
-    value: 0
+    value: 0.6181045
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Colors.Array.data[1].second.b
-    value: 0
+    value: 0.7
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Colors.Array.data[1].second.a
@@ -2110,19 +2558,19 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Colors.Array.data[2].first
-    value: _EmissionColor
+    value: _Color
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Colors.Array.data[2].second.r
-    value: 0.5
+    value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Colors.Array.data[2].second.g
-    value: 0.5
+    value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Colors.Array.data[2].second.b
-    value: 0.5
+    value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Colors.Array.data[2].second.a
@@ -2130,11 +2578,11 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Colors.Array.data[3].first
-    value: _FlakeColor
+    value: _DepthColor
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Colors.Array.data[3].second.r
-    value: 0
+    value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Colors.Array.data[3].second.g
@@ -2142,27 +2590,27 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Colors.Array.data[3].second.b
-    value: 0.11139798
+    value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Colors.Array.data[3].second.a
-    value: 1
+    value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Colors.Array.data[4].first
-    value: _FlakesColor
+    value: _EmissionColor
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Colors.Array.data[4].second.r
-    value: 1
+    value: 0.72955966
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Colors.Array.data[4].second.g
-    value: 1
+    value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Colors.Array.data[4].second.b
-    value: 1
+    value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Colors.Array.data[4].second.a
@@ -2170,15 +2618,15 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Colors.Array.data[5].first
-    value: _FlakesSpecColor
+    value: _FlakesColor
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Colors.Array.data[5].second.r
-    value: 1
+    value: 0.30980396
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Colors.Array.data[5].second.g
-    value: 1
+    value: 0.76862764
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Colors.Array.data[5].second.b
@@ -2190,19 +2638,19 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Colors.Array.data[6].first
-    value: _ReflectColor
+    value: _MainColor
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Colors.Array.data[6].second.r
-    value: 1
+    value: 0.39215687
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Colors.Array.data[6].second.g
-    value: 1
+    value: 0.39215687
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Colors.Array.data[6].second.b
-    value: 1
+    value: 0.39215687
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Colors.Array.data[6].second.a
@@ -2210,59 +2658,59 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Colors.Array.data[7].first
-    value: _RimLightColor
+    value: _ReflectColor
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Colors.Array.data[7].second.r
-    value: 0
+    value: 0.40566027
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Colors.Array.data[7].second.g
-    value: 0
+    value: 0.68341714
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Colors.Array.data[7].second.b
-    value: 0
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Colors.Array.data[7].second.a
-    value: 0
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Colors.Array.data[8].first
-    value: _SecondColor
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Colors.Array.data[8].second.r
-    value: 0.3207547
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Colors.Array.data[8].second.g
-    value: 0.3207547
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Colors.Array.data[8].second.b
-    value: 0.3207547
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_SavedProperties.m_Colors.Array.data[8].second.a
     value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Colors.Array.data[7].second.a
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Colors.Array.data[8].first
+    value: _RefractColor
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Colors.Array.data[8].second.r
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Colors.Array.data[8].second.g
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Colors.Array.data[8].second.b
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Colors.Array.data[8].second.a
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Colors.Array.data[9].first
-    value: _ShadeColor
+    value: _RimContourColor
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Colors.Array.data[9].second.r
-    value: 0.8490566
+    value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Colors.Array.data[9].second.g
-    value: 0.8490566
+    value: 0.86913335
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Colors.Array.data[9].second.b
-    value: 0.8490566
+    value: 0.69799995
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Colors.Array.data[9].second.a
@@ -2270,42 +2718,142 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Colors.Array.data[10].first
-    value: _SpecColor
+    value: _RimLightColor
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Colors.Array.data[10].second.r
-    value: 1
+    value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Colors.Array.data[10].second.g
-    value: 0.8736842
+    value: 0.9575143
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Colors.Array.data[10].second.b
-    value: 0.8736842
+    value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Colors.Array.data[10].second.a
-    value: 1
+    value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Colors.Array.data[11].first
-    value: _SpecColor2
+    value: _SecondColor
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Colors.Array.data[11].second.r
-    value: 1
+    value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Colors.Array.data[11].second.g
-    value: 1
+    value: 0.33333325
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Colors.Array.data[11].second.b
-    value: 1
+    value: 0.5
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SavedProperties.m_Colors.Array.data[11].second.a
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Colors.Array.data[12].first
+    value: _ShadeColor
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Colors.Array.data[12].second.r
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Colors.Array.data[12].second.g
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Colors.Array.data[12].second.b
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Colors.Array.data[12].second.a
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Colors.Array.data[13].first
+    value: _SpecColor
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Colors.Array.data[13].second.r
+    value: 0.55660367
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Colors.Array.data[13].second.g
+    value: 0.8357119
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Colors.Array.data[13].second.b
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Colors.Array.data[13].second.a
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Colors.Array.data[14].first
+    value: _SpecularColor
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Colors.Array.data[14].second.r
+    value: 0.39215687
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Colors.Array.data[14].second.g
+    value: 0.39215687
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Colors.Array.data[14].second.b
+    value: 0.39215687
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Colors.Array.data[14].second.a
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Colors.Array.data[15].first
+    value: _ThicknessColor
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Colors.Array.data[15].second.r
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Colors.Array.data[15].second.g
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Colors.Array.data[15].second.b
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Colors.Array.data[15].second.a
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Colors.Array.data[16].first
+    value: _TransparencyColor
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Colors.Array.data[16].second.r
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Colors.Array.data[16].second.g
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Colors.Array.data[16].second.b
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_SavedProperties.m_Colors.Array.data[16].second.a
     value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}

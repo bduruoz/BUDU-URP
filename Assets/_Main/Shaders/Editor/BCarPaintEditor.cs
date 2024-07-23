@@ -5,8 +5,9 @@ using System;
 
 public class BCarPaintEditor : ShaderGUI
 {
-    bool checkTwoColors, checkFlakes, checkFlakesTexture, checkSpec, checkReflect, checkRefFresnel, checkRefFrsInvert, checkShade;
-    bool twoColFold, aboutFold, flakesFold, flakesExtFold, flakesNormalFold, flTxtFold, specFold, specExtFold, reflectFold, cubemapFold, fresnelFold, refFlakesFold, shadeFold, shadeExtFold, colFlakesFold;
+    bool checkTwoColors, checkFlakesTexture, checkSpec, checkReflect, checkRefFresnel, checkRefFrsInvert, checkShade;
+    bool twoColFold, aboutFold, flakesFold, flakesExtFold, flakesNormalFold, flTxtFold, specFold, specExtFold, reflectFold, cubemapFold;
+    bool fresnelFold, refFlakesFold, shadeFold, shadeExtFold, colFlakesFold, baseColFold, AOFold;
     int paintMethod;
     int tempVar;
     
@@ -35,111 +36,133 @@ public class BCarPaintEditor : ShaderGUI
         #endregion
 
         #region Color Group
-        MaterialProperty bc = ShaderGUI.FindProperty("_BaseColor", properties);
+        style.normal.background = MakeBackground(1, 1, bdColors.GrayP(18, 204));
+        style.fontSize = 16;
+        style.normal.textColor = bdColors.NexusOrange();
 
-        EditorGUILayout.BeginVertical();
+        EditorGUILayout.BeginVertical(style);
+        baseColFold = EditorGUILayout.ToggleLeft("BASE COLOR", baseColFold, style);
+        targetMat.SetInt("_BaseColorToggle", Convert.ToInt16(baseColFold));
+        EditorGUILayout.EndVertical();
+        style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
+
+        if(baseColFold)
         {
-            materialEditor.ColorProperty(bc, "Base Color");
-            style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
-
-            checkTwoColors = EditorGUILayout.Toggle("Two Colors", checkTwoColors);
-            targetMat.SetInt("_TwoColors", Convert.ToInt16(checkTwoColors));
-            twoColFold = checkTwoColors;
-
-            if(twoColFold)
+            EditorGUI.indentLevel++;
+            MaterialProperty bc = ShaderGUI.FindProperty("_BaseColor", properties);
+            EditorGUILayout.BeginVertical();
             {
-                MaterialProperty pm = ShaderGUI.FindProperty("_PaintMethod", properties);
-                MaterialProperty sc = ShaderGUI.FindProperty("_SecondColor", properties);
-
-                materialEditor.ShaderProperty(pm, "Paint Method");
-                materialEditor.ColorProperty(sc, "Second Color");
-
-                paintMethod = targetMat.GetInt("_PaintMethod");
-
-                MaterialProperty cfi = ShaderGUI.FindProperty("_ColorFresnelInvert", properties);
-                MaterialProperty cfb = ShaderGUI.FindProperty("_ColFresnelBias", properties);
-                MaterialProperty cfs = ShaderGUI.FindProperty("_ColFresnelScale", properties);
-                MaterialProperty cfp = ShaderGUI.FindProperty("_ColFresnelPower", properties);
-                MaterialProperty cgi = ShaderGUI.FindProperty("_GradYInvert", properties);
-                MaterialProperty cgs = ShaderGUI.FindProperty("_GradScale", properties);
-                MaterialProperty cgo = ShaderGUI.FindProperty("_GradOffset", properties);
-                MaterialProperty cfty = ShaderGUI.FindProperty("_FresnelType", properties);
-                MaterialProperty cgty = ShaderGUI.FindProperty("_GradType", properties);
-
-                switch(paintMethod)
+                style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
+                materialEditor.ColorProperty(bc, "Base Color");
+                
+                style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(20));
+                style.fontSize = default;
+                style.normal.textColor = default;
+                EditorGUILayout.BeginVertical(style);
                 {
-                    // Fresnel
-                    case 0: 
-                        style.normal.background = MakeBackground(1, 1, bdColors.NexusOrange(40));
+                    checkTwoColors = EditorGUILayout.Toggle("Two Colors", checkTwoColors);
+                    targetMat.SetInt("_TwoColors", Convert.ToInt16(checkTwoColors));
+                    twoColFold = checkTwoColors;
 
-                        EditorGUILayout.BeginVertical(style);
-                        materialEditor.ShaderProperty(cfty, "Fresnel Type");
-                        materialEditor.ShaderProperty(cfi, "Fresnel Invert");
-                        materialEditor.RangeProperty(cfb, "Fresnel Bias");
-                        materialEditor.RangeProperty(cfs, "Fresnel Scale");
-                        materialEditor.RangeProperty(cfp, "Fresnel Power");
-                        EditorGUILayout.EndVertical();
-                        break;
-                    // Gradient Y
-                    case 1: 
-                        style.normal.background = MakeBackground(1, 1, bdColors.NexusOrange(80));
+                    if(twoColFold)
+                    {
+                        EditorGUI.indentLevel++;
+                        MaterialProperty pm = ShaderGUI.FindProperty("_PaintMethod", properties);
+                        MaterialProperty sc = ShaderGUI.FindProperty("_SecondColor", properties);
 
-                        EditorGUILayout.BeginVertical(style);
-                        materialEditor.ShaderProperty(cgty, "Gradient Type");
-                        materialEditor.ShaderProperty(cgi, "Gradient Invert");
-                        EditorGUILayout.BeginHorizontal();
-                        EditorGUIUtility.labelWidth = 110;
-                        EditorGUIUtility.fieldWidth = 30;
-                        materialEditor.FloatProperty(cgs, "Gradeient Scale");
-                        materialEditor.FloatProperty(cgo, "Gradeient Offset");
-                        EditorGUIUtility.labelWidth = 0;
-                        EditorGUIUtility.fieldWidth = 0;
-                        EditorGUILayout.EndHorizontal();
-                        EditorGUILayout.EndVertical();
-                        break;
-                    // Fresnel & Gradient Y
-                    case 2: 
-                        style.normal.background = MakeBackground(1, 1, bdColors.NexusOrange(40));
+                        materialEditor.ShaderProperty(pm, "Paint Method");
+                        materialEditor.ColorProperty(sc, "Second Color");
 
-                        EditorGUILayout.BeginVertical(style);
-                        materialEditor.ShaderProperty(cfty, "Fresnel Type");
-                        materialEditor.ShaderProperty(cfi, "Fresnel Invert");
-                        materialEditor.RangeProperty(cfb, "Fresnel Bias");
-                        materialEditor.RangeProperty(cfs, "Fresnel Scale");
-                        materialEditor.RangeProperty(cfp, "Fresnel Power");
-                        EditorGUILayout.EndVertical();
+                        paintMethod = targetMat.GetInt("_PaintMethod");
 
-                        style.normal.background = MakeBackground(1, 1, bdColors.NexusOrange(80));
+                        MaterialProperty cfi = ShaderGUI.FindProperty("_ColorFresnelInvert", properties);
+                        MaterialProperty cfb = ShaderGUI.FindProperty("_ColFresnelBias", properties);
+                        MaterialProperty cfs = ShaderGUI.FindProperty("_ColFresnelScale", properties);
+                        MaterialProperty cfp = ShaderGUI.FindProperty("_ColFresnelPower", properties);
+                        MaterialProperty cgi = ShaderGUI.FindProperty("_GradYInvert", properties);
+                        MaterialProperty cgs = ShaderGUI.FindProperty("_GradScale", properties);
+                        MaterialProperty cgo = ShaderGUI.FindProperty("_GradOffset", properties);
+                        MaterialProperty cfty = ShaderGUI.FindProperty("_FresnelType", properties);
+                        MaterialProperty cgty = ShaderGUI.FindProperty("_GradType", properties);
 
-                        EditorGUILayout.BeginVertical(style);
-                        materialEditor.ShaderProperty(cgty, "Gradient Type");
-                        materialEditor.ShaderProperty(cgi, "Gradient Invert");
-                        EditorGUILayout.BeginHorizontal();
-                        EditorGUIUtility.labelWidth = 110;
-                        EditorGUIUtility.fieldWidth = 30;
-                        materialEditor.FloatProperty(cgs, "Gradeient Scale");
-                        materialEditor.FloatProperty(cgo, "Gradeient Offset");
-                        EditorGUIUtility.labelWidth = 0;
-                        EditorGUIUtility.fieldWidth = 0;
-                        EditorGUILayout.EndHorizontal();
-                        EditorGUILayout.EndVertical();
-                        break;
+                        switch(paintMethod)
+                        {
+                            #region Fresnel
+                            case 0:
+                                EditorGUI.indentLevel++;
+                                materialEditor.ShaderProperty(cfty, "Fresnel Type");
+                                materialEditor.ShaderProperty(cfi, "Fresnel Invert");
+                                materialEditor.RangeProperty(cfb, "Fresnel Bias");
+                                materialEditor.RangeProperty(cfs, "Fresnel Scale");
+                                materialEditor.RangeProperty(cfp, "Fresnel Power");
+                                EditorGUI.indentLevel--;
+                                break;
+                            #endregion
+                            #region Gradient Y
+                            case 1:
+                                EditorGUI.indentLevel++;
+                                materialEditor.ShaderProperty(cgty, "Gradient Type");
+                                materialEditor.ShaderProperty(cgi, "Gradient Invert");
+                                EditorGUILayout.BeginHorizontal();
+                                EditorGUIUtility.labelWidth = 170;
+                                EditorGUIUtility.fieldWidth = 30;
+                                materialEditor.FloatProperty(cgs, "Gradeient Scale");
+                                materialEditor.FloatProperty(cgo, "Gradeient Offset");
+                                EditorGUIUtility.labelWidth = 0;
+                                EditorGUIUtility.fieldWidth = 0;
+                                EditorGUILayout.EndHorizontal();
+                                EditorGUI.indentLevel--;
+                                break;
+                            #endregion
+                            #region Fresnel & Gradient Y
+                            case 2:
+                                EditorGUI.indentLevel++;
+                                materialEditor.ShaderProperty(cfty, "Fresnel Type");
+                                materialEditor.ShaderProperty(cfi, "Fresnel Invert");
+                                materialEditor.RangeProperty(cfb, "Fresnel Bias");
+                                materialEditor.RangeProperty(cfs, "Fresnel Scale");
+                                materialEditor.RangeProperty(cfp, "Fresnel Power");
+
+                                materialEditor.ShaderProperty(cgty, "Gradient Type");
+                                materialEditor.ShaderProperty(cgi, "Gradient Invert");
+                                EditorGUILayout.BeginHorizontal();
+                                EditorGUIUtility.labelWidth = 170;
+                                EditorGUIUtility.fieldWidth = 30;
+                                materialEditor.FloatProperty(cgs, "Gradeient Scale");
+                                materialEditor.FloatProperty(cgo, "Gradeient Offset");
+                                EditorGUIUtility.labelWidth = 0;
+                                EditorGUIUtility.fieldWidth = 0;
+                                EditorGUILayout.EndHorizontal();
+                                EditorGUI.indentLevel--;
+                                break;
+                            #endregion
+                        }
+
+                        EditorGUI.indentLevel--;
+                    }
                 }
+                EditorGUILayout.EndVertical();
+
+                style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(40));
+                style.fontSize = default;
+                style.normal.textColor = default;
+                EditorGUILayout.BeginVertical(style);
+                {
+                    colFlakesFold = EditorGUILayout.Toggle("Body Flakes", colFlakesFold);
+                    targetMat.SetInt("_AffectBodyFlakes", Convert.ToInt16(colFlakesFold));
+                    if(colFlakesFold)
+                    {
+                        MaterialProperty clFlakes = ShaderGUI.FindProperty("_BodyFNormalMulti", properties);
+
+                        materialEditor.ShaderProperty(clFlakes, "Flakes Body Scale");
+                    }
+                }
+                EditorGUILayout.EndVertical();
             }
-
-            colFlakesFold = EditorGUILayout.Toggle("Body Flakes", colFlakesFold);
-            targetMat.SetInt("_AffectBodyFlakes", Convert.ToInt16(colFlakesFold));
-            if(colFlakesFold)
-            {
-                MaterialProperty clFlakes = ShaderGUI.FindProperty("_BodyFNormalMulti", properties);
-
-                materialEditor.RangeProperty(clFlakes, "Flakes Body Scale");
-            }
-
-
+            EditorGUI.indentLevel--;
+            GUILayout.EndVertical();
         }
-        GUILayout.EndVertical();
-        EditorGUILayout.Space();
+        GUILayout.Space(1);
         #endregion
 
         #region Shade Color Settings
@@ -156,7 +179,7 @@ public class BCarPaintEditor : ShaderGUI
         EditorGUILayout.BeginVertical(style);
         if(shadeFold)
         {
-            EditorGUILayout.Space(4);
+            EditorGUI.indentLevel++;
 
             MaterialProperty shInt = ShaderGUI.FindProperty("_ShadingIntensity", properties);
             MaterialProperty shCol = ShaderGUI.FindProperty("_ShadeColor", properties);
@@ -172,7 +195,7 @@ public class BCarPaintEditor : ShaderGUI
             materialEditor.RangeProperty(shOff, "Shading Offset");
             materialEditor.RangeProperty(shCnt2, "Shading Contrast");
 
-            style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(60));
+            style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(20));
             style.fontSize = default;
             style.normal.textColor = default;
 
@@ -181,16 +204,18 @@ public class BCarPaintEditor : ShaderGUI
             targetMat.SetInt("_ShadeExtras", Convert.ToInt16(shadeExtFold));
             if(shadeExtFold)
             {
+                EditorGUI.indentLevel++;
                 MaterialProperty shBaCS = ShaderGUI.FindProperty("_BaseCellSharpness", properties);
                 MaterialProperty shBaCO = ShaderGUI.FindProperty("_BaseCellOffset", properties);
-
                 materialEditor.RangeProperty(shBaCS, "Base Cell Sharpness");
                 materialEditor.RangeProperty(shBaCO, "Base Cell Offset");
+                EditorGUI.indentLevel--;
             }
             EditorGUILayout.EndVertical();
+            EditorGUI.indentLevel--;
         }
         EditorGUILayout.EndVertical();
-        EditorGUILayout.Space(5);
+        GUILayout.Space(1);
         #endregion
 
         #region Flakes Settings
@@ -199,9 +224,8 @@ public class BCarPaintEditor : ShaderGUI
         style.normal.textColor = bdColors.NexusOrange();
 
         EditorGUILayout.BeginVertical(style);
-        checkFlakes = EditorGUILayout.ToggleLeft("FLAKES", checkFlakes, style);
-        flakesFold = checkFlakes;
-        targetMat.SetInt("_FlakesSwitch", Convert.ToInt16(checkFlakes));
+        flakesFold = EditorGUILayout.ToggleLeft("FLAKES", flakesFold, style);
+        targetMat.SetInt("_FlakesSwitch", Convert.ToInt16(flakesFold));
 
         EditorGUILayout.EndVertical();
         style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
@@ -221,7 +245,7 @@ public class BCarPaintEditor : ShaderGUI
             materialEditor.RangeProperty(flGls, "Flakes Glossy");
 
             #region Flakes Texture Settings
-            style.normal.background = MakeBackground(1, 1, bdColors.BrightRed(15));
+            style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(20));
             style.fontSize = default;
             style.normal.textColor = default;
 
@@ -230,6 +254,7 @@ public class BCarPaintEditor : ShaderGUI
             targetMat.SetInt("_TexturedFlakesToggle", Convert.ToInt16(flTxtFold));
             if(flTxtFold)
             {
+                EditorGUI.indentLevel++;
                 MaterialProperty fltxt = ShaderGUI.FindProperty("_FlakesTexture", properties);
                 MaterialProperty fltxtInt = ShaderGUI.FindProperty("_FlakesTextureIntensity", properties);
                 MaterialProperty flttileX = ShaderGUI.FindProperty("_FlakesTileX", properties);
@@ -243,8 +268,8 @@ public class BCarPaintEditor : ShaderGUI
                     materialEditor.RangeProperty(fltxtInt, "Flakes Texture Intensity");
                     materialEditor.TextureProperty(fltxt, "Flakes Texture");
                     EditorGUILayout.BeginHorizontal();
-                    EditorGUIUtility.labelWidth = 100;
-                    EditorGUIUtility.fieldWidth = 50;
+                    EditorGUIUtility.labelWidth = 170;
+                    EditorGUIUtility.fieldWidth = 30;
                     materialEditor.FloatProperty(flttileX, "Tile X");
                     materialEditor.FloatProperty(flttileY, "Tile Y");
                     EditorGUIUtility.labelWidth = 0;
@@ -253,12 +278,13 @@ public class BCarPaintEditor : ShaderGUI
 
                     materialEditor.RangeProperty(fltRotSpeed, "Rotation Speed");
                 }
+                EditorGUI.indentLevel--;
             }
             EditorGUILayout.EndVertical();
             #endregion
 
             #region Flakes Controls
-            style.normal.background = MakeBackground(1, 1, bdColors.BrightRed(30));
+            style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(40));
             style.fontSize = default;
             style.normal.textColor = default;
 
@@ -267,27 +293,29 @@ public class BCarPaintEditor : ShaderGUI
             targetMat.SetInt("_FlakesExtras", Convert.ToInt16(flakesExtFold));
             if(flakesExtFold)
             {
+                EditorGUI.indentLevel++;
                 MaterialProperty flSat = ShaderGUI.FindProperty("_FlakesSaturation", properties);
                 MaterialProperty flSoft = ShaderGUI.FindProperty("_FlakesSoftness", properties);
                 MaterialProperty flOut = ShaderGUI.FindProperty("_FlakesOut", properties);
                 MaterialProperty flIn = ShaderGUI.FindProperty("_FlakesIn", properties);
-                MaterialProperty flSpec = ShaderGUI.FindProperty("_FlakesSpecular", properties);
-                MaterialProperty flGloss = ShaderGUI.FindProperty("_FlakesGloss",properties);
-                MaterialProperty flWrap = ShaderGUI.FindProperty("_FlakesWrapping", properties);
+                MaterialProperty flGloss = ShaderGUI.FindProperty("_FlakesGloss", properties);
+                MaterialProperty flMin = ShaderGUI.FindProperty("_FlakesMin", properties);
+                MaterialProperty flMax = ShaderGUI.FindProperty("_FlakesMax", properties);
 
-                materialEditor.RangeProperty(flSpec, "Flakes Specular");
                 materialEditor.RangeProperty(flGloss, "Flakes Gloss");
-                materialEditor.RangeProperty(flWrap, "Flakes Wrapping");
+                materialEditor.RangeProperty(flMin, "Flakes Min");
+                materialEditor.RangeProperty(flMax, "Flakes Max");
                 materialEditor.RangeProperty(flSat, "Flakes Saturate");
                 materialEditor.RangeProperty(flSoft, "Flakes Softness");
                 materialEditor.RangeProperty(flOut, "Flakes Out");
                 materialEditor.RangeProperty(flIn, "Flakes In");
+                EditorGUI.indentLevel--;
             }
             EditorGUILayout.EndVertical();
             #endregion
 
             #region Flakes Normal Controls
-            style.normal.background = MakeBackground(1, 1, bdColors.BrightRed(45));
+            style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(60));
             style.fontSize = default;
             style.normal.textColor = default;
 
@@ -296,6 +324,7 @@ public class BCarPaintEditor : ShaderGUI
             targetMat.SetInt("_FlakesNormalExtras", Convert.ToInt16(flakesNormalFold));
             if(flakesNormalFold)
             {
+                EditorGUI.indentLevel++;
                 MaterialProperty flNm = ShaderGUI.FindProperty("_FlakesNormal", properties);
                 MaterialProperty flnTxt = ShaderGUI.FindProperty("_FlakesNormalMap", properties);
                 MaterialProperty flnTileX = ShaderGUI.FindProperty("_FNTileX", properties);
@@ -303,27 +332,31 @@ public class BCarPaintEditor : ShaderGUI
                 MaterialProperty flnOffsetX = ShaderGUI.FindProperty("_FNOffsetX", properties);
                 MaterialProperty flnOffsetY = ShaderGUI.FindProperty("_FNOffsetY", properties);
 
-                materialEditor.ShaderProperty(flNm, "Flakes");
-                materialEditor.TextureProperty(flnTxt, "Flakes Normal Map");
+                materialEditor.ShaderProperty(flNm, "Flakes Normal");
+                if(flNm.floatValue > 0f)
+                {
+                    materialEditor.TextureProperty(flnTxt, "Flakes Normal Map");
 
-                EditorGUILayout.BeginHorizontal();
-                EditorGUIUtility.labelWidth = 140;
-                EditorGUIUtility.fieldWidth = 35;
-                materialEditor.FloatProperty(flnTileX, "Tile X");
-                materialEditor.FloatProperty(flnTileY, "Tile Y");
-                EditorGUILayout.EndHorizontal();
-                EditorGUILayout.BeginHorizontal();
-                materialEditor.FloatProperty(flnOffsetX, "Offset X");
-                materialEditor.FloatProperty(flnOffsetY, "Offset Y");
-                EditorGUIUtility.labelWidth = 0;
-                EditorGUIUtility.fieldWidth = 0;
-                EditorGUILayout.EndHorizontal();
+                    EditorGUILayout.BeginHorizontal();
+                    EditorGUIUtility.labelWidth = 140;
+                    EditorGUIUtility.fieldWidth = 35;
+                    materialEditor.FloatProperty(flnTileX, "Tile X");
+                    materialEditor.FloatProperty(flnTileY, "Tile Y");
+                    EditorGUILayout.EndHorizontal();
+                    EditorGUILayout.BeginHorizontal();
+                    materialEditor.FloatProperty(flnOffsetX, "Offset X");
+                    materialEditor.FloatProperty(flnOffsetY, "Offset Y");
+                    EditorGUIUtility.labelWidth = 0;
+                    EditorGUIUtility.fieldWidth = 0;
+                    EditorGUILayout.EndHorizontal();
 
-                MaterialProperty FlakesHeight = ShaderGUI.FindProperty("_FNormalScale", properties);
-                MaterialProperty FlakesMultiplier = ShaderGUI.FindProperty("_FNormalMultiplier", properties);
+                    MaterialProperty FlakesHeight = ShaderGUI.FindProperty("_FNormalScale", properties);
+                    MaterialProperty FlakesMultiplier = ShaderGUI.FindProperty("_FNormalMultiplier", properties);
 
-                materialEditor.RangeProperty(FlakesHeight, "Flakes Height");
-                materialEditor.RangeProperty(FlakesMultiplier, "Flakes Height Multiplier");
+                    materialEditor.RangeProperty(FlakesHeight, "Flakes Height");
+                    materialEditor.RangeProperty(FlakesMultiplier, "Flakes Height Multiplier");
+                }
+                EditorGUI.indentLevel--;
             }
             EditorGUILayout.EndVertical();
 
@@ -331,7 +364,7 @@ public class BCarPaintEditor : ShaderGUI
 
         }
         EditorGUILayout.EndVertical();
-        EditorGUILayout.Space(5);
+        GUILayout.Space(1);
         #endregion
 
         #region Specular Settings
@@ -374,13 +407,13 @@ public class BCarPaintEditor : ShaderGUI
                 MaterialProperty spSoft = ShaderGUI.FindProperty("_Softness", properties);
                 MaterialProperty spOut = ShaderGUI.FindProperty("_SpecularOut", properties);
                 MaterialProperty spIn = ShaderGUI.FindProperty("_SpecularIn", properties);
-                MaterialProperty spSpec = ShaderGUI.FindProperty("_BSpecular", properties);
+                MaterialProperty spSpecMax = ShaderGUI.FindProperty("_SpecMax", properties);
                 MaterialProperty spGloss = ShaderGUI.FindProperty("_BGloss", properties);
-                MaterialProperty spWrap = ShaderGUI.FindProperty("_BWrapping", properties);
+                MaterialProperty spWrap = ShaderGUI.FindProperty("_SpecMin", properties);
 
-                materialEditor.RangeProperty(spSpec, "Blinn Specular");
+                materialEditor.RangeProperty(spSpecMax, "Smooth Specular Max");
+                materialEditor.RangeProperty(spWrap, "Smooth Specular Min");
                 materialEditor.RangeProperty(spGloss, "Blinn Gloss");
-                materialEditor.RangeProperty(spWrap, "Blinn Wrapping");
                 materialEditor.RangeProperty(spSat, "Specular Saturate");
                 materialEditor.RangeProperty(spSoft, "Specular Softness");
                 materialEditor.RangeProperty(spOut, "Specular Out");
@@ -390,8 +423,7 @@ public class BCarPaintEditor : ShaderGUI
             #endregion
         }
         EditorGUILayout.EndVertical();
-        EditorGUILayout.Space(5);
-
+        GUILayout.Space(1);
         #endregion
 
         #region Reflection Settings
@@ -410,15 +442,25 @@ public class BCarPaintEditor : ShaderGUI
         {
             EditorGUILayout.Space(4);
 
+            MaterialProperty rfLightAff = ShaderGUI.FindProperty("_ReflectLightAffect",properties);
             MaterialProperty rfcol = ShaderGUI.FindProperty("_ReflectColor", properties);
             MaterialProperty rfs = ShaderGUI.FindProperty("_ReflectionStrength", properties);
             MaterialProperty rft = ShaderGUI.FindProperty("_ReflectMap", properties);
             MaterialProperty cmr = ShaderGUI.FindProperty("_CubeMapRotate", properties);
 
+            materialEditor.ShaderProperty(rfLightAff, "Reflect Light Affect");
+
+            if(rfLightAff.floatValue > 0.0f)
+            {
+                MaterialProperty rfLightAdd = ShaderGUI.FindProperty("_ReflectLightAdd", properties);
+                MaterialProperty rfLightPower = ShaderGUI.FindProperty("_ReflectLightPower", properties);
+                materialEditor.ShaderProperty(rfLightAdd, "Reflect Shade Control");
+                materialEditor.ShaderProperty(rfLightPower, "Reflect Light Power");
+            }
+
             materialEditor.RangeProperty(rfs, "Reflect Strength");
             materialEditor.ColorProperty(rfcol, "Reflect Color");
             materialEditor.TextureProperty(rft, "Reflect Map");
-
 
             refFlakesFold = EditorGUILayout.Toggle("Reflect Flakes", refFlakesFold);
             targetMat.SetInt("_AffectReflectionFlakes", Convert.ToInt16(refFlakesFold));
@@ -486,11 +528,37 @@ public class BCarPaintEditor : ShaderGUI
             #endregion
         }
         EditorGUILayout.EndVertical();
-        EditorGUILayout.Space(5);
+        GUILayout.Space(1);
         #endregion
 
-        //targetMat.SetFloat("_Specular", 0);
-        //base.OnGUI(materialEditor,properties);
+        #region Ambient Occlusion Settings
+        style.normal.background = MakeBackground(1, 1, bdColors.GrayP(18, 204));
+        style.fontSize = 16;
+        style.normal.textColor = bdColors.NexusOrange();
+
+        EditorGUILayout.BeginVertical(style);
+        AOFold = EditorGUILayout.ToggleLeft("AMBIENT OCCLUSION", AOFold, style);
+        targetMat.SetInt("_AOToggle", Convert.ToInt16(AOFold));
+        EditorGUILayout.EndVertical();
+        style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
+        EditorGUILayout.BeginVertical(style);
+        if(AOFold)
+        {
+            EditorGUI.indentLevel++;
+            MaterialProperty aoTexture = ShaderGUI.FindProperty("_AmbientOcclusionTexture",properties);
+            MaterialProperty aoIntensity = ShaderGUI.FindProperty("_AOTextureIntensity", properties);
+            MaterialProperty aoColor = ShaderGUI.FindProperty("_AOColor", properties);
+            MaterialProperty aoCont = ShaderGUI.FindProperty("_AOTextureContrast", properties);
+
+            materialEditor.ShaderProperty(aoTexture, "AO Texture");
+            materialEditor.ShaderProperty(aoIntensity, "AO Intensity");
+            materialEditor.ShaderProperty(aoColor, "AO Color");
+            materialEditor.ShaderProperty(aoCont, "AO Conmtrast");
+            EditorGUI.indentLevel--;
+        }
+        EditorGUILayout.EndVertical();
+        GUILayout.Space(1);
+        #endregion
 
         #region Shader Defaults
         materialEditor.RenderQueueField();
@@ -522,6 +590,9 @@ public class BCarPaintEditor : ShaderGUI
     {
         tempVar = targetMat.GetInt("_ShadeExtras");
         shadeExtFold = tempVar == 1 ? true : false;
+
+        tempVar = targetMat.GetInt("_BaseColorToggle");
+        baseColFold = tempVar == 1 ? true : false;
 
         tempVar = targetMat.GetInt("_ShadeColorToggle");
         checkShade = tempVar == 1 ? true : false;
@@ -566,8 +637,7 @@ public class BCarPaintEditor : ShaderGUI
         flakesNormalFold = tempVar == 1 ? true : false;
 
         tempVar = targetMat.GetInt("_FlakesSwitch");
-        checkFlakes = tempVar == 1 ? true : false;
-        flakesFold = checkFlakes;
+        flakesFold = tempVar == 1 ? true : false;
 
         tempVar = targetMat.GetInt("_TexturedFlakes");
         checkFlakesTexture = tempVar == 1 ? true : false;

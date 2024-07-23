@@ -1,10 +1,14 @@
 namespace budu
 {
-    public struct BD_ScaleOffset_GUI 
+    public struct BD_Misc_GUI
     {
         public string Invert;
         public string Intensity;
         public string Contrast;
+    }
+
+    public struct BD_ScaleOffset_GUI 
+    {
         public Vector2Str Tile;
         public Vector2Str Offset;
         public Vector2Str Speed;

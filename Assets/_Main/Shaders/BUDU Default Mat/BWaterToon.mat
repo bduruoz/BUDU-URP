@@ -19,7 +19,7 @@ Material:
   - _NOISETYPEA_TEXTURE
   - _NOISETYPEB_TEXTURE
   - _NOISETYPE_VORAVORB
-  - _SHORETEXTUREBLENDINGTYPE_NOTEXTURE
+  - _SHORETEXTUREBLENDINGTYPE_ADDITIVE
   - _TEXTUREGRADETYPE_NORMAL
   m_InvalidKeywords:
   - _AFFECTFOAMDEFORMATION_ON
@@ -56,7 +56,7 @@ Material:
         m_Scale: {x: 2, y: 2}
         m_Offset: {x: 0, y: 0}
     - _ShoreColorMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: ae2961e4565cb064c93a32ffb6aed3a2, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ShoreMap:
@@ -111,7 +111,7 @@ Material:
     - _AffectFoamDeformation: 1
     - _AlphaCutoff: 0.5
     - _AlphaSetting: 1
-    - _ClipThreshold: 0.07
+    - _ClipThreshold: 0.183
     - _DefNoiseAInvert: 0
     - _DefNoiseAScale: 1
     - _DefNoiseBInvert: 0
@@ -151,7 +151,7 @@ Material:
     - _DeformScale: 0
     - _DeformToggle: 0
     - _DepthDistance: 6.66
-    - _DepthExponential: 0.08
+    - _DepthExponential: 0.39
     - _DepthFadeDistance: 1500
     - _DepthGradeType: 1
     - _DepthGradeType1: 0
@@ -197,8 +197,8 @@ Material:
     - _InvertFoamTexture: 1
     - _InvertShoreTexture: 0
     - _InvertTexture: 1
-    - _MiddleFold: 1
-    - _MiddleNAFold: 0
+    - _MiddleFold: 0
+    - _MiddleNAFold: 1
     - _MiddleNBFold: 0
     - _MiddleWave: 1
     - _MiddleWaveEdgeControl: 0.5
@@ -259,12 +259,12 @@ Material:
     - _ShoreCTileY: 3
     - _ShoreGradeOffset: -0.9
     - _ShoreGradeScale: 2
-    - _ShoreMapA: 0
-    - _ShoreMapB: 0
-    - _ShoreSetting: 0
+    - _ShoreMapA: 1
+    - _ShoreMapB: 1
+    - _ShoreSetting: 1
     - _ShoreTAInvert: 0
     - _ShoreTBInvert: 0
-    - _ShoreTextureBlendingType: 0
+    - _ShoreTextureBlendingType: 2
     - _ShoreTileX: 8
     - _ShoreTileX1: 1
     - _ShoreTileY: 8
@@ -346,7 +346,7 @@ Material:
     - _FoamColor: {r: 1, g: 1, b: 1, a: 1}
     - _Period: {r: 5, g: 5, b: 5, a: 0}
     - _RefractColor: {r: 0, g: 0, b: 0, a: 0}
-    - _ShoreColor: {r: 0.575, g: 0.9291666, b: 1, a: 1}
+    - _ShoreColor: {r: 0.63522005, g: 0.63522005, b: 0.63522005, a: 1}
     - _Vector0: {r: 0, g: 0, b: 0, a: 0}
     - _Vector1: {r: 1, g: 1, b: 1, a: 0}
     - _VoronoiAngleOffset: {r: 0, g: 0, b: 0, a: 0}

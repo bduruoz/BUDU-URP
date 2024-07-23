@@ -51,19 +51,11 @@ public class BSurfaceEditor : ShaderGUI
             materialEditor.ColorProperty(bc, "Base Color");
             materialEditor.TextureProperty(bt, "Base Map");
             materialEditor.ShaderProperty(btm, "Triplanar Mapping");
-            EditorGUILayout.BeginHorizontal();
-            EditorGUIUtility.labelWidth = 80;
-            EditorGUIUtility.fieldWidth = 30;
-            materialEditor.FloatProperty(btx, "Tile X");
-            materialEditor.FloatProperty(bty, "Tile Y");
-            EditorGUILayout.EndHorizontal();
-            EditorGUILayout.BeginHorizontal();
-            materialEditor.FloatProperty(box, "Offset X");
-            materialEditor.FloatProperty(boy, "Offset Y");
-            EditorGUIUtility.labelWidth = 0;
-            EditorGUIUtility.fieldWidth = 0;
-            EditorGUILayout.EndHorizontal();
-            materialEditor.RangeProperty(bfo, "FallOff");
+            BaseMapScaleOffset(materialEditor, properties);
+            if(btm.floatValue > 0)
+            {
+                materialEditor.RangeProperty(bfo, "FallOff");
+            }
         }
         GUILayout.EndVertical();
         EditorGUILayout.Space();
@@ -143,10 +135,6 @@ public class BSurfaceEditor : ShaderGUI
 
             MaterialProperty nmap = ShaderGUI.FindProperty("_NormalMap", properties);
             MaterialProperty nscl = ShaderGUI.FindProperty("_NormalScale", properties);
-            MaterialProperty ntx = ShaderGUI.FindProperty("_NTileX", properties);
-            MaterialProperty nty = ShaderGUI.FindProperty("_NTileY", properties);
-            MaterialProperty nox = ShaderGUI.FindProperty("_NOffsetX", properties);
-            MaterialProperty noy = ShaderGUI.FindProperty("_NOffsetY", properties);
             MaterialProperty ntm = ShaderGUI.FindProperty("_TriplanarNMap", properties);
             MaterialProperty nfo = ShaderGUI.FindProperty("_NFallOff", properties);
             MaterialProperty nsm = ShaderGUI.FindProperty("_NormalMultiplier", properties);
@@ -156,22 +144,13 @@ public class BSurfaceEditor : ShaderGUI
             {
                 materialEditor.TextureProperty(nmap, "Normal Map");
                 materialEditor.RangeProperty(nscl, "Normal Scale");
-
-                materialEditor.ShaderProperty(ntm, "Normal Triplanar Mapping");
                 materialEditor.RangeProperty(nsm, "Normal Multiplier");
-                EditorGUILayout.BeginHorizontal();
-                EditorGUIUtility.labelWidth = 80;
-                EditorGUIUtility.fieldWidth = 50;
-                materialEditor.FloatProperty(ntx, "N Tile X");
-                materialEditor.FloatProperty(nty, "N Tile Y");
-                EditorGUILayout.EndHorizontal();
-                EditorGUILayout.BeginHorizontal();
-                materialEditor.FloatProperty(nox, "N Offset X");
-                materialEditor.FloatProperty(noy, "N Offset Y");
-                EditorGUIUtility.labelWidth = 0;
-                EditorGUIUtility.fieldWidth = 0;
-                EditorGUILayout.EndHorizontal();
-                materialEditor.RangeProperty(nfo, "N FallOff");
+                materialEditor.ShaderProperty(ntm, "Normal Triplanar Mapping");
+                if(ntm.floatValue > 0.0f)
+                {
+                    materialEditor.RangeProperty(nfo, "N FallOff");
+                }
+                NormMapScaleOffset(materialEditor,properties);
             }
             EditorGUILayout.EndVertical();
         }
@@ -377,32 +356,17 @@ public class BSurfaceEditor : ShaderGUI
         {
             EditorGUILayout.Space(4);
 
+            MaterialProperty sstog = ShaderGUI.FindProperty("_ScreenSpace",properties);
             MaterialProperty ssbTxt = ShaderGUI.FindProperty("_BluricRefractionPattern", properties);
-            MaterialProperty ssbPHgt = ShaderGUI.FindProperty("_PatternHeight", properties);
-            MaterialProperty ssbPRot = ShaderGUI.FindProperty("_PatternRotator", properties);
             MaterialProperty ssbSize = ShaderGUI.FindProperty("_SSSize", properties);
 
-            MaterialProperty ssTileX = ShaderGUI.FindProperty("_SSTileX", properties);
-            MaterialProperty ssTileY = ShaderGUI.FindProperty("_SSTileY", properties);
-            MaterialProperty ssOffX = ShaderGUI.FindProperty("_SSOffX", properties);
-            MaterialProperty ssOffY = ShaderGUI.FindProperty("_SSOffY", properties);
 
+            materialEditor.ShaderProperty(sstog, "Bluric Noise");
             materialEditor.TextureProperty(ssbTxt, "Blur Pattern");
+            materialEditor.FloatProperty(ssbSize, "Blur Size");
 
-            EditorGUILayout.BeginHorizontal();
-            EditorGUIUtility.labelWidth = 55;
-            EditorGUIUtility.fieldWidth = 35;
-            materialEditor.FloatProperty(ssTileX, "Tile X");
-            materialEditor.FloatProperty(ssTileY, "Tile Y");
-            materialEditor.FloatProperty(ssOffX, "Offset X");
-            materialEditor.FloatProperty(ssOffY, "Offset Y");
-            EditorGUIUtility.labelWidth = 0;
-            EditorGUIUtility.fieldWidth = 0;
-            EditorGUILayout.EndHorizontal();
+            BluricScaleOffset(materialEditor, properties,(int)sstog.floatValue);
 
-            materialEditor.RangeProperty(ssbPHgt, "Pattern Height");
-            materialEditor.RangeProperty(ssbPRot, "Pattern Rotator");
-            materialEditor.FloatProperty(ssbSize, "Size");
         }
         EditorGUILayout.EndVertical();
         EditorGUILayout.Space(5);
@@ -489,5 +453,74 @@ public class BSurfaceEditor : ShaderGUI
         result.SetPixels(pix);
         result.Apply();
         return result;
+    }
+
+    private void NormMapScaleOffset(MaterialEditor materialEditor, MaterialProperty[] properties)
+    {
+        BD_ScaleOffset_GUI selected = new BD_ScaleOffset_GUI();
+        selected.Tile.x = "_NTileX";
+        selected.Tile.y = "_NTileY";
+        selected.Offset.x = "_NOffsetX";
+        selected.Offset.y = "_NOffsetY";
+        selected.Speed.x = "";
+        selected.Speed.y = "";
+        selected.Anchor.x = "";
+        selected.Anchor.y = "";
+        selected.OverallSpeed = "";
+        selected.RotateSpeed = "";
+        selected.Rotate = "";
+        BDShaderGUI.ScaleOffsetGUI(materialEditor, properties, selected);
+    }
+
+    private void BaseMapScaleOffset(MaterialEditor materialEditor, MaterialProperty[] properties)
+    {
+        BD_ScaleOffset_GUI selected = new BD_ScaleOffset_GUI();
+        selected.Tile.x = "_TileX";
+        selected.Tile.y = "_TileY";
+        selected.Offset.x = "_OffsetX";
+        selected.Offset.y = "_OffsetY";
+        selected.Speed.x = "";
+        selected.Speed.y = "";
+        selected.Anchor.x = "";
+        selected.Anchor.y = "";
+        selected.OverallSpeed = "";
+        selected.RotateSpeed = "";
+        selected.Rotate = "";
+        BDShaderGUI.ScaleOffsetGUI(materialEditor, properties, selected);
+    }
+
+    private void BluricScaleOffset(MaterialEditor materialEditor, MaterialProperty[] properties, int seltg)
+    {
+        BD_Misc_GUI selectedMisc = new BD_Misc_GUI();
+        selectedMisc.Invert = "";
+        selectedMisc.Intensity = "_PatternHeight";
+        selectedMisc.Contrast = "";
+        BDShaderGUI.MiscGUI(materialEditor,properties,selectedMisc);
+
+        BD_ScaleOffset_GUI selected = new BD_ScaleOffset_GUI();
+        selected.Tile.x = "_SSTileX";
+        selected.Tile.y = "_SSTileY";
+        selected.Speed.x = "";
+        selected.Speed.y = "";
+        selected.Anchor.x = "";
+        selected.Anchor.y = "";
+        selected.OverallSpeed = "";
+        selected.RotateSpeed = "";
+
+        switch(seltg)
+        {
+            case 0:
+                selected.Offset.x = "";
+                selected.Offset.y = "";
+                selected.Rotate = "";
+                break;
+            case 1:
+                selected.Offset.x = "_SSOffX";
+                selected.Offset.y = "_SSOffY";
+                selected.Rotate = "_PatternRotator";
+                break;
+        }
+
+        BDShaderGUI.ScaleOffsetGUI(materialEditor,properties,selected);
     }
 }
