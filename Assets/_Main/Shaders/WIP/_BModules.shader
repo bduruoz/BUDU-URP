@@ -1,4 +1,4 @@
-// Made with Amplify Shader Editor v1.9.5.1
+// Made with Amplify Shader Editor v1.9.6
 // Available at the Unity Asset Store - http://u3d.as/y3X 
 Shader "BUDU Shaders/Modules/BModules"
 {
@@ -4322,7 +4322,7 @@ Shader "BUDU Shaders/Modules/BModules"
 	Fallback Off
 }
 /*ASEBEGIN
-Version=19501
+Version=19600
 Node;AmplifyShaderEditor.CommentaryNode;2234;-18448,2992;Inherit;False;6225.821;2578.026;Noise and Caustic Animation Settings Default;36;2334;2269;2268;2267;2266;2265;2264;2263;2262;2261;2260;2259;2258;2257;2256;2255;2254;2253;2252;2251;2250;2249;2248;2247;2246;2245;2244;2243;2242;2241;2240;2239;2238;2237;2236;2235;Noise and Caustic Animation Settings Default;0.7926196,0.4496855,1,1;0;0
 Node;AmplifyShaderEditor.CommentaryNode;2142;-16384,-3200;Inherit;False;1108;517;Blue Noise Normal Settings;5;1239;1240;1241;1242;1237;Blue Noise Normal Settings;0.4402515,0.4635113,1,1;0;0
 Node;AmplifyShaderEditor.CommentaryNode;2045;-17824,144;Inherit;False;1620;977.3335;Animate 2 UV's Settings;24;2023;2019;2022;2024;2028;2026;2025;2029;2027;2031;2030;2021;2034;2035;2036;2032;2033;2039;2038;2040;2041;2037;2043;2044;Animate 2 UV's Settings;0.7926196,0.4496855,1,1;0;0
@@ -6225,4 +6225,4 @@ WireConnection;1811;0;2017;0
 WireConnection;1811;2;1882;0
 WireConnection;1811;9;2018;0
 ASEEND*/
-//CHKSM=614C32C982703BFC05583CA6B3B515CB5F9052FB
+//CHKSM=C8C334EFAAAA9900081E606F493EE5E73A0FCE25

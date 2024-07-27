@@ -67,7 +67,7 @@ namespace AseFakeInterior
 
 		public const byte Major = 1;
 		public const byte Minor = 5;
-		public const byte Release = 1;
+		public const byte Release = 3;
 
 		public static int FullNumber { get { return Major * 100 + Minor * 10 + Release; } }
 

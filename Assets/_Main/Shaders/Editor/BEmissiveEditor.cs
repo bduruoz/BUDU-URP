@@ -5,7 +5,7 @@ using budu;
 
 public class BEmissiveEditor : ShaderGUI
 {
-    bool checkAlphaClip, checkTransparent, checkFresnel, checkFresnelInvert, checkBaseGroup;
+    bool checkAlphaClip, checkTransparent, checkFresnel, checkFresnelInvert, checkBaseGroup, checkDef;
     bool alphaFold, alphaClipFold, fresnelFold, aboutFold;
     int tempVar, tempRQ;
     
@@ -29,7 +29,7 @@ public class BEmissiveEditor : ShaderGUI
             EditorGUILayout.EndHorizontal();
         }
         GUILayout.EndArea();
-        GUILayout.Space(32);
+        GUILayout.Space(28);
         GUI.backgroundColor = bdColors.White(255);
         #endregion
 
@@ -38,10 +38,14 @@ public class BEmissiveEditor : ShaderGUI
         style.fontSize = 16;
         style.normal.textColor = bdColors.NexusOrange();
 
+        EditorGUILayout.BeginVertical(style);
         checkBaseGroup = EditorGUILayout.ToggleLeft("BASE SETTINGS",checkBaseGroup,style);
         targetMat.SetInt("_BaseSettings", Convert.ToInt16(checkBaseGroup));
+        EditorGUILayout.EndVertical();
 
-        if (checkBaseGroup)
+        style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
+        EditorGUILayout.BeginVertical(style);
+        if(checkBaseGroup)
         {
             style.normal.background = MakeBackground(1, 1, bdColors.Gray60(76));
 
@@ -57,8 +61,9 @@ public class BEmissiveEditor : ShaderGUI
                 materialEditor.TextureProperty(bt, "Base Map");
                 EditorGUI.indentLevel--;
             }
-            GUILayout.EndVertical();
+            EditorGUILayout.EndVertical();
         }
+        EditorGUILayout.EndVertical();
         EditorGUILayout.Space(1);
         #endregion
 
@@ -66,11 +71,14 @@ public class BEmissiveEditor : ShaderGUI
         style.normal.background = MakeBackground(1, 32, bdColors.GrayP(18,204));
         style.fontSize = 16;
         style.normal.textColor = bdColors.NexusOrange();
-
-        EditorGUILayout.BeginVertical();
+        EditorGUILayout.BeginVertical(style);
         checkTransparent = EditorGUILayout.ToggleLeft("TRANSPARENT", checkTransparent, style);
         targetMat.SetInt("_Transparent",Convert.ToInt16(checkTransparent));
-        if (checkTransparent)
+        EditorGUILayout.EndVertical();
+
+        style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
+        EditorGUILayout.BeginVertical(style);
+        if(checkTransparent)
         {
             EditorGUI.indentLevel++;
             MaterialProperty alpChan = ShaderGUI.FindProperty("_AlphaChannel", properties);
@@ -113,10 +121,14 @@ public class BEmissiveEditor : ShaderGUI
         style.normal.background = MakeBackground(1, 32, bdColors.GrayP(18,204));
         style.fontSize = 16;
         style.normal.textColor = bdColors.NexusOrange(255);
-
-        EditorGUILayout.BeginVertical();
+        
+        EditorGUILayout.BeginVertical(style);
         checkFresnel = EditorGUILayout.ToggleLeft("FRESNEL", checkFresnel, style);
         targetMat.SetInt("_FSwitch",Convert.ToInt16(checkFresnel));
+        EditorGUILayout.EndVertical();
+
+        style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
+        EditorGUILayout.BeginVertical(style);
         if(checkFresnel)
         {
             EditorGUI.indentLevel++;
@@ -139,11 +151,28 @@ public class BEmissiveEditor : ShaderGUI
         #endregion
 
         #region Shader Defaults
-        MaterialProperty cullm = ShaderGUI.FindProperty("_CullMode", properties);
-        materialEditor.ShaderProperty(cullm, "Cull Mode");
-        materialEditor.RenderQueueField();
-        materialEditor.EnableInstancingField();
-        materialEditor.DoubleSidedGIField();
+        style.normal.background = MakeBackground(1, 1, bdColors.GrayP(18, 204));
+        style.fontSize = 16;
+        style.normal.textColor = bdColors.NexusOrange();
+        EditorGUILayout.BeginVertical(style);
+        checkDef = EditorGUILayout.ToggleLeft("SHADER DEFAULTS", checkDef, style);
+        targetMat.SetInt("_CheckDef", Convert.ToInt16(checkDef));
+        EditorGUILayout.EndVertical();
+        style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
+        EditorGUILayout.BeginVertical(style);
+        if(checkDef)
+        {
+            EditorGUI.indentLevel++;
+            EditorGUILayout.Space(2);
+            MaterialProperty cullm = ShaderGUI.FindProperty("_CullMode", properties);
+            materialEditor.ShaderProperty(cullm, "Cull Mode");
+            materialEditor.RenderQueueField();
+            materialEditor.EnableInstancingField();
+            materialEditor.DoubleSidedGIField();
+            EditorGUI.indentLevel--;
+        }
+        EditorGUILayout.EndVertical();
+        EditorGUILayout.Space(1);
         #endregion
 
         #region BUDU Copyright
@@ -173,6 +202,9 @@ public class BEmissiveEditor : ShaderGUI
         {
             tempRQ = targetMat.renderQueue - 3000;
         }
+
+        tempVar = targetMat.GetInt("_CheckDef");
+        checkDef = tempVar == 1 ? true : false;
 
         tempVar = targetMat.GetInt("_BaseSettings");
         checkBaseGroup = tempVar == 1 ? true: false;
