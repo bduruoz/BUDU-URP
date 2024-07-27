@@ -6,7 +6,7 @@ using System;
 public class BCarPaintEditor : ShaderGUI
 {
     bool checkTwoColors, checkFlakesTexture, checkSpec, checkReflect, checkRefFresnel, checkRefFrsInvert, checkShade;
-    bool twoColFold, aboutFold, flakesFold, flakesExtFold, flakesNormalFold, flTxtFold, specFold, specExtFold, reflectFold, cubemapFold;
+    bool twoColFold, aboutFold, flakesFold, flakesExtFold, flakesNormalFold, flTxtFold, specExtFold, reflectFold, cubemapFold;
     bool fresnelFold, refFlakesFold, shadeFold, shadeExtFold, colFlakesFold, baseColFold, AOFold;
     int paintMethod;
     int tempVar;
@@ -374,14 +374,14 @@ public class BCarPaintEditor : ShaderGUI
 
         EditorGUILayout.BeginVertical(style);
         checkSpec = EditorGUILayout.ToggleLeft("SPECULAR", checkSpec, style);
-        specFold = checkSpec;
         targetMat.SetInt("_SpecularSwitch", Convert.ToInt16(checkSpec));
         EditorGUILayout.EndVertical();
         style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
         EditorGUILayout.BeginVertical(style);
-        if(specFold)
+        if(checkSpec)
         {
-            EditorGUILayout.Space(4);
+            EditorGUI.indentLevel++;
+            EditorGUILayout.Space(1);
 
             MaterialProperty sptype = ShaderGUI.FindProperty("_SpecType", properties);
             MaterialProperty spcol = ShaderGUI.FindProperty("_SpecColor", properties);
@@ -394,7 +394,7 @@ public class BCarPaintEditor : ShaderGUI
             materialEditor.RangeProperty(spGls, "Specular Glossy");
 
             #region Specular Controls
-            style.normal.background = MakeBackground(1, 1, bdColors.BrightRed(30));
+            style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(20));
             style.fontSize = default;
             style.normal.textColor = default;
 
@@ -403,24 +403,27 @@ public class BCarPaintEditor : ShaderGUI
             targetMat.SetInt("_SpecularExtras", Convert.ToInt16(specExtFold));
             if(specExtFold)
             {
+                EditorGUI.indentLevel++;
                 MaterialProperty spSat = ShaderGUI.FindProperty("_SpecularSaturation", properties);
                 MaterialProperty spSoft = ShaderGUI.FindProperty("_Softness", properties);
                 MaterialProperty spOut = ShaderGUI.FindProperty("_SpecularOut", properties);
                 MaterialProperty spIn = ShaderGUI.FindProperty("_SpecularIn", properties);
+                MaterialProperty spSpecMin = ShaderGUI.FindProperty("_SpecMin", properties);
                 MaterialProperty spSpecMax = ShaderGUI.FindProperty("_SpecMax", properties);
                 MaterialProperty spGloss = ShaderGUI.FindProperty("_BGloss", properties);
-                MaterialProperty spWrap = ShaderGUI.FindProperty("_SpecMin", properties);
 
+                materialEditor.RangeProperty(spSpecMin, "Smooth Specular Min");
                 materialEditor.RangeProperty(spSpecMax, "Smooth Specular Max");
-                materialEditor.RangeProperty(spWrap, "Smooth Specular Min");
                 materialEditor.RangeProperty(spGloss, "Blinn Gloss");
                 materialEditor.RangeProperty(spSat, "Specular Saturate");
                 materialEditor.RangeProperty(spSoft, "Specular Softness");
-                materialEditor.RangeProperty(spOut, "Specular Out");
                 materialEditor.RangeProperty(spIn, "Specular In");
+                materialEditor.RangeProperty(spOut, "Specular Out");
+                EditorGUI.indentLevel--;
             }
             EditorGUILayout.EndVertical();
             #endregion
+            EditorGUI.indentLevel--;
         }
         EditorGUILayout.EndVertical();
         GUILayout.Space(1);

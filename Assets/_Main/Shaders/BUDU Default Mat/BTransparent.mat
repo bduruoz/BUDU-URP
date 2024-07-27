@@ -7,27 +7,34 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Transparent
+  m_Name: BTransparent
   m_Shader: {fileID: 4800000, guid: 3c2494d6159db5a48a76271cea1abbfb, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords:
   - _CURVATURE_ON
-  - _REFFRESNELINVERT_ON
+  - _DEPTH_ON
+  - _NORMAL_ON
+  - _REFLECTIONCURVATURE_ON
+  - _REFLECT_ON
+  - _REFRACTIONINVERT_ON
   - _REFRACTION_ON
   - _REFRCONTROL_ON
+  - _RIMCONTOUR_ON
   - _SPECULARSWITCH_ON
+  - _SSBLURICTRANSPARENT_ON
   - _SURFACESETTINGS_ON
+  - _THICKNESS_ON
   - _TOGGLESWITCH0_ON
   - _TRANSPARENTFRESNEL_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 3000
   stringTagMap: {}
   disabledShaderPasses: []
-  m_LockedProperties: 
+  m_LockedProperties: _DepthColor
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -40,7 +47,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BluricRefractionPattern:
-        m_Texture: {fileID: 2800000, guid: ce721e2d7b397144b890340a9decde3f, type: 3}
+        m_Texture: {fileID: 2800000, guid: f1c6b2ef2ce80ac4c871600c83b25cab, type: 3}
         m_Scale: {x: 5, y: 5}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -84,8 +91,8 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
-        m_Texture: {fileID: 2800000, guid: 7a4990e284586524fab65f631da4919b, type: 3}
-        m_Scale: {x: 10, y: 10}
+        m_Texture: {fileID: 2800000, guid: c1a4bcf2796ffc941aa10a09655edcb4, type: 3}
+        m_Scale: {x: 2, y: 2}
         m_Offset: {x: 0, y: 0}
     - _NormalMap1:
         m_Texture: {fileID: 2800000, guid: 7a4990e284586524fab65f631da4919b, type: 3}
@@ -171,18 +178,18 @@ Material:
     - _CubeMapRotate: 0
     - _CubemapYPosition: 0.19
     - _Cull: 2
-    - _CurvFold: 1
+    - _CurvFold: 0
     - _Curvature: 1
     - _CurvatureContrast: 1
     - _CurvatureOffset: -0.22
-    - _CurvatureScale: 0.412
+    - _CurvatureScale: 0.096
     - _Cutoff: 0.5
     - _DPFold: 1
-    - _Depth: 0
+    - _Depth: 1
     - _DepthContrast: 0.27
     - _DepthOffset: -0.09
     - _DepthScale: 2.56
-    - _DepthToggle: 0
+    - _DepthToggle: 1
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 10
@@ -199,24 +206,24 @@ Material:
     - _Float5: 0.1
     - _FloatOffset: 0.25
     - _FresnelBias: 0
-    - _FresnelPower: 1.99
-    - _FresnelScale: 1.34
+    - _FresnelPower: 4.57
+    - _FresnelScale: 3.4
     - _GlossinessSource: 0
-    - _Glossy: 68.6
+    - _Glossy: 0
     - _InteriorFresnel: 0
     - _Length: 5.03
     - _Metallic: 0
     - _NewMax: 1
     - _NewMin: 0.95
-    - _Normal: 0
-    - _NormalScale: -0.095
+    - _Normal: 1
+    - _NormalScale: 0.058
     - _NormalScale1: 0.18
     - _OcclusionStrength: 1
     - _Offset: 7.55
     - _OldMax: 0.8
     - _OldMin: 0
     - _Parallax: 0.005
-    - _PatternHeight: 1
+    - _PatternHeight: 0.5
     - _PatternRotator: 0
     - _QueueControl: 0
     - _QueueOffset: 36
@@ -224,38 +231,41 @@ Material:
     - _RIFold: 1
     - _ReceiveShadows: 1
     - _RefFresnelBias: 0
-    - _RefFresnelInvert: 1
+    - _RefFresnelInvert: 0
     - _RefFresnelPower: 2.16
     - _RefFresnelScale: 0.5
     - _RefFresnelSwitch: 0
     - _Reflect: 1
-    - _ReflectionCurvature: 0
+    - _ReflectionCurvature: 1
     - _ReflectionMultiplier: 3
-    - _ReflectionStrength: 0.334
+    - _ReflectionStrength: 0.752
     - _RefrControl: 1
     - _Refraction: 1
     - _RefractionIndex: 1.25
     - _RefractionIntensity: 1
-    - _RefractionInvert: 0
+    - _RefractionInvert: 1
     - _RimCAtt: 0
     - _RimContour: 1
-    - _RimContourIntensity: 0.653
-    - _RimContourOffset: -0.49
-    - _RimContourScale: 1.61
+    - _RimContourIntensity: 0.605
+    - _RimContourOffset: -1.27
+    - _RimContourScale: 1.63
     - _Rotator: 0
+    - _SSAnchorX: 0
+    - _SSAnchorY: 0
     - _SSBluricTransparent: 1
     - _SSNorm: 0
     - _SSNormSize: 32
     - _SSNormalSize: 20
     - _SSOffX: 0
     - _SSOffY: 0
-    - _SSSize: 10
-    - _SSTileX: 1
-    - _SSTileY: 1
+    - _SSSize: 20
+    - _SSTileX: 4
+    - _SSTileY: 4
     - _Scale: 0.25
     - _ScreenContrast: 0
+    - _ScreenSpace: 0
     - _Shininess: 0
-    - _Smoothness: 0.037
+    - _Smoothness: 0.85
     - _SmoothnessSource: 0
     - _SmoothnessTextureChannel: 0
     - _Softness: 1
@@ -263,9 +273,9 @@ Material:
     - _Specular: 1
     - _SpecularAmbient: 0
     - _SpecularHighlights: 1
-    - _SpecularIn: 0.3
+    - _SpecularIn: 1.507
     - _SpecularIntensity: 1
-    - _SpecularOut: 1
+    - _SpecularOut: 0.1
     - _SpecularSaturation: 1
     - _SpecularSwitch: 1
     - _SrcBlend: 5
@@ -278,15 +288,15 @@ Material:
     - _TRFineTune: 1
     - _TRFresnelInvert: 0
     - _TROffset: 0
-    - _TRScale: 1
+    - _TRScale: 0.5
     - _ThicOffset: 1
     - _ThicScale: 0
     - _ThichnessInvert: 0
     - _ThickFold: 0
-    - _ThickOffset: 0
-    - _ThickScale: 1
+    - _ThickOffset: 0.08
+    - _ThickScale: 1.23
     - _Thickness: 1
-    - _ThicknessIntensity: 0.522
+    - _ThicknessIntensity: 0.234
     - _ToggleSwitch0: 1
     - _ToonRimLightAttenuation: 0
     - _ToonRimOffset: 0.303
@@ -302,17 +312,17 @@ Material:
     - _TransparentIntensity: 1
     - _TransparentOffset: 0
     - _TransparentScale: 0
-    - _TransparentToggle: 0
+    - _TransparentToggle: 1
     - _Uzaklik: -7.7
     - _WorkflowMode: 1
     - _ZWrite: 0
     - __dirty: 0
     m_Colors:
-    - _BaseColor: {r: 0, g: 0, b: 0, a: 1}
+    - _BaseColor: {r: 0, g: 0.18399996, b: 0.18399996, a: 1}
     - _Color: {r: 1, g: 0, b: 0, a: 0.4}
     - _Color0: {r: 1, g: 0.7878305, b: 0.66981125, a: 1}
     - _Color1: {r: 1, g: 1, b: 1, a: 1}
-    - _DepthColor: {r: 0.42767292, g: 0.42767292, b: 0.42767292, a: 1}
+    - _DepthColor: {r: 0.71, g: 0.71, b: 0.71, a: 1}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _FresnelColor: {r: 0.61635214, g: 0.61635214, b: 0.61635214, a: 0}
     - _OutFresnelColor: {r: 0.34591186, g: 0.109865054, b: 0.109865054, a: 1}
@@ -324,7 +334,7 @@ Material:
     - _SurfaceColor: {r: 0, g: 0, b: 0, a: 0}
     - _ThicknessColor: {r: 0, g: 0.184, b: 0.14375, a: 1}
     - _ToonRimColor: {r: 0.44654083, g: 0.44654083, b: 0.44654083, a: 1}
-    - _TransparencyColor: {r: 0.59119487, g: 0.59119487, b: 0.59119487, a: 1}
+    - _TransparencyColor: {r: 0.363, g: 0.363, b: 0.363, a: 1}
     - _TransparentColor: {r: 1, g: 1, b: 1, a: 1}
     - _Vector0: {r: 0.1, g: 0.1, b: 1, a: 1}
     - _Vector1: {r: -4, g: -4.06, b: -43.32, a: 0}

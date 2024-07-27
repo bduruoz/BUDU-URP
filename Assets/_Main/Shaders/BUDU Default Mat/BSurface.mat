@@ -11,21 +11,20 @@ Material:
   m_Shader: {fileID: 4800000, guid: 9261e062eca72884a95463475ccc9903, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _SPECTYPE_LINEAR
   m_InvalidKeywords:
   - _AFFECTAO_ON
   - _AFFECTAO_RIM_ON
   - _AFFECTAO_SPEC_ON
-  - _REFLECT_ON
-  - _SPECULARSWITCH_ON
-  - _TRIPLANARNMAP_ON
+  - _TRANSLUCENCYINVERT_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
-  m_LockedProperties: 
+  m_LockedProperties: _SpecularOut
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -54,8 +53,8 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
-        m_Texture: {fileID: 2800000, guid: 36be8d528a4fa024faa4680d7658642c, type: 3}
-        m_Scale: {x: 2, y: 2}
+        m_Texture: {fileID: 2800000, guid: 8f10bd51af147c44abd1826f330be8fa, type: 3}
+        m_Scale: {x: 8, y: 8}
         m_Offset: {x: 0, y: 0}
     - _MetallicMap:
         m_Texture: {fileID: 0}
@@ -66,7 +65,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
-        m_Texture: {fileID: 2800000, guid: fe7ea2dd72fea3241b331187f47f23bf, type: 3}
+        m_Texture: {fileID: 2800000, guid: c52c9eeb8d5300d41b6dbb8b83428bf5, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMap1:
@@ -105,6 +104,14 @@ Material:
         m_Texture: {fileID: 2800000, guid: c40c7de2d12c36d4b8b058ab95c469f0, type: 3}
         m_Scale: {x: 4, y: 4}
         m_Offset: {x: 0, y: 0}
+    - _TranslucencyMap:
+        m_Texture: {fileID: 2800000, guid: 86eccc92f93eca94387f602735a0ad5a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TransmissionMap:
+        m_Texture: {fileID: 2800000, guid: 46b94e277bc241848be04aa173114b67, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _TriplanarTexture:
         m_Texture: {fileID: 2800000, guid: c40c7de2d12c36d4b8b058ab95c469f0, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -136,7 +143,7 @@ Material:
     - _AKey6: 0
     - _AKey7: 0
     - _AOAffect: 0
-    - _AOIntensity: 1
+    - _AOIntensity: 0.646
     - _AOSettings: 0
     - _AOToggle: 0
     - _ATime0: 0
@@ -152,6 +159,8 @@ Material:
     - _AffectAO_Spec: 1
     - _AffectMetallic: 1
     - _AlphaCutoff: 0.5
+    - _BGloss: 1
+    - _BaseSettings: 0
     - _CMXPos: 0
     - _CMYPos: 0
     - _CMZPos: 0
@@ -186,7 +195,7 @@ Material:
     - _FresnelFold: 1
     - _FresnelInvert: 0
     - _FresnelSwitch: 0
-    - _Glossy: 15.7
+    - _Glossy: 1
     - _GradALength: 0
     - _GradCLength: 0
     - _GradMode: 0
@@ -198,8 +207,8 @@ Material:
     - _NFallOff: 1
     - _NOffsetX: 0
     - _NOffsetY: 0
-    - _NTileX: 1
-    - _NTileY: 1
+    - _NTileX: 6
+    - _NTileY: 6
     - _Normal: 0
     - _NormalDistortion: 0.194
     - _NormalMultiplier: 1
@@ -217,16 +226,18 @@ Material:
     - _RefFresnelPower: 2
     - _RefFresnelScale: 1
     - _RefFresnelSwitch: 0
-    - _Reflect: 1
+    - _Reflect: 0
     - _ReflectSwitch: 0
     - _ReflectionMultiplier: 3.66
-    - _ReflectionStrength: 0.2
+    - _ReflectionStrength: 0.271
     - _RimLightBias: 0
     - _RimLightIntensity: 0.295
     - _RimLightInvert: 0
     - _RimLightPower: 1
     - _RimLightScale: 0.64
     - _RimSwitch: 0
+    - _SSAnchorX: 0
+    - _SSAnchorY: 0
     - _SSBluricTransparent: 0
     - _SSOffX: 0
     - _SSOffY: 0
@@ -238,42 +249,61 @@ Material:
     - _SatinLightShade: 0
     - _SatinSmoothing: 1
     - _Scattering: 1
+    - _ScreenSpace: 0
     - _SecondSpecIntensity: 1
     - _SecondSpecToggle: 0
     - _Smoothness: 0
     - _Smoothness1: 1
     - _SmoothnessInvert: 1
     - _SmoothnessToggle: 0
-    - _Softness: 1
+    - _Softness: 1.11
+    - _SpecMax: 1
+    - _SpecMin: 0
     - _SpecToggle: 1
+    - _SpecType: 0
     - _SpecularAmbient: 0
-    - _SpecularExtras: 0
+    - _SpecularExtras: 1
     - _SpecularHighlights: 1
-    - _SpecularIn: 0.1
+    - _SpecularIn: 0
     - _SpecularIntensity: 1
     - _SpecularInvert: 0
-    - _SpecularOut: 1
+    - _SpecularNormalIntensity: 0
+    - _SpecularOut: 0.474
     - _SpecularSaturation: 1
-    - _SpecularSwitch: 1
+    - _SpecularSwitch: 0
     - _SrcBlend: 1
     - _TileX: 1
     - _TileY: 1
     - _ToggleSwitch0: 0
     - _ToonSpec: 0
-    - _TransAmbient: 0.1
-    - _TransDirect: 0.9
-    - _TransNormal: 0.5
-    - _TransScattering: 2
-    - _TransShadow: 0.5
-    - _TransStrength: 1
+    - _TransAmbient: 0.757
+    - _TransDirect: 1
+    - _TransNormal: 0.223
+    - _TransScattering: 3.7
+    - _TransShadow: 0.602
+    - _TransStrength: 16.3
+    - _TranslucencyInvert: 1
+    - _TranslucencySettings: 0
     - _TranslucencyStrength: 0
+    - _TranslucencyToggle: 0
+    - _TransmisionShadow: 0.5
+    - _TransmissInvert: 0
+    - _TransmissionShadow: 0.73
+    - _TransmissionToggle: 0
     - _TriplanarMap: 0
-    - _TriplanarNMap: 1
+    - _TriplanarNMap: 0
+    - _TrnsAmbient: 0.568
+    - _TrnsDirect: 0.755
+    - _TrnsNormDistortion: 0.445
+    - _TrnsScattering: 8.4
+    - _TrnsShadow: 0.398
+    - _TrnsStrength: 17.2
+    - _TrnsmisShadow: 0.412
     - _ZWrite: 1
     m_Colors:
     - _AOColor: {r: 1, g: 0, b: 0, a: 0}
     - _AmbientOcclusionColor: {r: 0, g: 0, b: 0, a: 0}
-    - _BaseColor: {r: 0.78300005, g: 0.78300005, b: 0.78300005, a: 1}
+    - _BaseColor: {r: 0.7735849, g: 0.7735849, b: 0.7735849, a: 1}
     - _CKey0: {r: 0, g: 0, b: 0, a: 1}
     - _CKey1: {r: 0, g: 0, b: 0, a: 1}
     - _CKey2: {r: 0, g: 0, b: 0, a: 1}
@@ -287,6 +317,8 @@ Material:
     - _RimLightColor: {r: 1, g: 1, b: 1, a: 1}
     - _SatinColor: {r: 1, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 1, g: 1, b: 1, a: 1}
+    - _TranslucencyColor: {r: 1, g: 0.09517647, b: 0, a: 1}
+    - _TransmissionColor: {r: 0, g: 0.8611574, b: 1, a: 1}
     - _Vector0: {r: 2, g: 2, b: 0, a: 0}
     - _Vector1: {r: 3.18, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

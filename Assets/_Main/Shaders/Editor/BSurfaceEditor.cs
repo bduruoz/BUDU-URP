@@ -3,11 +3,12 @@ using UnityEditor;
 using System;
 using budu;
 using static PlasticPipe.PlasticProtocol.Messages.Serialization.ItemHandlerMessagesSerialization;
+using DG.DemiEditor;
 
 public class BSurfaceEditor : ShaderGUI
 {
-    bool checkSpec, checkNormal, checkRim, checkReflect, checkRefFresnel, checkRefFrsInvert, checkAO, checkSSBlur, checkEmis;
-    bool aboutFold, specFold, specExtFold, normalFold, rimFold, reflectFold, cubemapFold, fresnelFold, AOFold, ssBlurFold, emisFold;
+    bool checkSpec, checkNormal, checkRim, checkReflect, checkRefFresnel, checkRefFrsInvert, checkAO, checkSSBlur, checkEmis, checkBase, checkTranslucent;
+    bool aboutFold, specExtFold, normalFold, rimFold, reflectFold, cubemapFold, fresnelFold, AOFold, ssBlurFold;
     int tempVar;
     
     public override void OnGUI(MaterialEditor materialEditor, MaterialProperty[] properties)
@@ -34,31 +35,41 @@ public class BSurfaceEditor : ShaderGUI
         GUI.backgroundColor = bdColors.White(255);
         #endregion
 
-        #region Main Group
-        style.normal.background = MakeBackground(1, 1, bdColors.Gray60(76));
+        #region Main Settings
+        style.normal.background = MakeBackground(1, 1, bdColors.GrayP(18, 204));
+        style.fontSize = 16;
+        style.normal.textColor = bdColors.NexusOrange();
 
-        MaterialProperty bc = ShaderGUI.FindProperty("_BaseColor", properties);
-        MaterialProperty bt = ShaderGUI.FindProperty("_BaseMap", properties);
-        MaterialProperty btx = ShaderGUI.FindProperty("_TileX", properties);
-        MaterialProperty bty = ShaderGUI.FindProperty("_TileY", properties);
-        MaterialProperty box = ShaderGUI.FindProperty("_OffsetX", properties);
-        MaterialProperty boy = ShaderGUI.FindProperty("_OffsetY", properties);
-        MaterialProperty btm = ShaderGUI.FindProperty("_TriplanarMap", properties);
-        MaterialProperty bfo = ShaderGUI.FindProperty("_FallOff",properties);
-
-        EditorGUILayout.BeginVertical();
+        EditorGUILayout.BeginVertical(style);
+        checkBase = EditorGUILayout.ToggleLeft("BASE SETTINGS", checkBase, style);
+        targetMat.SetInt("_BaseSettings",Convert.ToInt16(checkBase));
+        EditorGUILayout.EndVertical();
+        style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
+        EditorGUILayout.BeginVertical(style);
+        if(checkBase)
         {
+            EditorGUI.indentLevel++;
+            MaterialProperty bc = ShaderGUI.FindProperty("_BaseColor", properties);
+            MaterialProperty bt = ShaderGUI.FindProperty("_BaseMap", properties);
+            MaterialProperty btx = ShaderGUI.FindProperty("_TileX", properties);
+            MaterialProperty bty = ShaderGUI.FindProperty("_TileY", properties);
+            MaterialProperty box = ShaderGUI.FindProperty("_OffsetX", properties);
+            MaterialProperty boy = ShaderGUI.FindProperty("_OffsetY", properties);
+            MaterialProperty btm = ShaderGUI.FindProperty("_TriplanarMap", properties);
+            MaterialProperty bfo = ShaderGUI.FindProperty("_FallOff", properties);
+
             materialEditor.ColorProperty(bc, "Base Color");
             materialEditor.TextureProperty(bt, "Base Map");
-            materialEditor.ShaderProperty(btm, "Triplanar Mapping");
             BaseMapScaleOffset(materialEditor, properties);
+            materialEditor.ShaderProperty(btm, "Triplanar Mapping");
             if(btm.floatValue > 0)
             {
                 materialEditor.RangeProperty(bfo, "FallOff");
             }
+            EditorGUI.indentLevel--;
         }
-        GUILayout.EndVertical();
-        EditorGUILayout.Space();
+        EditorGUILayout.EndVertical();
+        EditorGUILayout.Space(1);
         #endregion
 
         #region Specular Settings
@@ -68,53 +79,68 @@ public class BSurfaceEditor : ShaderGUI
 
         EditorGUILayout.BeginVertical(style);
         checkSpec = EditorGUILayout.ToggleLeft("SPECULAR", checkSpec, style);
-        specFold = checkSpec;
         targetMat.SetInt("_SpecularSwitch", Convert.ToInt16(checkSpec));
         EditorGUILayout.EndVertical();
-        style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
-        EditorGUILayout.BeginVertical(style);
-        if(specFold)
-        {
-            EditorGUILayout.Space(4);
 
+        EditorGUILayout.BeginVertical(style);
+        if(checkSpec)
+        {
+            EditorGUI.indentLevel++;
+            EditorGUILayout.Space(1);
+            MaterialProperty spTxt = ShaderGUI.FindProperty("_SpecularMap", properties);
+            MaterialProperty spType = ShaderGUI.FindProperty("_SpecType",properties);
             MaterialProperty spcol = ShaderGUI.FindProperty("_SpecColor", properties);
             MaterialProperty spInt = ShaderGUI.FindProperty("_SpecularIntensity", properties);
             MaterialProperty spGls = ShaderGUI.FindProperty("_Glossy", properties);
-            MaterialProperty spTxt = ShaderGUI.FindProperty("_SpecularMap",properties);
             MaterialProperty spAOAffect = ShaderGUI.FindProperty("_AffectAO_Spec", properties);
+            MaterialProperty spNormInt = ShaderGUI.FindProperty("_SpecularNormalIntensity", properties);
 
             materialEditor.ShaderProperty(spAOAffect, "Affect Ambient Occlusion");
-            materialEditor.ColorProperty(spcol, "Specular Color");
+            materialEditor.ShaderProperty(spType, "Specular Type");
             materialEditor.TextureProperty(spTxt, "Specular Map");
+            materialEditor.ColorProperty(spcol, "Specular Color");
             materialEditor.RangeProperty(spInt, "Specular Intensity");
-            materialEditor.RangeProperty(spGls, "Glossy");
+            materialEditor.RangeProperty(spGls, "Specular Glossy");
 
-            style.normal.background = MakeBackground(1, 1, bdColors.BrightRed(100));
-            style.fontSize = default;
-            style.normal.textColor = default;
+            if(ShaderGUI.FindProperty("_TriplanarNMap", properties).floatValue > 0f)
+            {
+                materialEditor.RangeProperty(spNormInt, "Specular Normal Intensity");
+            }
+            else
+            {
+                targetMat.SetFloat("_SpecularNormalIntensity", 0f);
+            }
+
+            style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(20));
 
             EditorGUILayout.BeginVertical(style);
-            specExtFold = EditorGUILayout.Foldout(specExtFold, "Specular Extra Controls", toggleOnLabelClick: true);
+            specExtFold = EditorGUILayout.Foldout(specExtFold, "Specular Controls", toggleOnLabelClick: true);
             targetMat.SetInt("_SpecularExtras", Convert.ToInt16(specExtFold));
             if(specExtFold)
             {
-                MaterialProperty spAmb = ShaderGUI.FindProperty("_SpecularAmbient", properties);
+                EditorGUI.indentLevel++;
                 MaterialProperty spSat = ShaderGUI.FindProperty("_SpecularSaturation", properties);
                 MaterialProperty spSmt = ShaderGUI.FindProperty("_Softness", properties);
-                MaterialProperty spOut = ShaderGUI.FindProperty("_SpecularOut", properties);
                 MaterialProperty spIn = ShaderGUI.FindProperty("_SpecularIn", properties);
+                MaterialProperty spOut = ShaderGUI.FindProperty("_SpecularOut", properties);
+                MaterialProperty spSpecMin = ShaderGUI.FindProperty("_SpecMin", properties);
+                MaterialProperty spSpecMax = ShaderGUI.FindProperty("_SpecMax", properties);
+                MaterialProperty spGloss = ShaderGUI.FindProperty("_BGloss", properties);
 
-                materialEditor.RangeProperty(spAmb, "Specular Ambient");
-                materialEditor.RangeProperty(spSat, "Specular Saturation");
+                materialEditor.RangeProperty(spSpecMin, "Smooth Specular Min");
+                materialEditor.RangeProperty(spSpecMax, "Smooth Specular Max");
+                materialEditor.RangeProperty(spGloss, "Blinn Gloss");
+                materialEditor.RangeProperty(spSat, "Specular Saturate");
                 materialEditor.RangeProperty(spSmt, "Specular Softness");
                 materialEditor.RangeProperty(spOut, "Specular Out");
                 materialEditor.RangeProperty(spIn, "Specular In");
+                EditorGUI.indentLevel--;
             }
             EditorGUILayout.EndVertical();
+            EditorGUI.indentLevel--;
         }
         EditorGUILayout.EndVertical();
-        EditorGUILayout.Space(5);
-
+        EditorGUILayout.Space(1);
         #endregion
 
         #region Normal Settings
@@ -124,14 +150,14 @@ public class BSurfaceEditor : ShaderGUI
 
         EditorGUILayout.BeginVertical(style);
         checkNormal = EditorGUILayout.ToggleLeft("NORMAL", checkNormal, style);
-        normalFold = checkNormal;
         targetMat.SetInt("_Normal", Convert.ToInt16(checkNormal));
         EditorGUILayout.EndVertical();
         style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
         EditorGUILayout.BeginVertical(style);
         if(normalFold)
         {
-            EditorGUILayout.Space(4);
+            EditorGUI.indentLevel++;
+            EditorGUILayout.Space(1);
 
             MaterialProperty nmap = ShaderGUI.FindProperty("_NormalMap", properties);
             MaterialProperty nscl = ShaderGUI.FindProperty("_NormalScale", properties);
@@ -139,23 +165,23 @@ public class BSurfaceEditor : ShaderGUI
             MaterialProperty nfo = ShaderGUI.FindProperty("_NFallOff", properties);
             MaterialProperty nsm = ShaderGUI.FindProperty("_NormalMultiplier", properties);
 
-
             EditorGUILayout.BeginVertical();
             {
                 materialEditor.TextureProperty(nmap, "Normal Map");
                 materialEditor.RangeProperty(nscl, "Normal Scale");
                 materialEditor.RangeProperty(nsm, "Normal Multiplier");
+                NormMapScaleOffset(materialEditor,properties);
                 materialEditor.ShaderProperty(ntm, "Normal Triplanar Mapping");
                 if(ntm.floatValue > 0.0f)
                 {
                     materialEditor.RangeProperty(nfo, "N FallOff");
                 }
-                NormMapScaleOffset(materialEditor,properties);
             }
             EditorGUILayout.EndVertical();
+            EditorGUI.indentLevel--;
         }
         EditorGUILayout.EndVertical();
-        EditorGUILayout.Space(5);
+        EditorGUILayout.Space(1);
         #endregion
 
         #region Emission Settings
@@ -165,13 +191,13 @@ public class BSurfaceEditor : ShaderGUI
 
         EditorGUILayout.BeginVertical(style);
         checkEmis = EditorGUILayout.ToggleLeft("EMISSIVE", checkEmis, style);
-        emisFold = checkEmis;
         targetMat.SetInt("_EmissionToggle", Convert.ToInt16(checkEmis));
         EditorGUILayout.EndVertical();
         style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
         EditorGUILayout.BeginVertical(style);
-        if(emisFold)
+        if(checkEmis)
         {
+            EditorGUI.indentLevel++;
             EditorGUILayout.Space(4);
 
             MaterialProperty emap = ShaderGUI.FindProperty("_EmissionMap", properties);
@@ -185,9 +211,10 @@ public class BSurfaceEditor : ShaderGUI
             materialEditor.RangeProperty(eiml, "Emission Multiplier");
             materialEditor.ColorProperty(ecol, "Emission color");
             materialEditor.TextureProperty(emap, "Emission Map");
+            EditorGUI.indentLevel--;
         }
         EditorGUILayout.EndVertical();
-        EditorGUILayout.Space(5);
+        EditorGUILayout.Space(1);
         #endregion
 
         #region Rim Light Settings
@@ -204,6 +231,7 @@ public class BSurfaceEditor : ShaderGUI
         EditorGUILayout.BeginVertical(style);
         if(rimFold)
         {
+            EditorGUI.indentLevel++;
             EditorGUILayout.Space(4);
 
             MaterialProperty rint = ShaderGUI.FindProperty("_RimLightIntensity", properties);
@@ -221,12 +249,10 @@ public class BSurfaceEditor : ShaderGUI
             materialEditor.RangeProperty(rb, "Rim Light Bias");
             materialEditor.RangeProperty(rs, "Rim Light Scale");
             materialEditor.RangeProperty(rp, "Rim Light Power");
-
+            EditorGUI.indentLevel--;
         }
         EditorGUILayout.EndVertical();
-        EditorGUILayout.Space(5);
-
-
+        EditorGUILayout.Space(1);
         #endregion
 
         #region Reflection Settings
@@ -243,6 +269,7 @@ public class BSurfaceEditor : ShaderGUI
         EditorGUILayout.BeginVertical(style);
         if(reflectFold)
         {
+            EditorGUI.indentLevel++;
             EditorGUILayout.Space(4);
 
             MaterialProperty rfcol = ShaderGUI.FindProperty("_ReflectColor", properties);
@@ -309,9 +336,10 @@ public class BSurfaceEditor : ShaderGUI
             }
             EditorGUILayout.EndVertical();
             #endregion
+            EditorGUI.indentLevel--;
         }
         EditorGUILayout.EndVertical();
-        EditorGUILayout.Space(5);
+        EditorGUILayout.Space(1);
         #endregion
 
         #region Ambient Occlusion Settings
@@ -328,6 +356,7 @@ public class BSurfaceEditor : ShaderGUI
         EditorGUILayout.BeginVertical(style);
         if(AOFold)
         {
+            EditorGUI.indentLevel++;
             EditorGUILayout.Space(4);
 
             MaterialProperty aomap = ShaderGUI.FindProperty("_AmbientOcclusionMap", properties);
@@ -335,9 +364,82 @@ public class BSurfaceEditor : ShaderGUI
 
             materialEditor.TextureProperty(aomap, "Ambient Occlusion Map");
             materialEditor.RangeProperty(aoInt, "Ambient Occlusion Intensity");
+            EditorGUI.indentLevel--;
         }
         EditorGUILayout.EndVertical();
-        EditorGUILayout.Space(5);
+        EditorGUILayout.Space(1);
+        #endregion
+
+        #region Translucency Settings
+        style.normal.background = MakeBackground(1, 1, bdColors.GrayP(18, 204));
+        style.fontSize = 16;
+        style.normal.textColor = bdColors.NexusOrange();
+
+        EditorGUILayout.BeginVertical(style);
+        checkTranslucent = EditorGUILayout.ToggleLeft("TRANSLUCENCY SETTINGS", checkTranslucent, style);
+        targetMat.SetInt("_TranslucencySettings",Convert.ToInt16(checkTranslucent));
+        EditorGUILayout.EndVertical();
+        style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
+        EditorGUILayout.BeginVertical(style);
+        if(checkTranslucent)
+        {
+            EditorGUI.indentLevel++;
+            EditorGUILayout.Space(4);
+
+            MaterialProperty trnsTog = ShaderGUI.FindProperty("_TranslucencyToggle", properties);
+            //MaterialProperty trmsTog = ShaderGUI.FindProperty("_TransmissionToggle", properties);
+
+            materialEditor.ShaderProperty(trnsTog, "Translucency");
+
+            if(trnsTog.floatValue > 0f) 
+            {
+                EditorGUI.indentLevel++;
+                MaterialProperty trnsCol = ShaderGUI.FindProperty("_TranslucencyColor", properties);
+                MaterialProperty trnsMap = ShaderGUI.FindProperty("_TranslucencyMap", properties);
+                MaterialProperty trnsTxtInv = ShaderGUI.FindProperty("_TranslucencyInvert", properties);
+
+                MaterialProperty trmsCol = ShaderGUI.FindProperty("_TransmissionColor", properties);
+                MaterialProperty trmsTxt = ShaderGUI.FindProperty("_TransmissionMap", properties);
+                MaterialProperty trmsTxtInv = ShaderGUI.FindProperty("_TransmissInvert", properties);
+
+                MaterialProperty trnsStrength = ShaderGUI.FindProperty("_TransStrength", properties);
+                MaterialProperty trnsNormDist = ShaderGUI.FindProperty("_TransNormal", properties);
+                MaterialProperty trnsScatter = ShaderGUI.FindProperty("_TransScattering", properties);
+                MaterialProperty trnsDirect = ShaderGUI.FindProperty("_TransDirect", properties);
+                MaterialProperty trnsAmbient = ShaderGUI.FindProperty("_TransAmbient", properties);
+                MaterialProperty trnsShadow = ShaderGUI.FindProperty("_TransShadow", properties);
+                MaterialProperty trmssh = ShaderGUI.FindProperty("_TransmissionShadow", properties);
+
+                targetMat.SetInt("_TransmissionToggle", Convert.ToInt16(1));
+
+                materialEditor.ShaderProperty(trnsCol, "Translucency Color");
+                materialEditor.ShaderProperty(trnsTxtInv, "Translucency Invert");
+                materialEditor.ShaderProperty(trnsMap, "Translucency Map");
+
+                //materialEditor.ShaderProperty(trmsTog, "Transmission");
+
+                materialEditor.ShaderProperty(trmsCol, "Transmission Color");
+                materialEditor.ShaderProperty(trmsTxtInv, "Transmission Invert");
+                materialEditor.ShaderProperty(trmsTxt, "Transmission Map");
+                materialEditor.ShaderProperty(trmssh, "Transmission Shadow");
+                materialEditor.ShaderProperty(trnsStrength, "Translucency Strength");
+                materialEditor.ShaderProperty(trnsNormDist, "Normal Distortion");
+                materialEditor.ShaderProperty(trnsScatter, "Scattering");
+                materialEditor.ShaderProperty(trnsDirect, "Direct");
+                materialEditor.ShaderProperty(trnsAmbient, "Ambient");
+                materialEditor.ShaderProperty(trnsShadow, "Translucency Shadow");
+                EditorGUI.indentLevel--;
+            }
+            else
+            {
+                targetMat.SetInt("_TransmissionToggle", Convert.ToInt16(0));
+            }
+
+
+            EditorGUI.indentLevel--;
+        }
+        EditorGUILayout.EndVertical();
+        EditorGUILayout.Space(1);
         #endregion
 
         #region Screen Space Bluric Settings
@@ -354,6 +456,7 @@ public class BSurfaceEditor : ShaderGUI
         EditorGUILayout.BeginVertical(style);
         if(ssBlurFold)
         {
+            EditorGUI.indentLevel++;
             EditorGUILayout.Space(4);
 
             MaterialProperty sstog = ShaderGUI.FindProperty("_ScreenSpace",properties);
@@ -366,10 +469,10 @@ public class BSurfaceEditor : ShaderGUI
             materialEditor.FloatProperty(ssbSize, "Blur Size");
 
             BluricScaleOffset(materialEditor, properties,(int)sstog.floatValue);
-
+            EditorGUI.indentLevel--;
         }
         EditorGUILayout.EndVertical();
-        EditorGUILayout.Space(5);
+        EditorGUILayout.Space(1);
 
         #endregion
 
@@ -397,17 +500,24 @@ public class BSurfaceEditor : ShaderGUI
             EditorGUILayout.HelpBox(gc, true);
         }
         #endregion
+
+        //base.OnGUI(materialEditor, properties);
     }
 
     void loadMaterialVariables(Material targetMat)
     {
+        tempVar = targetMat.GetInt("_TranslucencySettings");
+        checkTranslucent = tempVar == 1 ? true : false;
+
+        tempVar = targetMat.GetInt("_BaseSettings");
+        checkBase = tempVar == 1 ? true : false;
+
         tempVar = targetMat.GetInt("_SSBluricTransparent");
         checkSSBlur = tempVar == 1 ? true : false;
         ssBlurFold = checkSSBlur;
 
         tempVar = targetMat.GetInt("_SpecularSwitch");
         checkSpec = tempVar == 1 ? true : false;
-        specFold = checkSpec;
 
         tempVar = targetMat.GetInt("_Normal");
         checkNormal = tempVar == 1 ? true : false;

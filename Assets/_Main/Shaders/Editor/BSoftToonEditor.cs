@@ -5,7 +5,7 @@ using budu;
 
 public class BSoftToonEditor : ShaderGUI
 {
-    bool checkNormal, checkRim, checkReflect, checkSpec, checkShade, checkRefFresnel, checkRefFrsInvert;
+    bool checkNormal, checkRim, checkReflect, checkSpec, checkShade, checkRefFresnel, checkRefFrsInvert, checkBase;
     bool aboutFold, normalFold, rimFold, reflectFold, cubemapFold, specFold, specExtFold, shadeFold, shadeExtFold, fresnelFold;
     int tempVar;
     
@@ -33,20 +33,28 @@ public class BSoftToonEditor : ShaderGUI
         #endregion
 
         #region Main Settings
-        style.normal.background = MakeBackground(1, 1, bdColors.Gray60(76));
+        style.normal.background = MakeBackground(1, 1, bdColors.GrayP(18, 204));
+        style.fontSize = 16;
+        style.normal.textColor = bdColors.NexusOrange();
 
-        MaterialProperty bc = ShaderGUI.FindProperty("_BaseColor", properties);
-        MaterialProperty bt = ShaderGUI.FindProperty("_BaseMap", properties);
-        MaterialProperty avfe = ShaderGUI.FindProperty("_AverageFeatures", properties);
+        checkBase = EditorGUILayout.ToggleLeft("BASE SETTINGS", checkBase, style);
+        targetMat.SetInt("_BaseSettings",Convert.ToInt16(checkBase));
 
         EditorGUILayout.BeginVertical();
+        if(checkBase)
         {
+            EditorGUI.indentLevel++;
+            MaterialProperty bc = ShaderGUI.FindProperty("_BaseColor", properties);
+            MaterialProperty bt = ShaderGUI.FindProperty("_BaseMap", properties);
+            MaterialProperty avfe = ShaderGUI.FindProperty("_AverageFeatures", properties);
+
             materialEditor.ColorProperty(bc, "Base Color");
             materialEditor.TextureProperty(bt, "Base Map");
             materialEditor.ShaderProperty(avfe, "Average Features");
+            EditorGUI.indentLevel--;
         }
         GUILayout.EndVertical();
-        EditorGUILayout.Space();
+        EditorGUILayout.Space(1);
         #endregion
 
         #region Shade Color Settings
@@ -54,15 +62,16 @@ public class BSoftToonEditor : ShaderGUI
         style.fontSize = 16;
         style.normal.textColor = bdColors.NexusOrange();
 
-        EditorGUILayout.BeginVertical(style);
+        EditorGUILayout.BeginVertical();
         checkShade = EditorGUILayout.ToggleLeft("SHADE COLOR", checkShade, style);
         shadeFold = checkShade;
         targetMat.SetInt("_ShadeColorToggle", Convert.ToInt16(checkShade));
         EditorGUILayout.EndVertical();
         style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
-        EditorGUILayout.BeginVertical(style);
+        EditorGUILayout.BeginVertical();
         if(shadeFold)
         {
+            EditorGUI.indentLevel++;
             EditorGUILayout.Space(4);
 
             MaterialProperty shInt = ShaderGUI.FindProperty("_ShadingIntensity", properties);
@@ -83,7 +92,7 @@ public class BSoftToonEditor : ShaderGUI
             style.fontSize = default;
             style.normal.textColor = default;
 
-            EditorGUILayout.BeginVertical(style);
+            EditorGUILayout.BeginVertical();
             shadeExtFold = EditorGUILayout.Foldout(shadeExtFold, "Shade Extra Controls", toggleOnLabelClick: true);
             targetMat.SetInt("_ShadeExtras", Convert.ToInt16(shadeExtFold));
             if(shadeExtFold)
@@ -95,9 +104,10 @@ public class BSoftToonEditor : ShaderGUI
                 materialEditor.RangeProperty(shBaCO, "Base Cell Offset");
             }
             EditorGUILayout.EndVertical();
+            EditorGUI.indentLevel--;
         }
         EditorGUILayout.EndVertical();
-        EditorGUILayout.Space(5);
+        EditorGUILayout.Space(1);
         #endregion
 
         #region Specular Settings
@@ -105,50 +115,63 @@ public class BSoftToonEditor : ShaderGUI
         style.fontSize = 16;
         style.normal.textColor = bdColors.NexusOrange();
 
-        EditorGUILayout.BeginVertical(style);
+        EditorGUILayout.BeginVertical();
         checkSpec = EditorGUILayout.ToggleLeft("SPECULAR", checkSpec, style);
-        specFold = checkSpec;
         targetMat.SetInt("_SpecularSwitch", Convert.ToInt16(checkSpec));
-        EditorGUILayout.EndVertical();
         style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
-        EditorGUILayout.BeginVertical(style);
-        if(specFold)
+        if(checkSpec)
         {
+            EditorGUI.indentLevel++;
             EditorGUILayout.Space(4);
 
             MaterialProperty spcol = ShaderGUI.FindProperty("_SpecColor", properties);
             MaterialProperty spInt = ShaderGUI.FindProperty("_SpecularIntensity", properties);
             MaterialProperty spGls = ShaderGUI.FindProperty("_Glossy", properties);
+            MaterialProperty spAmb = ShaderGUI.FindProperty("_SpecularAmbient", properties);
+            MaterialProperty spNormInt = ShaderGUI.FindProperty("_SpecularNormalIntensity", properties);
 
             materialEditor.ColorProperty(spcol, "Specular Color");
             materialEditor.RangeProperty(spInt, "Specular Intensity");
             materialEditor.RangeProperty(spGls, "Glossy");
+            materialEditor.RangeProperty(spAmb, "Specular Ambient");
+            materialEditor.ShaderProperty(spNormInt, "Specular Normal Intensity");
 
             style.normal.background = MakeBackground(1, 1, bdColors.BrightRed(100));
             style.fontSize = default;
             style.normal.textColor = default;
 
-            EditorGUILayout.BeginVertical(style);
+            EditorGUILayout.BeginVertical();
             specExtFold = EditorGUILayout.Foldout(specExtFold, "Specular Extra Controls", toggleOnLabelClick: true);
             targetMat.SetInt("_SpecularExtras",Convert.ToInt16(specExtFold));
             if(specExtFold) 
             {
-                MaterialProperty spAmb = ShaderGUI.FindProperty("_SpecularAmbient", properties);
+                EditorGUI.indentLevel++;
+                MaterialProperty spType = ShaderGUI.FindProperty("_SpecType", properties);
+                MaterialProperty spBGloss = ShaderGUI.FindProperty("_BGloss", properties);
+                MaterialProperty spSpecMin = ShaderGUI.FindProperty("_SpecMin", properties);
+                MaterialProperty spSpecMax = ShaderGUI.FindProperty("_SpecMax", properties);
+
                 MaterialProperty spSat = ShaderGUI.FindProperty("_SpecularSaturation", properties);
                 MaterialProperty spSmt = ShaderGUI.FindProperty("_Softness", properties);
                 MaterialProperty spOut = ShaderGUI.FindProperty("_SpecularOut", properties);
                 MaterialProperty spIn = ShaderGUI.FindProperty("_SpecularIn", properties);
 
-                materialEditor.RangeProperty(spAmb, "Specular Ambient");
+                materialEditor.ShaderProperty(spType, "Grade Type");
+                materialEditor.ShaderProperty(spBGloss, "Blinn Glossy");
+                materialEditor.ShaderProperty(spSpecMin, "Specular Min");
+                materialEditor.ShaderProperty(spSpecMax, "Specular Max");
+
                 materialEditor.RangeProperty(spSat, "Specular Saturation");
                 materialEditor.RangeProperty(spSmt, "Specular Softness");
                 materialEditor.RangeProperty(spOut, "Specular Out");
                 materialEditor.RangeProperty(spIn, "Specular In");
+                EditorGUI.indentLevel--;
             }
             EditorGUILayout.EndVertical();
+            EditorGUI.indentLevel--;
         }
         EditorGUILayout.EndVertical();
-        EditorGUILayout.Space(5);
+        EditorGUILayout.Space(1);
         #endregion
 
         #region Normal Settings
@@ -156,13 +179,13 @@ public class BSoftToonEditor : ShaderGUI
         style.fontSize = 16;
         style.normal.textColor = bdColors.NexusOrange();
 
-        EditorGUILayout.BeginVertical(style);
+        EditorGUILayout.BeginVertical();
         checkNormal = EditorGUILayout.ToggleLeft("NORMAL", checkNormal, style);
         normalFold = checkNormal;
         targetMat.SetInt("_Normal", Convert.ToInt16(checkNormal));
         EditorGUILayout.EndVertical();
         style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
-        EditorGUILayout.BeginVertical(style);
+        EditorGUILayout.BeginVertical();
         if(normalFold)
         {
             EditorGUILayout.Space(4);
@@ -174,7 +197,7 @@ public class BSoftToonEditor : ShaderGUI
             materialEditor.RangeProperty(nscl, "Normal Scale");
         }
         EditorGUILayout.EndVertical();
-        EditorGUILayout.Space(5);
+        EditorGUILayout.Space(1);
         #endregion
 
         #region Rim Light Settings
@@ -182,13 +205,13 @@ public class BSoftToonEditor : ShaderGUI
         style.fontSize = 16;
         style.normal.textColor = bdColors.NexusOrange();
 
-        EditorGUILayout.BeginVertical(style);
+        EditorGUILayout.BeginVertical();
         checkRim = EditorGUILayout.ToggleLeft("RIM LIGHT", checkRim, style);
         rimFold = checkRim;
         targetMat.SetInt("_RimSwitch", Convert.ToInt16(checkRim));
         EditorGUILayout.EndVertical();
         style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
-        EditorGUILayout.BeginVertical(style);
+        EditorGUILayout.BeginVertical();
         if(rimFold)
         {
             EditorGUILayout.Space(4);
@@ -207,9 +230,7 @@ public class BSoftToonEditor : ShaderGUI
 
         }
         EditorGUILayout.EndVertical();
-        EditorGUILayout.Space(5);
-
-
+        EditorGUILayout.Space(1);
         #endregion
 
         #region Reflection Settings
@@ -217,13 +238,13 @@ public class BSoftToonEditor : ShaderGUI
         style.fontSize = 16;
         style.normal.textColor = bdColors.NexusOrange();
 
-        EditorGUILayout.BeginVertical(style);
+        EditorGUILayout.BeginVertical();
         checkReflect = EditorGUILayout.ToggleLeft("REFLECT", checkReflect, style);
         reflectFold = checkReflect;
         targetMat.SetInt("_Reflect", Convert.ToInt16(checkReflect));
         EditorGUILayout.EndVertical();
         style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
-        EditorGUILayout.BeginVertical(style);
+        EditorGUILayout.BeginVertical();
         if(reflectFold)
         {
             EditorGUILayout.Space(4);
@@ -242,7 +263,7 @@ public class BSoftToonEditor : ShaderGUI
             style.fontSize = default;
             style.normal.textColor = default;
 
-            EditorGUILayout.BeginVertical(style);
+            EditorGUILayout.BeginVertical();
             cubemapFold = EditorGUILayout.Foldout(cubemapFold, "Cubemap Extra Controls", toggleOnLabelClick: true);
             targetMat.SetInt("_CubeMapExtras",Convert.ToInt16(cubemapFold));
             if(cubemapFold)
@@ -264,7 +285,7 @@ public class BSoftToonEditor : ShaderGUI
             style.fontSize = default;
             style.normal.textColor = default;
 
-            EditorGUILayout.BeginVertical(style);
+            EditorGUILayout.BeginVertical();
             fresnelFold = EditorGUILayout.Foldout(fresnelFold, "Reflection Fresnel", toggleOnLabelClick: true);
             targetMat.SetInt("_FresnelFold",Convert.ToInt16(fresnelFold));
             if(fresnelFold)
@@ -292,7 +313,7 @@ public class BSoftToonEditor : ShaderGUI
             #endregion
         }
         EditorGUILayout.EndVertical();
-        EditorGUILayout.Space(5);
+        EditorGUILayout.Space(1);
         #endregion
 
         #region Shader Defaults
@@ -323,9 +344,12 @@ public class BSoftToonEditor : ShaderGUI
 
     void loadMaterialVariables(Material targetMat)
     {
+        tempVar = targetMat.GetInt("_BaseSettings");
+        checkBase = tempVar == 1 ? true : false;
+
         tempVar = targetMat.GetInt("_SpecularSwitch");
         checkSpec = tempVar == 1 ? true : false;
-        specFold = checkSpec;
+        //specFold = checkSpec;
         
         tempVar = targetMat.GetInt("_Normal");
         checkNormal = tempVar == 1 ? true : false;

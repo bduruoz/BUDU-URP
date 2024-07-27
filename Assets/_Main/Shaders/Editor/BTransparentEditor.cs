@@ -58,7 +58,7 @@ public class BTransparentEditor: ShaderGUI
             materialEditor.TextureProperty(bt, "Base Map");
         }
         EditorGUILayout.EndVertical();
-        EditorGUILayout.Space(5);
+        EditorGUILayout.Space(1);
         #endregion
 
         #region Transparency And Depth Settings
@@ -220,7 +220,7 @@ public class BTransparentEditor: ShaderGUI
 
         }
         EditorGUILayout.EndVertical();
-        EditorGUILayout.Space(5);
+        EditorGUILayout.Space(1);
         #endregion
 
         #region Normal Settings
@@ -246,7 +246,7 @@ public class BTransparentEditor: ShaderGUI
             materialEditor.RangeProperty(nscl, "Normal Scale");
         }
         EditorGUILayout.EndVertical();
-        EditorGUILayout.Space(5);
+        EditorGUILayout.Space(1);
         #endregion
 
         #region Specular Settings
@@ -299,7 +299,7 @@ public class BTransparentEditor: ShaderGUI
             EditorGUILayout.EndVertical();
         }
         EditorGUILayout.EndVertical();
-        EditorGUILayout.Space(5);
+        EditorGUILayout.Space(1);
         #endregion
 
         #region Screen Space Bluric Settings
@@ -329,7 +329,7 @@ public class BTransparentEditor: ShaderGUI
             BluricScaleOffset(materialEditor,properties,(int)sstog.floatValue);
         }
         EditorGUILayout.EndVertical();
-        EditorGUILayout.Space(5);
+        EditorGUILayout.Space(1);
 
         #endregion
 
@@ -442,7 +442,7 @@ public class BTransparentEditor: ShaderGUI
             #endregion
         }
         EditorGUILayout.EndVertical();
-        EditorGUILayout.Space(5);
+        EditorGUILayout.Space(1);
         #endregion
 
         #region Thickness
@@ -483,7 +483,7 @@ public class BTransparentEditor: ShaderGUI
 
         }
         EditorGUILayout.EndVertical();
-        EditorGUILayout.Space(5);
+        EditorGUILayout.Space(1);
 
         #endregion
 
@@ -522,7 +522,7 @@ public class BTransparentEditor: ShaderGUI
             EditorGUILayout.EndHorizontal();
         }
         EditorGUILayout.EndVertical();
-        EditorGUILayout.Space(5);
+        EditorGUILayout.Space(1);
         #endregion
 
         #region Shader Defaults

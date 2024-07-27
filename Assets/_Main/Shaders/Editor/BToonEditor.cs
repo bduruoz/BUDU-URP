@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
 using UnityEditor;
-using budu;
+using System;
 using System.Collections.Generic;
+using budu;
 
 public class BToonEditor : ShaderGUI
 {
     Gradient grad = new Gradient();
-    bool checkCustomRamp, checkRamp, checkTSpec, checkColoredAmb, checkNormal, checkBlueNoise, checkIndirectL, checkContour, checkContourLA;
+    bool checkCustomRamp, checkRamp, checkTSpec, checkColoredAmb, checkNormal, checkBlueNoise, checkIndirectL, checkContour, checkContourLA, checkBase;
     bool aboutFold, rampFold, customRampFold, tSpecFold, colAmbFold, normalFold, blueNoiseFold, indirectLFold, contourFold;
     bool gradControl = true;
     int tempVar, gradMode;
@@ -41,18 +42,25 @@ public class BToonEditor : ShaderGUI
         #endregion
 
         #region Main Settings
-        style.normal.background = MakeBackground(1, 1, bdColors.Gray60(76));
+        style.normal.background = MakeBackground(1, 32, bdColors.GrayP(18, 204));
+        style.fontSize = 16;
+        style.normal.textColor = bdColors.NexusOrange(255);
 
-        MaterialProperty bc = ShaderGUI.FindProperty("_BaseColor", properties);
-        MaterialProperty bt = ShaderGUI.FindProperty("_BaseMap",properties);
-
-        EditorGUILayout.BeginVertical();
+        checkBase = EditorGUILayout.ToggleLeft("BASE SETTINGS", checkBase, style);
+        targetMat.SetInt("_BaseSettings", Convert.ToInt16(checkBase));
+        if(checkBase)
         {
-            materialEditor.ColorProperty(bc, "Base Color");
-            materialEditor.TextureProperty(bt, "Base Map");
+            MaterialProperty bc = ShaderGUI.FindProperty("_BaseColor", properties);
+            MaterialProperty bt = ShaderGUI.FindProperty("_BaseMap", properties);
+
+            EditorGUILayout.BeginVertical();
+            {
+                materialEditor.ColorProperty(bc, "Base Color");
+                materialEditor.TextureProperty(bt, "Base Map");
+            }
+            EditorGUILayout.EndVertical();
         }
-        EditorGUILayout.EndVertical();
-        EditorGUILayout.Space(10);
+        EditorGUILayout.Space(1);
         #endregion
 
         #region Gradient Settings
@@ -60,7 +68,7 @@ public class BToonEditor : ShaderGUI
         style.fontSize = 16;
         style.normal.textColor = bdColors.NexusOrange(255);
 
-        EditorGUILayout.BeginVertical(style);
+        EditorGUILayout.BeginVertical();
         {
             EditorGUI.BeginChangeCheck();
             checkRamp = EditorGUILayout.ToggleLeft("TOON GRADIENT", checkRamp, style);
@@ -79,10 +87,10 @@ public class BToonEditor : ShaderGUI
             }
         }
         EditorGUILayout.EndVertical();
-        EditorGUILayout.Space(4);
+        EditorGUILayout.Space(1);
 
         style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
-        EditorGUILayout.BeginVertical(style);
+        EditorGUILayout.BeginVertical();
         if(rampFold)
         {
             EditorGUI.BeginChangeCheck();
@@ -125,7 +133,7 @@ public class BToonEditor : ShaderGUI
             materialEditor.RangeProperty(ro, "Ramp Offset");
         }
         EditorGUILayout.EndVertical();
-        EditorGUILayout.Space(5);
+        EditorGUILayout.Space(1);
         #endregion
 
         #region Specular Settings
@@ -133,32 +141,14 @@ public class BToonEditor : ShaderGUI
         style.fontSize = 16;
         style.normal.textColor = bdColors.NexusOrange();
 
-        EditorGUILayout.BeginVertical(style);
+        checkTSpec = EditorGUILayout.ToggleLeft("SPECULAR",checkTSpec,style);
+        targetMat.SetInt("_ToonSpec", Convert.ToInt16(checkTSpec));
+        targetMat.SetInt("_TSpec", Convert.ToInt16(checkTSpec));
+
+        if(checkTSpec)
         {
-            EditorGUI.BeginChangeCheck();
-            checkTSpec = EditorGUILayout.ToggleLeft("SPECULAR",checkTSpec,style);
-            if(EditorGUI.EndChangeCheck())
-            {
-                if(checkTSpec)
-                {
-                    tSpecFold = true;
-                    targetMat.SetInt("_ToonSpec", 1);
-                    targetMat.SetInt("_TSpec", 1);
-                }
-                else
-                {
-                    tSpecFold = false;
-                    targetMat.SetInt("_ToonSpec", 0);
-                    targetMat.SetInt("_TSpec", 0);
-                }
-            }
-        }
-        EditorGUILayout.EndVertical();
-        style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
-        EditorGUILayout.BeginVertical(style);
-        if(tSpecFold)
-        {
-            EditorGUILayout.Space(4);
+            EditorGUI.indentLevel++;
+            EditorGUILayout.Space(1);
 
             MaterialProperty tsi = ShaderGUI.FindProperty("_ToonSpecIntensity", properties);
             MaterialProperty tsmn = ShaderGUI.FindProperty("_ToonSpecMin", properties);
@@ -169,9 +159,9 @@ public class BToonEditor : ShaderGUI
             materialEditor.RangeProperty(tsmn, "Specular Min");
             materialEditor.RangeProperty(tsmx, "Specular Max");
             materialEditor.RangeProperty(tsa, "Specular Area");
+            EditorGUI.indentLevel--;
         }
-        EditorGUILayout.EndVertical();
-        EditorGUILayout.Space(5);
+        EditorGUILayout.Space(1);
         #endregion
 
         #region Colored Ambient Settings
@@ -179,7 +169,7 @@ public class BToonEditor : ShaderGUI
         style.fontSize = 16;
         style.normal.textColor = bdColors.NexusOrange();
 
-        EditorGUILayout.BeginVertical(style);
+        EditorGUILayout.BeginVertical();
         {
             EditorGUI.BeginChangeCheck();
             checkColoredAmb = EditorGUILayout.ToggleLeft("AMBIENT", checkColoredAmb, style);
@@ -199,7 +189,7 @@ public class BToonEditor : ShaderGUI
         }
         EditorGUILayout.EndVertical();
         style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
-        EditorGUILayout.BeginVertical(style);
+        EditorGUILayout.BeginVertical();
         if(colAmbFold)
         {
             EditorGUILayout.Space(4);
@@ -213,7 +203,7 @@ public class BToonEditor : ShaderGUI
             materialEditor.RangeProperty(ambclmax, "Ambient Clamp Max");
         }
         EditorGUILayout.EndVertical();
-        EditorGUILayout.Space(5);
+        EditorGUILayout.Space(1);
         #endregion
 
         #region Normal Settings
@@ -221,7 +211,7 @@ public class BToonEditor : ShaderGUI
         style.fontSize = 16;
         style.normal.textColor = bdColors.NexusOrange();
 
-        EditorGUILayout.BeginVertical(style);
+        EditorGUILayout.BeginVertical();
         {
             EditorGUI.BeginChangeCheck();
             checkNormal = EditorGUILayout.ToggleLeft("NORMAL", checkNormal, style);
@@ -241,7 +231,7 @@ public class BToonEditor : ShaderGUI
         }
         EditorGUILayout.EndVertical();
         style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
-        EditorGUILayout.BeginVertical(style);
+        EditorGUILayout.BeginVertical();
         if(normalFold)
         {
             EditorGUILayout.Space(4);
@@ -254,7 +244,7 @@ public class BToonEditor : ShaderGUI
             materialEditor.RangeProperty(nscl, "Normal Scale");
         }
         EditorGUILayout.EndVertical();
-        EditorGUILayout.Space(5);
+        EditorGUILayout.Space(1);
         #endregion
 
         #region Toon Smooth Settting
@@ -262,7 +252,7 @@ public class BToonEditor : ShaderGUI
         style.fontSize = 16;
         style.normal.textColor = bdColors.NexusOrange();
 
-        EditorGUILayout.BeginVertical(style);
+        EditorGUILayout.BeginVertical();
         {
             EditorGUI.BeginChangeCheck();
             checkBlueNoise = EditorGUILayout.ToggleLeft("TOON SMOOTH", checkBlueNoise, style);
@@ -282,7 +272,7 @@ public class BToonEditor : ShaderGUI
         }
         EditorGUILayout.EndVertical();
         style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
-        EditorGUILayout.BeginVertical(style);
+        EditorGUILayout.BeginVertical();
         if(blueNoiseFold)
         {
             EditorGUILayout.Space(4);
@@ -294,7 +284,7 @@ public class BToonEditor : ShaderGUI
             materialEditor.RangeProperty(bnInt, "Smooth Intensity");
         }
         EditorGUILayout.EndVertical();
-        EditorGUILayout.Space(5);
+        EditorGUILayout.Space(1);
         #endregion
 
         #region Indirect Light Settings
@@ -302,7 +292,7 @@ public class BToonEditor : ShaderGUI
         style.fontSize = 16;
         style.normal.textColor = bdColors.NexusOrange();
 
-        EditorGUILayout.BeginVertical(style);
+        EditorGUILayout.BeginVertical();
         {
             EditorGUI.BeginChangeCheck();
             checkIndirectL = EditorGUILayout.ToggleLeft("INDIRECT LIGHT", checkIndirectL, style);
@@ -322,7 +312,7 @@ public class BToonEditor : ShaderGUI
         }
         EditorGUILayout.EndVertical();
         style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
-        EditorGUILayout.BeginVertical(style);
+        EditorGUILayout.BeginVertical();
         if(indirectLFold)
         {
             EditorGUILayout.Space(4);
@@ -332,7 +322,7 @@ public class BToonEditor : ShaderGUI
             materialEditor.RangeProperty(ilI, "Indirect Light Intensity");
         }
         EditorGUILayout.EndVertical();
-        EditorGUILayout.Space(5);
+        EditorGUILayout.Space(1);
         #endregion
 
         #region Contour Settings
@@ -340,7 +330,7 @@ public class BToonEditor : ShaderGUI
         style.fontSize = 16;
         style.normal.textColor = bdColors.NexusOrange();
 
-        EditorGUILayout.BeginVertical(style);
+        EditorGUILayout.BeginVertical();
         {
             EditorGUI.BeginChangeCheck();
             checkContour = EditorGUILayout.ToggleLeft("CONTOUR", checkContour, style);
@@ -360,7 +350,7 @@ public class BToonEditor : ShaderGUI
         }
         EditorGUILayout.EndVertical();
         style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
-        EditorGUILayout.BeginVertical(style);
+        EditorGUILayout.BeginVertical();
         if(contourFold)
         {
             EditorGUILayout.Space(4);
@@ -389,7 +379,7 @@ public class BToonEditor : ShaderGUI
 
         }
         EditorGUILayout.EndVertical();
-        EditorGUILayout.Space(5);
+        EditorGUILayout.Space(1);
         #endregion
 
         #region Shader Defaults
@@ -529,6 +519,9 @@ public class BToonEditor : ShaderGUI
             }
         }
         #endregion
+
+        tempVar = targetMat.GetInt("_BaseSettings");
+        checkBase = tempVar == 1 ? true : false;
 
         tempVar = targetMat.GetInt("_ToonSpec");
         checkTSpec = tempVar == 1 ? true : false;

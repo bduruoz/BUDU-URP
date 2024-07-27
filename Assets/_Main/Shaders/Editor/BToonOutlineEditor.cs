@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
 using UnityEditor;
-using budu;
+using System;
 using System.Collections.Generic;
+using budu;
 
 public class BToonOutlineEditor : ShaderGUI
 {
     Gradient grad = new Gradient();
-    bool checkCustomRamp, checkRamp, checkTSpec, checkColoredAmb, checkNormal, checkBlueNoise, checkIndirectL, checkContour, checkContourLA, checkOutline;
+    bool checkCustomRamp, checkRamp, checkTSpec, checkColoredAmb, checkNormal, checkBlueNoise, checkIndirectL, checkContour, checkContourLA, checkOutline, checkBase;
     bool aboutFold, rampFold, customRampFold, tSpecFold, colAmbFold, normalFold, blueNoiseFold, indirectLFold, contourFold, outlineFold;
     bool gradControl = true;
     int tempVar, gradMode;
@@ -41,18 +42,26 @@ public class BToonOutlineEditor : ShaderGUI
         #endregion
 
         #region Main Settings
-        style.normal.background = MakeBackground(1, 1, bdColors.Gray60(76));
+        style.normal.background = MakeBackground(1, 32, bdColors.GrayP(18, 204));
+        style.fontSize = 16;
+        style.normal.textColor = bdColors.NexusOrange(255);
 
-        MaterialProperty bc = ShaderGUI.FindProperty("_BaseColor", properties);
-        MaterialProperty bt = ShaderGUI.FindProperty("_BaseMap",properties);
-
-        EditorGUILayout.BeginVertical();
+        checkBase = EditorGUILayout.ToggleLeft("BASE SETTINGS", checkBase, style);
+        targetMat.SetInt("_BaseSettings", Convert.ToInt16(checkBase));
+        if(checkBase)
         {
-            materialEditor.ColorProperty(bc, "Base Color");
-            materialEditor.TextureProperty(bt, "Base Map");
+
+            MaterialProperty bc = ShaderGUI.FindProperty("_BaseColor", properties);
+            MaterialProperty bt = ShaderGUI.FindProperty("_BaseMap", properties);
+
+            EditorGUILayout.BeginVertical();
+            {
+                materialEditor.ColorProperty(bc, "Base Color");
+                materialEditor.TextureProperty(bt, "Base Map");
+            }
+            EditorGUILayout.EndVertical();
         }
-        EditorGUILayout.EndVertical();
-        EditorGUILayout.Space(10);
+        EditorGUILayout.Space(1);
         #endregion
 
         #region Gradient Settings
@@ -125,7 +134,7 @@ public class BToonOutlineEditor : ShaderGUI
             materialEditor.RangeProperty(ro, "Ramp Offset");
         }
         EditorGUILayout.EndVertical();
-        EditorGUILayout.Space(5);
+        EditorGUILayout.Space(1);
         #endregion
 
         #region Specular Settings
@@ -171,7 +180,7 @@ public class BToonOutlineEditor : ShaderGUI
             materialEditor.RangeProperty(tsa, "Specular Area");
         }
         EditorGUILayout.EndVertical();
-        EditorGUILayout.Space(5);
+        EditorGUILayout.Space(1);
         #endregion
 
         #region Colored Ambient Settings
@@ -213,7 +222,7 @@ public class BToonOutlineEditor : ShaderGUI
             materialEditor.RangeProperty(ambclmax, "Ambient Clamp Max");
         }
         EditorGUILayout.EndVertical();
-        EditorGUILayout.Space(5);
+        EditorGUILayout.Space(1);
         #endregion
 
         #region Normal Settings
@@ -254,7 +263,7 @@ public class BToonOutlineEditor : ShaderGUI
             materialEditor.RangeProperty(nscl, "Normal Scale");
         }
         EditorGUILayout.EndVertical();
-        EditorGUILayout.Space(5);
+        EditorGUILayout.Space(1);
         #endregion
 
         #region Toon Smooth Settting
@@ -294,7 +303,7 @@ public class BToonOutlineEditor : ShaderGUI
             materialEditor.RangeProperty(bnInt, "Smooth Intensity");
         }
         EditorGUILayout.EndVertical();
-        EditorGUILayout.Space(5);
+        EditorGUILayout.Space(1);
         #endregion
 
         #region Indirect Light Settings
@@ -332,7 +341,7 @@ public class BToonOutlineEditor : ShaderGUI
             materialEditor.RangeProperty(ilI, "Indirect Light Intensity");
         }
         EditorGUILayout.EndVertical();
-        EditorGUILayout.Space(5);
+        EditorGUILayout.Space(1);
         #endregion
 
         #region Contour Settings
@@ -389,7 +398,7 @@ public class BToonOutlineEditor : ShaderGUI
 
         }
         EditorGUILayout.EndVertical();
-        EditorGUILayout.Space(5);
+        EditorGUILayout.Space(1);
         #endregion
 
         #region Outline Settings
@@ -431,7 +440,7 @@ public class BToonOutlineEditor : ShaderGUI
             materialEditor.RangeProperty(dc, "Distance Cutoff");
         }
         EditorGUILayout.EndVertical();
-        EditorGUILayout.Space(5);
+        EditorGUILayout.Space(1);
         #endregion
 
         #region Shader Defaults
@@ -573,6 +582,9 @@ public class BToonOutlineEditor : ShaderGUI
             }
         }
         #endregion
+
+        tempVar = targetMat.GetInt("_BaseSettings");
+        checkBase = tempVar == 1 ? true : false;
 
         tempVar = targetMat.GetInt("_ToonSpec");
         checkTSpec = tempVar == 1 ? true : false;
