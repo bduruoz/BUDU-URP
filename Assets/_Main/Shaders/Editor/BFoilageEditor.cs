@@ -8,8 +8,8 @@ using System.Dynamic;
 public class BFoilageEditor : ShaderGUI
 {
     bool checkSpecular, checkNormal, checkRim, checkFresnelInvert, checkFoilage, checkSurfaceFoilage, checkCardRandRotate, 
-        checkFoilageWind, checkCustomNoiseA, checkCustomNoiseB, checkANeg , checkBNeg, checkBase, checkDef;
-    bool aboutFold, notyAFold, notyBFold;//, specFold, normalFold, rimFold, foilageFold, sFoilageFold, fWindFold;
+        checkFoilageWind, checkCustomNoiseA, checkCustomNoiseB, checkANeg , checkBNeg, checkBase, checkDef, checkTranslucent;
+    bool aboutFold, notyAFold, notyBFold;
     bool NoiseAFold, NoiseBFold;
     int tempVar;
 
@@ -74,23 +74,32 @@ public class BFoilageEditor : ShaderGUI
             string[] AntiAliased = new string[] { "On", "Off" };
             int[] AntiAliasResult = new int[] { 1, 0 };
 
-            materialEditor.IntPopupShaderProperty(aco, "Anti Aliased Cut Off", AntiAliased, AntiAliasResult);
+            MaterialProperty selAlphaCh = ShaderGUI.FindProperty("_AlphaChannel", properties);
 
+            materialEditor.ShaderProperty(selAlphaCh, "Alpha Channel");
+            materialEditor.IntPopupShaderProperty(aco, "Anti Aliased Cut Off", AntiAliased, AntiAliasResult);
             materialEditor.RangeProperty(ct, "Cut Off Threshold");
 
-            /* Transmission icin
-            MaterialProperty fff = ShaderGUI.FindProperty("_Transmission", properties);
-            materialEditor.RangeProperty(fff, "Transmission");
-            */
 
-            /* Shadow Threshold için
+            // Transmission / Translucent icin
+
+            // transmission
+
+            // Shadow Threshold için
             MaterialProperty fff = ShaderGUI.FindProperty("_ShadowThreshold", properties);
             materialEditor.RangeProperty(fff, "Shadow Threshold");
-            */
+            // shadow threshold
 
+            //calismadi bu
+            //MaterialProperty recShad = ShaderGUI.FindProperty("_RECEIVE_SHADOW_OFF", properties);
+            //MaterialProperty recShad = ShaderGUI.FindProperty("_ReceiveShadow", properties);
+
+            //materialEditor.ShaderProperty(recShad, "Receive Shadows");
+            //materialEditor.ShaderProperty(recShad, "Receive Shadow");
+            //targetMat.SetInt("_RECEIVE_SHADOWS_OFF", Convert.ToInt16((int)recShad.floatValue));
             //string[] typoTog = new string[] { "On", "Off" };
             //int[] TogInt = new int[] { 1, 0 };
-            //materialEditor.IntPopupShaderProperty(recshad, "Receive Shadows", typoTog, TogInt);
+            //materialEditor.IntPopupShaderProperty(recShad, "Receive Shadows", typoTog, TogInt);
             EditorGUI.indentLevel--;
         }
         EditorGUILayout.EndVertical();
@@ -121,6 +130,62 @@ public class BFoilageEditor : ShaderGUI
             materialEditor.TextureProperty(st, "Specular Texture");
             materialEditor.RangeProperty(si, "Specular Intensity");
             materialEditor.RangeProperty(ss, "Specular Smoothness");
+            EditorGUI.indentLevel--;
+        }
+        EditorGUILayout.EndVertical();
+        EditorGUILayout.Space(1);
+        #endregion
+
+        #region Translucent Settings
+
+        style.normal.background = MakeBackground(1, 1, bdColors.GrayP(18, 204));
+        style.fontSize = 16;
+        style.normal.textColor = bdColors.NexusOrange();
+        EditorGUILayout.BeginVertical(style);
+
+        checkTranslucent = EditorGUILayout.ToggleLeft("TRANSLUCENT SETTINGS", checkTranslucent, style);
+        targetMat.SetInt("_CheckTranslucent", Convert.ToInt16(checkTranslucent));
+
+        EditorGUILayout.EndVertical();
+        style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
+        EditorGUILayout.BeginVertical(style);
+        if(checkTranslucent)
+        {
+            EditorGUI.indentLevel++;
+            EditorGUILayout.Space(2);
+            MaterialProperty transmisTog = ShaderGUI.FindProperty("_TransmisTog", properties);
+            MaterialProperty transmis = ShaderGUI.FindProperty("_Transmission", properties);
+            MaterialProperty transmisCol = ShaderGUI.FindProperty("_TransmissionColor", properties);
+            MaterialProperty transmisShd = ShaderGUI.FindProperty("_TransmissionShadow", properties);
+            MaterialProperty translucTog = ShaderGUI.FindProperty("_TranslucTog", properties);
+            MaterialProperty translucency = ShaderGUI.FindProperty("_Translucency", properties);
+            MaterialProperty translucencyCol = ShaderGUI.FindProperty("_TranslucentColor", properties);
+            MaterialProperty translucencyStrength = ShaderGUI.FindProperty("_TRStrength", properties);
+            MaterialProperty translucencyNormDist = ShaderGUI.FindProperty("_TRNormDist", properties);
+            MaterialProperty translucencySct = ShaderGUI.FindProperty("_TRScattering", properties);
+            MaterialProperty translucencyDirec = ShaderGUI.FindProperty("_TRDirec", properties);
+            MaterialProperty translucencyAmb = ShaderGUI.FindProperty("_TRAmbient", properties);
+            MaterialProperty translucencyShd = ShaderGUI.FindProperty("_TRShadow", properties);
+
+            materialEditor.ShaderProperty(transmisTog, "Transmission");
+            if(transmisTog.floatValue > 0f)
+            {
+                materialEditor.ShaderProperty(transmisCol, "Transmission Color");
+                materialEditor.RangeProperty(transmis, "Transmission");
+                materialEditor.RangeProperty(transmisShd, "Transmission Shadow");
+            }
+            materialEditor.ShaderProperty(translucTog, "Translucent");
+            if(translucTog.floatValue > 0f)
+            {
+                materialEditor.ShaderProperty(translucencyCol, "Translucency Color");
+                materialEditor.RangeProperty(translucency, "Translucency");
+                materialEditor.RangeProperty(translucencyStrength, "Translucency Strength");
+                materialEditor.RangeProperty(translucencyNormDist, "Translucency Normal Distortion");
+                materialEditor.RangeProperty(translucencySct, "Translucency Scattering");
+                materialEditor.RangeProperty(translucencyDirec, "Translucency Direc");
+                materialEditor.RangeProperty(translucencyAmb, "Translucency Ambient");
+                materialEditor.RangeProperty(translucencyShd, "Translucency Shadow");
+            }
             EditorGUI.indentLevel--;
         }
         EditorGUILayout.EndVertical();
@@ -430,6 +495,9 @@ public class BFoilageEditor : ShaderGUI
     {
         tempVar = targetMat.GetInt("_LeavesSpecular");
         checkSpecular = tempVar == 1 ? true : false;
+
+        tempVar = targetMat.GetInt("_CheckTranslucent");
+        checkTranslucent = tempVar == 1 ? true : false;
 
         tempVar = targetMat.GetInt("_CheckBase");
         checkBase = tempVar == 1 ? true : false;
