@@ -1,4 +1,4 @@
-// Made with Amplify Shader Editor v1.9.4.3
+// Made with Amplify Shader Editor v1.9.6
 // Available at the Unity Asset Store - http://u3d.as/y3X 
 Shader "BUDU Shaders/BFoilage"
 {
@@ -7,15 +7,15 @@ Shader "BUDU Shaders/BFoilage"
 		[HideInInspector] _EmissionColor("Emission Color", Color) = (1,1,1,1)
 		[HideInInspector] _AlphaCutoff("Alpha Cutoff ", Range(0, 1)) = 0.5
 		_EffectBlend("EffectBlend", Range( 0 , 1)) = 0
-		_LeavesSpecTexture("Leaves Spec Texture", 2D) = "white" {}
-		_LeavesSpecColor("Leaves Spec Color", Color) = (1,1,1,1)
-		_LeavesColor("Leaves Color", Color) = (0.3193329,0.4654087,0.1653811,1)
+		[NoScaleOffset]_LeavesSpecTexture("Leaves Spec Texture", 2D) = "white" {}
+		_LeavesSpecColor("Leaves Spec Color", Color) = (1,1,1)
+		_LeavesColor("Leaves Color", Color) = (0.3193329,0.4654087,0.1653811)
 		_LeavesSpecIntensity("Leaves Spec Intensity", Range( 0 , 1)) = 1
-		_LeavesTexture("Leaves Texture", 2D) = "white" {}
-		[Header(Normal Controls)][Normal]_NormalMap("Normal Map", 2D) = "bump" {}
+		[NoScaleOffset]_LeavesTexture("Leaves Texture", 2D) = "white" {}
+		[NoScaleOffset][Normal]_NormalMap("Normal Map", 2D) = "bump" {}
 		[Toggle]_Normal("Normal", Float) = 0
 		_NormalScale("Normal Scale", Range( -1 , 1)) = 0.3
-		_LeavesRimColor("Leaves Rim Color", Color) = (0.3124955,0.4842767,0.2695502,1)
+		_LeavesRimColor("Leaves Rim Color", Color) = (0.3124955,0.4842767,0.2695502)
 		_LeavesRimYPosition("Leaves Rim Y Position", Range( 0 , 2)) = 0.5
 		_LeavesRimBias("Leaves Rim Bias", Range( 0 , 1)) = 0
 		_LeavesRimPower("Leaves Rim Power", Range( 0 , 5)) = 3
@@ -52,7 +52,7 @@ Shader "BUDU Shaders/BFoilage"
 		_NoiseFreqA("NoiseFreqA", Float) = 1
 		[HideInInspector]_FoilageSetting("FoilageSetting", Int) = 0
 		[Toggle]_CustomNoiseTypeA("CustomNoiseTypeA", Float) = 0
-		_OverForce("OverForce", Range( 0 , 1)) = 0.25
+		_OverForce("OverForce", Range( 0 , 1)) = 0.5
 		[Toggle]_CustomNoiseTypeB("CustomNoiseTypeB", Float) = 0
 		[HideInInspector]_NoiseAFold("NoiseAFold", Int) = 0
 		[HideInInspector]_NoiseBFold("NoiseBFold", Int) = 0
@@ -61,7 +61,11 @@ Shader "BUDU Shaders/BFoilage"
 		[Toggle]_TypeANeg("TypeANeg", Float) = 0
 		[Toggle]_TypeBNeg("TypeBNeg", Float) = 0
 		[HideInInspector]_ShadowThreshold("ShadowThreshold", Range( 0 , 1)) = 0.5
-		[HideInInspector] _texcoord( "", 2D ) = "white" {}
+		[HideInInspector]_CheckDef("CheckDef", Int) = 0
+		[HideInInspector]_CheckBase("CheckBase", Int) = 0
+		[Toggle]_NoiseTypeA("NoiseTypeA", Float) = 1
+		[Toggle]_NoiseTypeB("NoiseTypeB", Float) = 1
+		_TileSize("TileSize", Range( 1 , 4)) = 1
 
 
 		//_TransmissionShadow( "Transmission Shadow", Range( 0, 1 ) ) = 0.5
@@ -395,21 +399,23 @@ Shader "BUDU Shaders/BFoilage"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _LeavesSpecTexture_ST;
-			float4 _LeavesSpecColor;
-			float4 _LeavesColor;
-			float4 _LeavesRimColor;
-			float4 _NormalMap_ST;
-			int _TextureWrapMode;
+			float3 _LeavesSpecColor;
+			float3 _LeavesRimColor;
+			float3 _LeavesColor;
+			float _TextureRotate;
+			float _SpeedTypeBX;
+			float _SpeedTypeBY;
+			float _TileTypeBX;
+			float _TileTypeBY;
 			float _NoiseFreqB;
 			float _OverForce;
 			float _CardSize;
 			float _Inflate;
 			float _EffectBlend;
-			float _TextureRotate;
+			float _TileSize;
 			float _Normal;
+			float _NormalScale;
 			float _LeavesRim;
-			float _TileTypeBY;
 			float _FresnelInvert;
 			float _LeavesRimBias;
 			float _LeavesRimScale;
@@ -418,21 +424,25 @@ Shader "BUDU Shaders/BFoilage"
 			float _LeavesRimYPosition;
 			float _LeavesSpecular;
 			float _LeavesSpecIntensity;
-			float _NormalScale;
-			float _TileTypeBX;
-			float _SpeedTypeBY;
-			float _SpeedTypeBX;
+			float _CustomNoiseTypeB;
+			float _Smoothness;
+			float _TypeBNeg;
+			float _NoiseTypeB;
+			int _TextureWrapMode;
 			int _FoilageSetting;
 			int _AlphaAntiAliasing;
 			int _NoiseBFold;
 			int _NoiseAFold;
 			float _ShadowThreshold;
+			int _CheckDef;
+			int _CheckBase;
 			float _WindToggle;
 			float _SurfaceFoilage;
 			float _SurfaceFoilageIntensity;
+			float _TypeBIntensity;
 			float _RandomRotate;
-			float _CardRotate;
 			float _WindIntensity;
+			float _NoiseTypeA;
 			float _TypeAIntensity;
 			float _TypeANeg;
 			float _CustomNoiseTypeA;
@@ -442,10 +452,7 @@ Shader "BUDU Shaders/BFoilage"
 			float _TileTypeAX;
 			float _TileTypeAY;
 			float _NoiseFreqA;
-			float _TypeBIntensity;
-			float _TypeBNeg;
-			float _CustomNoiseTypeB;
-			float _Smoothness;
+			float _CardRotate;
 			float _ClipThreshold;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -537,7 +544,7 @@ Shader "BUDU Shaders/BFoilage"
 				float ase_vertexTangentSign = v.tangentOS.w * ( unity_WorldTransformParams.w >= 0.0 ? 1.0 : -1.0 );
 				float3 ase_worldBitangent = cross( ase_worldNormal, ase_worldTangent ) * ase_vertexTangentSign;
 				float3x3 ase_tangentToWorldFast = float3x3(ase_worldTangent.x,ase_worldBitangent.x,ase_worldNormal.x,ase_worldTangent.y,ase_worldBitangent.y,ase_worldNormal.y,ase_worldTangent.z,ase_worldBitangent.z,ase_worldNormal.z);
-				float3 tangentToViewDir133 = normalize( mul( UNITY_MATRIX_V, float4( mul( ase_tangentToWorldFast, float3( temp_output_102_0 ,  0.0 ) ), 0 ) ).xyz );
+				float3 tangentToViewDir133 = mul( UNITY_MATRIX_V, float4( mul( ase_tangentToWorldFast, float3( temp_output_102_0 ,  0.0 ) ), 0 ) ).xyz;
 				float3 lerpResult138 = lerp( float3( temp_output_102_0 ,  0.0 ) , tangentToViewDir133 , _SurfaceFoilageIntensity);
 				float temp_output_103_0 = radians( _CardRotate );
 				float3 temp_cast_4 = (temp_output_103_0).xxx;
@@ -545,35 +552,37 @@ Shader "BUDU Shaders/BFoilage"
 				float cos105 = cos( (( _RandomRotate )?( ( temp_output_103_0 * ase_vertexBitangent ) ):( temp_cast_4 )).x );
 				float sin105 = sin( (( _RandomRotate )?( ( temp_output_103_0 * ase_vertexBitangent ) ):( temp_cast_4 )).x );
 				float2 rotator105 = mul( (( _SurfaceFoilage )?( lerpResult138 ):( float3( temp_output_102_0 ,  0.0 ) )).xy - float2( 0,0 ) , float2x2( cos105 , -sin105 , sin105 , cos105 )) + float2( 0,0 );
-				float3 appendResult106 = (float3(rotator105 , 0.0));
-				float4 temp_cast_8 = (( 1.0 - _TypeAIntensity )).xxxx;
+				float RF_One57 = 1.0;
+				float4 temp_cast_8 = (RF_One57).xxxx;
+				float4 temp_cast_9 = (( 1.0 - _TypeAIntensity )).xxxx;
 				float mulTime75 = _TimeParameters.x * ( _WindSpeed * 0.1 );
-				float3 temp_cast_9 = (mulTime75).xxx;
+				float3 temp_cast_10 = (mulTime75).xxx;
 				float2 appendResult216 = (float2(_SpeedTypeAX , _SpeedTypeAY));
 				float2 appendResult85 = (float2(_TileTypeAX , _TileTypeAY));
 				float3 temp_output_83_0 = ( v.positionOS.xyz + mulTime75 );
 				float3 temp_output_202_0 = saturate( temp_output_83_0 );
 				float2 texCoord84 = v.texcoord.xy * appendResult85 + temp_output_202_0.xy;
-				float2 panner88 = ( ( v.positionOS.xyz - temp_cast_9 ).x * appendResult216 + texCoord84);
+				float2 panner88 = ( ( v.positionOS.xyz - temp_cast_10 ).x * appendResult216 + texCoord84);
 				float simplePerlin2D163 = snoise( panner88*_NoiseFreqA );
-				float4 temp_cast_12 = (simplePerlin2D163).xxxx;
 				float4 temp_cast_13 = (simplePerlin2D163).xxxx;
-				float4 temp_cast_14 = (( 1.0 - _TypeBIntensity )).xxxx;
+				float4 temp_cast_14 = (simplePerlin2D163).xxxx;
+				float4 temp_cast_15 = (RF_One57).xxxx;
+				float4 temp_cast_16 = (( 1.0 - _TypeBIntensity )).xxxx;
 				float2 appendResult219 = (float2(_SpeedTypeBX , _SpeedTypeBY));
 				float2 appendResult87 = (float2(_TileTypeBX , _TileTypeBY));
 				float2 texCoord86 = v.texcoord.xy * appendResult87 + temp_output_202_0.xy;
 				float2 panner89 = ( temp_output_83_0.x * appendResult219 + texCoord86);
 				float simplePerlin2D166 = snoise( panner89*_NoiseFreqB );
-				float4 temp_cast_17 = (simplePerlin2D166).xxxx;
-				float4 temp_cast_18 = (simplePerlin2D166).xxxx;
-				float4 temp_cast_19 = (0.0).xxxx;
-				float4 temp_cast_20 = (1.0).xxxx;
-				float4 temp_cast_21 = (0.1).xxxx;
-				float4 temp_cast_22 = (_OverForce).xxxx;
-				float4 FoilageWind104 = (temp_cast_21 + (( (0.0 + (_WindIntensity - 0.0) * (4.0 - 0.0) / (1.0 - 0.0)) * ( ( temp_cast_8 - ( (( _TypeANeg )?( -(( _CustomNoiseTypeA )?( pow( tex2Dlod( _NoiseTxtA, float4( panner88, 0, 0.0) ) , 1.0 ) ):( temp_cast_13 )) ):( (( _CustomNoiseTypeA )?( pow( tex2Dlod( _NoiseTxtA, float4( panner88, 0, 0.0) ) , 1.0 ) ):( temp_cast_12 )) )) * _TypeAIntensity ) ) * ( temp_cast_14 - ( (( _TypeBNeg )?( -(( _CustomNoiseTypeB )?( pow( tex2Dlod( _NoiseTxtB, float4( panner89, 0, 0.0) ) , 1.0 ) ):( temp_cast_18 )) ):( (( _CustomNoiseTypeB )?( pow( tex2Dlod( _NoiseTxtB, float4( panner89, 0, 0.0) ) , 1.0 ) ):( temp_cast_17 )) )) * _TypeBIntensity ) ) ) ) - temp_cast_19) * (temp_cast_22 - temp_cast_21) / (temp_cast_20 - temp_cast_19));
-				float4 normalizeResult115 = ASESafeNormalize( mul( mul( (( _WindToggle )?( ( float4( appendResult106 , 0.0 ) + FoilageWind104 ) ):( float4( appendResult106 , 0.0 ) )), UNITY_MATRIX_V ), GetObjectToWorldMatrix() ) );
+				float4 temp_cast_19 = (simplePerlin2D166).xxxx;
+				float4 temp_cast_20 = (simplePerlin2D166).xxxx;
+				float4 temp_cast_21 = (0.0).xxxx;
+				float4 temp_cast_22 = (1.0).xxxx;
+				float4 temp_cast_23 = (0.1).xxxx;
+				float4 temp_cast_24 = ((0.001 + (_OverForce - 0.0) * (0.2 - 0.001) / (1.0 - 0.0))).xxxx;
+				float4 RF_FoilageWind104 = (temp_cast_23 + (( (0.0 + (_WindIntensity - 0.0) * (4.0 - 0.0) / (1.0 - 0.0)) * ( saturate( (( _NoiseTypeA )?( ( temp_cast_9 - ( (( _TypeANeg )?( -(( _CustomNoiseTypeA )?( pow( tex2Dlod( _NoiseTxtA, float4( panner88, 0, 0.0) ) , 1.0 ) ):( temp_cast_14 )) ):( (( _CustomNoiseTypeA )?( pow( tex2Dlod( _NoiseTxtA, float4( panner88, 0, 0.0) ) , 1.0 ) ):( temp_cast_13 )) )) * _TypeAIntensity ) ) ):( temp_cast_8 )) ) * saturate( (( _NoiseTypeB )?( ( temp_cast_16 - ( (( _TypeBNeg )?( -(( _CustomNoiseTypeB )?( pow( tex2Dlod( _NoiseTxtB, float4( panner89, 0, 0.0) ) , 1.0 ) ):( temp_cast_20 )) ):( (( _CustomNoiseTypeB )?( pow( tex2Dlod( _NoiseTxtB, float4( panner89, 0, 0.0) ) , 1.0 ) ):( temp_cast_19 )) )) * _TypeBIntensity ) ) ):( temp_cast_15 )) ) ) ) - temp_cast_21) * (temp_cast_24 - temp_cast_23) / (temp_cast_22 - temp_cast_21));
+				float4 normalizeResult115 = ASESafeNormalize( mul( mul( (( _WindToggle )?( ( float4( rotator105, 0.0 , 0.0 ) + saturate( RF_FoilageWind104 ) ) ):( float4( rotator105, 0.0 , 0.0 ) )), UNITY_MATRIX_V ), GetObjectToWorldMatrix() ) );
 				float4 lerpResult123 = lerp( float4( 0,0,0,0 ) , ( ( normalizeResult115 * _CardSize ) + float4( ( v.normalOS * (0.0 + (_Inflate - -1.0) * (1.0 - 0.0) / (1.0 - -1.0)) ) , 0.0 ) ) , _EffectBlend);
-				float4 Foilage124 = lerpResult123;
+				float4 RF_Foilage124 = lerpResult123;
 				
 				o.ase_texcoord8.xy = v.texcoord.xy;
 				o.ase_texcoord9 = v.positionOS;
@@ -587,7 +596,7 @@ Shader "BUDU Shaders/BFoilage"
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
 
-				float3 vertexValue = Foilage124.rgb;
+				float3 vertexValue = RF_Foilage124.rgb;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.positionOS.xyz = vertexValue;
@@ -775,51 +784,48 @@ Shader "BUDU Shaders/BFoilage"
 
 				WorldViewDirection = SafeNormalize( WorldViewDirection );
 
-				float2 texCoord146 = IN.ase_texcoord8.xy * float2( 1,1 ) + float2( 0,0 );
-				float cos143 = cos( radians( _TextureRotate ) );
-				float sin143 = sin( radians( _TextureRotate ) );
-				float2 rotator143 = mul( texCoord146 - float2( 0.5,0.5 ) , float2x2( cos143 , -sin143 , sin143 , cos143 )) + float2( 0.5,0.5 );
-				float4 tex2DNode21 = tex2D( _LeavesTexture, rotator143 );
-				float4 lerpResult18 = lerp( _LeavesColor , ( _LeavesColor * tex2DNode21 ) , float4( 0.5,0.5,0.5,1 ));
-				float4 LeavesAlbedo22 = lerpResult18;
+				float2 appendResult314 = (float2(_TileSize , _TileSize));
+				float2 texCoord146 = IN.ase_texcoord8.xy * appendResult314 + float2( 0,0 );
+				float2 RF_LeafUV315 = texCoord146;
+				float4 tex2DNode21 = tex2D( _LeavesTexture, RF_LeafUV315 );
+				float4 lerpResult18 = lerp( float4( _LeavesColor , 0.0 ) , ( float4( _LeavesColor , 0.0 ) * tex2DNode21 ) , float4( 0.5,0.5,0.5,1 ));
+				float4 RF_LeavesAlbedo22 = lerpResult18;
 				
 				float2 temp_output_1_0_g142 = float2( 0,0 );
 				float dotResult4_g142 = dot( temp_output_1_0_g142 , temp_output_1_0_g142 );
 				float3 appendResult10_g142 = (float3((temp_output_1_0_g142).x , (temp_output_1_0_g142).y , sqrt( ( 1.0 - saturate( dotResult4_g142 ) ) )));
 				float3 normalizeResult12_g142 = normalize( appendResult10_g142 );
-				float2 uv_NormalMap = IN.ase_texcoord8.xy * _NormalMap_ST.xy + _NormalMap_ST.zw;
-				float3 unpack28 = UnpackNormalScale( tex2D( _NormalMap, uv_NormalMap ), _NormalScale );
+				float3 unpack28 = UnpackNormalScale( tex2D( _NormalMap, RF_LeafUV315 ), _NormalScale );
 				unpack28.z = lerp( 1, unpack28.z, saturate(_NormalScale) );
-				float3 NewObjectNormal27 = (( _Normal )?( unpack28 ):( normalizeResult12_g142 ));
+				float3 RF_NewObjectNormal27 = (( _Normal )?( unpack28 ):( normalizeResult12_g142 ));
 				
-				float Zero59 = 0.0;
-				float4 temp_cast_1 = (Zero59).xxxx;
+				float RF_Zero59 = 0.0;
+				float3 temp_cast_3 = (RF_Zero59).xxx;
 				float3 tanToWorld0 = float3( WorldTangent.x, WorldBiTangent.x, WorldNormal.x );
 				float3 tanToWorld1 = float3( WorldTangent.y, WorldBiTangent.y, WorldNormal.y );
 				float3 tanToWorld2 = float3( WorldTangent.z, WorldBiTangent.z, WorldNormal.z );
 				float3 tanNormal32 = (( _Normal )?( unpack28 ):( normalizeResult12_g142 ));
 				float3 worldNormal32 = normalize( float3(dot(tanToWorld0,tanNormal32), dot(tanToWorld1,tanNormal32), dot(tanToWorld2,tanNormal32)) );
-				float3 NewNormals26 = worldNormal32;
-				float fresnelNdotV40 = dot( normalize( NewNormals26 ), WorldViewDirection );
+				float3 RF_NewNormals26 = worldNormal32;
+				float fresnelNdotV40 = dot( normalize( RF_NewNormals26 ), WorldViewDirection );
 				float fresnelNode40 = ( _LeavesRimBias + _LeavesRimScale * pow( max( 1.0 - fresnelNdotV40 , 0.0001 ), _LeavesRimPower ) );
-				float4 temp_cast_2 = (IN.ase_texcoord9.xyz.y).xxxx;
-				float4 LeavesRimR36 = (( _LeavesRim )?( ( _LeavesRimColor * saturate( (( _FresnelInvert )?( ( 1.0 - fresnelNode40 ) ):( fresnelNode40 )) ) * saturate( ( (0.0 + (CalculateContrast(_LeavesRimYContrast,temp_cast_2).g - -1.0) * (1.0 - 0.0) / (1.0 - -1.0)) * _LeavesRimYPosition ) ) * _LeavesRimColor.a ) ):( temp_cast_1 ));
+				float4 temp_cast_4 = (IN.ase_texcoord9.xyz.y).xxxx;
+				float3 RF_LeavesRim36 = (( _LeavesRim )?( ( _LeavesRimColor * saturate( (( _FresnelInvert )?( ( 1.0 - fresnelNode40 ) ):( fresnelNode40 )) ) * saturate( ( (0.0 + (CalculateContrast(_LeavesRimYContrast,temp_cast_4).g - -1.0) * (1.0 - 0.0) / (1.0 - -1.0)) * _LeavesRimYPosition ) ) ) ):( temp_cast_3 ));
 				
-				float4 temp_cast_4 = (Zero59).xxxx;
-				float2 uv_LeavesSpecTexture = IN.ase_texcoord8.xy * _LeavesSpecTexture_ST.xy + _LeavesSpecTexture_ST.zw;
-				float4 LeavesSpecularR15 = (( _LeavesSpecular )?( ( _LeavesSpecColor * tex2D( _LeavesSpecTexture, uv_LeavesSpecTexture ) * _LeavesSpecIntensity ) ):( temp_cast_4 ));
+				float3 temp_cast_5 = (RF_Zero59).xxx;
+				float3 RF_LeavesSpecular15 = (( _LeavesSpecular )?( ( _LeavesSpecColor * tex2D( _LeavesSpecTexture, RF_LeafUV315 ).rgb * _LeavesSpecIntensity ) ):( temp_cast_5 ));
 				
-				float4 LeavesTextureR65 = tex2DNode21;
+				float4 RF_LeavesTexture65 = tex2DNode21;
 				
 
-				float3 BaseColor = LeavesAlbedo22.rgb;
-				float3 Normal = NewObjectNormal27;
-				float3 Emission = LeavesRimR36.rgb;
-				float3 Specular = LeavesSpecularR15.rgb;
+				float3 BaseColor = RF_LeavesAlbedo22.rgb;
+				float3 Normal = RF_NewObjectNormal27;
+				float3 Emission = RF_LeavesRim36;
+				float3 Specular = RF_LeavesSpecular15;
 				float Metallic = 0;
 				float Smoothness = _Smoothness;
 				float Occlusion = 1;
-				float Alpha = LeavesTextureR65.r;
+				float Alpha = RF_LeavesTexture65.r;
 				float AlphaClipThreshold = (0.0001 + (_ClipThreshold - 0.0) * (1.0 - 0.0001) / (1.0 - 0.0));
 				float AlphaClipThresholdShadow = 0.5;
 				float3 BakedGI = 0;
@@ -1163,21 +1169,23 @@ Shader "BUDU Shaders/BFoilage"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _LeavesSpecTexture_ST;
-			float4 _LeavesSpecColor;
-			float4 _LeavesColor;
-			float4 _LeavesRimColor;
-			float4 _NormalMap_ST;
-			int _TextureWrapMode;
+			float3 _LeavesSpecColor;
+			float3 _LeavesRimColor;
+			float3 _LeavesColor;
+			float _TextureRotate;
+			float _SpeedTypeBX;
+			float _SpeedTypeBY;
+			float _TileTypeBX;
+			float _TileTypeBY;
 			float _NoiseFreqB;
 			float _OverForce;
 			float _CardSize;
 			float _Inflate;
 			float _EffectBlend;
-			float _TextureRotate;
+			float _TileSize;
 			float _Normal;
+			float _NormalScale;
 			float _LeavesRim;
-			float _TileTypeBY;
 			float _FresnelInvert;
 			float _LeavesRimBias;
 			float _LeavesRimScale;
@@ -1186,21 +1194,25 @@ Shader "BUDU Shaders/BFoilage"
 			float _LeavesRimYPosition;
 			float _LeavesSpecular;
 			float _LeavesSpecIntensity;
-			float _NormalScale;
-			float _TileTypeBX;
-			float _SpeedTypeBY;
-			float _SpeedTypeBX;
+			float _CustomNoiseTypeB;
+			float _Smoothness;
+			float _TypeBNeg;
+			float _NoiseTypeB;
+			int _TextureWrapMode;
 			int _FoilageSetting;
 			int _AlphaAntiAliasing;
 			int _NoiseBFold;
 			int _NoiseAFold;
 			float _ShadowThreshold;
+			int _CheckDef;
+			int _CheckBase;
 			float _WindToggle;
 			float _SurfaceFoilage;
 			float _SurfaceFoilageIntensity;
+			float _TypeBIntensity;
 			float _RandomRotate;
-			float _CardRotate;
 			float _WindIntensity;
+			float _NoiseTypeA;
 			float _TypeAIntensity;
 			float _TypeANeg;
 			float _CustomNoiseTypeA;
@@ -1210,10 +1222,7 @@ Shader "BUDU Shaders/BFoilage"
 			float _TileTypeAX;
 			float _TileTypeAY;
 			float _NoiseFreqA;
-			float _TypeBIntensity;
-			float _TypeBNeg;
-			float _CustomNoiseTypeB;
-			float _Smoothness;
+			float _CardRotate;
 			float _ClipThreshold;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -1301,7 +1310,7 @@ Shader "BUDU Shaders/BFoilage"
 				float ase_vertexTangentSign = v.ase_tangent.w * ( unity_WorldTransformParams.w >= 0.0 ? 1.0 : -1.0 );
 				float3 ase_worldBitangent = cross( ase_worldNormal, ase_worldTangent ) * ase_vertexTangentSign;
 				float3x3 ase_tangentToWorldFast = float3x3(ase_worldTangent.x,ase_worldBitangent.x,ase_worldNormal.x,ase_worldTangent.y,ase_worldBitangent.y,ase_worldNormal.y,ase_worldTangent.z,ase_worldBitangent.z,ase_worldNormal.z);
-				float3 tangentToViewDir133 = normalize( mul( UNITY_MATRIX_V, float4( mul( ase_tangentToWorldFast, float3( temp_output_102_0 ,  0.0 ) ), 0 ) ).xyz );
+				float3 tangentToViewDir133 = mul( UNITY_MATRIX_V, float4( mul( ase_tangentToWorldFast, float3( temp_output_102_0 ,  0.0 ) ), 0 ) ).xyz;
 				float3 lerpResult138 = lerp( float3( temp_output_102_0 ,  0.0 ) , tangentToViewDir133 , _SurfaceFoilageIntensity);
 				float temp_output_103_0 = radians( _CardRotate );
 				float3 temp_cast_4 = (temp_output_103_0).xxx;
@@ -1309,35 +1318,37 @@ Shader "BUDU Shaders/BFoilage"
 				float cos105 = cos( (( _RandomRotate )?( ( temp_output_103_0 * ase_vertexBitangent ) ):( temp_cast_4 )).x );
 				float sin105 = sin( (( _RandomRotate )?( ( temp_output_103_0 * ase_vertexBitangent ) ):( temp_cast_4 )).x );
 				float2 rotator105 = mul( (( _SurfaceFoilage )?( lerpResult138 ):( float3( temp_output_102_0 ,  0.0 ) )).xy - float2( 0,0 ) , float2x2( cos105 , -sin105 , sin105 , cos105 )) + float2( 0,0 );
-				float3 appendResult106 = (float3(rotator105 , 0.0));
-				float4 temp_cast_8 = (( 1.0 - _TypeAIntensity )).xxxx;
+				float RF_One57 = 1.0;
+				float4 temp_cast_8 = (RF_One57).xxxx;
+				float4 temp_cast_9 = (( 1.0 - _TypeAIntensity )).xxxx;
 				float mulTime75 = _TimeParameters.x * ( _WindSpeed * 0.1 );
-				float3 temp_cast_9 = (mulTime75).xxx;
+				float3 temp_cast_10 = (mulTime75).xxx;
 				float2 appendResult216 = (float2(_SpeedTypeAX , _SpeedTypeAY));
 				float2 appendResult85 = (float2(_TileTypeAX , _TileTypeAY));
 				float3 temp_output_83_0 = ( v.positionOS.xyz + mulTime75 );
 				float3 temp_output_202_0 = saturate( temp_output_83_0 );
 				float2 texCoord84 = v.ase_texcoord.xy * appendResult85 + temp_output_202_0.xy;
-				float2 panner88 = ( ( v.positionOS.xyz - temp_cast_9 ).x * appendResult216 + texCoord84);
+				float2 panner88 = ( ( v.positionOS.xyz - temp_cast_10 ).x * appendResult216 + texCoord84);
 				float simplePerlin2D163 = snoise( panner88*_NoiseFreqA );
-				float4 temp_cast_12 = (simplePerlin2D163).xxxx;
 				float4 temp_cast_13 = (simplePerlin2D163).xxxx;
-				float4 temp_cast_14 = (( 1.0 - _TypeBIntensity )).xxxx;
+				float4 temp_cast_14 = (simplePerlin2D163).xxxx;
+				float4 temp_cast_15 = (RF_One57).xxxx;
+				float4 temp_cast_16 = (( 1.0 - _TypeBIntensity )).xxxx;
 				float2 appendResult219 = (float2(_SpeedTypeBX , _SpeedTypeBY));
 				float2 appendResult87 = (float2(_TileTypeBX , _TileTypeBY));
 				float2 texCoord86 = v.ase_texcoord.xy * appendResult87 + temp_output_202_0.xy;
 				float2 panner89 = ( temp_output_83_0.x * appendResult219 + texCoord86);
 				float simplePerlin2D166 = snoise( panner89*_NoiseFreqB );
-				float4 temp_cast_17 = (simplePerlin2D166).xxxx;
-				float4 temp_cast_18 = (simplePerlin2D166).xxxx;
-				float4 temp_cast_19 = (0.0).xxxx;
-				float4 temp_cast_20 = (1.0).xxxx;
-				float4 temp_cast_21 = (0.1).xxxx;
-				float4 temp_cast_22 = (_OverForce).xxxx;
-				float4 FoilageWind104 = (temp_cast_21 + (( (0.0 + (_WindIntensity - 0.0) * (4.0 - 0.0) / (1.0 - 0.0)) * ( ( temp_cast_8 - ( (( _TypeANeg )?( -(( _CustomNoiseTypeA )?( pow( tex2Dlod( _NoiseTxtA, float4( panner88, 0, 0.0) ) , 1.0 ) ):( temp_cast_13 )) ):( (( _CustomNoiseTypeA )?( pow( tex2Dlod( _NoiseTxtA, float4( panner88, 0, 0.0) ) , 1.0 ) ):( temp_cast_12 )) )) * _TypeAIntensity ) ) * ( temp_cast_14 - ( (( _TypeBNeg )?( -(( _CustomNoiseTypeB )?( pow( tex2Dlod( _NoiseTxtB, float4( panner89, 0, 0.0) ) , 1.0 ) ):( temp_cast_18 )) ):( (( _CustomNoiseTypeB )?( pow( tex2Dlod( _NoiseTxtB, float4( panner89, 0, 0.0) ) , 1.0 ) ):( temp_cast_17 )) )) * _TypeBIntensity ) ) ) ) - temp_cast_19) * (temp_cast_22 - temp_cast_21) / (temp_cast_20 - temp_cast_19));
-				float4 normalizeResult115 = ASESafeNormalize( mul( mul( (( _WindToggle )?( ( float4( appendResult106 , 0.0 ) + FoilageWind104 ) ):( float4( appendResult106 , 0.0 ) )), UNITY_MATRIX_V ), GetObjectToWorldMatrix() ) );
+				float4 temp_cast_19 = (simplePerlin2D166).xxxx;
+				float4 temp_cast_20 = (simplePerlin2D166).xxxx;
+				float4 temp_cast_21 = (0.0).xxxx;
+				float4 temp_cast_22 = (1.0).xxxx;
+				float4 temp_cast_23 = (0.1).xxxx;
+				float4 temp_cast_24 = ((0.001 + (_OverForce - 0.0) * (0.2 - 0.001) / (1.0 - 0.0))).xxxx;
+				float4 RF_FoilageWind104 = (temp_cast_23 + (( (0.0 + (_WindIntensity - 0.0) * (4.0 - 0.0) / (1.0 - 0.0)) * ( saturate( (( _NoiseTypeA )?( ( temp_cast_9 - ( (( _TypeANeg )?( -(( _CustomNoiseTypeA )?( pow( tex2Dlod( _NoiseTxtA, float4( panner88, 0, 0.0) ) , 1.0 ) ):( temp_cast_14 )) ):( (( _CustomNoiseTypeA )?( pow( tex2Dlod( _NoiseTxtA, float4( panner88, 0, 0.0) ) , 1.0 ) ):( temp_cast_13 )) )) * _TypeAIntensity ) ) ):( temp_cast_8 )) ) * saturate( (( _NoiseTypeB )?( ( temp_cast_16 - ( (( _TypeBNeg )?( -(( _CustomNoiseTypeB )?( pow( tex2Dlod( _NoiseTxtB, float4( panner89, 0, 0.0) ) , 1.0 ) ):( temp_cast_20 )) ):( (( _CustomNoiseTypeB )?( pow( tex2Dlod( _NoiseTxtB, float4( panner89, 0, 0.0) ) , 1.0 ) ):( temp_cast_19 )) )) * _TypeBIntensity ) ) ):( temp_cast_15 )) ) ) ) - temp_cast_21) * (temp_cast_24 - temp_cast_23) / (temp_cast_22 - temp_cast_21));
+				float4 normalizeResult115 = ASESafeNormalize( mul( mul( (( _WindToggle )?( ( float4( rotator105, 0.0 , 0.0 ) + saturate( RF_FoilageWind104 ) ) ):( float4( rotator105, 0.0 , 0.0 ) )), UNITY_MATRIX_V ), GetObjectToWorldMatrix() ) );
 				float4 lerpResult123 = lerp( float4( 0,0,0,0 ) , ( ( normalizeResult115 * _CardSize ) + float4( ( v.normalOS * (0.0 + (_Inflate - -1.0) * (1.0 - 0.0) / (1.0 - -1.0)) ) , 0.0 ) ) , _EffectBlend);
-				float4 Foilage124 = lerpResult123;
+				float4 RF_Foilage124 = lerpResult123;
 				
 				o.ase_texcoord3.xy = v.ase_texcoord.xy;
 				
@@ -1350,7 +1361,7 @@ Shader "BUDU Shaders/BFoilage"
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
 
-				float3 vertexValue = Foilage124.rgb;
+				float3 vertexValue = RF_Foilage124.rgb;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.positionOS.xyz = vertexValue;
 				#else
@@ -1501,15 +1512,14 @@ Shader "BUDU Shaders/BFoilage"
 					#endif
 				#endif
 
-				float2 texCoord146 = IN.ase_texcoord3.xy * float2( 1,1 ) + float2( 0,0 );
-				float cos143 = cos( radians( _TextureRotate ) );
-				float sin143 = sin( radians( _TextureRotate ) );
-				float2 rotator143 = mul( texCoord146 - float2( 0.5,0.5 ) , float2x2( cos143 , -sin143 , sin143 , cos143 )) + float2( 0.5,0.5 );
-				float4 tex2DNode21 = tex2D( _LeavesTexture, rotator143 );
-				float4 LeavesTextureR65 = tex2DNode21;
+				float2 appendResult314 = (float2(_TileSize , _TileSize));
+				float2 texCoord146 = IN.ase_texcoord3.xy * appendResult314 + float2( 0,0 );
+				float2 RF_LeafUV315 = texCoord146;
+				float4 tex2DNode21 = tex2D( _LeavesTexture, RF_LeafUV315 );
+				float4 RF_LeavesTexture65 = tex2DNode21;
 				
 
-				float Alpha = LeavesTextureR65.r;
+				float Alpha = RF_LeavesTexture65.r;
 				float AlphaClipThreshold = (0.0001 + (_ClipThreshold - 0.0) * (1.0 - 0.0001) / (1.0 - 0.0));
 				float AlphaClipThresholdShadow = 0.5;
 
@@ -1643,21 +1653,23 @@ Shader "BUDU Shaders/BFoilage"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _LeavesSpecTexture_ST;
-			float4 _LeavesSpecColor;
-			float4 _LeavesColor;
-			float4 _LeavesRimColor;
-			float4 _NormalMap_ST;
-			int _TextureWrapMode;
+			float3 _LeavesSpecColor;
+			float3 _LeavesRimColor;
+			float3 _LeavesColor;
+			float _TextureRotate;
+			float _SpeedTypeBX;
+			float _SpeedTypeBY;
+			float _TileTypeBX;
+			float _TileTypeBY;
 			float _NoiseFreqB;
 			float _OverForce;
 			float _CardSize;
 			float _Inflate;
 			float _EffectBlend;
-			float _TextureRotate;
+			float _TileSize;
 			float _Normal;
+			float _NormalScale;
 			float _LeavesRim;
-			float _TileTypeBY;
 			float _FresnelInvert;
 			float _LeavesRimBias;
 			float _LeavesRimScale;
@@ -1666,21 +1678,25 @@ Shader "BUDU Shaders/BFoilage"
 			float _LeavesRimYPosition;
 			float _LeavesSpecular;
 			float _LeavesSpecIntensity;
-			float _NormalScale;
-			float _TileTypeBX;
-			float _SpeedTypeBY;
-			float _SpeedTypeBX;
+			float _CustomNoiseTypeB;
+			float _Smoothness;
+			float _TypeBNeg;
+			float _NoiseTypeB;
+			int _TextureWrapMode;
 			int _FoilageSetting;
 			int _AlphaAntiAliasing;
 			int _NoiseBFold;
 			int _NoiseAFold;
 			float _ShadowThreshold;
+			int _CheckDef;
+			int _CheckBase;
 			float _WindToggle;
 			float _SurfaceFoilage;
 			float _SurfaceFoilageIntensity;
+			float _TypeBIntensity;
 			float _RandomRotate;
-			float _CardRotate;
 			float _WindIntensity;
+			float _NoiseTypeA;
 			float _TypeAIntensity;
 			float _TypeANeg;
 			float _CustomNoiseTypeA;
@@ -1690,10 +1706,7 @@ Shader "BUDU Shaders/BFoilage"
 			float _TileTypeAX;
 			float _TileTypeAY;
 			float _NoiseFreqA;
-			float _TypeBIntensity;
-			float _TypeBNeg;
-			float _CustomNoiseTypeB;
-			float _Smoothness;
+			float _CardRotate;
 			float _ClipThreshold;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -1778,7 +1791,7 @@ Shader "BUDU Shaders/BFoilage"
 				float ase_vertexTangentSign = v.ase_tangent.w * ( unity_WorldTransformParams.w >= 0.0 ? 1.0 : -1.0 );
 				float3 ase_worldBitangent = cross( ase_worldNormal, ase_worldTangent ) * ase_vertexTangentSign;
 				float3x3 ase_tangentToWorldFast = float3x3(ase_worldTangent.x,ase_worldBitangent.x,ase_worldNormal.x,ase_worldTangent.y,ase_worldBitangent.y,ase_worldNormal.y,ase_worldTangent.z,ase_worldBitangent.z,ase_worldNormal.z);
-				float3 tangentToViewDir133 = normalize( mul( UNITY_MATRIX_V, float4( mul( ase_tangentToWorldFast, float3( temp_output_102_0 ,  0.0 ) ), 0 ) ).xyz );
+				float3 tangentToViewDir133 = mul( UNITY_MATRIX_V, float4( mul( ase_tangentToWorldFast, float3( temp_output_102_0 ,  0.0 ) ), 0 ) ).xyz;
 				float3 lerpResult138 = lerp( float3( temp_output_102_0 ,  0.0 ) , tangentToViewDir133 , _SurfaceFoilageIntensity);
 				float temp_output_103_0 = radians( _CardRotate );
 				float3 temp_cast_4 = (temp_output_103_0).xxx;
@@ -1786,35 +1799,37 @@ Shader "BUDU Shaders/BFoilage"
 				float cos105 = cos( (( _RandomRotate )?( ( temp_output_103_0 * ase_vertexBitangent ) ):( temp_cast_4 )).x );
 				float sin105 = sin( (( _RandomRotate )?( ( temp_output_103_0 * ase_vertexBitangent ) ):( temp_cast_4 )).x );
 				float2 rotator105 = mul( (( _SurfaceFoilage )?( lerpResult138 ):( float3( temp_output_102_0 ,  0.0 ) )).xy - float2( 0,0 ) , float2x2( cos105 , -sin105 , sin105 , cos105 )) + float2( 0,0 );
-				float3 appendResult106 = (float3(rotator105 , 0.0));
-				float4 temp_cast_8 = (( 1.0 - _TypeAIntensity )).xxxx;
+				float RF_One57 = 1.0;
+				float4 temp_cast_8 = (RF_One57).xxxx;
+				float4 temp_cast_9 = (( 1.0 - _TypeAIntensity )).xxxx;
 				float mulTime75 = _TimeParameters.x * ( _WindSpeed * 0.1 );
-				float3 temp_cast_9 = (mulTime75).xxx;
+				float3 temp_cast_10 = (mulTime75).xxx;
 				float2 appendResult216 = (float2(_SpeedTypeAX , _SpeedTypeAY));
 				float2 appendResult85 = (float2(_TileTypeAX , _TileTypeAY));
 				float3 temp_output_83_0 = ( v.positionOS.xyz + mulTime75 );
 				float3 temp_output_202_0 = saturate( temp_output_83_0 );
 				float2 texCoord84 = v.ase_texcoord.xy * appendResult85 + temp_output_202_0.xy;
-				float2 panner88 = ( ( v.positionOS.xyz - temp_cast_9 ).x * appendResult216 + texCoord84);
+				float2 panner88 = ( ( v.positionOS.xyz - temp_cast_10 ).x * appendResult216 + texCoord84);
 				float simplePerlin2D163 = snoise( panner88*_NoiseFreqA );
-				float4 temp_cast_12 = (simplePerlin2D163).xxxx;
 				float4 temp_cast_13 = (simplePerlin2D163).xxxx;
-				float4 temp_cast_14 = (( 1.0 - _TypeBIntensity )).xxxx;
+				float4 temp_cast_14 = (simplePerlin2D163).xxxx;
+				float4 temp_cast_15 = (RF_One57).xxxx;
+				float4 temp_cast_16 = (( 1.0 - _TypeBIntensity )).xxxx;
 				float2 appendResult219 = (float2(_SpeedTypeBX , _SpeedTypeBY));
 				float2 appendResult87 = (float2(_TileTypeBX , _TileTypeBY));
 				float2 texCoord86 = v.ase_texcoord.xy * appendResult87 + temp_output_202_0.xy;
 				float2 panner89 = ( temp_output_83_0.x * appendResult219 + texCoord86);
 				float simplePerlin2D166 = snoise( panner89*_NoiseFreqB );
-				float4 temp_cast_17 = (simplePerlin2D166).xxxx;
-				float4 temp_cast_18 = (simplePerlin2D166).xxxx;
-				float4 temp_cast_19 = (0.0).xxxx;
-				float4 temp_cast_20 = (1.0).xxxx;
-				float4 temp_cast_21 = (0.1).xxxx;
-				float4 temp_cast_22 = (_OverForce).xxxx;
-				float4 FoilageWind104 = (temp_cast_21 + (( (0.0 + (_WindIntensity - 0.0) * (4.0 - 0.0) / (1.0 - 0.0)) * ( ( temp_cast_8 - ( (( _TypeANeg )?( -(( _CustomNoiseTypeA )?( pow( tex2Dlod( _NoiseTxtA, float4( panner88, 0, 0.0) ) , 1.0 ) ):( temp_cast_13 )) ):( (( _CustomNoiseTypeA )?( pow( tex2Dlod( _NoiseTxtA, float4( panner88, 0, 0.0) ) , 1.0 ) ):( temp_cast_12 )) )) * _TypeAIntensity ) ) * ( temp_cast_14 - ( (( _TypeBNeg )?( -(( _CustomNoiseTypeB )?( pow( tex2Dlod( _NoiseTxtB, float4( panner89, 0, 0.0) ) , 1.0 ) ):( temp_cast_18 )) ):( (( _CustomNoiseTypeB )?( pow( tex2Dlod( _NoiseTxtB, float4( panner89, 0, 0.0) ) , 1.0 ) ):( temp_cast_17 )) )) * _TypeBIntensity ) ) ) ) - temp_cast_19) * (temp_cast_22 - temp_cast_21) / (temp_cast_20 - temp_cast_19));
-				float4 normalizeResult115 = ASESafeNormalize( mul( mul( (( _WindToggle )?( ( float4( appendResult106 , 0.0 ) + FoilageWind104 ) ):( float4( appendResult106 , 0.0 ) )), UNITY_MATRIX_V ), GetObjectToWorldMatrix() ) );
+				float4 temp_cast_19 = (simplePerlin2D166).xxxx;
+				float4 temp_cast_20 = (simplePerlin2D166).xxxx;
+				float4 temp_cast_21 = (0.0).xxxx;
+				float4 temp_cast_22 = (1.0).xxxx;
+				float4 temp_cast_23 = (0.1).xxxx;
+				float4 temp_cast_24 = ((0.001 + (_OverForce - 0.0) * (0.2 - 0.001) / (1.0 - 0.0))).xxxx;
+				float4 RF_FoilageWind104 = (temp_cast_23 + (( (0.0 + (_WindIntensity - 0.0) * (4.0 - 0.0) / (1.0 - 0.0)) * ( saturate( (( _NoiseTypeA )?( ( temp_cast_9 - ( (( _TypeANeg )?( -(( _CustomNoiseTypeA )?( pow( tex2Dlod( _NoiseTxtA, float4( panner88, 0, 0.0) ) , 1.0 ) ):( temp_cast_14 )) ):( (( _CustomNoiseTypeA )?( pow( tex2Dlod( _NoiseTxtA, float4( panner88, 0, 0.0) ) , 1.0 ) ):( temp_cast_13 )) )) * _TypeAIntensity ) ) ):( temp_cast_8 )) ) * saturate( (( _NoiseTypeB )?( ( temp_cast_16 - ( (( _TypeBNeg )?( -(( _CustomNoiseTypeB )?( pow( tex2Dlod( _NoiseTxtB, float4( panner89, 0, 0.0) ) , 1.0 ) ):( temp_cast_20 )) ):( (( _CustomNoiseTypeB )?( pow( tex2Dlod( _NoiseTxtB, float4( panner89, 0, 0.0) ) , 1.0 ) ):( temp_cast_19 )) )) * _TypeBIntensity ) ) ):( temp_cast_15 )) ) ) ) - temp_cast_21) * (temp_cast_24 - temp_cast_23) / (temp_cast_22 - temp_cast_21));
+				float4 normalizeResult115 = ASESafeNormalize( mul( mul( (( _WindToggle )?( ( float4( rotator105, 0.0 , 0.0 ) + saturate( RF_FoilageWind104 ) ) ):( float4( rotator105, 0.0 , 0.0 ) )), UNITY_MATRIX_V ), GetObjectToWorldMatrix() ) );
 				float4 lerpResult123 = lerp( float4( 0,0,0,0 ) , ( ( normalizeResult115 * _CardSize ) + float4( ( v.normalOS * (0.0 + (_Inflate - -1.0) * (1.0 - 0.0) / (1.0 - -1.0)) ) , 0.0 ) ) , _EffectBlend);
-				float4 Foilage124 = lerpResult123;
+				float4 RF_Foilage124 = lerpResult123;
 				
 				o.ase_texcoord3.xy = v.ase_texcoord.xy;
 				
@@ -1827,7 +1842,7 @@ Shader "BUDU Shaders/BFoilage"
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
 
-				float3 vertexValue = Foilage124.rgb;
+				float3 vertexValue = RF_Foilage124.rgb;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.positionOS.xyz = vertexValue;
@@ -1960,15 +1975,14 @@ Shader "BUDU Shaders/BFoilage"
 					#endif
 				#endif
 
-				float2 texCoord146 = IN.ase_texcoord3.xy * float2( 1,1 ) + float2( 0,0 );
-				float cos143 = cos( radians( _TextureRotate ) );
-				float sin143 = sin( radians( _TextureRotate ) );
-				float2 rotator143 = mul( texCoord146 - float2( 0.5,0.5 ) , float2x2( cos143 , -sin143 , sin143 , cos143 )) + float2( 0.5,0.5 );
-				float4 tex2DNode21 = tex2D( _LeavesTexture, rotator143 );
-				float4 LeavesTextureR65 = tex2DNode21;
+				float2 appendResult314 = (float2(_TileSize , _TileSize));
+				float2 texCoord146 = IN.ase_texcoord3.xy * appendResult314 + float2( 0,0 );
+				float2 RF_LeafUV315 = texCoord146;
+				float4 tex2DNode21 = tex2D( _LeavesTexture, RF_LeafUV315 );
+				float4 RF_LeavesTexture65 = tex2DNode21;
 				
 
-				float Alpha = LeavesTextureR65.r;
+				float Alpha = RF_LeavesTexture65.r;
 				float AlphaClipThreshold = (0.0001 + (_ClipThreshold - 0.0) * (1.0 - 0.0001) / (1.0 - 0.0));
 
 				#ifdef ASE_DEPTH_WRITE_ON
@@ -2082,21 +2096,23 @@ Shader "BUDU Shaders/BFoilage"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _LeavesSpecTexture_ST;
-			float4 _LeavesSpecColor;
-			float4 _LeavesColor;
-			float4 _LeavesRimColor;
-			float4 _NormalMap_ST;
-			int _TextureWrapMode;
+			float3 _LeavesSpecColor;
+			float3 _LeavesRimColor;
+			float3 _LeavesColor;
+			float _TextureRotate;
+			float _SpeedTypeBX;
+			float _SpeedTypeBY;
+			float _TileTypeBX;
+			float _TileTypeBY;
 			float _NoiseFreqB;
 			float _OverForce;
 			float _CardSize;
 			float _Inflate;
 			float _EffectBlend;
-			float _TextureRotate;
+			float _TileSize;
 			float _Normal;
+			float _NormalScale;
 			float _LeavesRim;
-			float _TileTypeBY;
 			float _FresnelInvert;
 			float _LeavesRimBias;
 			float _LeavesRimScale;
@@ -2105,21 +2121,25 @@ Shader "BUDU Shaders/BFoilage"
 			float _LeavesRimYPosition;
 			float _LeavesSpecular;
 			float _LeavesSpecIntensity;
-			float _NormalScale;
-			float _TileTypeBX;
-			float _SpeedTypeBY;
-			float _SpeedTypeBX;
+			float _CustomNoiseTypeB;
+			float _Smoothness;
+			float _TypeBNeg;
+			float _NoiseTypeB;
+			int _TextureWrapMode;
 			int _FoilageSetting;
 			int _AlphaAntiAliasing;
 			int _NoiseBFold;
 			int _NoiseAFold;
 			float _ShadowThreshold;
+			int _CheckDef;
+			int _CheckBase;
 			float _WindToggle;
 			float _SurfaceFoilage;
 			float _SurfaceFoilageIntensity;
+			float _TypeBIntensity;
 			float _RandomRotate;
-			float _CardRotate;
 			float _WindIntensity;
+			float _NoiseTypeA;
 			float _TypeAIntensity;
 			float _TypeANeg;
 			float _CustomNoiseTypeA;
@@ -2129,10 +2149,7 @@ Shader "BUDU Shaders/BFoilage"
 			float _TileTypeAX;
 			float _TileTypeAY;
 			float _NoiseFreqA;
-			float _TypeBIntensity;
-			float _TypeBNeg;
-			float _CustomNoiseTypeB;
-			float _Smoothness;
+			float _CardRotate;
 			float _ClipThreshold;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -2223,7 +2240,7 @@ Shader "BUDU Shaders/BFoilage"
 				float ase_vertexTangentSign = v.ase_tangent.w * ( unity_WorldTransformParams.w >= 0.0 ? 1.0 : -1.0 );
 				float3 ase_worldBitangent = cross( ase_worldNormal, ase_worldTangent ) * ase_vertexTangentSign;
 				float3x3 ase_tangentToWorldFast = float3x3(ase_worldTangent.x,ase_worldBitangent.x,ase_worldNormal.x,ase_worldTangent.y,ase_worldBitangent.y,ase_worldNormal.y,ase_worldTangent.z,ase_worldBitangent.z,ase_worldNormal.z);
-				float3 tangentToViewDir133 = normalize( mul( UNITY_MATRIX_V, float4( mul( ase_tangentToWorldFast, float3( temp_output_102_0 ,  0.0 ) ), 0 ) ).xyz );
+				float3 tangentToViewDir133 = mul( UNITY_MATRIX_V, float4( mul( ase_tangentToWorldFast, float3( temp_output_102_0 ,  0.0 ) ), 0 ) ).xyz;
 				float3 lerpResult138 = lerp( float3( temp_output_102_0 ,  0.0 ) , tangentToViewDir133 , _SurfaceFoilageIntensity);
 				float temp_output_103_0 = radians( _CardRotate );
 				float3 temp_cast_4 = (temp_output_103_0).xxx;
@@ -2231,35 +2248,37 @@ Shader "BUDU Shaders/BFoilage"
 				float cos105 = cos( (( _RandomRotate )?( ( temp_output_103_0 * ase_vertexBitangent ) ):( temp_cast_4 )).x );
 				float sin105 = sin( (( _RandomRotate )?( ( temp_output_103_0 * ase_vertexBitangent ) ):( temp_cast_4 )).x );
 				float2 rotator105 = mul( (( _SurfaceFoilage )?( lerpResult138 ):( float3( temp_output_102_0 ,  0.0 ) )).xy - float2( 0,0 ) , float2x2( cos105 , -sin105 , sin105 , cos105 )) + float2( 0,0 );
-				float3 appendResult106 = (float3(rotator105 , 0.0));
-				float4 temp_cast_8 = (( 1.0 - _TypeAIntensity )).xxxx;
+				float RF_One57 = 1.0;
+				float4 temp_cast_8 = (RF_One57).xxxx;
+				float4 temp_cast_9 = (( 1.0 - _TypeAIntensity )).xxxx;
 				float mulTime75 = _TimeParameters.x * ( _WindSpeed * 0.1 );
-				float3 temp_cast_9 = (mulTime75).xxx;
+				float3 temp_cast_10 = (mulTime75).xxx;
 				float2 appendResult216 = (float2(_SpeedTypeAX , _SpeedTypeAY));
 				float2 appendResult85 = (float2(_TileTypeAX , _TileTypeAY));
 				float3 temp_output_83_0 = ( v.positionOS.xyz + mulTime75 );
 				float3 temp_output_202_0 = saturate( temp_output_83_0 );
 				float2 texCoord84 = v.texcoord0.xy * appendResult85 + temp_output_202_0.xy;
-				float2 panner88 = ( ( v.positionOS.xyz - temp_cast_9 ).x * appendResult216 + texCoord84);
+				float2 panner88 = ( ( v.positionOS.xyz - temp_cast_10 ).x * appendResult216 + texCoord84);
 				float simplePerlin2D163 = snoise( panner88*_NoiseFreqA );
-				float4 temp_cast_12 = (simplePerlin2D163).xxxx;
 				float4 temp_cast_13 = (simplePerlin2D163).xxxx;
-				float4 temp_cast_14 = (( 1.0 - _TypeBIntensity )).xxxx;
+				float4 temp_cast_14 = (simplePerlin2D163).xxxx;
+				float4 temp_cast_15 = (RF_One57).xxxx;
+				float4 temp_cast_16 = (( 1.0 - _TypeBIntensity )).xxxx;
 				float2 appendResult219 = (float2(_SpeedTypeBX , _SpeedTypeBY));
 				float2 appendResult87 = (float2(_TileTypeBX , _TileTypeBY));
 				float2 texCoord86 = v.texcoord0.xy * appendResult87 + temp_output_202_0.xy;
 				float2 panner89 = ( temp_output_83_0.x * appendResult219 + texCoord86);
 				float simplePerlin2D166 = snoise( panner89*_NoiseFreqB );
-				float4 temp_cast_17 = (simplePerlin2D166).xxxx;
-				float4 temp_cast_18 = (simplePerlin2D166).xxxx;
-				float4 temp_cast_19 = (0.0).xxxx;
-				float4 temp_cast_20 = (1.0).xxxx;
-				float4 temp_cast_21 = (0.1).xxxx;
-				float4 temp_cast_22 = (_OverForce).xxxx;
-				float4 FoilageWind104 = (temp_cast_21 + (( (0.0 + (_WindIntensity - 0.0) * (4.0 - 0.0) / (1.0 - 0.0)) * ( ( temp_cast_8 - ( (( _TypeANeg )?( -(( _CustomNoiseTypeA )?( pow( tex2Dlod( _NoiseTxtA, float4( panner88, 0, 0.0) ) , 1.0 ) ):( temp_cast_13 )) ):( (( _CustomNoiseTypeA )?( pow( tex2Dlod( _NoiseTxtA, float4( panner88, 0, 0.0) ) , 1.0 ) ):( temp_cast_12 )) )) * _TypeAIntensity ) ) * ( temp_cast_14 - ( (( _TypeBNeg )?( -(( _CustomNoiseTypeB )?( pow( tex2Dlod( _NoiseTxtB, float4( panner89, 0, 0.0) ) , 1.0 ) ):( temp_cast_18 )) ):( (( _CustomNoiseTypeB )?( pow( tex2Dlod( _NoiseTxtB, float4( panner89, 0, 0.0) ) , 1.0 ) ):( temp_cast_17 )) )) * _TypeBIntensity ) ) ) ) - temp_cast_19) * (temp_cast_22 - temp_cast_21) / (temp_cast_20 - temp_cast_19));
-				float4 normalizeResult115 = ASESafeNormalize( mul( mul( (( _WindToggle )?( ( float4( appendResult106 , 0.0 ) + FoilageWind104 ) ):( float4( appendResult106 , 0.0 ) )), UNITY_MATRIX_V ), GetObjectToWorldMatrix() ) );
+				float4 temp_cast_19 = (simplePerlin2D166).xxxx;
+				float4 temp_cast_20 = (simplePerlin2D166).xxxx;
+				float4 temp_cast_21 = (0.0).xxxx;
+				float4 temp_cast_22 = (1.0).xxxx;
+				float4 temp_cast_23 = (0.1).xxxx;
+				float4 temp_cast_24 = ((0.001 + (_OverForce - 0.0) * (0.2 - 0.001) / (1.0 - 0.0))).xxxx;
+				float4 RF_FoilageWind104 = (temp_cast_23 + (( (0.0 + (_WindIntensity - 0.0) * (4.0 - 0.0) / (1.0 - 0.0)) * ( saturate( (( _NoiseTypeA )?( ( temp_cast_9 - ( (( _TypeANeg )?( -(( _CustomNoiseTypeA )?( pow( tex2Dlod( _NoiseTxtA, float4( panner88, 0, 0.0) ) , 1.0 ) ):( temp_cast_14 )) ):( (( _CustomNoiseTypeA )?( pow( tex2Dlod( _NoiseTxtA, float4( panner88, 0, 0.0) ) , 1.0 ) ):( temp_cast_13 )) )) * _TypeAIntensity ) ) ):( temp_cast_8 )) ) * saturate( (( _NoiseTypeB )?( ( temp_cast_16 - ( (( _TypeBNeg )?( -(( _CustomNoiseTypeB )?( pow( tex2Dlod( _NoiseTxtB, float4( panner89, 0, 0.0) ) , 1.0 ) ):( temp_cast_20 )) ):( (( _CustomNoiseTypeB )?( pow( tex2Dlod( _NoiseTxtB, float4( panner89, 0, 0.0) ) , 1.0 ) ):( temp_cast_19 )) )) * _TypeBIntensity ) ) ):( temp_cast_15 )) ) ) ) - temp_cast_21) * (temp_cast_24 - temp_cast_23) / (temp_cast_22 - temp_cast_21));
+				float4 normalizeResult115 = ASESafeNormalize( mul( mul( (( _WindToggle )?( ( float4( rotator105, 0.0 , 0.0 ) + saturate( RF_FoilageWind104 ) ) ):( float4( rotator105, 0.0 , 0.0 ) )), UNITY_MATRIX_V ), GetObjectToWorldMatrix() ) );
 				float4 lerpResult123 = lerp( float4( 0,0,0,0 ) , ( ( normalizeResult115 * _CardSize ) + float4( ( v.normalOS * (0.0 + (_Inflate - -1.0) * (1.0 - 0.0) / (1.0 - -1.0)) ) , 0.0 ) ) , _EffectBlend);
-				float4 Foilage124 = lerpResult123;
+				float4 RF_Foilage124 = lerpResult123;
 				
 				o.ase_texcoord5.xyz = ase_worldTangent;
 				o.ase_texcoord6.xyz = ase_worldNormal;
@@ -2280,7 +2299,7 @@ Shader "BUDU Shaders/BFoilage"
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
 
-				float3 vertexValue = Foilage124.rgb;
+				float3 vertexValue = RF_Foilage124.rgb;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.positionOS.xyz = vertexValue;
@@ -2424,24 +2443,22 @@ Shader "BUDU Shaders/BFoilage"
 					#endif
 				#endif
 
-				float2 texCoord146 = IN.ase_texcoord4.xy * float2( 1,1 ) + float2( 0,0 );
-				float cos143 = cos( radians( _TextureRotate ) );
-				float sin143 = sin( radians( _TextureRotate ) );
-				float2 rotator143 = mul( texCoord146 - float2( 0.5,0.5 ) , float2x2( cos143 , -sin143 , sin143 , cos143 )) + float2( 0.5,0.5 );
-				float4 tex2DNode21 = tex2D( _LeavesTexture, rotator143 );
-				float4 lerpResult18 = lerp( _LeavesColor , ( _LeavesColor * tex2DNode21 ) , float4( 0.5,0.5,0.5,1 ));
-				float4 LeavesAlbedo22 = lerpResult18;
+				float2 appendResult314 = (float2(_TileSize , _TileSize));
+				float2 texCoord146 = IN.ase_texcoord4.xy * appendResult314 + float2( 0,0 );
+				float2 RF_LeafUV315 = texCoord146;
+				float4 tex2DNode21 = tex2D( _LeavesTexture, RF_LeafUV315 );
+				float4 lerpResult18 = lerp( float4( _LeavesColor , 0.0 ) , ( float4( _LeavesColor , 0.0 ) * tex2DNode21 ) , float4( 0.5,0.5,0.5,1 ));
+				float4 RF_LeavesAlbedo22 = lerpResult18;
 				
-				float Zero59 = 0.0;
-				float4 temp_cast_1 = (Zero59).xxxx;
+				float RF_Zero59 = 0.0;
+				float3 temp_cast_3 = (RF_Zero59).xxx;
 				float3 ase_worldViewDir = ( _WorldSpaceCameraPos.xyz - WorldPosition );
 				ase_worldViewDir = normalize(ase_worldViewDir);
 				float2 temp_output_1_0_g142 = float2( 0,0 );
 				float dotResult4_g142 = dot( temp_output_1_0_g142 , temp_output_1_0_g142 );
 				float3 appendResult10_g142 = (float3((temp_output_1_0_g142).x , (temp_output_1_0_g142).y , sqrt( ( 1.0 - saturate( dotResult4_g142 ) ) )));
 				float3 normalizeResult12_g142 = normalize( appendResult10_g142 );
-				float2 uv_NormalMap = IN.ase_texcoord4.xy * _NormalMap_ST.xy + _NormalMap_ST.zw;
-				float3 unpack28 = UnpackNormalScale( tex2D( _NormalMap, uv_NormalMap ), _NormalScale );
+				float3 unpack28 = UnpackNormalScale( tex2D( _NormalMap, RF_LeafUV315 ), _NormalScale );
 				unpack28.z = lerp( 1, unpack28.z, saturate(_NormalScale) );
 				float3 ase_worldTangent = IN.ase_texcoord5.xyz;
 				float3 ase_worldNormal = IN.ase_texcoord6.xyz;
@@ -2451,18 +2468,18 @@ Shader "BUDU Shaders/BFoilage"
 				float3 tanToWorld2 = float3( ase_worldTangent.z, ase_worldBitangent.z, ase_worldNormal.z );
 				float3 tanNormal32 = (( _Normal )?( unpack28 ):( normalizeResult12_g142 ));
 				float3 worldNormal32 = normalize( float3(dot(tanToWorld0,tanNormal32), dot(tanToWorld1,tanNormal32), dot(tanToWorld2,tanNormal32)) );
-				float3 NewNormals26 = worldNormal32;
-				float fresnelNdotV40 = dot( normalize( NewNormals26 ), ase_worldViewDir );
+				float3 RF_NewNormals26 = worldNormal32;
+				float fresnelNdotV40 = dot( normalize( RF_NewNormals26 ), ase_worldViewDir );
 				float fresnelNode40 = ( _LeavesRimBias + _LeavesRimScale * pow( max( 1.0 - fresnelNdotV40 , 0.0001 ), _LeavesRimPower ) );
-				float4 temp_cast_2 = (IN.ase_texcoord8.xyz.y).xxxx;
-				float4 LeavesRimR36 = (( _LeavesRim )?( ( _LeavesRimColor * saturate( (( _FresnelInvert )?( ( 1.0 - fresnelNode40 ) ):( fresnelNode40 )) ) * saturate( ( (0.0 + (CalculateContrast(_LeavesRimYContrast,temp_cast_2).g - -1.0) * (1.0 - 0.0) / (1.0 - -1.0)) * _LeavesRimYPosition ) ) * _LeavesRimColor.a ) ):( temp_cast_1 ));
+				float4 temp_cast_4 = (IN.ase_texcoord8.xyz.y).xxxx;
+				float3 RF_LeavesRim36 = (( _LeavesRim )?( ( _LeavesRimColor * saturate( (( _FresnelInvert )?( ( 1.0 - fresnelNode40 ) ):( fresnelNode40 )) ) * saturate( ( (0.0 + (CalculateContrast(_LeavesRimYContrast,temp_cast_4).g - -1.0) * (1.0 - 0.0) / (1.0 - -1.0)) * _LeavesRimYPosition ) ) ) ):( temp_cast_3 ));
 				
-				float4 LeavesTextureR65 = tex2DNode21;
+				float4 RF_LeavesTexture65 = tex2DNode21;
 				
 
-				float3 BaseColor = LeavesAlbedo22.rgb;
-				float3 Emission = LeavesRimR36.rgb;
-				float Alpha = LeavesTextureR65.r;
+				float3 BaseColor = RF_LeavesAlbedo22.rgb;
+				float3 Emission = RF_LeavesRim36;
+				float Alpha = RF_LeavesTexture65.r;
 				float AlphaClipThreshold = (0.0001 + (_ClipThreshold - 0.0) * (1.0 - 0.0001) / (1.0 - 0.0));
 
 				#ifdef _ALPHATEST_ON
@@ -2564,21 +2581,23 @@ Shader "BUDU Shaders/BFoilage"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _LeavesSpecTexture_ST;
-			float4 _LeavesSpecColor;
-			float4 _LeavesColor;
-			float4 _LeavesRimColor;
-			float4 _NormalMap_ST;
-			int _TextureWrapMode;
+			float3 _LeavesSpecColor;
+			float3 _LeavesRimColor;
+			float3 _LeavesColor;
+			float _TextureRotate;
+			float _SpeedTypeBX;
+			float _SpeedTypeBY;
+			float _TileTypeBX;
+			float _TileTypeBY;
 			float _NoiseFreqB;
 			float _OverForce;
 			float _CardSize;
 			float _Inflate;
 			float _EffectBlend;
-			float _TextureRotate;
+			float _TileSize;
 			float _Normal;
+			float _NormalScale;
 			float _LeavesRim;
-			float _TileTypeBY;
 			float _FresnelInvert;
 			float _LeavesRimBias;
 			float _LeavesRimScale;
@@ -2587,21 +2606,25 @@ Shader "BUDU Shaders/BFoilage"
 			float _LeavesRimYPosition;
 			float _LeavesSpecular;
 			float _LeavesSpecIntensity;
-			float _NormalScale;
-			float _TileTypeBX;
-			float _SpeedTypeBY;
-			float _SpeedTypeBX;
+			float _CustomNoiseTypeB;
+			float _Smoothness;
+			float _TypeBNeg;
+			float _NoiseTypeB;
+			int _TextureWrapMode;
 			int _FoilageSetting;
 			int _AlphaAntiAliasing;
 			int _NoiseBFold;
 			int _NoiseAFold;
 			float _ShadowThreshold;
+			int _CheckDef;
+			int _CheckBase;
 			float _WindToggle;
 			float _SurfaceFoilage;
 			float _SurfaceFoilageIntensity;
+			float _TypeBIntensity;
 			float _RandomRotate;
-			float _CardRotate;
 			float _WindIntensity;
+			float _NoiseTypeA;
 			float _TypeAIntensity;
 			float _TypeANeg;
 			float _CustomNoiseTypeA;
@@ -2611,10 +2634,7 @@ Shader "BUDU Shaders/BFoilage"
 			float _TileTypeAX;
 			float _TileTypeAY;
 			float _NoiseFreqA;
-			float _TypeBIntensity;
-			float _TypeBNeg;
-			float _CustomNoiseTypeB;
-			float _Smoothness;
+			float _CardRotate;
 			float _ClipThreshold;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -2699,7 +2719,7 @@ Shader "BUDU Shaders/BFoilage"
 				float ase_vertexTangentSign = v.ase_tangent.w * ( unity_WorldTransformParams.w >= 0.0 ? 1.0 : -1.0 );
 				float3 ase_worldBitangent = cross( ase_worldNormal, ase_worldTangent ) * ase_vertexTangentSign;
 				float3x3 ase_tangentToWorldFast = float3x3(ase_worldTangent.x,ase_worldBitangent.x,ase_worldNormal.x,ase_worldTangent.y,ase_worldBitangent.y,ase_worldNormal.y,ase_worldTangent.z,ase_worldBitangent.z,ase_worldNormal.z);
-				float3 tangentToViewDir133 = normalize( mul( UNITY_MATRIX_V, float4( mul( ase_tangentToWorldFast, float3( temp_output_102_0 ,  0.0 ) ), 0 ) ).xyz );
+				float3 tangentToViewDir133 = mul( UNITY_MATRIX_V, float4( mul( ase_tangentToWorldFast, float3( temp_output_102_0 ,  0.0 ) ), 0 ) ).xyz;
 				float3 lerpResult138 = lerp( float3( temp_output_102_0 ,  0.0 ) , tangentToViewDir133 , _SurfaceFoilageIntensity);
 				float temp_output_103_0 = radians( _CardRotate );
 				float3 temp_cast_4 = (temp_output_103_0).xxx;
@@ -2707,35 +2727,37 @@ Shader "BUDU Shaders/BFoilage"
 				float cos105 = cos( (( _RandomRotate )?( ( temp_output_103_0 * ase_vertexBitangent ) ):( temp_cast_4 )).x );
 				float sin105 = sin( (( _RandomRotate )?( ( temp_output_103_0 * ase_vertexBitangent ) ):( temp_cast_4 )).x );
 				float2 rotator105 = mul( (( _SurfaceFoilage )?( lerpResult138 ):( float3( temp_output_102_0 ,  0.0 ) )).xy - float2( 0,0 ) , float2x2( cos105 , -sin105 , sin105 , cos105 )) + float2( 0,0 );
-				float3 appendResult106 = (float3(rotator105 , 0.0));
-				float4 temp_cast_8 = (( 1.0 - _TypeAIntensity )).xxxx;
+				float RF_One57 = 1.0;
+				float4 temp_cast_8 = (RF_One57).xxxx;
+				float4 temp_cast_9 = (( 1.0 - _TypeAIntensity )).xxxx;
 				float mulTime75 = _TimeParameters.x * ( _WindSpeed * 0.1 );
-				float3 temp_cast_9 = (mulTime75).xxx;
+				float3 temp_cast_10 = (mulTime75).xxx;
 				float2 appendResult216 = (float2(_SpeedTypeAX , _SpeedTypeAY));
 				float2 appendResult85 = (float2(_TileTypeAX , _TileTypeAY));
 				float3 temp_output_83_0 = ( v.positionOS.xyz + mulTime75 );
 				float3 temp_output_202_0 = saturate( temp_output_83_0 );
 				float2 texCoord84 = v.ase_texcoord.xy * appendResult85 + temp_output_202_0.xy;
-				float2 panner88 = ( ( v.positionOS.xyz - temp_cast_9 ).x * appendResult216 + texCoord84);
+				float2 panner88 = ( ( v.positionOS.xyz - temp_cast_10 ).x * appendResult216 + texCoord84);
 				float simplePerlin2D163 = snoise( panner88*_NoiseFreqA );
-				float4 temp_cast_12 = (simplePerlin2D163).xxxx;
 				float4 temp_cast_13 = (simplePerlin2D163).xxxx;
-				float4 temp_cast_14 = (( 1.0 - _TypeBIntensity )).xxxx;
+				float4 temp_cast_14 = (simplePerlin2D163).xxxx;
+				float4 temp_cast_15 = (RF_One57).xxxx;
+				float4 temp_cast_16 = (( 1.0 - _TypeBIntensity )).xxxx;
 				float2 appendResult219 = (float2(_SpeedTypeBX , _SpeedTypeBY));
 				float2 appendResult87 = (float2(_TileTypeBX , _TileTypeBY));
 				float2 texCoord86 = v.ase_texcoord.xy * appendResult87 + temp_output_202_0.xy;
 				float2 panner89 = ( temp_output_83_0.x * appendResult219 + texCoord86);
 				float simplePerlin2D166 = snoise( panner89*_NoiseFreqB );
-				float4 temp_cast_17 = (simplePerlin2D166).xxxx;
-				float4 temp_cast_18 = (simplePerlin2D166).xxxx;
-				float4 temp_cast_19 = (0.0).xxxx;
-				float4 temp_cast_20 = (1.0).xxxx;
-				float4 temp_cast_21 = (0.1).xxxx;
-				float4 temp_cast_22 = (_OverForce).xxxx;
-				float4 FoilageWind104 = (temp_cast_21 + (( (0.0 + (_WindIntensity - 0.0) * (4.0 - 0.0) / (1.0 - 0.0)) * ( ( temp_cast_8 - ( (( _TypeANeg )?( -(( _CustomNoiseTypeA )?( pow( tex2Dlod( _NoiseTxtA, float4( panner88, 0, 0.0) ) , 1.0 ) ):( temp_cast_13 )) ):( (( _CustomNoiseTypeA )?( pow( tex2Dlod( _NoiseTxtA, float4( panner88, 0, 0.0) ) , 1.0 ) ):( temp_cast_12 )) )) * _TypeAIntensity ) ) * ( temp_cast_14 - ( (( _TypeBNeg )?( -(( _CustomNoiseTypeB )?( pow( tex2Dlod( _NoiseTxtB, float4( panner89, 0, 0.0) ) , 1.0 ) ):( temp_cast_18 )) ):( (( _CustomNoiseTypeB )?( pow( tex2Dlod( _NoiseTxtB, float4( panner89, 0, 0.0) ) , 1.0 ) ):( temp_cast_17 )) )) * _TypeBIntensity ) ) ) ) - temp_cast_19) * (temp_cast_22 - temp_cast_21) / (temp_cast_20 - temp_cast_19));
-				float4 normalizeResult115 = ASESafeNormalize( mul( mul( (( _WindToggle )?( ( float4( appendResult106 , 0.0 ) + FoilageWind104 ) ):( float4( appendResult106 , 0.0 ) )), UNITY_MATRIX_V ), GetObjectToWorldMatrix() ) );
+				float4 temp_cast_19 = (simplePerlin2D166).xxxx;
+				float4 temp_cast_20 = (simplePerlin2D166).xxxx;
+				float4 temp_cast_21 = (0.0).xxxx;
+				float4 temp_cast_22 = (1.0).xxxx;
+				float4 temp_cast_23 = (0.1).xxxx;
+				float4 temp_cast_24 = ((0.001 + (_OverForce - 0.0) * (0.2 - 0.001) / (1.0 - 0.0))).xxxx;
+				float4 RF_FoilageWind104 = (temp_cast_23 + (( (0.0 + (_WindIntensity - 0.0) * (4.0 - 0.0) / (1.0 - 0.0)) * ( saturate( (( _NoiseTypeA )?( ( temp_cast_9 - ( (( _TypeANeg )?( -(( _CustomNoiseTypeA )?( pow( tex2Dlod( _NoiseTxtA, float4( panner88, 0, 0.0) ) , 1.0 ) ):( temp_cast_14 )) ):( (( _CustomNoiseTypeA )?( pow( tex2Dlod( _NoiseTxtA, float4( panner88, 0, 0.0) ) , 1.0 ) ):( temp_cast_13 )) )) * _TypeAIntensity ) ) ):( temp_cast_8 )) ) * saturate( (( _NoiseTypeB )?( ( temp_cast_16 - ( (( _TypeBNeg )?( -(( _CustomNoiseTypeB )?( pow( tex2Dlod( _NoiseTxtB, float4( panner89, 0, 0.0) ) , 1.0 ) ):( temp_cast_20 )) ):( (( _CustomNoiseTypeB )?( pow( tex2Dlod( _NoiseTxtB, float4( panner89, 0, 0.0) ) , 1.0 ) ):( temp_cast_19 )) )) * _TypeBIntensity ) ) ):( temp_cast_15 )) ) ) ) - temp_cast_21) * (temp_cast_24 - temp_cast_23) / (temp_cast_22 - temp_cast_21));
+				float4 normalizeResult115 = ASESafeNormalize( mul( mul( (( _WindToggle )?( ( float4( rotator105, 0.0 , 0.0 ) + saturate( RF_FoilageWind104 ) ) ):( float4( rotator105, 0.0 , 0.0 ) )), UNITY_MATRIX_V ), GetObjectToWorldMatrix() ) );
 				float4 lerpResult123 = lerp( float4( 0,0,0,0 ) , ( ( normalizeResult115 * _CardSize ) + float4( ( v.normalOS * (0.0 + (_Inflate - -1.0) * (1.0 - 0.0) / (1.0 - -1.0)) ) , 0.0 ) ) , _EffectBlend);
-				float4 Foilage124 = lerpResult123;
+				float4 RF_Foilage124 = lerpResult123;
 				
 				o.ase_texcoord2.xy = v.ase_texcoord.xy;
 				
@@ -2748,7 +2770,7 @@ Shader "BUDU Shaders/BFoilage"
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
 
-				float3 vertexValue = Foilage124.rgb;
+				float3 vertexValue = RF_Foilage124.rgb;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.positionOS.xyz = vertexValue;
@@ -2875,19 +2897,18 @@ Shader "BUDU Shaders/BFoilage"
 					#endif
 				#endif
 
-				float2 texCoord146 = IN.ase_texcoord2.xy * float2( 1,1 ) + float2( 0,0 );
-				float cos143 = cos( radians( _TextureRotate ) );
-				float sin143 = sin( radians( _TextureRotate ) );
-				float2 rotator143 = mul( texCoord146 - float2( 0.5,0.5 ) , float2x2( cos143 , -sin143 , sin143 , cos143 )) + float2( 0.5,0.5 );
-				float4 tex2DNode21 = tex2D( _LeavesTexture, rotator143 );
-				float4 lerpResult18 = lerp( _LeavesColor , ( _LeavesColor * tex2DNode21 ) , float4( 0.5,0.5,0.5,1 ));
-				float4 LeavesAlbedo22 = lerpResult18;
+				float2 appendResult314 = (float2(_TileSize , _TileSize));
+				float2 texCoord146 = IN.ase_texcoord2.xy * appendResult314 + float2( 0,0 );
+				float2 RF_LeafUV315 = texCoord146;
+				float4 tex2DNode21 = tex2D( _LeavesTexture, RF_LeafUV315 );
+				float4 lerpResult18 = lerp( float4( _LeavesColor , 0.0 ) , ( float4( _LeavesColor , 0.0 ) * tex2DNode21 ) , float4( 0.5,0.5,0.5,1 ));
+				float4 RF_LeavesAlbedo22 = lerpResult18;
 				
-				float4 LeavesTextureR65 = tex2DNode21;
+				float4 RF_LeavesTexture65 = tex2DNode21;
 				
 
-				float3 BaseColor = LeavesAlbedo22.rgb;
-				float Alpha = LeavesTextureR65.r;
+				float3 BaseColor = RF_LeavesAlbedo22.rgb;
+				float Alpha = RF_LeavesTexture65.r;
 				float AlphaClipThreshold = (0.0001 + (_ClipThreshold - 0.0) * (1.0 - 0.0001) / (1.0 - 0.0));
 
 				half4 color = half4(BaseColor, Alpha );
@@ -3021,21 +3042,23 @@ Shader "BUDU Shaders/BFoilage"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _LeavesSpecTexture_ST;
-			float4 _LeavesSpecColor;
-			float4 _LeavesColor;
-			float4 _LeavesRimColor;
-			float4 _NormalMap_ST;
-			int _TextureWrapMode;
+			float3 _LeavesSpecColor;
+			float3 _LeavesRimColor;
+			float3 _LeavesColor;
+			float _TextureRotate;
+			float _SpeedTypeBX;
+			float _SpeedTypeBY;
+			float _TileTypeBX;
+			float _TileTypeBY;
 			float _NoiseFreqB;
 			float _OverForce;
 			float _CardSize;
 			float _Inflate;
 			float _EffectBlend;
-			float _TextureRotate;
+			float _TileSize;
 			float _Normal;
+			float _NormalScale;
 			float _LeavesRim;
-			float _TileTypeBY;
 			float _FresnelInvert;
 			float _LeavesRimBias;
 			float _LeavesRimScale;
@@ -3044,21 +3067,25 @@ Shader "BUDU Shaders/BFoilage"
 			float _LeavesRimYPosition;
 			float _LeavesSpecular;
 			float _LeavesSpecIntensity;
-			float _NormalScale;
-			float _TileTypeBX;
-			float _SpeedTypeBY;
-			float _SpeedTypeBX;
+			float _CustomNoiseTypeB;
+			float _Smoothness;
+			float _TypeBNeg;
+			float _NoiseTypeB;
+			int _TextureWrapMode;
 			int _FoilageSetting;
 			int _AlphaAntiAliasing;
 			int _NoiseBFold;
 			int _NoiseAFold;
 			float _ShadowThreshold;
+			int _CheckDef;
+			int _CheckBase;
 			float _WindToggle;
 			float _SurfaceFoilage;
 			float _SurfaceFoilageIntensity;
+			float _TypeBIntensity;
 			float _RandomRotate;
-			float _CardRotate;
 			float _WindIntensity;
+			float _NoiseTypeA;
 			float _TypeAIntensity;
 			float _TypeANeg;
 			float _CustomNoiseTypeA;
@@ -3068,10 +3095,7 @@ Shader "BUDU Shaders/BFoilage"
 			float _TileTypeAX;
 			float _TileTypeAY;
 			float _NoiseFreqA;
-			float _TypeBIntensity;
-			float _TypeBNeg;
-			float _CustomNoiseTypeB;
-			float _Smoothness;
+			float _CardRotate;
 			float _ClipThreshold;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -3157,7 +3181,7 @@ Shader "BUDU Shaders/BFoilage"
 				float ase_vertexTangentSign = v.tangentOS.w * ( unity_WorldTransformParams.w >= 0.0 ? 1.0 : -1.0 );
 				float3 ase_worldBitangent = cross( ase_worldNormal, ase_worldTangent ) * ase_vertexTangentSign;
 				float3x3 ase_tangentToWorldFast = float3x3(ase_worldTangent.x,ase_worldBitangent.x,ase_worldNormal.x,ase_worldTangent.y,ase_worldBitangent.y,ase_worldNormal.y,ase_worldTangent.z,ase_worldBitangent.z,ase_worldNormal.z);
-				float3 tangentToViewDir133 = normalize( mul( UNITY_MATRIX_V, float4( mul( ase_tangentToWorldFast, float3( temp_output_102_0 ,  0.0 ) ), 0 ) ).xyz );
+				float3 tangentToViewDir133 = mul( UNITY_MATRIX_V, float4( mul( ase_tangentToWorldFast, float3( temp_output_102_0 ,  0.0 ) ), 0 ) ).xyz;
 				float3 lerpResult138 = lerp( float3( temp_output_102_0 ,  0.0 ) , tangentToViewDir133 , _SurfaceFoilageIntensity);
 				float temp_output_103_0 = radians( _CardRotate );
 				float3 temp_cast_4 = (temp_output_103_0).xxx;
@@ -3165,35 +3189,37 @@ Shader "BUDU Shaders/BFoilage"
 				float cos105 = cos( (( _RandomRotate )?( ( temp_output_103_0 * ase_vertexBitangent ) ):( temp_cast_4 )).x );
 				float sin105 = sin( (( _RandomRotate )?( ( temp_output_103_0 * ase_vertexBitangent ) ):( temp_cast_4 )).x );
 				float2 rotator105 = mul( (( _SurfaceFoilage )?( lerpResult138 ):( float3( temp_output_102_0 ,  0.0 ) )).xy - float2( 0,0 ) , float2x2( cos105 , -sin105 , sin105 , cos105 )) + float2( 0,0 );
-				float3 appendResult106 = (float3(rotator105 , 0.0));
-				float4 temp_cast_8 = (( 1.0 - _TypeAIntensity )).xxxx;
+				float RF_One57 = 1.0;
+				float4 temp_cast_8 = (RF_One57).xxxx;
+				float4 temp_cast_9 = (( 1.0 - _TypeAIntensity )).xxxx;
 				float mulTime75 = _TimeParameters.x * ( _WindSpeed * 0.1 );
-				float3 temp_cast_9 = (mulTime75).xxx;
+				float3 temp_cast_10 = (mulTime75).xxx;
 				float2 appendResult216 = (float2(_SpeedTypeAX , _SpeedTypeAY));
 				float2 appendResult85 = (float2(_TileTypeAX , _TileTypeAY));
 				float3 temp_output_83_0 = ( v.positionOS.xyz + mulTime75 );
 				float3 temp_output_202_0 = saturate( temp_output_83_0 );
 				float2 texCoord84 = v.ase_texcoord.xy * appendResult85 + temp_output_202_0.xy;
-				float2 panner88 = ( ( v.positionOS.xyz - temp_cast_9 ).x * appendResult216 + texCoord84);
+				float2 panner88 = ( ( v.positionOS.xyz - temp_cast_10 ).x * appendResult216 + texCoord84);
 				float simplePerlin2D163 = snoise( panner88*_NoiseFreqA );
-				float4 temp_cast_12 = (simplePerlin2D163).xxxx;
 				float4 temp_cast_13 = (simplePerlin2D163).xxxx;
-				float4 temp_cast_14 = (( 1.0 - _TypeBIntensity )).xxxx;
+				float4 temp_cast_14 = (simplePerlin2D163).xxxx;
+				float4 temp_cast_15 = (RF_One57).xxxx;
+				float4 temp_cast_16 = (( 1.0 - _TypeBIntensity )).xxxx;
 				float2 appendResult219 = (float2(_SpeedTypeBX , _SpeedTypeBY));
 				float2 appendResult87 = (float2(_TileTypeBX , _TileTypeBY));
 				float2 texCoord86 = v.ase_texcoord.xy * appendResult87 + temp_output_202_0.xy;
 				float2 panner89 = ( temp_output_83_0.x * appendResult219 + texCoord86);
 				float simplePerlin2D166 = snoise( panner89*_NoiseFreqB );
-				float4 temp_cast_17 = (simplePerlin2D166).xxxx;
-				float4 temp_cast_18 = (simplePerlin2D166).xxxx;
-				float4 temp_cast_19 = (0.0).xxxx;
-				float4 temp_cast_20 = (1.0).xxxx;
-				float4 temp_cast_21 = (0.1).xxxx;
-				float4 temp_cast_22 = (_OverForce).xxxx;
-				float4 FoilageWind104 = (temp_cast_21 + (( (0.0 + (_WindIntensity - 0.0) * (4.0 - 0.0) / (1.0 - 0.0)) * ( ( temp_cast_8 - ( (( _TypeANeg )?( -(( _CustomNoiseTypeA )?( pow( tex2Dlod( _NoiseTxtA, float4( panner88, 0, 0.0) ) , 1.0 ) ):( temp_cast_13 )) ):( (( _CustomNoiseTypeA )?( pow( tex2Dlod( _NoiseTxtA, float4( panner88, 0, 0.0) ) , 1.0 ) ):( temp_cast_12 )) )) * _TypeAIntensity ) ) * ( temp_cast_14 - ( (( _TypeBNeg )?( -(( _CustomNoiseTypeB )?( pow( tex2Dlod( _NoiseTxtB, float4( panner89, 0, 0.0) ) , 1.0 ) ):( temp_cast_18 )) ):( (( _CustomNoiseTypeB )?( pow( tex2Dlod( _NoiseTxtB, float4( panner89, 0, 0.0) ) , 1.0 ) ):( temp_cast_17 )) )) * _TypeBIntensity ) ) ) ) - temp_cast_19) * (temp_cast_22 - temp_cast_21) / (temp_cast_20 - temp_cast_19));
-				float4 normalizeResult115 = ASESafeNormalize( mul( mul( (( _WindToggle )?( ( float4( appendResult106 , 0.0 ) + FoilageWind104 ) ):( float4( appendResult106 , 0.0 ) )), UNITY_MATRIX_V ), GetObjectToWorldMatrix() ) );
+				float4 temp_cast_19 = (simplePerlin2D166).xxxx;
+				float4 temp_cast_20 = (simplePerlin2D166).xxxx;
+				float4 temp_cast_21 = (0.0).xxxx;
+				float4 temp_cast_22 = (1.0).xxxx;
+				float4 temp_cast_23 = (0.1).xxxx;
+				float4 temp_cast_24 = ((0.001 + (_OverForce - 0.0) * (0.2 - 0.001) / (1.0 - 0.0))).xxxx;
+				float4 RF_FoilageWind104 = (temp_cast_23 + (( (0.0 + (_WindIntensity - 0.0) * (4.0 - 0.0) / (1.0 - 0.0)) * ( saturate( (( _NoiseTypeA )?( ( temp_cast_9 - ( (( _TypeANeg )?( -(( _CustomNoiseTypeA )?( pow( tex2Dlod( _NoiseTxtA, float4( panner88, 0, 0.0) ) , 1.0 ) ):( temp_cast_14 )) ):( (( _CustomNoiseTypeA )?( pow( tex2Dlod( _NoiseTxtA, float4( panner88, 0, 0.0) ) , 1.0 ) ):( temp_cast_13 )) )) * _TypeAIntensity ) ) ):( temp_cast_8 )) ) * saturate( (( _NoiseTypeB )?( ( temp_cast_16 - ( (( _TypeBNeg )?( -(( _CustomNoiseTypeB )?( pow( tex2Dlod( _NoiseTxtB, float4( panner89, 0, 0.0) ) , 1.0 ) ):( temp_cast_20 )) ):( (( _CustomNoiseTypeB )?( pow( tex2Dlod( _NoiseTxtB, float4( panner89, 0, 0.0) ) , 1.0 ) ):( temp_cast_19 )) )) * _TypeBIntensity ) ) ):( temp_cast_15 )) ) ) ) - temp_cast_21) * (temp_cast_24 - temp_cast_23) / (temp_cast_22 - temp_cast_21));
+				float4 normalizeResult115 = ASESafeNormalize( mul( mul( (( _WindToggle )?( ( float4( rotator105, 0.0 , 0.0 ) + saturate( RF_FoilageWind104 ) ) ):( float4( rotator105, 0.0 , 0.0 ) )), UNITY_MATRIX_V ), GetObjectToWorldMatrix() ) );
 				float4 lerpResult123 = lerp( float4( 0,0,0,0 ) , ( ( normalizeResult115 * _CardSize ) + float4( ( v.normalOS * (0.0 + (_Inflate - -1.0) * (1.0 - 0.0) / (1.0 - -1.0)) ) , 0.0 ) ) , _EffectBlend);
-				float4 Foilage124 = lerpResult123;
+				float4 RF_Foilage124 = lerpResult123;
 				
 				o.ase_texcoord5.xy = v.ase_texcoord.xy;
 				
@@ -3205,7 +3231,7 @@ Shader "BUDU Shaders/BFoilage"
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
 
-				float3 vertexValue = Foilage124.rgb;
+				float3 vertexValue = RF_Foilage124.rgb;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.positionOS.xyz = vertexValue;
@@ -3356,21 +3382,19 @@ Shader "BUDU Shaders/BFoilage"
 				float dotResult4_g142 = dot( temp_output_1_0_g142 , temp_output_1_0_g142 );
 				float3 appendResult10_g142 = (float3((temp_output_1_0_g142).x , (temp_output_1_0_g142).y , sqrt( ( 1.0 - saturate( dotResult4_g142 ) ) )));
 				float3 normalizeResult12_g142 = normalize( appendResult10_g142 );
-				float2 uv_NormalMap = IN.ase_texcoord5.xy * _NormalMap_ST.xy + _NormalMap_ST.zw;
-				float3 unpack28 = UnpackNormalScale( tex2D( _NormalMap, uv_NormalMap ), _NormalScale );
+				float2 appendResult314 = (float2(_TileSize , _TileSize));
+				float2 texCoord146 = IN.ase_texcoord5.xy * appendResult314 + float2( 0,0 );
+				float2 RF_LeafUV315 = texCoord146;
+				float3 unpack28 = UnpackNormalScale( tex2D( _NormalMap, RF_LeafUV315 ), _NormalScale );
 				unpack28.z = lerp( 1, unpack28.z, saturate(_NormalScale) );
-				float3 NewObjectNormal27 = (( _Normal )?( unpack28 ):( normalizeResult12_g142 ));
+				float3 RF_NewObjectNormal27 = (( _Normal )?( unpack28 ):( normalizeResult12_g142 ));
 				
-				float2 texCoord146 = IN.ase_texcoord5.xy * float2( 1,1 ) + float2( 0,0 );
-				float cos143 = cos( radians( _TextureRotate ) );
-				float sin143 = sin( radians( _TextureRotate ) );
-				float2 rotator143 = mul( texCoord146 - float2( 0.5,0.5 ) , float2x2( cos143 , -sin143 , sin143 , cos143 )) + float2( 0.5,0.5 );
-				float4 tex2DNode21 = tex2D( _LeavesTexture, rotator143 );
-				float4 LeavesTextureR65 = tex2DNode21;
+				float4 tex2DNode21 = tex2D( _LeavesTexture, RF_LeafUV315 );
+				float4 RF_LeavesTexture65 = tex2DNode21;
 				
 
-				float3 Normal = NewObjectNormal27;
-				float Alpha = LeavesTextureR65.r;
+				float3 Normal = RF_NewObjectNormal27;
+				float Alpha = RF_LeavesTexture65.r;
 				float AlphaClipThreshold = (0.0001 + (_ClipThreshold - 0.0) * (1.0 - 0.0001) / (1.0 - 0.0));
 
 				#ifdef ASE_DEPTH_WRITE_ON
@@ -3582,21 +3606,23 @@ Shader "BUDU Shaders/BFoilage"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _LeavesSpecTexture_ST;
-			float4 _LeavesSpecColor;
-			float4 _LeavesColor;
-			float4 _LeavesRimColor;
-			float4 _NormalMap_ST;
-			int _TextureWrapMode;
+			float3 _LeavesSpecColor;
+			float3 _LeavesRimColor;
+			float3 _LeavesColor;
+			float _TextureRotate;
+			float _SpeedTypeBX;
+			float _SpeedTypeBY;
+			float _TileTypeBX;
+			float _TileTypeBY;
 			float _NoiseFreqB;
 			float _OverForce;
 			float _CardSize;
 			float _Inflate;
 			float _EffectBlend;
-			float _TextureRotate;
+			float _TileSize;
 			float _Normal;
+			float _NormalScale;
 			float _LeavesRim;
-			float _TileTypeBY;
 			float _FresnelInvert;
 			float _LeavesRimBias;
 			float _LeavesRimScale;
@@ -3605,21 +3631,25 @@ Shader "BUDU Shaders/BFoilage"
 			float _LeavesRimYPosition;
 			float _LeavesSpecular;
 			float _LeavesSpecIntensity;
-			float _NormalScale;
-			float _TileTypeBX;
-			float _SpeedTypeBY;
-			float _SpeedTypeBX;
+			float _CustomNoiseTypeB;
+			float _Smoothness;
+			float _TypeBNeg;
+			float _NoiseTypeB;
+			int _TextureWrapMode;
 			int _FoilageSetting;
 			int _AlphaAntiAliasing;
 			int _NoiseBFold;
 			int _NoiseAFold;
 			float _ShadowThreshold;
+			int _CheckDef;
+			int _CheckBase;
 			float _WindToggle;
 			float _SurfaceFoilage;
 			float _SurfaceFoilageIntensity;
+			float _TypeBIntensity;
 			float _RandomRotate;
-			float _CardRotate;
 			float _WindIntensity;
+			float _NoiseTypeA;
 			float _TypeAIntensity;
 			float _TypeANeg;
 			float _CustomNoiseTypeA;
@@ -3629,10 +3659,7 @@ Shader "BUDU Shaders/BFoilage"
 			float _TileTypeAX;
 			float _TileTypeAY;
 			float _NoiseFreqA;
-			float _TypeBIntensity;
-			float _TypeBNeg;
-			float _CustomNoiseTypeB;
-			float _Smoothness;
+			float _CardRotate;
 			float _ClipThreshold;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -3726,7 +3753,7 @@ Shader "BUDU Shaders/BFoilage"
 				float ase_vertexTangentSign = v.tangentOS.w * ( unity_WorldTransformParams.w >= 0.0 ? 1.0 : -1.0 );
 				float3 ase_worldBitangent = cross( ase_worldNormal, ase_worldTangent ) * ase_vertexTangentSign;
 				float3x3 ase_tangentToWorldFast = float3x3(ase_worldTangent.x,ase_worldBitangent.x,ase_worldNormal.x,ase_worldTangent.y,ase_worldBitangent.y,ase_worldNormal.y,ase_worldTangent.z,ase_worldBitangent.z,ase_worldNormal.z);
-				float3 tangentToViewDir133 = normalize( mul( UNITY_MATRIX_V, float4( mul( ase_tangentToWorldFast, float3( temp_output_102_0 ,  0.0 ) ), 0 ) ).xyz );
+				float3 tangentToViewDir133 = mul( UNITY_MATRIX_V, float4( mul( ase_tangentToWorldFast, float3( temp_output_102_0 ,  0.0 ) ), 0 ) ).xyz;
 				float3 lerpResult138 = lerp( float3( temp_output_102_0 ,  0.0 ) , tangentToViewDir133 , _SurfaceFoilageIntensity);
 				float temp_output_103_0 = radians( _CardRotate );
 				float3 temp_cast_4 = (temp_output_103_0).xxx;
@@ -3734,35 +3761,37 @@ Shader "BUDU Shaders/BFoilage"
 				float cos105 = cos( (( _RandomRotate )?( ( temp_output_103_0 * ase_vertexBitangent ) ):( temp_cast_4 )).x );
 				float sin105 = sin( (( _RandomRotate )?( ( temp_output_103_0 * ase_vertexBitangent ) ):( temp_cast_4 )).x );
 				float2 rotator105 = mul( (( _SurfaceFoilage )?( lerpResult138 ):( float3( temp_output_102_0 ,  0.0 ) )).xy - float2( 0,0 ) , float2x2( cos105 , -sin105 , sin105 , cos105 )) + float2( 0,0 );
-				float3 appendResult106 = (float3(rotator105 , 0.0));
-				float4 temp_cast_8 = (( 1.0 - _TypeAIntensity )).xxxx;
+				float RF_One57 = 1.0;
+				float4 temp_cast_8 = (RF_One57).xxxx;
+				float4 temp_cast_9 = (( 1.0 - _TypeAIntensity )).xxxx;
 				float mulTime75 = _TimeParameters.x * ( _WindSpeed * 0.1 );
-				float3 temp_cast_9 = (mulTime75).xxx;
+				float3 temp_cast_10 = (mulTime75).xxx;
 				float2 appendResult216 = (float2(_SpeedTypeAX , _SpeedTypeAY));
 				float2 appendResult85 = (float2(_TileTypeAX , _TileTypeAY));
 				float3 temp_output_83_0 = ( v.positionOS.xyz + mulTime75 );
 				float3 temp_output_202_0 = saturate( temp_output_83_0 );
 				float2 texCoord84 = v.texcoord.xy * appendResult85 + temp_output_202_0.xy;
-				float2 panner88 = ( ( v.positionOS.xyz - temp_cast_9 ).x * appendResult216 + texCoord84);
+				float2 panner88 = ( ( v.positionOS.xyz - temp_cast_10 ).x * appendResult216 + texCoord84);
 				float simplePerlin2D163 = snoise( panner88*_NoiseFreqA );
-				float4 temp_cast_12 = (simplePerlin2D163).xxxx;
 				float4 temp_cast_13 = (simplePerlin2D163).xxxx;
-				float4 temp_cast_14 = (( 1.0 - _TypeBIntensity )).xxxx;
+				float4 temp_cast_14 = (simplePerlin2D163).xxxx;
+				float4 temp_cast_15 = (RF_One57).xxxx;
+				float4 temp_cast_16 = (( 1.0 - _TypeBIntensity )).xxxx;
 				float2 appendResult219 = (float2(_SpeedTypeBX , _SpeedTypeBY));
 				float2 appendResult87 = (float2(_TileTypeBX , _TileTypeBY));
 				float2 texCoord86 = v.texcoord.xy * appendResult87 + temp_output_202_0.xy;
 				float2 panner89 = ( temp_output_83_0.x * appendResult219 + texCoord86);
 				float simplePerlin2D166 = snoise( panner89*_NoiseFreqB );
-				float4 temp_cast_17 = (simplePerlin2D166).xxxx;
-				float4 temp_cast_18 = (simplePerlin2D166).xxxx;
-				float4 temp_cast_19 = (0.0).xxxx;
-				float4 temp_cast_20 = (1.0).xxxx;
-				float4 temp_cast_21 = (0.1).xxxx;
-				float4 temp_cast_22 = (_OverForce).xxxx;
-				float4 FoilageWind104 = (temp_cast_21 + (( (0.0 + (_WindIntensity - 0.0) * (4.0 - 0.0) / (1.0 - 0.0)) * ( ( temp_cast_8 - ( (( _TypeANeg )?( -(( _CustomNoiseTypeA )?( pow( tex2Dlod( _NoiseTxtA, float4( panner88, 0, 0.0) ) , 1.0 ) ):( temp_cast_13 )) ):( (( _CustomNoiseTypeA )?( pow( tex2Dlod( _NoiseTxtA, float4( panner88, 0, 0.0) ) , 1.0 ) ):( temp_cast_12 )) )) * _TypeAIntensity ) ) * ( temp_cast_14 - ( (( _TypeBNeg )?( -(( _CustomNoiseTypeB )?( pow( tex2Dlod( _NoiseTxtB, float4( panner89, 0, 0.0) ) , 1.0 ) ):( temp_cast_18 )) ):( (( _CustomNoiseTypeB )?( pow( tex2Dlod( _NoiseTxtB, float4( panner89, 0, 0.0) ) , 1.0 ) ):( temp_cast_17 )) )) * _TypeBIntensity ) ) ) ) - temp_cast_19) * (temp_cast_22 - temp_cast_21) / (temp_cast_20 - temp_cast_19));
-				float4 normalizeResult115 = ASESafeNormalize( mul( mul( (( _WindToggle )?( ( float4( appendResult106 , 0.0 ) + FoilageWind104 ) ):( float4( appendResult106 , 0.0 ) )), UNITY_MATRIX_V ), GetObjectToWorldMatrix() ) );
+				float4 temp_cast_19 = (simplePerlin2D166).xxxx;
+				float4 temp_cast_20 = (simplePerlin2D166).xxxx;
+				float4 temp_cast_21 = (0.0).xxxx;
+				float4 temp_cast_22 = (1.0).xxxx;
+				float4 temp_cast_23 = (0.1).xxxx;
+				float4 temp_cast_24 = ((0.001 + (_OverForce - 0.0) * (0.2 - 0.001) / (1.0 - 0.0))).xxxx;
+				float4 RF_FoilageWind104 = (temp_cast_23 + (( (0.0 + (_WindIntensity - 0.0) * (4.0 - 0.0) / (1.0 - 0.0)) * ( saturate( (( _NoiseTypeA )?( ( temp_cast_9 - ( (( _TypeANeg )?( -(( _CustomNoiseTypeA )?( pow( tex2Dlod( _NoiseTxtA, float4( panner88, 0, 0.0) ) , 1.0 ) ):( temp_cast_14 )) ):( (( _CustomNoiseTypeA )?( pow( tex2Dlod( _NoiseTxtA, float4( panner88, 0, 0.0) ) , 1.0 ) ):( temp_cast_13 )) )) * _TypeAIntensity ) ) ):( temp_cast_8 )) ) * saturate( (( _NoiseTypeB )?( ( temp_cast_16 - ( (( _TypeBNeg )?( -(( _CustomNoiseTypeB )?( pow( tex2Dlod( _NoiseTxtB, float4( panner89, 0, 0.0) ) , 1.0 ) ):( temp_cast_20 )) ):( (( _CustomNoiseTypeB )?( pow( tex2Dlod( _NoiseTxtB, float4( panner89, 0, 0.0) ) , 1.0 ) ):( temp_cast_19 )) )) * _TypeBIntensity ) ) ):( temp_cast_15 )) ) ) ) - temp_cast_21) * (temp_cast_24 - temp_cast_23) / (temp_cast_22 - temp_cast_21));
+				float4 normalizeResult115 = ASESafeNormalize( mul( mul( (( _WindToggle )?( ( float4( rotator105, 0.0 , 0.0 ) + saturate( RF_FoilageWind104 ) ) ):( float4( rotator105, 0.0 , 0.0 ) )), UNITY_MATRIX_V ), GetObjectToWorldMatrix() ) );
 				float4 lerpResult123 = lerp( float4( 0,0,0,0 ) , ( ( normalizeResult115 * _CardSize ) + float4( ( v.normalOS * (0.0 + (_Inflate - -1.0) * (1.0 - 0.0) / (1.0 - -1.0)) ) , 0.0 ) ) , _EffectBlend);
-				float4 Foilage124 = lerpResult123;
+				float4 RF_Foilage124 = lerpResult123;
 				
 				o.ase_texcoord8.xy = v.texcoord.xy;
 				o.ase_texcoord9 = v.positionOS;
@@ -3775,7 +3804,7 @@ Shader "BUDU Shaders/BFoilage"
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
 
-				float3 vertexValue = Foilage124.rgb;
+				float3 vertexValue = RF_Foilage124.rgb;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.positionOS.xyz = vertexValue;
@@ -3957,51 +3986,48 @@ Shader "BUDU Shaders/BFoilage"
 
 				WorldViewDirection = SafeNormalize( WorldViewDirection );
 
-				float2 texCoord146 = IN.ase_texcoord8.xy * float2( 1,1 ) + float2( 0,0 );
-				float cos143 = cos( radians( _TextureRotate ) );
-				float sin143 = sin( radians( _TextureRotate ) );
-				float2 rotator143 = mul( texCoord146 - float2( 0.5,0.5 ) , float2x2( cos143 , -sin143 , sin143 , cos143 )) + float2( 0.5,0.5 );
-				float4 tex2DNode21 = tex2D( _LeavesTexture, rotator143 );
-				float4 lerpResult18 = lerp( _LeavesColor , ( _LeavesColor * tex2DNode21 ) , float4( 0.5,0.5,0.5,1 ));
-				float4 LeavesAlbedo22 = lerpResult18;
+				float2 appendResult314 = (float2(_TileSize , _TileSize));
+				float2 texCoord146 = IN.ase_texcoord8.xy * appendResult314 + float2( 0,0 );
+				float2 RF_LeafUV315 = texCoord146;
+				float4 tex2DNode21 = tex2D( _LeavesTexture, RF_LeafUV315 );
+				float4 lerpResult18 = lerp( float4( _LeavesColor , 0.0 ) , ( float4( _LeavesColor , 0.0 ) * tex2DNode21 ) , float4( 0.5,0.5,0.5,1 ));
+				float4 RF_LeavesAlbedo22 = lerpResult18;
 				
 				float2 temp_output_1_0_g142 = float2( 0,0 );
 				float dotResult4_g142 = dot( temp_output_1_0_g142 , temp_output_1_0_g142 );
 				float3 appendResult10_g142 = (float3((temp_output_1_0_g142).x , (temp_output_1_0_g142).y , sqrt( ( 1.0 - saturate( dotResult4_g142 ) ) )));
 				float3 normalizeResult12_g142 = normalize( appendResult10_g142 );
-				float2 uv_NormalMap = IN.ase_texcoord8.xy * _NormalMap_ST.xy + _NormalMap_ST.zw;
-				float3 unpack28 = UnpackNormalScale( tex2D( _NormalMap, uv_NormalMap ), _NormalScale );
+				float3 unpack28 = UnpackNormalScale( tex2D( _NormalMap, RF_LeafUV315 ), _NormalScale );
 				unpack28.z = lerp( 1, unpack28.z, saturate(_NormalScale) );
-				float3 NewObjectNormal27 = (( _Normal )?( unpack28 ):( normalizeResult12_g142 ));
+				float3 RF_NewObjectNormal27 = (( _Normal )?( unpack28 ):( normalizeResult12_g142 ));
 				
-				float Zero59 = 0.0;
-				float4 temp_cast_1 = (Zero59).xxxx;
+				float RF_Zero59 = 0.0;
+				float3 temp_cast_3 = (RF_Zero59).xxx;
 				float3 tanToWorld0 = float3( WorldTangent.x, WorldBiTangent.x, WorldNormal.x );
 				float3 tanToWorld1 = float3( WorldTangent.y, WorldBiTangent.y, WorldNormal.y );
 				float3 tanToWorld2 = float3( WorldTangent.z, WorldBiTangent.z, WorldNormal.z );
 				float3 tanNormal32 = (( _Normal )?( unpack28 ):( normalizeResult12_g142 ));
 				float3 worldNormal32 = normalize( float3(dot(tanToWorld0,tanNormal32), dot(tanToWorld1,tanNormal32), dot(tanToWorld2,tanNormal32)) );
-				float3 NewNormals26 = worldNormal32;
-				float fresnelNdotV40 = dot( normalize( NewNormals26 ), WorldViewDirection );
+				float3 RF_NewNormals26 = worldNormal32;
+				float fresnelNdotV40 = dot( normalize( RF_NewNormals26 ), WorldViewDirection );
 				float fresnelNode40 = ( _LeavesRimBias + _LeavesRimScale * pow( max( 1.0 - fresnelNdotV40 , 0.0001 ), _LeavesRimPower ) );
-				float4 temp_cast_2 = (IN.ase_texcoord9.xyz.y).xxxx;
-				float4 LeavesRimR36 = (( _LeavesRim )?( ( _LeavesRimColor * saturate( (( _FresnelInvert )?( ( 1.0 - fresnelNode40 ) ):( fresnelNode40 )) ) * saturate( ( (0.0 + (CalculateContrast(_LeavesRimYContrast,temp_cast_2).g - -1.0) * (1.0 - 0.0) / (1.0 - -1.0)) * _LeavesRimYPosition ) ) * _LeavesRimColor.a ) ):( temp_cast_1 ));
+				float4 temp_cast_4 = (IN.ase_texcoord9.xyz.y).xxxx;
+				float3 RF_LeavesRim36 = (( _LeavesRim )?( ( _LeavesRimColor * saturate( (( _FresnelInvert )?( ( 1.0 - fresnelNode40 ) ):( fresnelNode40 )) ) * saturate( ( (0.0 + (CalculateContrast(_LeavesRimYContrast,temp_cast_4).g - -1.0) * (1.0 - 0.0) / (1.0 - -1.0)) * _LeavesRimYPosition ) ) ) ):( temp_cast_3 ));
 				
-				float4 temp_cast_4 = (Zero59).xxxx;
-				float2 uv_LeavesSpecTexture = IN.ase_texcoord8.xy * _LeavesSpecTexture_ST.xy + _LeavesSpecTexture_ST.zw;
-				float4 LeavesSpecularR15 = (( _LeavesSpecular )?( ( _LeavesSpecColor * tex2D( _LeavesSpecTexture, uv_LeavesSpecTexture ) * _LeavesSpecIntensity ) ):( temp_cast_4 ));
+				float3 temp_cast_5 = (RF_Zero59).xxx;
+				float3 RF_LeavesSpecular15 = (( _LeavesSpecular )?( ( _LeavesSpecColor * tex2D( _LeavesSpecTexture, RF_LeafUV315 ).rgb * _LeavesSpecIntensity ) ):( temp_cast_5 ));
 				
-				float4 LeavesTextureR65 = tex2DNode21;
+				float4 RF_LeavesTexture65 = tex2DNode21;
 				
 
-				float3 BaseColor = LeavesAlbedo22.rgb;
-				float3 Normal = NewObjectNormal27;
-				float3 Emission = LeavesRimR36.rgb;
-				float3 Specular = LeavesSpecularR15.rgb;
+				float3 BaseColor = RF_LeavesAlbedo22.rgb;
+				float3 Normal = RF_NewObjectNormal27;
+				float3 Emission = RF_LeavesRim36;
+				float3 Specular = RF_LeavesSpecular15;
 				float Metallic = 0;
 				float Smoothness = _Smoothness;
 				float Occlusion = 1;
-				float Alpha = LeavesTextureR65.r;
+				float Alpha = RF_LeavesTexture65.r;
 				float AlphaClipThreshold = (0.0001 + (_ClipThreshold - 0.0) * (1.0 - 0.0001) / (1.0 - 0.0));
 				float AlphaClipThresholdShadow = 0.5;
 				float3 BakedGI = 0;
@@ -4192,21 +4218,23 @@ Shader "BUDU Shaders/BFoilage"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _LeavesSpecTexture_ST;
-			float4 _LeavesSpecColor;
-			float4 _LeavesColor;
-			float4 _LeavesRimColor;
-			float4 _NormalMap_ST;
-			int _TextureWrapMode;
+			float3 _LeavesSpecColor;
+			float3 _LeavesRimColor;
+			float3 _LeavesColor;
+			float _TextureRotate;
+			float _SpeedTypeBX;
+			float _SpeedTypeBY;
+			float _TileTypeBX;
+			float _TileTypeBY;
 			float _NoiseFreqB;
 			float _OverForce;
 			float _CardSize;
 			float _Inflate;
 			float _EffectBlend;
-			float _TextureRotate;
+			float _TileSize;
 			float _Normal;
+			float _NormalScale;
 			float _LeavesRim;
-			float _TileTypeBY;
 			float _FresnelInvert;
 			float _LeavesRimBias;
 			float _LeavesRimScale;
@@ -4215,21 +4243,25 @@ Shader "BUDU Shaders/BFoilage"
 			float _LeavesRimYPosition;
 			float _LeavesSpecular;
 			float _LeavesSpecIntensity;
-			float _NormalScale;
-			float _TileTypeBX;
-			float _SpeedTypeBY;
-			float _SpeedTypeBX;
+			float _CustomNoiseTypeB;
+			float _Smoothness;
+			float _TypeBNeg;
+			float _NoiseTypeB;
+			int _TextureWrapMode;
 			int _FoilageSetting;
 			int _AlphaAntiAliasing;
 			int _NoiseBFold;
 			int _NoiseAFold;
 			float _ShadowThreshold;
+			int _CheckDef;
+			int _CheckBase;
 			float _WindToggle;
 			float _SurfaceFoilage;
 			float _SurfaceFoilageIntensity;
+			float _TypeBIntensity;
 			float _RandomRotate;
-			float _CardRotate;
 			float _WindIntensity;
+			float _NoiseTypeA;
 			float _TypeAIntensity;
 			float _TypeANeg;
 			float _CustomNoiseTypeA;
@@ -4239,10 +4271,7 @@ Shader "BUDU Shaders/BFoilage"
 			float _TileTypeAX;
 			float _TileTypeAY;
 			float _NoiseFreqA;
-			float _TypeBIntensity;
-			float _TypeBNeg;
-			float _CustomNoiseTypeB;
-			float _Smoothness;
+			float _CardRotate;
 			float _ClipThreshold;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -4335,7 +4364,7 @@ Shader "BUDU Shaders/BFoilage"
 				float ase_vertexTangentSign = v.ase_tangent.w * ( unity_WorldTransformParams.w >= 0.0 ? 1.0 : -1.0 );
 				float3 ase_worldBitangent = cross( ase_worldNormal, ase_worldTangent ) * ase_vertexTangentSign;
 				float3x3 ase_tangentToWorldFast = float3x3(ase_worldTangent.x,ase_worldBitangent.x,ase_worldNormal.x,ase_worldTangent.y,ase_worldBitangent.y,ase_worldNormal.y,ase_worldTangent.z,ase_worldBitangent.z,ase_worldNormal.z);
-				float3 tangentToViewDir133 = normalize( mul( UNITY_MATRIX_V, float4( mul( ase_tangentToWorldFast, float3( temp_output_102_0 ,  0.0 ) ), 0 ) ).xyz );
+				float3 tangentToViewDir133 = mul( UNITY_MATRIX_V, float4( mul( ase_tangentToWorldFast, float3( temp_output_102_0 ,  0.0 ) ), 0 ) ).xyz;
 				float3 lerpResult138 = lerp( float3( temp_output_102_0 ,  0.0 ) , tangentToViewDir133 , _SurfaceFoilageIntensity);
 				float temp_output_103_0 = radians( _CardRotate );
 				float3 temp_cast_4 = (temp_output_103_0).xxx;
@@ -4343,35 +4372,37 @@ Shader "BUDU Shaders/BFoilage"
 				float cos105 = cos( (( _RandomRotate )?( ( temp_output_103_0 * ase_vertexBitangent ) ):( temp_cast_4 )).x );
 				float sin105 = sin( (( _RandomRotate )?( ( temp_output_103_0 * ase_vertexBitangent ) ):( temp_cast_4 )).x );
 				float2 rotator105 = mul( (( _SurfaceFoilage )?( lerpResult138 ):( float3( temp_output_102_0 ,  0.0 ) )).xy - float2( 0,0 ) , float2x2( cos105 , -sin105 , sin105 , cos105 )) + float2( 0,0 );
-				float3 appendResult106 = (float3(rotator105 , 0.0));
-				float4 temp_cast_8 = (( 1.0 - _TypeAIntensity )).xxxx;
+				float RF_One57 = 1.0;
+				float4 temp_cast_8 = (RF_One57).xxxx;
+				float4 temp_cast_9 = (( 1.0 - _TypeAIntensity )).xxxx;
 				float mulTime75 = _TimeParameters.x * ( _WindSpeed * 0.1 );
-				float3 temp_cast_9 = (mulTime75).xxx;
+				float3 temp_cast_10 = (mulTime75).xxx;
 				float2 appendResult216 = (float2(_SpeedTypeAX , _SpeedTypeAY));
 				float2 appendResult85 = (float2(_TileTypeAX , _TileTypeAY));
 				float3 temp_output_83_0 = ( v.positionOS.xyz + mulTime75 );
 				float3 temp_output_202_0 = saturate( temp_output_83_0 );
 				float2 texCoord84 = v.ase_texcoord.xy * appendResult85 + temp_output_202_0.xy;
-				float2 panner88 = ( ( v.positionOS.xyz - temp_cast_9 ).x * appendResult216 + texCoord84);
+				float2 panner88 = ( ( v.positionOS.xyz - temp_cast_10 ).x * appendResult216 + texCoord84);
 				float simplePerlin2D163 = snoise( panner88*_NoiseFreqA );
-				float4 temp_cast_12 = (simplePerlin2D163).xxxx;
 				float4 temp_cast_13 = (simplePerlin2D163).xxxx;
-				float4 temp_cast_14 = (( 1.0 - _TypeBIntensity )).xxxx;
+				float4 temp_cast_14 = (simplePerlin2D163).xxxx;
+				float4 temp_cast_15 = (RF_One57).xxxx;
+				float4 temp_cast_16 = (( 1.0 - _TypeBIntensity )).xxxx;
 				float2 appendResult219 = (float2(_SpeedTypeBX , _SpeedTypeBY));
 				float2 appendResult87 = (float2(_TileTypeBX , _TileTypeBY));
 				float2 texCoord86 = v.ase_texcoord.xy * appendResult87 + temp_output_202_0.xy;
 				float2 panner89 = ( temp_output_83_0.x * appendResult219 + texCoord86);
 				float simplePerlin2D166 = snoise( panner89*_NoiseFreqB );
-				float4 temp_cast_17 = (simplePerlin2D166).xxxx;
-				float4 temp_cast_18 = (simplePerlin2D166).xxxx;
-				float4 temp_cast_19 = (0.0).xxxx;
-				float4 temp_cast_20 = (1.0).xxxx;
-				float4 temp_cast_21 = (0.1).xxxx;
-				float4 temp_cast_22 = (_OverForce).xxxx;
-				float4 FoilageWind104 = (temp_cast_21 + (( (0.0 + (_WindIntensity - 0.0) * (4.0 - 0.0) / (1.0 - 0.0)) * ( ( temp_cast_8 - ( (( _TypeANeg )?( -(( _CustomNoiseTypeA )?( pow( tex2Dlod( _NoiseTxtA, float4( panner88, 0, 0.0) ) , 1.0 ) ):( temp_cast_13 )) ):( (( _CustomNoiseTypeA )?( pow( tex2Dlod( _NoiseTxtA, float4( panner88, 0, 0.0) ) , 1.0 ) ):( temp_cast_12 )) )) * _TypeAIntensity ) ) * ( temp_cast_14 - ( (( _TypeBNeg )?( -(( _CustomNoiseTypeB )?( pow( tex2Dlod( _NoiseTxtB, float4( panner89, 0, 0.0) ) , 1.0 ) ):( temp_cast_18 )) ):( (( _CustomNoiseTypeB )?( pow( tex2Dlod( _NoiseTxtB, float4( panner89, 0, 0.0) ) , 1.0 ) ):( temp_cast_17 )) )) * _TypeBIntensity ) ) ) ) - temp_cast_19) * (temp_cast_22 - temp_cast_21) / (temp_cast_20 - temp_cast_19));
-				float4 normalizeResult115 = ASESafeNormalize( mul( mul( (( _WindToggle )?( ( float4( appendResult106 , 0.0 ) + FoilageWind104 ) ):( float4( appendResult106 , 0.0 ) )), UNITY_MATRIX_V ), GetObjectToWorldMatrix() ) );
+				float4 temp_cast_19 = (simplePerlin2D166).xxxx;
+				float4 temp_cast_20 = (simplePerlin2D166).xxxx;
+				float4 temp_cast_21 = (0.0).xxxx;
+				float4 temp_cast_22 = (1.0).xxxx;
+				float4 temp_cast_23 = (0.1).xxxx;
+				float4 temp_cast_24 = ((0.001 + (_OverForce - 0.0) * (0.2 - 0.001) / (1.0 - 0.0))).xxxx;
+				float4 RF_FoilageWind104 = (temp_cast_23 + (( (0.0 + (_WindIntensity - 0.0) * (4.0 - 0.0) / (1.0 - 0.0)) * ( saturate( (( _NoiseTypeA )?( ( temp_cast_9 - ( (( _TypeANeg )?( -(( _CustomNoiseTypeA )?( pow( tex2Dlod( _NoiseTxtA, float4( panner88, 0, 0.0) ) , 1.0 ) ):( temp_cast_14 )) ):( (( _CustomNoiseTypeA )?( pow( tex2Dlod( _NoiseTxtA, float4( panner88, 0, 0.0) ) , 1.0 ) ):( temp_cast_13 )) )) * _TypeAIntensity ) ) ):( temp_cast_8 )) ) * saturate( (( _NoiseTypeB )?( ( temp_cast_16 - ( (( _TypeBNeg )?( -(( _CustomNoiseTypeB )?( pow( tex2Dlod( _NoiseTxtB, float4( panner89, 0, 0.0) ) , 1.0 ) ):( temp_cast_20 )) ):( (( _CustomNoiseTypeB )?( pow( tex2Dlod( _NoiseTxtB, float4( panner89, 0, 0.0) ) , 1.0 ) ):( temp_cast_19 )) )) * _TypeBIntensity ) ) ):( temp_cast_15 )) ) ) ) - temp_cast_21) * (temp_cast_24 - temp_cast_23) / (temp_cast_22 - temp_cast_21));
+				float4 normalizeResult115 = ASESafeNormalize( mul( mul( (( _WindToggle )?( ( float4( rotator105, 0.0 , 0.0 ) + saturate( RF_FoilageWind104 ) ) ):( float4( rotator105, 0.0 , 0.0 ) )), UNITY_MATRIX_V ), GetObjectToWorldMatrix() ) );
 				float4 lerpResult123 = lerp( float4( 0,0,0,0 ) , ( ( normalizeResult115 * _CardSize ) + float4( ( v.normalOS * (0.0 + (_Inflate - -1.0) * (1.0 - 0.0) / (1.0 - -1.0)) ) , 0.0 ) ) , _EffectBlend);
-				float4 Foilage124 = lerpResult123;
+				float4 RF_Foilage124 = lerpResult123;
 				
 				o.ase_texcoord.xy = v.ase_texcoord.xy;
 				
@@ -4384,7 +4415,7 @@ Shader "BUDU Shaders/BFoilage"
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
 
-				float3 vertexValue = Foilage124.rgb;
+				float3 vertexValue = RF_Foilage124.rgb;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.positionOS.xyz = vertexValue;
@@ -4488,15 +4519,14 @@ Shader "BUDU Shaders/BFoilage"
 			{
 				SurfaceDescription surfaceDescription = (SurfaceDescription)0;
 
-				float2 texCoord146 = IN.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
-				float cos143 = cos( radians( _TextureRotate ) );
-				float sin143 = sin( radians( _TextureRotate ) );
-				float2 rotator143 = mul( texCoord146 - float2( 0.5,0.5 ) , float2x2( cos143 , -sin143 , sin143 , cos143 )) + float2( 0.5,0.5 );
-				float4 tex2DNode21 = tex2D( _LeavesTexture, rotator143 );
-				float4 LeavesTextureR65 = tex2DNode21;
+				float2 appendResult314 = (float2(_TileSize , _TileSize));
+				float2 texCoord146 = IN.ase_texcoord.xy * appendResult314 + float2( 0,0 );
+				float2 RF_LeafUV315 = texCoord146;
+				float4 tex2DNode21 = tex2D( _LeavesTexture, RF_LeafUV315 );
+				float4 RF_LeavesTexture65 = tex2DNode21;
 				
 
-				surfaceDescription.Alpha = LeavesTextureR65.r;
+				surfaceDescription.Alpha = RF_LeavesTexture65.r;
 				surfaceDescription.AlphaClipThreshold = (0.0001 + (_ClipThreshold - 0.0) * (1.0 - 0.0001) / (1.0 - 0.0));
 
 				#if _ALPHATEST_ON
@@ -4608,21 +4638,23 @@ Shader "BUDU Shaders/BFoilage"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _LeavesSpecTexture_ST;
-			float4 _LeavesSpecColor;
-			float4 _LeavesColor;
-			float4 _LeavesRimColor;
-			float4 _NormalMap_ST;
-			int _TextureWrapMode;
+			float3 _LeavesSpecColor;
+			float3 _LeavesRimColor;
+			float3 _LeavesColor;
+			float _TextureRotate;
+			float _SpeedTypeBX;
+			float _SpeedTypeBY;
+			float _TileTypeBX;
+			float _TileTypeBY;
 			float _NoiseFreqB;
 			float _OverForce;
 			float _CardSize;
 			float _Inflate;
 			float _EffectBlend;
-			float _TextureRotate;
+			float _TileSize;
 			float _Normal;
+			float _NormalScale;
 			float _LeavesRim;
-			float _TileTypeBY;
 			float _FresnelInvert;
 			float _LeavesRimBias;
 			float _LeavesRimScale;
@@ -4631,21 +4663,25 @@ Shader "BUDU Shaders/BFoilage"
 			float _LeavesRimYPosition;
 			float _LeavesSpecular;
 			float _LeavesSpecIntensity;
-			float _NormalScale;
-			float _TileTypeBX;
-			float _SpeedTypeBY;
-			float _SpeedTypeBX;
+			float _CustomNoiseTypeB;
+			float _Smoothness;
+			float _TypeBNeg;
+			float _NoiseTypeB;
+			int _TextureWrapMode;
 			int _FoilageSetting;
 			int _AlphaAntiAliasing;
 			int _NoiseBFold;
 			int _NoiseAFold;
 			float _ShadowThreshold;
+			int _CheckDef;
+			int _CheckBase;
 			float _WindToggle;
 			float _SurfaceFoilage;
 			float _SurfaceFoilageIntensity;
+			float _TypeBIntensity;
 			float _RandomRotate;
-			float _CardRotate;
 			float _WindIntensity;
+			float _NoiseTypeA;
 			float _TypeAIntensity;
 			float _TypeANeg;
 			float _CustomNoiseTypeA;
@@ -4655,10 +4691,7 @@ Shader "BUDU Shaders/BFoilage"
 			float _TileTypeAX;
 			float _TileTypeAY;
 			float _NoiseFreqA;
-			float _TypeBIntensity;
-			float _TypeBNeg;
-			float _CustomNoiseTypeB;
-			float _Smoothness;
+			float _CardRotate;
 			float _ClipThreshold;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -4751,7 +4784,7 @@ Shader "BUDU Shaders/BFoilage"
 				float ase_vertexTangentSign = v.ase_tangent.w * ( unity_WorldTransformParams.w >= 0.0 ? 1.0 : -1.0 );
 				float3 ase_worldBitangent = cross( ase_worldNormal, ase_worldTangent ) * ase_vertexTangentSign;
 				float3x3 ase_tangentToWorldFast = float3x3(ase_worldTangent.x,ase_worldBitangent.x,ase_worldNormal.x,ase_worldTangent.y,ase_worldBitangent.y,ase_worldNormal.y,ase_worldTangent.z,ase_worldBitangent.z,ase_worldNormal.z);
-				float3 tangentToViewDir133 = normalize( mul( UNITY_MATRIX_V, float4( mul( ase_tangentToWorldFast, float3( temp_output_102_0 ,  0.0 ) ), 0 ) ).xyz );
+				float3 tangentToViewDir133 = mul( UNITY_MATRIX_V, float4( mul( ase_tangentToWorldFast, float3( temp_output_102_0 ,  0.0 ) ), 0 ) ).xyz;
 				float3 lerpResult138 = lerp( float3( temp_output_102_0 ,  0.0 ) , tangentToViewDir133 , _SurfaceFoilageIntensity);
 				float temp_output_103_0 = radians( _CardRotate );
 				float3 temp_cast_4 = (temp_output_103_0).xxx;
@@ -4759,35 +4792,37 @@ Shader "BUDU Shaders/BFoilage"
 				float cos105 = cos( (( _RandomRotate )?( ( temp_output_103_0 * ase_vertexBitangent ) ):( temp_cast_4 )).x );
 				float sin105 = sin( (( _RandomRotate )?( ( temp_output_103_0 * ase_vertexBitangent ) ):( temp_cast_4 )).x );
 				float2 rotator105 = mul( (( _SurfaceFoilage )?( lerpResult138 ):( float3( temp_output_102_0 ,  0.0 ) )).xy - float2( 0,0 ) , float2x2( cos105 , -sin105 , sin105 , cos105 )) + float2( 0,0 );
-				float3 appendResult106 = (float3(rotator105 , 0.0));
-				float4 temp_cast_8 = (( 1.0 - _TypeAIntensity )).xxxx;
+				float RF_One57 = 1.0;
+				float4 temp_cast_8 = (RF_One57).xxxx;
+				float4 temp_cast_9 = (( 1.0 - _TypeAIntensity )).xxxx;
 				float mulTime75 = _TimeParameters.x * ( _WindSpeed * 0.1 );
-				float3 temp_cast_9 = (mulTime75).xxx;
+				float3 temp_cast_10 = (mulTime75).xxx;
 				float2 appendResult216 = (float2(_SpeedTypeAX , _SpeedTypeAY));
 				float2 appendResult85 = (float2(_TileTypeAX , _TileTypeAY));
 				float3 temp_output_83_0 = ( v.positionOS.xyz + mulTime75 );
 				float3 temp_output_202_0 = saturate( temp_output_83_0 );
 				float2 texCoord84 = v.ase_texcoord.xy * appendResult85 + temp_output_202_0.xy;
-				float2 panner88 = ( ( v.positionOS.xyz - temp_cast_9 ).x * appendResult216 + texCoord84);
+				float2 panner88 = ( ( v.positionOS.xyz - temp_cast_10 ).x * appendResult216 + texCoord84);
 				float simplePerlin2D163 = snoise( panner88*_NoiseFreqA );
-				float4 temp_cast_12 = (simplePerlin2D163).xxxx;
 				float4 temp_cast_13 = (simplePerlin2D163).xxxx;
-				float4 temp_cast_14 = (( 1.0 - _TypeBIntensity )).xxxx;
+				float4 temp_cast_14 = (simplePerlin2D163).xxxx;
+				float4 temp_cast_15 = (RF_One57).xxxx;
+				float4 temp_cast_16 = (( 1.0 - _TypeBIntensity )).xxxx;
 				float2 appendResult219 = (float2(_SpeedTypeBX , _SpeedTypeBY));
 				float2 appendResult87 = (float2(_TileTypeBX , _TileTypeBY));
 				float2 texCoord86 = v.ase_texcoord.xy * appendResult87 + temp_output_202_0.xy;
 				float2 panner89 = ( temp_output_83_0.x * appendResult219 + texCoord86);
 				float simplePerlin2D166 = snoise( panner89*_NoiseFreqB );
-				float4 temp_cast_17 = (simplePerlin2D166).xxxx;
-				float4 temp_cast_18 = (simplePerlin2D166).xxxx;
-				float4 temp_cast_19 = (0.0).xxxx;
-				float4 temp_cast_20 = (1.0).xxxx;
-				float4 temp_cast_21 = (0.1).xxxx;
-				float4 temp_cast_22 = (_OverForce).xxxx;
-				float4 FoilageWind104 = (temp_cast_21 + (( (0.0 + (_WindIntensity - 0.0) * (4.0 - 0.0) / (1.0 - 0.0)) * ( ( temp_cast_8 - ( (( _TypeANeg )?( -(( _CustomNoiseTypeA )?( pow( tex2Dlod( _NoiseTxtA, float4( panner88, 0, 0.0) ) , 1.0 ) ):( temp_cast_13 )) ):( (( _CustomNoiseTypeA )?( pow( tex2Dlod( _NoiseTxtA, float4( panner88, 0, 0.0) ) , 1.0 ) ):( temp_cast_12 )) )) * _TypeAIntensity ) ) * ( temp_cast_14 - ( (( _TypeBNeg )?( -(( _CustomNoiseTypeB )?( pow( tex2Dlod( _NoiseTxtB, float4( panner89, 0, 0.0) ) , 1.0 ) ):( temp_cast_18 )) ):( (( _CustomNoiseTypeB )?( pow( tex2Dlod( _NoiseTxtB, float4( panner89, 0, 0.0) ) , 1.0 ) ):( temp_cast_17 )) )) * _TypeBIntensity ) ) ) ) - temp_cast_19) * (temp_cast_22 - temp_cast_21) / (temp_cast_20 - temp_cast_19));
-				float4 normalizeResult115 = ASESafeNormalize( mul( mul( (( _WindToggle )?( ( float4( appendResult106 , 0.0 ) + FoilageWind104 ) ):( float4( appendResult106 , 0.0 ) )), UNITY_MATRIX_V ), GetObjectToWorldMatrix() ) );
+				float4 temp_cast_19 = (simplePerlin2D166).xxxx;
+				float4 temp_cast_20 = (simplePerlin2D166).xxxx;
+				float4 temp_cast_21 = (0.0).xxxx;
+				float4 temp_cast_22 = (1.0).xxxx;
+				float4 temp_cast_23 = (0.1).xxxx;
+				float4 temp_cast_24 = ((0.001 + (_OverForce - 0.0) * (0.2 - 0.001) / (1.0 - 0.0))).xxxx;
+				float4 RF_FoilageWind104 = (temp_cast_23 + (( (0.0 + (_WindIntensity - 0.0) * (4.0 - 0.0) / (1.0 - 0.0)) * ( saturate( (( _NoiseTypeA )?( ( temp_cast_9 - ( (( _TypeANeg )?( -(( _CustomNoiseTypeA )?( pow( tex2Dlod( _NoiseTxtA, float4( panner88, 0, 0.0) ) , 1.0 ) ):( temp_cast_14 )) ):( (( _CustomNoiseTypeA )?( pow( tex2Dlod( _NoiseTxtA, float4( panner88, 0, 0.0) ) , 1.0 ) ):( temp_cast_13 )) )) * _TypeAIntensity ) ) ):( temp_cast_8 )) ) * saturate( (( _NoiseTypeB )?( ( temp_cast_16 - ( (( _TypeBNeg )?( -(( _CustomNoiseTypeB )?( pow( tex2Dlod( _NoiseTxtB, float4( panner89, 0, 0.0) ) , 1.0 ) ):( temp_cast_20 )) ):( (( _CustomNoiseTypeB )?( pow( tex2Dlod( _NoiseTxtB, float4( panner89, 0, 0.0) ) , 1.0 ) ):( temp_cast_19 )) )) * _TypeBIntensity ) ) ):( temp_cast_15 )) ) ) ) - temp_cast_21) * (temp_cast_24 - temp_cast_23) / (temp_cast_22 - temp_cast_21));
+				float4 normalizeResult115 = ASESafeNormalize( mul( mul( (( _WindToggle )?( ( float4( rotator105, 0.0 , 0.0 ) + saturate( RF_FoilageWind104 ) ) ):( float4( rotator105, 0.0 , 0.0 ) )), UNITY_MATRIX_V ), GetObjectToWorldMatrix() ) );
 				float4 lerpResult123 = lerp( float4( 0,0,0,0 ) , ( ( normalizeResult115 * _CardSize ) + float4( ( v.normalOS * (0.0 + (_Inflate - -1.0) * (1.0 - 0.0) / (1.0 - -1.0)) ) , 0.0 ) ) , _EffectBlend);
-				float4 Foilage124 = lerpResult123;
+				float4 RF_Foilage124 = lerpResult123;
 				
 				o.ase_texcoord.xy = v.ase_texcoord.xy;
 				
@@ -4800,7 +4835,7 @@ Shader "BUDU Shaders/BFoilage"
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
 
-				float3 vertexValue = Foilage124.rgb;
+				float3 vertexValue = RF_Foilage124.rgb;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.positionOS.xyz = vertexValue;
@@ -4903,15 +4938,14 @@ Shader "BUDU Shaders/BFoilage"
 			{
 				SurfaceDescription surfaceDescription = (SurfaceDescription)0;
 
-				float2 texCoord146 = IN.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
-				float cos143 = cos( radians( _TextureRotate ) );
-				float sin143 = sin( radians( _TextureRotate ) );
-				float2 rotator143 = mul( texCoord146 - float2( 0.5,0.5 ) , float2x2( cos143 , -sin143 , sin143 , cos143 )) + float2( 0.5,0.5 );
-				float4 tex2DNode21 = tex2D( _LeavesTexture, rotator143 );
-				float4 LeavesTextureR65 = tex2DNode21;
+				float2 appendResult314 = (float2(_TileSize , _TileSize));
+				float2 texCoord146 = IN.ase_texcoord.xy * appendResult314 + float2( 0,0 );
+				float2 RF_LeafUV315 = texCoord146;
+				float4 tex2DNode21 = tex2D( _LeavesTexture, RF_LeafUV315 );
+				float4 RF_LeavesTexture65 = tex2DNode21;
 				
 
-				surfaceDescription.Alpha = LeavesTextureR65.r;
+				surfaceDescription.Alpha = RF_LeavesTexture65.r;
 				surfaceDescription.AlphaClipThreshold = (0.0001 + (_ClipThreshold - 0.0) * (1.0 - 0.0001) / (1.0 - 0.0));
 
 				#if _ALPHATEST_ON
@@ -4944,169 +4978,199 @@ Shader "BUDU Shaders/BFoilage"
 	Fallback Off
 }
 /*ASEBEGIN
-Version=19403
-Node;AmplifyShaderEditor.CommentaryNode;70;-7834.026,-320;Inherit;False;4147.206;858.7293;Foilage Wind;55;104;183;185;187;186;184;101;98;97;253;250;93;252;251;248;245;243;242;263;262;261;260;168;167;166;225;163;226;165;164;92;94;89;88;86;84;212;219;216;220;202;85;87;218;221;217;82;81;80;83;79;75;78;73;72;Foilage Wind;0.6551657,1,0,1;0;0
-Node;AmplifyShaderEditor.RangedFloatNode;72;-7792,192;Inherit;False;Property;_WindSpeed;Wind Speed;29;0;Create;True;0;0;0;False;0;False;1;0;0;10;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;73;-7520,192;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0.1;False;1;FLOAT;0
-Node;AmplifyShaderEditor.PosVertexDataNode;78;-7376,32;Inherit;False;0;0;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SimpleTimeNode;75;-7376,192;Inherit;False;1;0;FLOAT;1;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;79;-7168,-176;Inherit;False;Property;_TileTypeAX;Tile TypeAX;28;0;Create;True;0;0;0;False;0;False;4;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleAddOpNode;83;-7120,32;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.RangedFloatNode;80;-7168,-96;Inherit;False;Property;_TileTypeAY;Tile TypeAY;30;0;Create;True;0;0;0;False;0;False;4;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;81;-7168,272;Inherit;False;Property;_TileTypeBX;Tile TypeBX;34;0;Create;True;0;0;0;False;0;False;4;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;82;-7168,352;Inherit;False;Property;_TileTypeBY;Tile TypeBY;33;0;Create;True;0;0;0;False;0;False;4;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;217;-6816,-224;Inherit;False;Property;_SpeedTypeAX;Speed TypeAX;27;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;221;-6816,432;Inherit;False;Property;_SpeedTypeBY;Speed TypeBY;32;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;218;-6816,-144;Inherit;False;Property;_SpeedTypeAY;Speed TypeAY;31;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.DynamicAppendNode;87;-6992,288;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.DynamicAppendNode;85;-6992,-144;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.SaturateNode;202;-6992,32;Inherit;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.RangedFloatNode;220;-6816,352;Inherit;False;Property;_SpeedTypeBX;Speed TypeBX;26;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.DynamicAppendNode;216;-6640,-192;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.DynamicAppendNode;219;-6640,384;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.SimpleSubtractOpNode;212;-7136,144;Inherit;False;2;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.TextureCoordinatesNode;84;-6816,-16;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;4,4;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.TextureCoordinatesNode;86;-6816,160;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.PannerNode;88;-6480,-16;Inherit;False;3;0;FLOAT2;0,0;False;2;FLOAT2;1,-1;False;1;FLOAT;1;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.PannerNode;89;-6480,176;Inherit;False;3;0;FLOAT2;0,0;False;2;FLOAT2;-1,-1;False;1;FLOAT;1;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.SamplerNode;94;-6048,144;Inherit;True;Property;_NoiseTxtB;NoiseTxtB;25;1;[NoScaleOffset];Create;True;0;0;0;False;0;False;-1;c662692ad44de0b45ba4f81297e97381;ba79def5542b6034a929cff9bd6bf12b;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SamplerNode;92;-6048,-48;Inherit;True;Property;_NoiseTxtA;NoiseTxtA;24;1;[NoScaleOffset];Create;True;0;0;0;False;0;False;-1;7ec7052ce3ab6a945ad73485b22020ef;ba79def5542b6034a929cff9bd6bf12b;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.RangedFloatNode;164;-6480,-112;Inherit;False;Property;_NoiseFreqA;NoiseFreqA;43;0;Create;True;0;0;0;False;0;False;1;1;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;165;-6480,320;Inherit;False;Property;_NoiseFreqB;NoiseFreqB;42;0;Create;True;0;0;0;False;0;False;1;1;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.PowerNode;226;-5744,144;Inherit;False;False;2;0;COLOR;0,0,0,0;False;1;FLOAT;1;False;1;COLOR;0
-Node;AmplifyShaderEditor.NoiseGeneratorNode;163;-6288,-192;Inherit;True;Simplex2D;False;False;2;0;FLOAT2;0,0;False;1;FLOAT;1;False;1;FLOAT;0
-Node;AmplifyShaderEditor.PowerNode;225;-5744,-48;Inherit;False;False;2;0;COLOR;0,0,0,0;False;1;FLOAT;1;False;1;COLOR;0
-Node;AmplifyShaderEditor.NoiseGeneratorNode;166;-6288,256;Inherit;True;Simplex2D;False;False;2;0;FLOAT2;0,0;False;1;FLOAT;1;False;1;FLOAT;0
-Node;AmplifyShaderEditor.ToggleSwitchNode;167;-5568,-48;Inherit;False;Property;_CustomNoiseTypeA;CustomNoiseTypeA;45;0;Create;True;0;0;0;False;0;False;0;True;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.ToggleSwitchNode;168;-5568,144;Inherit;False;Property;_CustomNoiseTypeB;CustomNoiseTypeB;47;0;Create;True;0;0;0;False;0;False;0;True;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.NegateNode;260;-5328,32;Inherit;False;1;0;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.NegateNode;261;-5328,224;Inherit;False;1;0;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.ToggleSwitchNode;262;-5184,-48;Inherit;False;Property;_TypeANeg;TypeANeg;52;0;Create;True;0;0;0;False;0;False;0;True;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.ToggleSwitchNode;263;-5168,144;Inherit;False;Property;_TypeBNeg;TypeBNeg;53;0;Create;True;0;0;0;False;0;False;0;True;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.RangedFloatNode;242;-5232,-128;Inherit;False;Property;_TypeAIntensity;TypeAIntensity;50;0;Create;True;0;0;0;False;0;False;1;0;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;243;-5232,304;Inherit;False;Property;_TypeBIntensity;TypeBIntensity;51;0;Create;True;0;0;0;False;0;False;1;0;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.CommentaryNode;71;-7824,-1168;Inherit;False;3229.488;706.864;Foilage;31;91;100;95;103;90;99;124;123;122;121;120;119;115;116;118;117;113;114;131;111;109;110;108;107;106;105;136;138;139;133;102;Foilage;0.6551657,1,0,1;0;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;245;-4944,144;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;248;-4928,-48;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.OneMinusNode;251;-4928,-128;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.OneMinusNode;252;-4944,256;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.TexCoordVertexDataNode;99;-7792,-1104;Inherit;True;0;2;0;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.RangedFloatNode;93;-4800,-240;Inherit;False;Property;_WindIntensity;Wind Intensity;22;0;Create;True;0;0;0;False;0;False;1;0;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleSubtractOpNode;250;-4768,-128;Inherit;True;2;0;FLOAT;0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.SimpleSubtractOpNode;253;-4768,144;Inherit;True;2;0;FLOAT;0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.TFHCRemapNode;102;-7536,-1104;Inherit;False;5;0;FLOAT2;0,0;False;1;FLOAT2;0,0;False;2;FLOAT2;1,1;False;3;FLOAT2;-1,-1;False;4;FLOAT2;1,1;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.RangedFloatNode;90;-7680,-752;Inherit;False;Property;_CardRotate;CardRotate;21;0;Create;True;0;0;0;False;0;False;0;0;-360;360;0;1;FLOAT;0
-Node;AmplifyShaderEditor.TransformDirectionNode;133;-7344,-992;Inherit;False;Tangent;View;True;Fast;False;1;0;FLOAT3;0,0,0;False;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
-Node;AmplifyShaderEditor.TFHCRemapNode;97;-4496,-192;Inherit;False;5;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;0;False;4;FLOAT;4;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;98;-4528,-16;Inherit;True;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.RadiansOpNode;103;-7376,-752;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.BitangentVertexDataNode;91;-7440,-656;Inherit;True;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
-Node;AmplifyShaderEditor.RangedFloatNode;139;-7408,-832;Inherit;False;Property;_SurfaceFoilageIntensity;Surface Foilage Intensity;39;0;Create;True;0;0;0;False;0;False;0;0;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.LerpOp;138;-7120,-1040;Inherit;False;3;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT;0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;101;-4304,-192;Inherit;False;2;2;0;FLOAT;0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.RangedFloatNode;184;-4480,208;Inherit;False;Constant;_MinOld;MinOld;43;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;186;-4480,272;Inherit;False;Constant;_MaxOld;MaxOld;43;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;187;-4480,336;Inherit;False;Constant;_MinNew;MinNew;43;0;Create;True;0;0;0;False;0;False;0.1;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;185;-4544,400;Inherit;False;Property;_OverForce;OverForce;46;0;Create;True;0;0;0;False;0;False;0.25;0.25;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;95;-7184,-688;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.TFHCRemapNode;183;-4160,-192;Inherit;True;5;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;COLOR;1,1,1,1;False;3;COLOR;0,0,0,0;False;4;COLOR;1,1,1,1;False;1;COLOR;0
-Node;AmplifyShaderEditor.ToggleSwitchNode;136;-6976,-1104;Inherit;False;Property;_SurfaceFoilage;Surface Foilage;38;0;Create;True;0;0;0;False;0;False;0;True;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.ToggleSwitchNode;100;-7008,-768;Inherit;False;Property;_RandomRotate;RandomRotate;35;0;Create;True;0;0;0;False;0;False;0;True;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.RegisterLocalVarNode;104;-3904,-192;Inherit;False;FoilageWind;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.RotatorNode;105;-6768,-1104;Inherit;False;3;0;FLOAT2;0,0;False;1;FLOAT2;0,0;False;2;FLOAT;1;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.DynamicAppendNode;106;-6576,-1104;Inherit;False;FLOAT3;4;0;FLOAT2;0,0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.GetLocalVarNode;107;-6720,-896;Inherit;True;104;FoilageWind;1;0;OBJECT;;False;1;COLOR;0
-Node;AmplifyShaderEditor.SimpleAddOpNode;108;-6432,-1024;Inherit;True;2;2;0;FLOAT3;0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.ToggleSwitchNode;110;-6224,-1104;Inherit;False;Property;_WindToggle;WindToggle;23;0;Create;True;0;0;0;False;0;False;0;True;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.ViewMatrixNode;109;-6128,-992;Inherit;False;0;1;FLOAT4x4;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;111;-6000,-1104;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT4x4;0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1;False;1;COLOR;0
-Node;AmplifyShaderEditor.ObjectToWorldMatrixNode;131;-6000,-992;Inherit;False;0;1;FLOAT4x4;0
-Node;AmplifyShaderEditor.RangedFloatNode;114;-5920,-752;Inherit;False;Property;_Inflate;Inflate;20;0;Create;True;0;0;0;False;0;False;0;0;-3;4;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;113;-5760,-1104;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT4x4;0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1;False;1;COLOR;0
-Node;AmplifyShaderEditor.CommentaryNode;17;-7808,-1744;Inherit;False;1626.875;454.1329;Leaf Base Settings;10;144;145;146;143;20;21;22;19;18;65;Leaf Base Settings;1,1,1,1;0;0
-Node;AmplifyShaderEditor.TFHCRemapNode;117;-5616,-752;Inherit;False;5;0;FLOAT;0;False;1;FLOAT;-1;False;2;FLOAT;1;False;3;FLOAT;0;False;4;FLOAT;1;False;1;FLOAT;0
-Node;AmplifyShaderEditor.NormalVertexDataNode;118;-5616,-896;Inherit;False;0;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.RangedFloatNode;116;-5712,-992;Inherit;False;Property;_CardSize;CardSize;19;1;[Gamma];Create;True;0;0;0;False;0;False;1;0;0;3;0;1;FLOAT;0
-Node;AmplifyShaderEditor.NormalizeNode;115;-5600,-1104;Inherit;False;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.RangedFloatNode;144;-7792,-1408;Inherit;False;Property;_TextureRotate;Texture Rotate;40;0;Create;True;0;0;0;False;0;False;0;0;0;360;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;119;-5440,-1104;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;120;-5424,-896;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.TextureCoordinatesNode;146;-7568,-1536;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.RadiansOpNode;145;-7504,-1408;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleAddOpNode;121;-5280,-1104;Inherit;True;2;2;0;COLOR;0,0,0,0;False;1;FLOAT3;0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.RangedFloatNode;122;-5344,-752;Inherit;False;Property;_EffectBlend;EffectBlend;0;0;Create;True;0;0;0;False;0;False;0;0;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RotatorNode;143;-7344,-1504;Inherit;False;3;0;FLOAT2;0,0;False;1;FLOAT2;0.5,0.5;False;2;FLOAT;1;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.LerpOp;123;-5056,-1104;Inherit;True;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.SamplerNode;21;-7168,-1504;Inherit;True;Property;_LeavesTexture;Leaves Texture;5;0;Create;True;0;0;0;False;0;False;-1;None;607961a1ca5e345479b3fa76c399d67f;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.RegisterLocalVarNode;124;-4816,-1104;Inherit;False;Foilage;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.CommentaryNode;10;-6144,-1632;Inherit;False;1331.33;333.8991;Leaves Specular Settings;7;64;63;15;13;11;14;12;Leaves Specular Settings;1,1,1,1;0;0
-Node;AmplifyShaderEditor.CommentaryNode;25;-5936,656;Inherit;False;1317.03;536.3784;Normals;7;32;31;30;29;28;27;26;Normals;0.4402515,0.4635113,1,1;0;0
-Node;AmplifyShaderEditor.CommentaryNode;34;-7840,656;Inherit;False;1870.647;777.5897;Leaves Rim Settings;21;36;54;62;52;51;50;49;48;47;46;45;44;43;42;41;40;39;38;37;35;160;Leaves Rim Settings;0,0.9833336,1,1;0;0
-Node;AmplifyShaderEditor.CommentaryNode;55;-4528,-1024;Inherit;False;776.02;552.0175;Local Vars;13;265;222;223;127;161;56;58;60;156;61;59;57;268;Local Vars;1,1,1,1;0;0
-Node;AmplifyShaderEditor.RegisterLocalVarNode;65;-6400,-1472;Inherit;False;LeavesTextureR;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.RangedFloatNode;67;-3456,-48;Inherit;False;Property;_ClipThreshold;Clip Threshold;18;0;Create;True;0;0;0;False;0;False;0.2;0;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;12;-5744,-1392;Inherit;False;Property;_LeavesSpecIntensity;Leaves Spec Intensity;4;0;Create;True;0;0;0;False;0;False;1;0;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;11;-5424,-1456;Inherit;False;3;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.ToggleSwitchNode;30;-5312,736;Inherit;True;Property;_Normal;Normal;7;0;Create;True;0;0;0;False;0;False;0;True;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.FunctionNode;31;-5568,960;Inherit;True;Normal Reconstruct Z;-1;;142;63ba85b764ae0c84ab3d698b86364ae9;0;1;1;FLOAT2;0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.WorldNormalVector;32;-5088,736;Inherit;True;True;1;0;FLOAT3;0,0,0;False;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;35;-6592,848;Inherit;False;4;4;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.RangedFloatNode;37;-7712,880;Inherit;False;Property;_LeavesRimBias;Leaves Rim Bias;11;0;Create;True;0;0;0;False;0;False;0;0;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SaturateNode;41;-6784,896;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.OneMinusNode;43;-7152,976;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleContrastOpNode;44;-7520,1120;Inherit;False;2;1;COLOR;0,0,0,0;False;0;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.RangedFloatNode;47;-7216,1344;Inherit;False;Property;_LeavesRimYPosition;Leaves Rim Y Position;10;0;Create;True;0;0;0;False;0;False;0.5;0;0;2;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SaturateNode;50;-6784,1120;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;51;-6928,1120;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.ColorNode;52;-6880,704;Inherit;False;Property;_LeavesRimColor;Leaves Rim Color;9;0;Create;True;0;0;0;False;0;False;0.3124955,0.4842767,0.2695502,1;0.3124955,0.4842767,0.2695502,1;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.GetLocalVarNode;63;-5440,-1552;Inherit;False;59;Zero;1;0;OBJECT;;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;38;-7712,960;Inherit;False;Property;_LeavesRimScale;Leaves Rim Scale;14;0;Create;True;0;0;0;False;0;False;1;0;0;5;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;39;-7712,1040;Inherit;False;Property;_LeavesRimPower;Leaves Rim Power;12;0;Create;True;0;0;0;False;0;False;3;0;0;5;0;1;FLOAT;0
-Node;AmplifyShaderEditor.PosVertexDataNode;48;-7728,1120;Inherit;False;0;0;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.TFHCRemapNode;46;-7200,1120;Inherit;True;5;0;FLOAT;0;False;1;FLOAT;-1;False;2;FLOAT;1;False;3;FLOAT;0;False;4;FLOAT;1;False;1;FLOAT;0
-Node;AmplifyShaderEditor.ToggleSwitchNode;54;-6400,816;Inherit;False;Property;_LeavesRim;Leaves Rim;16;0;Create;True;0;0;0;False;0;False;0;True;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.RangedFloatNode;49;-7792,1264;Inherit;False;Property;_LeavesRimYContrast;Leaves Rim Y Contrast;15;0;Create;True;0;0;0;False;0;False;1;0;0;5;0;1;FLOAT;0
-Node;AmplifyShaderEditor.FresnelNode;40;-7408,896;Inherit;False;Standard;WorldNormal;ViewDir;True;True;5;0;FLOAT3;0,0,1;False;4;FLOAT3;0,0,0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;3;False;1;FLOAT;0
-Node;AmplifyShaderEditor.LerpOp;18;-6640,-1680;Inherit;True;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;COLOR;0.5,0.5,0.5,1;False;1;COLOR;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;19;-6864,-1616;Inherit;True;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.RegisterLocalVarNode;22;-6400,-1680;Inherit;False;LeavesAlbedo;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.GetLocalVarNode;62;-6592,752;Inherit;False;59;Zero;1;0;OBJECT;;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RegisterLocalVarNode;36;-6176,816;Inherit;False;LeavesRimR;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.ColorNode;20;-7104,-1680;Inherit;False;Property;_LeavesColor;Leaves Color;3;0;Create;True;0;0;0;False;0;False;0.3193329,0.4654087,0.1653811,1;0.3193329,0.4654087,0.1653811,1;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SamplerNode;13;-5984,-1584;Inherit;True;Property;_LeavesSpecTexture;Leaves Spec Texture;1;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SamplerNode;28;-5616,736;Inherit;True;Property;_NormalMap;Normal Map;6;2;[Header];[Normal];Create;False;1;Normal Controls;0;0;False;0;False;-1;None;None;True;0;True;bump;Auto;True;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.RangedFloatNode;29;-5904,736;Float;True;Property;_NormalScale;Normal Scale;8;0;Create;False;0;0;0;False;0;False;0.3;1;-1;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.GetLocalVarNode;160;-7616,784;Inherit;False;26;NewNormals;1;0;OBJECT;;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.ToggleSwitchNode;42;-7008,896;Inherit;False;Property;_FresnelInvert;Fresnel Invert;13;0;Create;True;0;0;0;False;0;False;0;True;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.BreakToComponentsNode;45;-7312,1120;Inherit;False;COLOR;1;0;COLOR;0,0,0,0;False;16;FLOAT;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT;5;FLOAT;6;FLOAT;7;FLOAT;8;FLOAT;9;FLOAT;10;FLOAT;11;FLOAT;12;FLOAT;13;FLOAT;14;FLOAT;15
-Node;AmplifyShaderEditor.IntNode;156;-4256,-720;Inherit;False;Property;_TextureWrapMode;Texture Wrap Mode;41;2;[HideInInspector];[Enum];Create;True;0;5;Repeat;0;Clamp;1;Mirror;2;Mirror Once;3;Per Axis;4;0;True;0;False;0;0;False;0;1;INT;0
-Node;AmplifyShaderEditor.IntNode;161;-4480,-640;Inherit;False;Property;_FoilageSetting;FoilageSetting;44;1;[HideInInspector];Create;True;0;0;0;True;0;False;0;0;True;0;1;INT;0
-Node;AmplifyShaderEditor.IntNode;127;-4496,-720;Inherit;False;Property;_AlphaAntiAliasing;AlphaAntiAliasing;36;2;[HideInInspector];[Enum];Create;False;0;2;On;1;Off;0;0;True;0;False;0;0;True;0;1;INT;0
-Node;AmplifyShaderEditor.IntNode;223;-4240,-560;Inherit;False;Property;_NoiseBFold;NoiseBFold;49;1;[HideInInspector];Create;True;0;0;0;True;0;False;0;0;True;0;1;INT;0
-Node;AmplifyShaderEditor.IntNode;222;-4240,-640;Inherit;False;Property;_NoiseAFold;NoiseAFold;48;1;[HideInInspector];Create;True;0;0;0;True;0;False;0;0;True;0;1;INT;0
-Node;AmplifyShaderEditor.RangedFloatNode;265;-4032,-976;Inherit;False;Property;_Transmission;Transmission;54;0;Create;True;0;0;0;False;0;False;0;0;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.StickyNoteNode;267;-4512,-1408;Inherit;False;407.0667;288.8;Extra Notlar;Extra Notlar;1,0.901033,0,1;Transmission buraya eklenebilir. Performans Testlerine bak veya On / Off şeklinde ekle buraya$$Shadow Threshold da eklenebilir Sonra$$Aynı shader'ın grass için düzenlenmişini yap$(üst vertex hareket ederken alt vertexler durur)$;0;0
-Node;AmplifyShaderEditor.RangedFloatNode;268;-4032,-896;Inherit;False;Property;_ShadowThreshold;ShadowThreshold;55;1;[HideInInspector];Create;True;0;0;0;True;0;False;0.5;0.5;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RegisterLocalVarNode;26;-4848,736;Float;True;NewNormals;-1;True;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.RegisterLocalVarNode;27;-4848,960;Inherit;True;NewObjectNormal;-1;True;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.RegisterLocalVarNode;15;-5040,-1456;Inherit;False;LeavesSpecularR;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.ToggleSwitchNode;64;-5264,-1456;Inherit;False;Property;_LeavesSpecular;Leaves Specular;17;0;Create;False;0;0;0;False;0;False;0;True;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.ColorNode;14;-5680,-1584;Inherit;False;Property;_LeavesSpecColor;Leaves Spec Color;2;0;Create;True;0;0;0;False;0;False;1,1,1,1;1,1,1,1;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.GetLocalVarNode;23;-2928,-608;Inherit;False;22;LeavesAlbedo;1;0;OBJECT;;False;1;COLOR;0
-Node;AmplifyShaderEditor.GetLocalVarNode;33;-3152,-560;Inherit;False;27;NewObjectNormal;1;0;OBJECT;;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.GetLocalVarNode;16;-3216,-368;Inherit;False;15;LeavesSpecularR;1;0;OBJECT;;False;1;COLOR;0
-Node;AmplifyShaderEditor.RangedFloatNode;128;-3264,-288;Inherit;False;Property;_Smoothness;Smoothness;37;0;Create;True;0;0;0;False;0;False;0.4;0.5;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.GetLocalVarNode;66;-3200,-160;Inherit;False;65;LeavesTextureR;1;0;OBJECT;;False;1;COLOR;0
-Node;AmplifyShaderEditor.GetLocalVarNode;125;-2960,32;Inherit;False;124;Foilage;1;0;OBJECT;;False;1;COLOR;0
-Node;AmplifyShaderEditor.TFHCRemapNode;68;-3168,-48;Inherit;False;5;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;0.0001;False;4;FLOAT;1;False;1;FLOAT;0
-Node;AmplifyShaderEditor.GetLocalVarNode;53;-3200,-464;Inherit;False;36;LeavesRimR;1;0;OBJECT;;False;1;COLOR;0
-Node;AmplifyShaderEditor.RegisterLocalVarNode;57;-4256,-976;Inherit;False;One;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RegisterLocalVarNode;59;-4256,-896;Inherit;False;Zero;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RegisterLocalVarNode;61;-4256,-816;Inherit;False;Gray;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;60;-4464,-816;Inherit;False;Constant;_Gray;[Gray];19;1;[HideInInspector];Create;True;0;0;0;False;0;False;0.5;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;58;-4464,-896;Inherit;False;Constant;_Zero1;[Zero];19;1;[HideInInspector];Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;56;-4464,-976;Inherit;False;Constant;_One1;[One];20;1;[HideInInspector];Create;True;0;0;0;False;0;False;1;1;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;269;-2576,-384;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;19;New Amplify Shader;dcf3e680117c48a4cb69c2c58c49ec28;True;ExtraPrePass;0;0;ExtraPrePass;5;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;True;1;1;False;;0;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;0;False;False;0;;0;0;Standard;0;False;0
+Version=19600
+Node;AmplifyShaderEditor.CommentaryNode;70;-7808,-512;Inherit;False;4495.252;842.5948;Foilage Wind;62;104;183;185;187;186;184;101;98;97;253;250;93;252;251;248;245;242;263;262;243;261;260;168;167;226;225;166;163;165;164;92;94;89;88;86;84;212;219;216;220;202;85;87;218;221;217;82;81;80;83;79;78;75;73;72;287;288;290;291;306;369;370;;0.6551657,1,0,1;0;0
+Node;AmplifyShaderEditor.RangedFloatNode;72;-7760,0;Inherit;False;Property;_WindSpeed;Wind Speed;29;0;Create;True;0;0;0;False;0;False;1;0;0;10;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;73;-7488,0;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0.1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleTimeNode;75;-7344,0;Inherit;False;1;0;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.PosVertexDataNode;78;-7344,-160;Inherit;False;0;0;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.RangedFloatNode;79;-7136,-368;Inherit;False;Property;_TileTypeAX;Tile TypeAX;28;0;Create;True;0;0;0;False;0;False;4;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleAddOpNode;83;-7088,-160;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.RangedFloatNode;80;-7136,-288;Inherit;False;Property;_TileTypeAY;Tile TypeAY;30;0;Create;True;0;0;0;False;0;False;4;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;81;-7136,80;Inherit;False;Property;_TileTypeBX;Tile TypeBX;34;0;Create;True;0;0;0;False;0;False;4;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;82;-7136,160;Inherit;False;Property;_TileTypeBY;Tile TypeBY;33;0;Create;True;0;0;0;False;0;False;4;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;217;-6784,-416;Inherit;False;Property;_SpeedTypeAX;Speed TypeAX;27;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;221;-6784,240;Inherit;False;Property;_SpeedTypeBY;Speed TypeBY;32;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;218;-6784,-336;Inherit;False;Property;_SpeedTypeAY;Speed TypeAY;31;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.DynamicAppendNode;87;-6960,96;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.DynamicAppendNode;85;-6960,-336;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.SaturateNode;202;-6960,-160;Inherit;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.RangedFloatNode;220;-6784,160;Inherit;False;Property;_SpeedTypeBX;Speed TypeBX;26;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.DynamicAppendNode;216;-6608,-384;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.DynamicAppendNode;219;-6608,192;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.SimpleSubtractOpNode;212;-7104,-48;Inherit;False;2;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.TextureCoordinatesNode;84;-6784,-208;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;4,4;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.TextureCoordinatesNode;86;-6784,-32;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.PannerNode;88;-6448,-208;Inherit;False;3;0;FLOAT2;0,0;False;2;FLOAT2;1,-1;False;1;FLOAT;1;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.PannerNode;89;-6448,-16;Inherit;False;3;0;FLOAT2;0,0;False;2;FLOAT2;-1,-1;False;1;FLOAT;1;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.RangedFloatNode;164;-6448,-304;Inherit;False;Property;_NoiseFreqA;NoiseFreqA;43;0;Create;True;0;0;0;False;0;False;1;1;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;165;-6448,128;Inherit;False;Property;_NoiseFreqB;NoiseFreqB;42;0;Create;True;0;0;0;False;0;False;1;1;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SamplerNode;92;-6016,-240;Inherit;True;Property;_NoiseTxtA;NoiseTxtA;24;1;[NoScaleOffset];Create;True;0;0;0;False;0;False;-1;7ec7052ce3ab6a945ad73485b22020ef;ba79def5542b6034a929cff9bd6bf12b;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;6;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT3;5
+Node;AmplifyShaderEditor.SamplerNode;94;-6016,-48;Inherit;True;Property;_NoiseTxtB;NoiseTxtB;25;1;[NoScaleOffset];Create;True;0;0;0;False;0;False;-1;c662692ad44de0b45ba4f81297e97381;ba79def5542b6034a929cff9bd6bf12b;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;6;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT3;5
+Node;AmplifyShaderEditor.NoiseGeneratorNode;163;-6256,-384;Inherit;True;Simplex2D;False;False;2;0;FLOAT2;0,0;False;1;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.NoiseGeneratorNode;166;-6256,64;Inherit;True;Simplex2D;False;False;2;0;FLOAT2;0,0;False;1;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.PowerNode;225;-5712,-240;Inherit;False;False;2;0;COLOR;0,0,0,0;False;1;FLOAT;1;False;1;COLOR;0
+Node;AmplifyShaderEditor.PowerNode;226;-5712,-48;Inherit;False;False;2;0;COLOR;0,0,0,0;False;1;FLOAT;1;False;1;COLOR;0
+Node;AmplifyShaderEditor.ToggleSwitchNode;167;-5536,-240;Inherit;False;Property;_CustomNoiseTypeA;CustomNoiseTypeA;45;0;Create;True;0;0;0;False;0;False;0;True;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.ToggleSwitchNode;168;-5536,-48;Inherit;False;Property;_CustomNoiseTypeB;CustomNoiseTypeB;47;0;Create;True;0;0;0;False;0;False;0;True;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.NegateNode;260;-5296,-160;Inherit;False;1;0;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.NegateNode;261;-5296,32;Inherit;False;1;0;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.CommentaryNode;55;-4688,-1264;Inherit;False;776.02;552.0175;Local Vars;15;265;222;223;127;161;56;58;60;156;61;59;57;268;279;280;;1,1,1,1;0;0
+Node;AmplifyShaderEditor.RangedFloatNode;243;-5200,112;Inherit;False;Property;_TypeBIntensity;TypeBIntensity;51;0;Create;True;0;0;0;False;0;False;1;0;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.ToggleSwitchNode;262;-5152,-240;Inherit;False;Property;_TypeANeg;TypeANeg;52;0;Create;True;0;0;0;False;0;False;0;True;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.ToggleSwitchNode;263;-5136,-48;Inherit;False;Property;_TypeBNeg;TypeBNeg;53;0;Create;True;0;0;0;False;0;False;0;True;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.RangedFloatNode;242;-5200,-320;Inherit;False;Property;_TypeAIntensity;TypeAIntensity;50;0;Create;True;0;0;0;False;0;False;1;0;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;56;-4624,-1216;Inherit;False;Constant;_One1;[One];20;1;[HideInInspector];Create;True;0;0;0;False;0;False;1;1;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;245;-4912,-48;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;248;-4896,-240;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.OneMinusNode;251;-4896,-320;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.OneMinusNode;252;-4912,64;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;57;-4416,-1216;Inherit;False;RF_One;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleSubtractOpNode;250;-4736,-320;Inherit;True;2;0;FLOAT;0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.GetLocalVarNode;290;-4720,-416;Inherit;False;57;RF_One;1;0;OBJECT;;False;1;FLOAT;0
+Node;AmplifyShaderEditor.GetLocalVarNode;291;-4720,176;Inherit;False;57;RF_One;1;0;OBJECT;;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleSubtractOpNode;253;-4736,-48;Inherit;True;2;0;FLOAT;0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.ToggleSwitchNode;287;-4496,-320;Inherit;False;Property;_NoiseTypeA;NoiseTypeA;58;0;Create;True;0;0;0;False;0;False;1;True;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.ToggleSwitchNode;288;-4496,-80;Inherit;False;Property;_NoiseTypeB;NoiseTypeB;59;0;Create;True;0;0;0;False;0;False;1;True;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.RangedFloatNode;93;-4432,-432;Inherit;False;Property;_WindIntensity;Wind Intensity;22;0;Create;True;0;0;0;False;0;False;1;0;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SaturateNode;370;-4288,-128;Inherit;False;1;0;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.SaturateNode;369;-4288,-208;Inherit;False;1;0;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.CommentaryNode;71;-7808,-1264;Inherit;False;3091.488;716.1973;Foilage;32;124;123;122;121;120;119;115;116;118;117;113;114;131;111;109;110;108;106;107;105;100;136;95;138;91;133;139;103;102;90;99;304;;0.6551657,1,0,1;0;0
+Node;AmplifyShaderEditor.TFHCRemapNode;97;-4128,-384;Inherit;False;5;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;0;False;4;FLOAT;4;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;185;-4240,256;Inherit;False;Property;_OverForce;OverForce;46;0;Create;True;0;0;0;True;0;False;0.5;0.25;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;98;-4144,-208;Inherit;True;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.TexCoordVertexDataNode;99;-7776,-1200;Inherit;True;0;2;0;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.RangedFloatNode;90;-7664,-848;Inherit;False;Property;_CardRotate;CardRotate;21;0;Create;True;0;0;0;False;0;False;0;0;-360;360;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;184;-4112,16;Inherit;False;Constant;_MinOld;MinOld;43;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;187;-4112,176;Inherit;False;Constant;_MinNew;MinNew;43;0;Create;True;0;0;0;False;0;False;0.1;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;186;-4112,96;Inherit;False;Constant;_MaxOld;MaxOld;43;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;101;-3888,-384;Inherit;False;2;2;0;FLOAT;0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.TFHCRemapNode;306;-3904,160;Inherit;False;5;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;0.001;False;4;FLOAT;0.2;False;1;FLOAT;0
+Node;AmplifyShaderEditor.TFHCRemapNode;102;-7520,-1200;Inherit;False;5;0;FLOAT2;0,0;False;1;FLOAT2;0,0;False;2;FLOAT2;1,1;False;3;FLOAT2;-1,-1;False;4;FLOAT2;1,1;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.RangedFloatNode;139;-7392,-928;Inherit;False;Property;_SurfaceFoilageIntensity;Surface Foilage Intensity;39;0;Create;True;0;0;0;False;0;False;0;0;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RadiansOpNode;103;-7376,-848;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.TFHCRemapNode;183;-3728,-384;Inherit;False;5;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;COLOR;1,1,1,1;False;3;COLOR;0,0,0,0;False;4;COLOR;1,1,1,1;False;1;COLOR;0
+Node;AmplifyShaderEditor.BitangentVertexDataNode;91;-7440,-752;Inherit;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Node;AmplifyShaderEditor.TransformDirectionNode;133;-7328,-1088;Inherit;False;Tangent;View;False;Fast;True;1;0;FLOAT3;0,0,0;False;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Node;AmplifyShaderEditor.LerpOp;138;-7104,-1136;Inherit;False;3;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT;0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;95;-7200,-784;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;104;-3536,-384;Inherit;False;RF_FoilageWind;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.ToggleSwitchNode;136;-6960,-1200;Inherit;False;Property;_SurfaceFoilage;Surface Foilage;38;0;Create;True;0;0;0;False;0;False;0;True;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.ToggleSwitchNode;100;-7040,-848;Inherit;False;Property;_RandomRotate;RandomRotate;35;0;Create;True;0;0;0;False;0;False;0;True;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.GetLocalVarNode;107;-6784,-1056;Inherit;False;104;RF_FoilageWind;1;0;OBJECT;;False;1;COLOR;0
+Node;AmplifyShaderEditor.SaturateNode;304;-6576,-1056;Inherit;False;1;0;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.RotatorNode;105;-6752,-1200;Inherit;False;3;0;FLOAT2;0,0;False;1;FLOAT2;0,0;False;2;FLOAT;1;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.SimpleAddOpNode;108;-6416,-1136;Inherit;True;2;2;0;FLOAT2;0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.CommentaryNode;17;-7808,-1744;Inherit;False;2026.265;458.4531;Leaf Base Settings;14;315;314;312;20;22;18;19;65;21;143;146;145;144;317;;1,1,1,1;0;0
+Node;AmplifyShaderEditor.ToggleSwitchNode;110;-6208,-1200;Inherit;False;Property;_WindToggle;WindToggle;23;0;Create;True;0;0;0;False;0;False;0;True;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.ViewMatrixNode;109;-6144,-1088;Inherit;False;0;1;FLOAT4x4;0
+Node;AmplifyShaderEditor.RangedFloatNode;312;-7792,-1696;Inherit;False;Property;_TileSize;TileSize;60;0;Create;True;0;0;0;True;0;False;1;1;1;4;0;1;FLOAT;0
+Node;AmplifyShaderEditor.ObjectToWorldMatrixNode;131;-6000,-1088;Inherit;False;0;1;FLOAT4x4;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;111;-5968,-1200;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT4x4;0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1;False;1;COLOR;0
+Node;AmplifyShaderEditor.DynamicAppendNode;314;-7504,-1696;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.RangedFloatNode;114;-5904,-848;Inherit;False;Property;_Inflate;Inflate;20;0;Create;True;0;0;0;False;0;False;0;0;-3;4;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;113;-5760,-1200;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT4x4;0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1;False;1;COLOR;0
+Node;AmplifyShaderEditor.TextureCoordinatesNode;146;-7312,-1696;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.TFHCRemapNode;117;-5600,-848;Inherit;False;5;0;FLOAT;0;False;1;FLOAT;-1;False;2;FLOAT;1;False;3;FLOAT;0;False;4;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.NormalVertexDataNode;118;-5600,-992;Inherit;False;0;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.RangedFloatNode;116;-5696,-1088;Inherit;False;Property;_CardSize;CardSize;19;1;[Gamma];Create;True;0;0;0;False;0;False;1;0;0;3;0;1;FLOAT;0
+Node;AmplifyShaderEditor.NormalizeNode;115;-5584,-1200;Inherit;False;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;120;-5408,-992;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;119;-5424,-1200;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;315;-6896,-1664;Inherit;False;RF_LeafUV;-1;True;1;0;FLOAT2;0,0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.SimpleAddOpNode;121;-5264,-1200;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT3;0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.RangedFloatNode;122;-5408,-880;Inherit;False;Property;_EffectBlend;EffectBlend;0;0;Create;True;0;0;0;False;0;False;0;0;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.GetLocalVarNode;317;-6880,-1472;Inherit;False;315;RF_LeafUV;1;0;OBJECT;;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.SamplerNode;21;-6640,-1504;Inherit;True;Property;_LeavesTexture;Leaves Texture;5;1;[NoScaleOffset];Create;True;0;0;0;False;0;False;-1;None;607961a1ca5e345479b3fa76c399d67f;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;6;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT3;5
+Node;AmplifyShaderEditor.LerpOp;123;-5104,-1200;Inherit;False;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.CommentaryNode;10;-5760,-1648;Inherit;False;1372.459;359.8992;Leaves Specular Settings;8;13;318;63;14;12;15;64;11;;1,1,1,1;0;0
+Node;AmplifyShaderEditor.CommentaryNode;25;-5904,384;Inherit;False;1317.03;536.3784;Normals;8;32;31;30;29;28;27;26;319;;0.4402515,0.4635113,1,1;0;0
+Node;AmplifyShaderEditor.CommentaryNode;34;-7808,384;Inherit;False;1870.647;777.5897;Leaves Rim Settings;21;36;54;62;52;51;50;49;48;47;46;45;44;43;42;41;40;39;38;37;35;160;;0,0.9833336,1,1;0;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;124;-4944,-1200;Inherit;False;RF_Foilage;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;65;-6016,-1504;Inherit;False;RF_LeavesTexture;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.RangedFloatNode;67;-3232,-144;Inherit;False;Property;_ClipThreshold;Clip Threshold;18;0;Create;True;0;0;0;False;0;False;0.2;0;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.UnityProjectorClipMatrixNode;363;-8416,-1040;Inherit;False;0;1;FLOAT4x4;0
+Node;AmplifyShaderEditor.RangedFloatNode;37;-7680,608;Inherit;False;Property;_LeavesRimBias;Leaves Rim Bias;11;0;Create;True;0;0;0;False;0;False;0;0;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SaturateNode;41;-6752,624;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.OneMinusNode;43;-7120,704;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SaturateNode;50;-6752,848;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;38;-7680,688;Inherit;False;Property;_LeavesRimScale;Leaves Rim Scale;14;0;Create;True;0;0;0;False;0;False;1;0;0;5;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;39;-7680,768;Inherit;False;Property;_LeavesRimPower;Leaves Rim Power;12;0;Create;True;0;0;0;False;0;False;3;0;0;5;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;49;-7760,992;Inherit;False;Property;_LeavesRimYContrast;Leaves Rim Y Contrast;15;0;Create;True;0;0;0;False;0;False;1;0;0;5;0;1;FLOAT;0
+Node;AmplifyShaderEditor.FresnelNode;40;-7376,624;Inherit;False;Standard;WorldNormal;ViewDir;True;True;5;0;FLOAT3;0,0,1;False;4;FLOAT3;0,0,0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;3;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;19;-6336,-1616;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.GetLocalVarNode;62;-6560,480;Inherit;False;59;RF_Zero;1;0;OBJECT;;False;1;FLOAT;0
+Node;AmplifyShaderEditor.ToggleSwitchNode;42;-6976,624;Inherit;False;Property;_FresnelInvert;Fresnel Invert;13;0;Create;True;0;0;0;False;0;False;0;True;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.IntNode;156;-4416,-960;Inherit;False;Property;_TextureWrapMode;Texture Wrap Mode;41;2;[HideInInspector];[Enum];Create;True;0;5;Repeat;0;Clamp;1;Mirror;2;Mirror Once;3;Per Axis;4;0;True;0;False;0;0;False;0;1;INT;0
+Node;AmplifyShaderEditor.IntNode;161;-4640,-880;Inherit;False;Property;_FoilageSetting;FoilageSetting;44;1;[HideInInspector];Create;True;0;0;0;True;0;False;0;0;True;0;1;INT;0
+Node;AmplifyShaderEditor.IntNode;127;-4656,-960;Inherit;False;Property;_AlphaAntiAliasing;AlphaAntiAliasing;36;2;[HideInInspector];[Enum];Create;False;0;2;On;1;Off;0;0;True;0;False;0;0;True;0;1;INT;0
+Node;AmplifyShaderEditor.IntNode;223;-4400,-800;Inherit;False;Property;_NoiseBFold;NoiseBFold;49;1;[HideInInspector];Create;True;0;0;0;True;0;False;0;0;True;0;1;INT;0
+Node;AmplifyShaderEditor.IntNode;222;-4400,-880;Inherit;False;Property;_NoiseAFold;NoiseAFold;48;1;[HideInInspector];Create;True;0;0;0;True;0;False;0;0;True;0;1;INT;0
+Node;AmplifyShaderEditor.RangedFloatNode;265;-4192,-1216;Inherit;False;Property;_Transmission;Transmission;54;0;Create;True;0;0;0;False;0;False;0;0;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.StickyNoteNode;267;-3888,-1264;Inherit;False;407.0667;288.8;Extra Notlar;Extra Notlar;1,0.901033,0,1;Transmission buraya eklenebilir. Performans Testlerine bak veya On / Off şeklinde ekle buraya$$Shadow Threshold da eklenebilir Sonra$$Aynı shader'ın grass için düzenlenmişini yap$(üst vertex hareket ederken alt vertexler durur)$;0;0
+Node;AmplifyShaderEditor.RangedFloatNode;268;-4192,-1136;Inherit;False;Property;_ShadowThreshold;ShadowThreshold;55;1;[HideInInspector];Create;True;0;0;0;True;0;False;0.5;0.5;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;60;-4624,-1056;Inherit;False;Constant;_Gray;[Gray];19;1;[HideInInspector];Create;True;0;0;0;False;0;False;0.5;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;58;-4624,-1136;Inherit;False;Constant;_Zero1;[Zero];19;1;[HideInInspector];Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.IntNode;280;-4160,-976;Inherit;False;Property;_CheckBase;CheckBase;57;1;[HideInInspector];Create;True;0;0;0;True;0;False;0;0;False;0;1;INT;0
+Node;AmplifyShaderEditor.IntNode;279;-4144,-1056;Inherit;False;Property;_CheckDef;CheckDef;56;1;[HideInInspector];Create;True;0;0;0;True;0;False;0;0;False;0;1;INT;0
+Node;AmplifyShaderEditor.WorldNormalVector;32;-5056,464;Inherit;False;True;1;0;FLOAT3;0,0,0;False;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;11;-5008,-1472;Inherit;False;3;3;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT;0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.ToggleSwitchNode;64;-4848,-1520;Inherit;False;Property;_LeavesSpecular;Leaves Specular;17;0;Create;False;0;0;0;False;0;False;0;True;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;51;-6912,848;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.TFHCRemapNode;46;-7104,848;Inherit;False;5;0;FLOAT;0;False;1;FLOAT;-1;False;2;FLOAT;1;False;3;FLOAT;0;False;4;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;47;-7200,1072;Inherit;False;Property;_LeavesRimYPosition;Leaves Rim Y Position;10;0;Create;True;0;0;0;False;0;False;0.5;0;0;2;0;1;FLOAT;0
+Node;AmplifyShaderEditor.BreakToComponentsNode;45;-7232,848;Inherit;False;COLOR;1;0;COLOR;0,0,0,0;False;16;FLOAT;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT;5;FLOAT;6;FLOAT;7;FLOAT;8;FLOAT;9;FLOAT;10;FLOAT;11;FLOAT;12;FLOAT;13;FLOAT;14;FLOAT;15
+Node;AmplifyShaderEditor.SimpleContrastOpNode;44;-7456,848;Inherit;False;2;1;COLOR;0,0,0,0;False;0;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.PosVertexDataNode;48;-7664,848;Inherit;False;0;0;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.GetLocalVarNode;160;-7584,512;Inherit;False;26;RF_NewNormals;1;0;OBJECT;;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.ColorNode;52;-6816,464;Inherit;False;Property;_LeavesRimColor;Leaves Rim Color;9;0;Create;True;0;0;0;False;0;False;0.3124955,0.4842767,0.2695502,1;0.3124955,0.4842767,0.2695502,1;True;False;0;6;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT3;5
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;35;-6528,576;Inherit;False;3;3;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;2;FLOAT;0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.ToggleSwitchNode;54;-6368,544;Inherit;False;Property;_LeavesRim;Leaves Rim;16;0;Create;True;0;0;0;False;0;False;0;True;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;36;-6144,544;Inherit;False;RF_LeavesRim;-1;True;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.FunctionNode;31;-5536,688;Inherit;False;Normal Reconstruct Z;-1;;142;63ba85b764ae0c84ab3d698b86364ae9;0;1;1;FLOAT2;0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.ToggleSwitchNode;30;-5280,464;Inherit;False;Property;_Normal;Normal;7;0;Create;True;0;0;0;False;0;False;0;True;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;26;-4864,464;Float;False;RF_NewNormals;-1;True;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;27;-4864,560;Inherit;False;RF_NewObjectNormal;-1;True;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;59;-4416,-1136;Inherit;False;RF_Zero;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;61;-4416,-1056;Inherit;False;RF_Gray;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;15;-4624,-1520;Inherit;False;RF_LeavesSpecular;-1;True;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.LerpOp;18;-6176,-1680;Inherit;False;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;COLOR;0.5,0.5,0.5,1;False;1;COLOR;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;22;-6016,-1680;Inherit;False;RF_LeavesAlbedo;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.GetLocalVarNode;66;-2752,-208;Inherit;False;65;RF_LeavesTexture;1;0;OBJECT;;False;1;COLOR;0
+Node;AmplifyShaderEditor.RangedFloatNode;128;-2816,-288;Inherit;False;Property;_Smoothness;Smoothness;37;0;Create;True;0;0;0;False;0;False;0.4;0.5;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.GetLocalVarNode;53;-2752,-448;Inherit;False;36;RF_LeavesRim;1;0;OBJECT;;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.GetLocalVarNode;16;-2784,-368;Inherit;False;15;RF_LeavesSpecular;1;0;OBJECT;;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.GetLocalVarNode;33;-2784,-528;Inherit;False;27;RF_NewObjectNormal;1;0;OBJECT;;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.GetLocalVarNode;23;-2752,-608;Inherit;False;22;RF_LeavesAlbedo;1;0;OBJECT;;False;1;COLOR;0
+Node;AmplifyShaderEditor.TFHCRemapNode;68;-2944,-144;Inherit;False;5;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;0.0001;False;4;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.GetLocalVarNode;125;-2720,-64;Inherit;False;124;RF_Foilage;1;0;OBJECT;;False;1;COLOR;0
+Node;AmplifyShaderEditor.ColorNode;20;-6576,-1680;Inherit;False;Property;_LeavesColor;Leaves Color;3;0;Create;True;0;0;0;False;0;False;0.3193329,0.4654087,0.1653811,1;0.3193329,0.4654087,0.1653811,1;True;False;0;6;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT3;5
+Node;AmplifyShaderEditor.GetLocalVarNode;319;-5776,480;Inherit;False;315;RF_LeafUV;1;0;OBJECT;;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.RangedFloatNode;29;-5872,560;Float;False;Property;_NormalScale;Normal Scale;8;0;Create;False;0;0;0;False;0;False;0.3;1;-1;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SamplerNode;28;-5584,464;Inherit;True;Property;_NormalMap;Normal Map;6;2;[NoScaleOffset];[Normal];Create;False;1;Normal Controls;0;0;False;0;False;-1;None;None;True;0;True;bump;Auto;True;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;6;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT3;5
+Node;AmplifyShaderEditor.RangedFloatNode;12;-5296,-1376;Inherit;False;Property;_LeavesSpecIntensity;Leaves Spec Intensity;4;0;Create;True;0;0;0;False;0;False;1;0;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.ColorNode;14;-5232,-1600;Inherit;False;Property;_LeavesSpecColor;Leaves Spec Color;2;0;Create;True;0;0;0;False;0;False;1,1,1,1;1,1,1,1;True;False;0;6;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT3;5
+Node;AmplifyShaderEditor.GetLocalVarNode;63;-5024,-1568;Inherit;False;59;RF_Zero;1;0;OBJECT;;False;1;FLOAT;0
+Node;AmplifyShaderEditor.GetLocalVarNode;318;-5712,-1552;Inherit;False;315;RF_LeafUV;1;0;OBJECT;;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.SamplerNode;13;-5520,-1568;Inherit;True;Property;_LeavesSpecTexture;Leaves Spec Texture;1;1;[NoScaleOffset];Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;6;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT3;5
+Node;AmplifyShaderEditor.WorldToTangentMatrix;358;-8768,-1104;Inherit;False;0;1;FLOAT3x3;0
+Node;AmplifyShaderEditor.WorldToCameraMatrix;331;-8768,-1168;Inherit;False;0;1;FLOAT4x4;0
+Node;AmplifyShaderEditor.WorldToObjectMatrix;359;-8768,-1040;Inherit;False;0;1;FLOAT4x4;0
+Node;AmplifyShaderEditor.CameraToWorldMatrix;330;-8112,-1168;Inherit;False;0;1;FLOAT4x4;0
+Node;AmplifyShaderEditor.MVMatrixNode;356;-9072,-1168;Inherit;False;0;1;FLOAT4x4;0
+Node;AmplifyShaderEditor.MMatrixNode;357;-9056,-1104;Inherit;False;0;1;FLOAT4x4;0
+Node;AmplifyShaderEditor.MVPMatrixNode;327;-9104,-1040;Inherit;False;0;1;FLOAT4x4;0
+Node;AmplifyShaderEditor.ProjectionMatrixNode;343;-8400,-1168;Inherit;False;0;1;FLOAT4x4;0
+Node;AmplifyShaderEditor.ViewProjectionMatrixNode;350;-8432,-1104;Inherit;False;0;1;FLOAT4x4;0
+Node;AmplifyShaderEditor.TransformVariables;355;-9760,-400;Inherit;False;_World2Object;0;1;FLOAT4x4;0
+Node;AmplifyShaderEditor.TransposeMVMatrix;326;-9104,-1232;Inherit;False;0;1;FLOAT4x4;0
+Node;AmplifyShaderEditor.InverseTranspMVMatrixNode;323;-9136,-736;Inherit;False;0;1;FLOAT4x4;0
+Node;AmplifyShaderEditor.InverseViewProjectionMatrixNode;345;-8448,-672;Inherit;False;0;1;FLOAT4x4;0
+Node;AmplifyShaderEditor.InverseProjectionMatrixNode;348;-8432,-736;Inherit;False;0;1;FLOAT4x4;0
+Node;AmplifyShaderEditor.RotatorNode;143;-7136,-1536;Inherit;False;3;0;FLOAT2;0,0;False;1;FLOAT2;0.5,0.5;False;2;FLOAT;1;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.RadiansOpNode;145;-7296,-1504;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;144;-7584,-1504;Inherit;False;Property;_TextureRotate;Texture Rotate;40;0;Create;True;0;0;0;True;0;False;0;0;0;360;0;1;FLOAT;0
+Node;AmplifyShaderEditor.DynamicAppendNode;106;-6512,-1264;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;271;-1088,-96;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;19;New Amplify Shader;dcf3e680117c48a4cb69c2c58c49ec28;True;ShadowCaster;0;2;ShadowCaster;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;True;1;LightMode=ShadowCaster;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;272;-1088,-96;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;19;New Amplify Shader;dcf3e680117c48a4cb69c2c58c49ec28;True;DepthOnly;0;3;DepthOnly;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;True;True;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;False;False;True;1;LightMode=DepthOnly;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;273;-1088,-96;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;19;New Amplify Shader;dcf3e680117c48a4cb69c2c58c49ec28;True;Meta;0;4;Meta;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Meta;False;False;0;;0;0;Standard;0;False;0
@@ -5115,7 +5179,8 @@ Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;275;-1088,-96;Float;False;F
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;276;-1088,-96;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;19;New Amplify Shader;dcf3e680117c48a4cb69c2c58c49ec28;True;GBuffer;0;7;GBuffer;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;True;1;1;False;_SrcBlend;0;False;_DstBlend;1;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;0;True;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalGBuffer;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;277;-1088,-96;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;19;New Amplify Shader;dcf3e680117c48a4cb69c2c58c49ec28;True;SceneSelectionPass;0;8;SceneSelectionPass;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=SceneSelectionPass;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;278;-1088,-96;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;19;New Amplify Shader;dcf3e680117c48a4cb69c2c58c49ec28;True;ScenePickingPass;0;9;ScenePickingPass;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Picking;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;270;-2576,-384;Float;False;True;-1;2;BFoilageEditor;0;19;BUDU Shaders/BFoilage;dcf3e680117c48a4cb69c2c58c49ec28;True;Forward;0;1;Forward;21;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=SimpleLit;True;5;True;12;all;0;False;True;1;1;False;_SrcBlend;0;False;_DstBlend;1;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;0;True;_ZWrite;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalForward;False;False;0;;0;0;Standard;42;Lighting Model;1;638528376042018992;Workflow;0;0;Surface;0;0;  Refraction Model;0;0;  Blend;0;0;Two Sided;1;0;Fragment Normal Space,InvertActionOnDeselection;0;0;Forward Only;0;0;Transmission;0;0;  Transmission Shadow;0.5,False,;0;Translucency;0;0;  Translucency Strength;1,False,;0;  Normal Distortion;0.5,False,;0;  Scattering;2,False,;0;  Direct;0.9,False,;0;  Ambient;0.1,False,;0;  Shadow;0.5,False,;0;Cast Shadows;1;0;  Use Shadow Threshold;0;0;Receive Shadows;1;0;Receive SSAO;1;0;GPU Instancing;1;0;LOD CrossFade;1;0;Built-in Fog;1;0;_FinalColorxAlpha;0;0;Meta Pass;1;0;Override Baked GI;0;0;Extra Pre Pass;0;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,;0;  Type;0;0;  Tess;16,False,;0;  Min;10,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Write Depth;0;0;  Early Z;0;0;Vertex Position,InvertActionOnDeselection;1;0;Debug Display;0;0;Clear Coat;0;0;0;10;False;True;True;True;True;True;True;True;True;True;False;;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;269;-2512,-384;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;19;New Amplify Shader;dcf3e680117c48a4cb69c2c58c49ec28;True;ExtraPrePass;0;0;ExtraPrePass;5;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;True;1;1;False;;0;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;0;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;270;-2400,-464;Float;False;True;-1;2;BFoilageEditor;0;19;BUDU Shaders/BFoilage;dcf3e680117c48a4cb69c2c58c49ec28;True;Forward;0;1;Forward;21;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=SimpleLit;True;5;True;12;all;0;False;True;1;1;False;_SrcBlend;0;False;_DstBlend;1;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;0;True;_ZWrite;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalForward;False;False;0;;0;0;Standard;42;Lighting Model;1;638528376042018992;Workflow;0;0;Surface;0;0;  Refraction Model;0;0;  Blend;0;0;Two Sided;1;0;Fragment Normal Space,InvertActionOnDeselection;0;0;Forward Only;0;0;Transmission;0;0;  Transmission Shadow;0.5,True,_TransmissionShadow;0;Translucency;0;0;  Translucency Strength;1,True,_TrnsStrength;0;  Normal Distortion;0.5,True,_TrnsNormDistortion;0;  Scattering;2,True,_TrnsScattering;0;  Direct;0.9,True,_TrnsDirect;0;  Ambient;0.1,True,_TrnsAmbient;0;  Shadow;0.5,True,_TrnsShadow;0;Cast Shadows;1;0;  Use Shadow Threshold;0;0;Receive Shadows;1;0;Receive SSAO;1;0;GPU Instancing;1;0;LOD CrossFade;1;0;Built-in Fog;1;0;_FinalColorxAlpha;0;0;Meta Pass;1;0;Override Baked GI;0;0;Extra Pre Pass;0;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,;0;  Type;0;0;  Tess;16,False,;0;  Min;10,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Write Depth;0;0;  Early Z;0;0;Vertex Position,InvertActionOnDeselection;1;0;Debug Display;0;0;Clear Coat;0;0;0;10;False;True;True;True;True;True;True;True;True;True;False;;False;0
 WireConnection;73;0;72;0
 WireConnection;75;0;73;0
 WireConnection;83;0;78;0
@@ -5141,14 +5206,14 @@ WireConnection;88;1;212;0
 WireConnection;89;0;86;0
 WireConnection;89;2;219;0
 WireConnection;89;1;83;0
-WireConnection;94;1;89;0
 WireConnection;92;1;88;0
-WireConnection;226;0;94;0
+WireConnection;94;1;89;0
 WireConnection;163;0;88;0
 WireConnection;163;1;164;0
-WireConnection;225;0;92;0
 WireConnection;166;0;89;0
 WireConnection;166;1;165;0
+WireConnection;225;0;92;0
+WireConnection;226;0;94;0
 WireConnection;167;0;163;0
 WireConnection;167;1;225;0
 WireConnection;168;0;166;0
@@ -5165,103 +5230,115 @@ WireConnection;248;0;262;0
 WireConnection;248;1;242;0
 WireConnection;251;0;242;0
 WireConnection;252;0;243;0
+WireConnection;57;0;56;0
 WireConnection;250;0;251;0
 WireConnection;250;1;248;0
 WireConnection;253;0;252;0
 WireConnection;253;1;245;0
-WireConnection;102;0;99;0
-WireConnection;133;0;102;0
+WireConnection;287;0;290;0
+WireConnection;287;1;250;0
+WireConnection;288;0;291;0
+WireConnection;288;1;253;0
+WireConnection;370;0;288;0
+WireConnection;369;0;287;0
 WireConnection;97;0;93;0
-WireConnection;98;0;250;0
-WireConnection;98;1;253;0
-WireConnection;103;0;90;0
-WireConnection;138;0;102;0
-WireConnection;138;1;133;0
-WireConnection;138;2;139;0
+WireConnection;98;0;369;0
+WireConnection;98;1;370;0
 WireConnection;101;0;97;0
 WireConnection;101;1;98;0
-WireConnection;95;0;103;0
-WireConnection;95;1;91;0
+WireConnection;306;0;185;0
+WireConnection;102;0;99;0
+WireConnection;103;0;90;0
 WireConnection;183;0;101;0
 WireConnection;183;1;184;0
 WireConnection;183;2;186;0
 WireConnection;183;3;187;0
-WireConnection;183;4;185;0
+WireConnection;183;4;306;0
+WireConnection;133;0;102;0
+WireConnection;138;0;102;0
+WireConnection;138;1;133;0
+WireConnection;138;2;139;0
+WireConnection;95;0;103;0
+WireConnection;95;1;91;0
+WireConnection;104;0;183;0
 WireConnection;136;0;102;0
 WireConnection;136;1;138;0
 WireConnection;100;0;103;0
 WireConnection;100;1;95;0
-WireConnection;104;0;183;0
+WireConnection;304;0;107;0
 WireConnection;105;0;136;0
 WireConnection;105;2;100;0
-WireConnection;106;0;105;0
-WireConnection;108;0;106;0
-WireConnection;108;1;107;0
-WireConnection;110;0;106;0
+WireConnection;108;0;105;0
+WireConnection;108;1;304;0
+WireConnection;110;0;105;0
 WireConnection;110;1;108;0
 WireConnection;111;0;110;0
 WireConnection;111;1;109;0
+WireConnection;314;0;312;0
+WireConnection;314;1;312;0
 WireConnection;113;0;111;0
 WireConnection;113;1;131;0
+WireConnection;146;0;314;0
 WireConnection;117;0;114;0
 WireConnection;115;0;113;0
-WireConnection;119;0;115;0
-WireConnection;119;1;116;0
 WireConnection;120;0;118;0
 WireConnection;120;1;117;0
-WireConnection;145;0;144;0
+WireConnection;119;0;115;0
+WireConnection;119;1;116;0
+WireConnection;315;0;146;0
 WireConnection;121;0;119;0
 WireConnection;121;1;120;0
-WireConnection;143;0;146;0
-WireConnection;143;2;145;0
+WireConnection;21;1;317;0
 WireConnection;123;1;121;0
 WireConnection;123;2;122;0
-WireConnection;21;1;143;0
 WireConnection;124;0;123;0
 WireConnection;65;0;21;0
-WireConnection;11;0;14;0
-WireConnection;11;1;13;0
-WireConnection;11;2;12;0
-WireConnection;30;0;31;0
-WireConnection;30;1;28;0
-WireConnection;32;0;30;0
-WireConnection;35;0;52;0
-WireConnection;35;1;41;0
-WireConnection;35;2;50;0
-WireConnection;35;3;52;4
 WireConnection;41;0;42;0
 WireConnection;43;0;40;0
-WireConnection;44;1;48;2
-WireConnection;44;0;49;0
 WireConnection;50;0;51;0
-WireConnection;51;0;46;0
-WireConnection;51;1;47;0
-WireConnection;46;0;45;1
-WireConnection;54;0;62;0
-WireConnection;54;1;35;0
 WireConnection;40;0;160;0
 WireConnection;40;1;37;0
 WireConnection;40;2;38;0
 WireConnection;40;3;39;0
-WireConnection;18;0;20;0
-WireConnection;18;1;19;0
 WireConnection;19;0;20;0
 WireConnection;19;1;21;0
-WireConnection;22;0;18;0
-WireConnection;36;0;54;0
-WireConnection;28;5;29;0
 WireConnection;42;0;40;0
 WireConnection;42;1;43;0
-WireConnection;45;0;44;0
-WireConnection;26;0;32;0
-WireConnection;27;0;30;0
-WireConnection;15;0;64;0
+WireConnection;32;0;30;0
+WireConnection;11;0;14;0
+WireConnection;11;1;13;5
+WireConnection;11;2;12;0
 WireConnection;64;0;63;0
 WireConnection;64;1;11;0
-WireConnection;68;0;67;0
-WireConnection;57;0;56;0
+WireConnection;51;0;46;0
+WireConnection;51;1;47;0
+WireConnection;46;0;45;1
+WireConnection;45;0;44;0
+WireConnection;44;1;48;2
+WireConnection;44;0;49;0
+WireConnection;35;0;52;0
+WireConnection;35;1;41;0
+WireConnection;35;2;50;0
+WireConnection;54;0;62;0
+WireConnection;54;1;35;0
+WireConnection;36;0;54;0
+WireConnection;30;0;31;0
+WireConnection;30;1;28;0
+WireConnection;26;0;32;0
+WireConnection;27;0;30;0
 WireConnection;59;0;58;0
 WireConnection;61;0;60;0
+WireConnection;15;0;64;0
+WireConnection;18;0;20;0
+WireConnection;18;1;19;0
+WireConnection;22;0;18;0
+WireConnection;68;0;67;0
+WireConnection;28;1;319;0
+WireConnection;28;5;29;0
+WireConnection;13;1;318;0
+WireConnection;143;0;146;0
+WireConnection;143;2;145;0
+WireConnection;145;0;144;0
 WireConnection;270;0;23;0
 WireConnection;270;1;33;0
 WireConnection;270;2;53;0
@@ -5271,4 +5348,4 @@ WireConnection;270;6;66;0
 WireConnection;270;7;68;0
 WireConnection;270;8;125;0
 ASEEND*/
-//CHKSM=C417294AF1E9A4735F95696AFA94D128958FFCCC
+//CHKSM=86B66DAEE3775ACA120907A63D5A6B5EEB666007

@@ -107,7 +107,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Tex1:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 8900000, guid: 79b09e00aa776ce42915c519f8f7fb18, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _UpTex:
@@ -137,10 +137,12 @@ Material:
     - _BlendModePreserveSpecular: 1
     - _BlendSky: 0
     - _BumpScale: 1
+    - _CheckBase: 0
+    - _CheckDef: 0
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _CubemapSky: 0
-    - _CubemapTransition: 0
+    - _CubemapTransition: 0.886
     - _Cull: 2
     - _CustomFogColor: 1
     - _Cutoff: 0.5
@@ -154,30 +156,30 @@ Material:
     - _EnableRotation: 0
     - _EnableRotation1: 0
     - _EnvironmentReflections: 1
-    - _Exposure: 4.79
-    - _Falloff: 4
+    - _Exposure: 1
+    - _Falloff: 3.7
     - _FogFill: 0.326
     - _FogHeight: 0.401
     - _FogIntensity: 0.391
-    - _FogPosition: 0
+    - _FogPosition: 0.01
     - _FogSmoothness: 0.36
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _Gradient: 0
     - _HazeFill: 0.196
-    - _HazeHeight: 0.3
+    - _HazeHeight: 0.476
     - _HazeIntensity: 0.618
     - _HazePosition: 0
     - _HazeSmoothness: 0.19
-    - _HorizonHeight: 1
+    - _HorizonHeight: 0.737
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _PositionX: 0
     - _PositionY: 0
     - _PositionZ: 0
-    - _Power: 2
+    - _Power: 1.9
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
@@ -195,8 +197,8 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 0.5220916, g: 0.7115817, b: 0.84276724, a: 1}
-    - _BottomColor: {r: 0.49685526, g: 0.41834122, b: 0.26405197, a: 1}
+    - _BaseColor: {r: 0.42751464, g: 0.5704164, b: 0.70440245, a: 1}
+    - _BottomColor: {r: 0.49803922, g: 0.2627451, b: 0.48853558, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FogColor: {r: 0.42951804, g: 0.40180722, b: 0.575, a: 1}
@@ -207,6 +209,6 @@ Material:
     - _Tex_HDR: {r: 0, g: 0, b: 0, a: 0}
     - _Tex_HDR1: {r: 0, g: 0, b: 0, a: 0}
     - _Tint: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
-    - _TintColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-    - _TopColor: {r: 0.47769067, g: 0.51870006, b: 0.61006284, a: 1}
+    - _TintColor: {r: 1, g: 1, b: 1, a: 1}
+    - _TopColor: {r: 0.23064744, g: 0.34409, b: 0.61635214, a: 1}
   m_BuildTextureStacks: []

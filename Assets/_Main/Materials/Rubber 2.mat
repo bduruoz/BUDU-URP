@@ -24,10 +24,10 @@ Material:
   m_Shader: {fileID: 4800000, guid: f3a85033a6534574696e3989f38dce75, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _SPECTYPE_LINEAR
   m_InvalidKeywords:
   - _REFFRESNELINVERT_ON
-  - _SPECULARSWITCH_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -112,8 +112,10 @@ Material:
     - _AlphaCutoff: 0.5
     - _AlphaToMask: 0
     - _AverageFeatures: 0
+    - _BGloss: 1
     - _BaseCellOffset: 0
     - _BaseCellSharpness: 1
+    - _BaseSettings: 0
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
@@ -170,12 +172,16 @@ Material:
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _Softness: 0.12
+    - _SpecMax: 1
+    - _SpecMin: 0
     - _SpecT: 0
+    - _SpecType: 0
     - _SpecularAmbient: 0
     - _SpecularExtras: 1
     - _SpecularHighlights: 1
     - _SpecularIn: 0.1
     - _SpecularIntensity: 1
+    - _SpecularNormalIntensity: 0.3
     - _SpecularOut: 1
     - _SpecularSaturation: 1
     - _SpecularSwitch: 0

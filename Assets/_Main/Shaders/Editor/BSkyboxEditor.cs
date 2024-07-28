@@ -1,11 +1,12 @@
 using UnityEngine;
 using UnityEditor;
+using System;
 using budu;
 
 [ExecuteInEditMode]
 public class BSkyboxEditor : ShaderGUI
 {
-    bool gradientFold, cubeMapFold, rotationFold, positionFold, hazeFold, fogFold, customFogColor, aboutFold;
+    bool gradientFold, cubeMapFold, rotationFold, positionFold, hazeFold, fogFold, customFogColor, aboutFold, checkBase, checkDef;
     bool Additive, blendSky;
     int tempVar;
 
@@ -29,72 +30,70 @@ public class BSkyboxEditor : ShaderGUI
             EditorGUILayout.EndHorizontal();
         }
         GUILayout.EndArea();
-        GUILayout.Space(32);
+        GUILayout.Space(28);
         GUI.backgroundColor = bdColors.White();
         #endregion
 
-        #region Additive Checks
-        style.normal.background = MakeBackground(1, 1, bdColors.GrayP(18,204));
-        EditorGUI.BeginChangeCheck();
-        {
-            Additive = EditorGUILayout.Toggle("Additive", Additive);
-        }
-        if(EditorGUI.EndChangeCheck())
-        {
-            if(Additive)
-            {
-                targetMat.SetInt("_AdditiveGradient", 1);
-            }
-            else
-            {
-                targetMat.SetInt("_AdditiveGradient", 0);
-            }
-        }
-        MaterialProperty solidBaseColor = ShaderGUI.FindProperty("_BaseColor", properties);
-        materialEditor.ColorProperty(solidBaseColor, "Base Solid Color");
+        #region Base Settings
+        style.normal.background = MakeBackground(1, 1, bdColors.GrayP(18, 204));
+        style.fontSize = 16;
+        style.normal.textColor = bdColors.NexusOrange();
 
+        EditorGUILayout.BeginVertical(style);
+        checkBase = EditorGUILayout.ToggleLeft("BASE SETTINGS", checkBase, style);
+        targetMat.SetInt("_CheckBase", Convert.ToInt16(checkBase));
+        EditorGUILayout.EndVertical();
+
+        style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
+        EditorGUILayout.BeginVertical(style);
+        if(checkBase)
+        {
+            EditorGUI.indentLevel++;
+            EditorGUILayout.Space(2);
+
+            Additive = EditorGUILayout.Toggle("Additive", Additive);
+            targetMat.SetInt("_AdditiveGradient", Convert.ToInt16(Additive));
+
+            MaterialProperty solidBaseColor = ShaderGUI.FindProperty("_BaseColor", properties);
+            materialEditor.ColorProperty(solidBaseColor, "Base Solid Color");
+            EditorGUI.indentLevel--;
+        }
+        EditorGUILayout.EndVertical();
+        EditorGUILayout.Space(1);
         #endregion
 
         #region Gradient Group
         style.normal.background = MakeBackground(1, 32, bdColors.GrayP(18,204));
         style.fontSize = 16;
         style.normal.textColor = bdColors.NexusOrange();
+
         EditorGUILayout.BeginVertical(style);
-        EditorGUI.BeginChangeCheck();
-        {
-            gradientFold = EditorGUILayout.ToggleLeft("GRADIENT", gradientFold, style);
-        }
-        if(EditorGUI.EndChangeCheck())
-        {
-            if(gradientFold)
-            {
-                targetMat.SetInt("_Gradient", 1);
-            }
-            else
-            {
-                targetMat.SetInt("_Gradient", 0);
-            }
-        }
+        gradientFold = EditorGUILayout.ToggleLeft("GRADIENT", gradientFold, style);
+        targetMat.SetInt("_Gradient", Convert.ToInt16(gradientFold));
         EditorGUILayout.EndVertical();
+
+        style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
+        EditorGUILayout.BeginVertical(style);
         if(gradientFold)
         {
+            EditorGUI.indentLevel++;
+            EditorGUILayout.Space(2);
+        
             MaterialProperty topc = ShaderGUI.FindProperty("_TopColor", properties);
             MaterialProperty botc = ShaderGUI.FindProperty("_BottomColor", properties);
             MaterialProperty HorH = ShaderGUI.FindProperty("_HorizonHeight", properties);
             MaterialProperty Power = ShaderGUI.FindProperty("_Power", properties);
             MaterialProperty Falloff = ShaderGUI.FindProperty("_Falloff", properties);
 
-            EditorGUILayout.BeginVertical();
-            {
-                materialEditor.ColorProperty(topc, "Top Color");
-                materialEditor.ColorProperty(botc, "Bottom Color");
-                materialEditor.RangeProperty(HorH, "Horizontal Height");
-                materialEditor.RangeProperty(Power, "Power");
-                materialEditor.RangeProperty(Falloff, "Falloff");
-            }
-            EditorGUILayout.EndVertical();
+            materialEditor.ColorProperty(topc, "Top Color");
+            materialEditor.ColorProperty(botc, "Bottom Color");
+            materialEditor.RangeProperty(HorH, "Horizontal Height");
+            materialEditor.RangeProperty(Power, "Power");
+            materialEditor.RangeProperty(Falloff, "Falloff");
+            EditorGUI.indentLevel--;
         }
-        EditorGUILayout.Space(2);
+        EditorGUILayout.EndVertical();
+        EditorGUILayout.Space(1);
         #endregion
 
         #region Cubemap Sky
@@ -103,25 +102,16 @@ public class BSkyboxEditor : ShaderGUI
         style.normal.textColor = bdColors.NexusOrange();
 
         EditorGUILayout.BeginVertical(style);
-        EditorGUI.BeginChangeCheck();
-        {
-            cubeMapFold = EditorGUILayout.ToggleLeft("CUBEMAP", cubeMapFold,style);
-        }
-        if(EditorGUI.EndChangeCheck())
-        {
-            if(cubeMapFold)
-            {
-                targetMat.SetInt("_CubemapSky", 1);
-            }
-            else
-            {
-                targetMat.SetInt("_CubemapSky", 0);
-            }
-        }
+        cubeMapFold = EditorGUILayout.ToggleLeft("CUBEMAP", cubeMapFold,style);
+        targetMat.SetInt("_CubemapSky", Convert.ToInt16(cubeMapFold));
         EditorGUILayout.EndVertical();
 
+        style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
+        EditorGUILayout.BeginVertical(style);
         if(cubeMapFold)
         {
+            EditorGUI.indentLevel++;
+            EditorGUILayout.Space(2);
             MaterialProperty cmTint = ShaderGUI.FindProperty("_TintColor", properties);
             MaterialProperty cmTxt = ShaderGUI.FindProperty("_Tex", properties);
             MaterialProperty cmTxt2 = ShaderGUI.FindProperty("_Tex1", properties);
@@ -134,82 +124,42 @@ public class BSkyboxEditor : ShaderGUI
             MaterialProperty cmPosY = ShaderGUI.FindProperty("_PositionY", properties);
             MaterialProperty cmPosZ = ShaderGUI.FindProperty("_PositionZ", properties);
 
-            EditorGUILayout.BeginVertical();
+            materialEditor.ColorProperty(cmTint, "Tint Color");
+            materialEditor.RangeProperty(cmexpo, "Cubemap Exposure");
+            materialEditor.TextureProperty(cmTxt, "Cubemap");
+            blendSky = EditorGUILayout.Toggle("Layered Cubemap", blendSky);
+            targetMat.SetInt("_BlendSky", Convert.ToInt16(blendSky));
+            if(blendSky)
             {
-                materialEditor.ColorProperty(cmTint, "Tint Color");
-                materialEditor.RangeProperty(cmexpo, "Cubemap Exposure");
-                materialEditor.TextureProperty(cmTxt, "Cubemap");
-                EditorGUI.BeginChangeCheck();
-                {
-                    blendSky = EditorGUILayout.Toggle("Layered Cubemap", blendSky);
-                }
-                if(EditorGUI.EndChangeCheck())
-                {
-                    if(blendSky)
-                    {
-                        targetMat.SetInt("_BlendSky", 1);
-                    }
-                    else
-                    {
-                        targetMat.SetInt("_BlendSky", 0);
-                    }
-                }
-                if(blendSky)
-                {
-                    materialEditor.RangeProperty(cmblend, "Cubemap Blend");
-                    materialEditor.TextureProperty(cmTxt2, "Cubemap Layer");
-                }
-
-                EditorGUI.BeginChangeCheck();
-                {
-                    positionFold = EditorGUILayout.Toggle("Position", positionFold);
-                }
-                if(EditorGUI.EndChangeCheck())
-                {
-                    if(positionFold)
-                    {
-                        targetMat.SetInt("_EnablePosition", 1);
-                    }
-                    else
-                    {
-                        targetMat.SetInt("_EnablePosition", 0);
-                    }
-                }
-
-                if(positionFold)
-                {
-                    materialEditor.FloatProperty(cmPosX, "Position X");
-                    materialEditor.FloatProperty(cmPosY, "Position Y");
-                    materialEditor.FloatProperty(cmPosZ, "Position Z");
-                }
-
-                EditorGUI.BeginChangeCheck();
-                {
-                    rotationFold = EditorGUILayout.Toggle("Rotation", rotationFold);
-                }
-                if(EditorGUI.EndChangeCheck())
-                {
-                    if(rotationFold)
-                    {
-                        targetMat.SetInt("_EnableRotation", 1);
-                    }
-                    else
-                    {
-                        targetMat.SetInt("_EnableRotation", 0);
-                    }
-                }
-                if(rotationFold)
-                {
-                    materialEditor.RangeProperty(cmRot, "Rotate");
-                    materialEditor.FloatProperty(cmRotSpd, "Rotation Speed");
-                }
-
-
-
+                EditorGUI.indentLevel++;
+                materialEditor.RangeProperty(cmblend, "Cubemap Blend");
+                materialEditor.TextureProperty(cmTxt2, "Cubemap Layer");
+                EditorGUI.indentLevel--;
             }
-            EditorGUILayout.EndVertical();
+            positionFold = EditorGUILayout.Toggle("Position", positionFold);
+            targetMat.SetInt("_EnablePosition", Convert.ToInt16(positionFold));
+            if(positionFold)
+            {
+                EditorGUI.indentLevel++;
+                materialEditor.FloatProperty(cmPosX, "Position X");
+                materialEditor.FloatProperty(cmPosY, "Position Y");
+                materialEditor.FloatProperty(cmPosZ, "Position Z");
+                EditorGUI.indentLevel--;
+            }
+
+            rotationFold = EditorGUILayout.Toggle("Rotation", rotationFold);
+            targetMat.SetInt("_EnableRotation", Convert.ToInt16(rotationFold));
+            if(rotationFold)
+            {
+                EditorGUI.indentLevel++;
+                materialEditor.RangeProperty(cmRot, "Rotate");
+                materialEditor.FloatProperty(cmRotSpd, "Rotation Speed");
+                EditorGUI.indentLevel--;
+            }
+            EditorGUI.indentLevel--;
         }
-        EditorGUILayout.Space(2);
+        EditorGUILayout.EndVertical();
+        EditorGUILayout.Space(1);
         #endregion
 
         #region Haze Group
@@ -218,25 +168,16 @@ public class BSkyboxEditor : ShaderGUI
         style.normal.textColor = bdColors.NexusOrange();
 
         EditorGUILayout.BeginVertical(style);
-        EditorGUI.BeginChangeCheck();
-        {
-            hazeFold = EditorGUILayout.ToggleLeft("HAZE", hazeFold, style);
-        }
-        if(EditorGUI.EndChangeCheck())
-        {
-            if(hazeFold)
-            {
-                targetMat.SetInt("_EnableHaze", 1);
-            }
-            else
-            {
-                targetMat.SetInt("_EnableHaze", 0);
-            }
-        }
+        hazeFold = EditorGUILayout.ToggleLeft("HAZE", hazeFold, style);
+        targetMat.SetInt("_EnableHaze", Convert.ToInt16(hazeFold));
         EditorGUILayout.EndVertical();
 
+        style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
+        EditorGUILayout.BeginVertical(style);
         if(hazeFold)
         {
+            EditorGUI.indentLevel++;
+            EditorGUILayout.Space(2);
             MaterialProperty hazeCol = ShaderGUI.FindProperty("_HazeColor", properties);
             MaterialProperty hazeInten = ShaderGUI.FindProperty("_HazeIntensity", properties);
             MaterialProperty hazeFill = ShaderGUI.FindProperty("_HazeFill", properties);
@@ -244,18 +185,16 @@ public class BSkyboxEditor : ShaderGUI
             MaterialProperty hazeHeight = ShaderGUI.FindProperty("_HazeHeight", properties);
             MaterialProperty hazePosY = ShaderGUI.FindProperty("_HazePosition", properties);
 
-            EditorGUILayout.BeginVertical();
-            {
-                materialEditor.ColorProperty(hazeCol, "Haze Color");
-                materialEditor.RangeProperty(hazeInten, "Haze Intensity");
-                materialEditor.RangeProperty(hazeFill, "Haze Fill");
-                materialEditor.RangeProperty(hazeSmooth, "Haze Smoothness");
-                materialEditor.RangeProperty(hazeHeight, "Haze Height");
-                materialEditor.FloatProperty(hazePosY, "Haze Position Vertical");
-            }
-            EditorGUILayout.EndVertical();
+            materialEditor.ColorProperty(hazeCol, "Haze Color");
+            materialEditor.RangeProperty(hazeInten, "Haze Intensity");
+            materialEditor.RangeProperty(hazeFill, "Haze Fill");
+            materialEditor.RangeProperty(hazeSmooth, "Haze Smoothness");
+            materialEditor.RangeProperty(hazeHeight, "Haze Height");
+            materialEditor.FloatProperty(hazePosY, "Haze Position Vertical");
+            EditorGUI.indentLevel--;
         }
-        EditorGUILayout.Space(2);
+        EditorGUILayout.EndVertical();
+        EditorGUILayout.Space(1);
         #endregion
 
         #region Fog Group
@@ -264,25 +203,16 @@ public class BSkyboxEditor : ShaderGUI
         style.normal.textColor = bdColors.NexusOrange();
 
         EditorGUILayout.BeginVertical(style);
-        EditorGUI.BeginChangeCheck();
-        {
-            fogFold = EditorGUILayout.ToggleLeft("FOG", fogFold, style);
-        }
-        if(EditorGUI.EndChangeCheck())
-        {
-            if(fogFold)
-            {
-                targetMat.SetInt("_EnableFog", 1);
-            }
-            else
-            {
-                targetMat.SetInt("_EnableFog", 0);
-            }
-        }
+        fogFold = EditorGUILayout.ToggleLeft("FOG", fogFold, style);
+        targetMat.SetInt("_EnableFog", Convert.ToInt16(fogFold));
         EditorGUILayout.EndVertical();
 
+        style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
+        EditorGUILayout.BeginVertical(style);
         if(fogFold)
         {
+            EditorGUI.indentLevel++;
+            EditorGUILayout.Space(2);
             MaterialProperty fogCol = ShaderGUI.FindProperty("_FogColor", properties);
             MaterialProperty fogInten = ShaderGUI.FindProperty("_FogIntensity", properties);
             MaterialProperty fogFill = ShaderGUI.FindProperty("_FogFill", properties);
@@ -290,42 +220,45 @@ public class BSkyboxEditor : ShaderGUI
             MaterialProperty fogHeight = ShaderGUI.FindProperty("_FogHeight", properties);
             MaterialProperty fogPosY = ShaderGUI.FindProperty("_FogPosition", properties);
 
-            EditorGUILayout.BeginVertical();
+            customFogColor = EditorGUILayout.Toggle("Custom Fog Color", customFogColor);
+            targetMat.SetInt("_CustomFogColor", 1);
+            if(customFogColor)
             {
-                EditorGUI.BeginChangeCheck();
-                {
-                    customFogColor = EditorGUILayout.Toggle("Custom Fog Color", customFogColor);
-                }
-                if(EditorGUI.EndChangeCheck())
-                {
-                    if(customFogColor)
-                    {
-                        targetMat.SetInt("_CustomFogColor", 1);
-                    }
-                    else
-                    {
-                        targetMat.SetInt("_CustomFogColor", 0);
-                    }
-                }
-
-                if(customFogColor)
-                {
-                    materialEditor.ColorProperty(fogCol, "Fog Color");
-                }
-                materialEditor.RangeProperty(fogInten, "Fog Intensity");
-                materialEditor.RangeProperty(fogFill, "Fog Fill");
-                materialEditor.RangeProperty(fogSmooth, "Fog Smoothness");
-                materialEditor.RangeProperty(fogHeight, "Fog Height");
-                materialEditor.FloatProperty(fogPosY, "Fog Position Vertical");
+                materialEditor.ColorProperty(fogCol, "Fog Color");
             }
-            EditorGUILayout.EndVertical();
+            materialEditor.RangeProperty(fogInten, "Fog Intensity");
+            materialEditor.RangeProperty(fogFill, "Fog Fill");
+            materialEditor.RangeProperty(fogSmooth, "Fog Smoothness");
+            materialEditor.RangeProperty(fogHeight, "Fog Height");
+            materialEditor.FloatProperty(fogPosY, "Fog Position Vertical");
+            EditorGUI.indentLevel--;
         }
+        EditorGUILayout.EndVertical();
+        EditorGUILayout.Space(1);
         #endregion
 
         #region Shader Defaults
-        materialEditor.RenderQueueField();
-        materialEditor.EnableInstancingField();
-        materialEditor.DoubleSidedGIField();
+        style.normal.background = MakeBackground(1, 1, bdColors.GrayP(18, 204));
+        style.fontSize = 16;
+        style.normal.textColor = bdColors.NexusOrange();
+        EditorGUILayout.BeginVertical(style);
+        checkDef = EditorGUILayout.ToggleLeft("SHADER DEFAULTS", checkDef, style);
+        targetMat.SetInt("_CheckDef", Convert.ToInt16(checkDef));
+        EditorGUILayout.EndVertical();
+        style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
+        EditorGUILayout.BeginVertical(style);
+        if(checkDef)
+        {
+            EditorGUI.indentLevel++;
+            EditorGUILayout.Space(2);
+            materialEditor.RenderQueueField();
+            materialEditor.EnableInstancingField();
+            materialEditor.DoubleSidedGIField();
+            EditorGUI.indentLevel--;
+        }
+        EditorGUILayout.EndVertical();
+        EditorGUILayout.Space(1);
+
         #endregion
 
         #region BUDU Copyright
@@ -352,6 +285,12 @@ public class BSkyboxEditor : ShaderGUI
 
     void loadMatVariables(Material targetMat)
     {
+        tempVar = targetMat.GetInt("_CheckBase");
+        checkBase = tempVar == 1 ? true : false;
+
+        tempVar = targetMat.GetInt("_CheckDef");
+        checkDef = tempVar == 1 ? true : false;
+
         tempVar = targetMat.GetInt("_Gradient");
         gradientFold = tempVar == 1 ? true : false;
 

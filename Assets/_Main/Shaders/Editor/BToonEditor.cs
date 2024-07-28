@@ -94,12 +94,10 @@ public class BToonEditor : ShaderGUI
                 if(checkCustomRamp)
                 {
                     customRampFold = true;
-                    //targetMat.SetInt("_CustomRamp", 1);
                 }
                 else
                 {
                     customRampFold = false;
-                    //targetMat.SetInt("_CustomRamp", 0);
                     RemoveGradientTexture(targetMat);
                 }
             }

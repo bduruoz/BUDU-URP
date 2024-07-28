@@ -44,8 +44,8 @@ public class BCarPaintEditor : ShaderGUI
         baseColFold = EditorGUILayout.ToggleLeft("BASE COLOR", baseColFold, style);
         targetMat.SetInt("_BaseColorToggle", Convert.ToInt16(baseColFold));
         EditorGUILayout.EndVertical();
-        style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
 
+        style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
         EditorGUILayout.BeginVertical(style);
         if(baseColFold)
         {
