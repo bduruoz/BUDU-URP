@@ -2,22 +2,21 @@
 using UnityEditor;
 using System;
 using budu;
-
-//checkDepth
+using AmplifyShaderEditor;
+using TMPro;
 
 public class BWaterSurfaceEditor : ShaderGUI
 {
-    bool checkSurface, checkAlpha, checkMiddle, checkDeform, checkNormal, checkShore, checkReflect, checkRefract, checkFog, checkNormTxt, checkSSBlur, checkFlowMap, checkDisp;
-    bool aboutFold, surfaceMAFold, surfaceMBFold, shoreTXFold, foamFold, noiseFold, midNAFold, midNBFold, normAFold, normBFold, normGenAFold, normGenBFold, deformAFold, deformBFold;
+    bool checkDef, checkFlowMap, checkDeform;
+    bool aboutFold, fMapFold, fTxtFold, fMaskFold, dMaskFold, dfNoiseAFold, dfNoiseBFold;
     int tempVar;
-    
+
     public override void OnGUI(MaterialEditor materialEditor, MaterialProperty[] properties)
     {
         Material targetMat = materialEditor.target as Material;
         loadMaterialVariables(targetMat);
 
         GUIStyle style = new GUIStyle();
-        //GUIStyle style2 = new GUIStyle();
 
         #region BUDU Water Toon Shader Title
         Texture banner = (Texture)AssetDatabase.LoadAssetAtPath("Assets/_Main/Shaders/Editor/GUI/BUDUWaterSurfaceTitles.png", typeof(Texture));
@@ -32,263 +31,174 @@ public class BWaterSurfaceEditor : ShaderGUI
             EditorGUILayout.EndHorizontal();
         }
         GUILayout.EndArea();
-        GUILayout.Space(32);
+        GUILayout.Space(28);
         GUI.backgroundColor = bdColors.White(255);
         #endregion
 
-        #region Shore and Foam Settings
-        style.normal.background = MakeBackground(1, 32, bdColors.GrayP(18, 204));
+        #region Flow Map Settings
+        style.normal.background = MakeBackground(1, 1, bdColors.GrayP(18, 204));
         style.fontSize = 16;
         style.normal.textColor = bdColors.NexusOrange();
+        EditorGUILayout.BeginVertical(style);
 
-        checkShore = EditorGUILayout.ToggleLeft("SHORE | FOAM SETTINGS", checkShore, style);
-        targetMat.SetInt("_ShoreToggle", Convert.ToInt16(checkShore));
-        EditorGUILayout.BeginVertical();
-        if(checkShore)
+        checkFlowMap = EditorGUILayout.ToggleLeft("FLOW MAP SETTINGS", checkFlowMap, style);
+        targetMat.SetInt("_CheckFlowMap", Convert.ToInt16(checkFlowMap));
+
+        EditorGUILayout.EndVertical();
+        style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
+        EditorGUILayout.BeginVertical(style);
+        if(checkFlowMap)
         {
             EditorGUI.indentLevel++;
-            #region Shore Settings
-            style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(20));
-            EditorGUILayout.BeginVertical(style);
-            shoreTXFold = EditorGUILayout.Foldout(shoreTXFold, "Shore Settings", toggleOnLabelClick: true);
-            targetMat.SetInt("_ShoreFold", Convert.ToInt16(shoreTXFold));
-            if(shoreTXFold)
-            {
-                EditorGUI.indentLevel++;
-                MaterialProperty shColor = ShaderGUI.FindProperty("_ShoreColor", properties);
-                MaterialProperty shtxt = ShaderGUI.FindProperty("_ShoreTexture", properties);
-                MaterialProperty affShoreDef = ShaderGUI.FindProperty("_AffectShoreDef", properties);
-                MaterialProperty shGrScl = ShaderGUI.FindProperty("_ShoreGradeScale", properties);
-                MaterialProperty shGrOff = ShaderGUI.FindProperty("_ShoreGradeOffset", properties);
-                materialEditor.ShaderProperty(shColor, "Shore Color");
-                materialEditor.TextureProperty(shtxt, "Shore Texture");
-                materialEditor.ShaderProperty(affShoreDef, "Deformation");
-                if(affShoreDef.floatValue > 0)
-                {
-                    MaterialProperty shoreDefScl = ShaderGUI.FindProperty("_ShoreDeformScale", properties);
-                    MaterialProperty shoreDefOff = ShaderGUI.FindProperty("_ShoreDeformOffset", properties);
-                    MaterialProperty shoreDefInt = ShaderGUI.FindProperty("_ShoreDeformStrength", properties);
-                    materialEditor.RangeProperty(shoreDefInt, "Deform Strength");
-                    materialEditor.ShaderProperty(shoreDefScl, "Deform Scale");
-                    materialEditor.ShaderProperty(shoreDefOff, "Deform Offset");
-                }
-                ShoreTextureSet(materialEditor, properties);
-                materialEditor.FloatProperty(shGrScl, "Grade Scale");
-                materialEditor.FloatProperty(shGrOff, "Grade Offset");
-            }
-            EditorGUILayout.EndVertical();
-            #endregion
-            #region Foam Settings
-            style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(40));
-            EditorGUILayout.BeginVertical(style);
-            foamFold = EditorGUILayout.Foldout(foamFold, "Foam Settings", toggleOnLabelClick: true);
-            targetMat.SetInt("_FoamFold", Convert.ToInt16(foamFold));
-            if(foamFold)
-            {
-                EditorGUI.indentLevel++;
-                MaterialProperty fmblendt = ShaderGUI.FindProperty("_FoamBlendType", properties);
-                MaterialProperty fmtxt = ShaderGUI.FindProperty("_FoamTexture", properties);
-                MaterialProperty fmAff = ShaderGUI.FindProperty("_AffectFoamDef", properties);
-                MaterialProperty fmGrScl = ShaderGUI.FindProperty("_FoamGradeScale", properties);
-                MaterialProperty fmGrOff = ShaderGUI.FindProperty("_FoamGradeOffset", properties);
+            EditorGUILayout.Space(2);
+            // Flow Type Select
+            MaterialProperty fType = ShaderGUI.FindProperty("_FlowMapType", properties);
+            MaterialProperty fInf = ShaderGUI.FindProperty("_InfluenceFlow", properties);
+            MaterialProperty fSpd = ShaderGUI.FindProperty("_FlowSpeed", properties);
+            MaterialProperty fChgSpd = ShaderGUI.FindProperty("_MapChangeSpeed", properties);
+            MaterialProperty fMapExp = ShaderGUI.FindProperty("_MapExponential", properties);
 
-                materialEditor.ShaderProperty(fmblendt, "Foam Blend Type");
-                if(fmblendt.floatValue > 0f)
-                {
-                    materialEditor.TextureProperty(fmtxt, "Foam Texture");
-                    materialEditor.ShaderProperty(fmAff, "Affect Foam Deformation");
-                    if(fmAff.floatValue > 0f)
+            materialEditor.ShaderProperty(fInf, "Influence Flow");
+            materialEditor.ShaderProperty(fSpd, "Flow Speed");
+            materialEditor.ShaderProperty(fChgSpd, "Map Chage Speed");
+            materialEditor.ShaderProperty(fMapExp, "Map Exponential");
+            materialEditor.ShaderProperty(fType, "Flow Map Type");
+
+            switch((int)fType.floatValue)
+            {
+                case 0:
+                    #region Depth Map
+                    // Depth Map
+                    #region Depth Map Settings
+                    MaterialProperty dDist = ShaderGUI.FindProperty("_DepthDistance", properties);
+                    MaterialProperty dExp = ShaderGUI.FindProperty("_DepthExponential", properties);
+                    MaterialProperty dSize = ShaderGUI.FindProperty("_DepthSize", properties);
+
+                    materialEditor.ShaderProperty(dDist, "Depth Distance");
+                    materialEditor.ShaderProperty(dExp, "Depth Exponential");
+                    materialEditor.ShaderProperty(dSize, "Depth Size");
+                    #endregion
+                    
+                    #region Flow Texture Settings
+                    flowTextureSettings(materialEditor, properties, style, targetMat);
+                    #endregion
+
+                    #region Depth Mask Settings
+                    style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(20));
+                    EditorGUILayout.BeginVertical(style);
+                    dMaskFold = EditorGUILayout.Foldout(dMaskFold, "Depth Mask Map", toggleOnLabelClick: true);
+                    targetMat.SetInt("_dMaskFold", Convert.ToInt16(dMaskFold));
+                    if(dMaskFold)
                     {
-                        MaterialProperty foamDefInt = ShaderGUI.FindProperty("_FoamDeformStrength", properties);
-                        MaterialProperty foamGrScl = ShaderGUI.FindProperty("_FoamGradeScale", properties);
-                        MaterialProperty foamGrOff = ShaderGUI.FindProperty("_FoamGradeOffset", properties);
-                        materialEditor.ShaderProperty(foamDefInt, "Deform Strength");
-                        materialEditor.ShaderProperty(foamGrScl, "Deform Scale");
-                        materialEditor.ShaderProperty(foamGrOff, "Deform Offset");
+                        EditorGUI.indentLevel++;
+                        MaterialProperty dMaskTog = ShaderGUI.FindProperty("_Mask", properties);
+                        materialEditor.ShaderProperty(dMaskTog, "Mask");
+
+                        if(dMaskTog.floatValue > 0f)
+                        {
+                            MaterialProperty dMGradePow = ShaderGUI.FindProperty("_MaskGradePower", properties);
+                            MaterialProperty dMaskGradeType = ShaderGUI.FindProperty("_MaskGradeType", properties);
+
+                            materialEditor.ShaderProperty(dMaskGradeType, "Mask Grade Type");
+                            materialEditor.ShaderProperty(dMGradePow, "Mask Grade Power");
+                        }
+                        EditorGUI.indentLevel--;
                     }
-                    FoamTextureSet(materialEditor, properties);
-                    materialEditor.FloatProperty(fmGrScl, "Grade Scale");
-                    materialEditor.FloatProperty(fmGrOff, "Grade Offset");
-                }
-                EditorGUI.indentLevel--;
+                    EditorGUILayout.EndVertical();
+                    #endregion
+
+                    flowTextureSettings(materialEditor, properties, style, targetMat);
+                    #endregion
+                    break;
+                case 1:
+                    // Flow Map
+                    #region Flow Map Settings
+                    style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(20));
+                    EditorGUILayout.BeginVertical(style);
+                    fMapFold = EditorGUILayout.Foldout(fMapFold, "Flow Map Settings", toggleOnLabelClick: true);
+                    targetMat.SetInt("_fMapFold", Convert.ToInt16(fMapFold));
+                    if(fMapFold)
+                    {
+                        EditorGUI.indentLevel++;
+                        MaterialProperty fMap = ShaderGUI.FindProperty("_FlowMap", properties);
+                        materialEditor.ShaderProperty(fMap, "Flow Map Texture");
+                        EditorGUI.indentLevel--;
+                    }
+                    EditorGUILayout.EndVertical();
+                    #endregion
+
+                    #region Flow Texture Settings
+
+
+                    flowTextureSettings(materialEditor, properties, style, targetMat);
+                    #endregion
+
+                    #region Flow Mask Settings
+                    style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(60));
+                    EditorGUILayout.BeginVertical(style);
+                    fMaskFold = EditorGUILayout.Foldout(fMaskFold, "Flow Mask Map", toggleOnLabelClick: true);
+                    targetMat.SetInt("_fMaskFold", Convert.ToInt16(fMaskFold));
+                    if(fMaskFold)
+                    {
+                        EditorGUI.indentLevel++;
+                        MaterialProperty fMaskTog = ShaderGUI.FindProperty("_Mask", properties);
+                        materialEditor.ShaderProperty(fMaskTog, "Mask");
+
+                        if(fMaskTog.floatValue > 0f)
+                        {
+                            MaterialProperty fMaskMap = ShaderGUI.FindProperty("_MaskMap", properties);
+                            MaterialProperty fMGradePow = ShaderGUI.FindProperty("_MaskGradePower", properties);
+                            MaterialProperty fMaskGradeType = ShaderGUI.FindProperty("_MaskGradeType", properties);
+
+                            materialEditor.ShaderProperty(fMaskMap, "Mask Texture");
+                            materialEditor.ShaderProperty(fMaskGradeType, "Mask Grade Type");
+                            materialEditor.ShaderProperty(fMGradePow, "Mask Grade Power");
+                        }
+                        EditorGUI.indentLevel--;
+                    }
+                    EditorGUILayout.EndVertical();
+                    #endregion
+                    break;
             }
-            EditorGUILayout.EndVertical();
-            #endregion
+
             EditorGUI.indentLevel--;
         }
         EditorGUILayout.EndVertical();
-        #endregion
-
-        #region Flow Map Settings
-        style.normal.background = MakeBackground(1, 32, bdColors.GrayP(18, 204));
-        style.fontSize = 16;
-        style.normal.textColor = bdColors.NexusOrange();
-
-        checkFlowMap = EditorGUILayout.ToggleLeft("FLOW MAP SETTINGS", checkFlowMap, style);
-        targetMat.SetInt("_FlowMapSettings", Convert.ToInt16(checkFlowMap));
-        EditorGUILayout.BeginVertical();
-        if(checkFlowMap)
-        {
-            MaterialProperty flType = ShaderGUI.FindProperty("_FlowType", properties);
-            materialEditor.ShaderProperty(flType, "Flow Type");
-            switch(flType.floatValue)
-            {
-                case 0:
-                    // Depth Map
-                    MaterialProperty dpGrade = ShaderGUI.FindProperty("_DepthGradeType", properties);
-                    MaterialProperty dpDist = ShaderGUI.FindProperty("_DepthDistance", properties);
-                    MaterialProperty dpExp = ShaderGUI.FindProperty("_DepthExponential",properties);
-                    MaterialProperty dpSize = ShaderGUI.FindProperty("_DepthSize", properties);
-                    MaterialProperty dpCont = ShaderGUI.FindProperty("_FlowDepthContrast", properties);
-
-                    materialEditor.ShaderProperty(dpGrade, "Depth Grade Type");
-                    materialEditor.ShaderProperty(dpDist, "Depth Distance");
-                    materialEditor.ShaderProperty(dpExp,"Depth Exponential");
-                    materialEditor.ShaderProperty(dpSize, "Depth Size");
-                    materialEditor.ShaderProperty(dpCont, "Depth Contrast");
-                    break;
-                case 1:
-                    // Texture Map
-                    MaterialProperty flMap = ShaderGUI.FindProperty("_FlowMap", properties);
-                    MaterialProperty flGrade = ShaderGUI.FindProperty("_FlowMapGrade", properties);
-                    MaterialProperty flExp = ShaderGUI.FindProperty("_FlowMapExp", properties);
-
-                    materialEditor.ShaderProperty(flGrade, "Flow Map Grade");
-                    materialEditor.ShaderProperty(flMap, "Flow Map");
-                    materialEditor.ShaderProperty(flExp, "Flow Map Exponent");
-                    break;
-            }
-        }
-        EditorGUILayout.EndVertical();
+        EditorGUILayout.Space(1);
         #endregion
 
         #region Deform Settings
-        style.normal.background = MakeBackground(1, 32, bdColors.GrayP(18, 204));
+        style.normal.background = MakeBackground(1, 1, bdColors.GrayP(18, 204));
         style.fontSize = 16;
         style.normal.textColor = bdColors.NexusOrange();
+        EditorGUILayout.BeginVertical(style);
 
         checkDeform = EditorGUILayout.ToggleLeft("DEFORM SETTINGS", checkDeform, style);
-        targetMat.SetInt("_DeformSettings", Convert.ToInt16(checkDeform));
+        targetMat.SetInt("_DeformFold", Convert.ToInt16(checkDeform));
+
+        EditorGUILayout.EndVertical();
+        style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
+        EditorGUILayout.BeginVertical(style);
         if(checkDeform)
         {
-            #region Deform Noise Settings
             EditorGUI.indentLevel++;
-            style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(30));
-            EditorGUILayout.BeginVertical(style);
-            noiseFold = EditorGUILayout.Foldout(noiseFold, "Deform Noise Settings", toggleOnLabelClick: true);
-            targetMat.SetInt("_NoiseFold", Convert.ToInt16(noiseFold));
-            if(noiseFold)
+            EditorGUILayout.Space(2);
+
+            MaterialProperty dfBlendType = ShaderGUI.FindProperty("_SelectType", properties);
+
+            materialEditor.ShaderProperty(dfBlendType, "Blend Type");
+
+            switch((int)dfBlendType.floatValue)
             {
-                EditorGUI.indentLevel++;
-                MaterialProperty deformMixType = ShaderGUI.FindProperty("_DeformMixType", properties);
-                materialEditor.ShaderProperty(deformMixType, "Noise Type");
-                switch((int)deformMixType.floatValue)
-                {
-                    #region None
-                    case 0:
-                        // No GUI
-                        break;
+                case 0:
+                    #region Layer A
+                    DefLayerA(materialEditor, properties, style, targetMat);
                     #endregion
-                    #region One Layer
-                    case 1:
-                        style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(55));
-                        EditorGUILayout.BeginVertical(style);
-                        deformAFold = EditorGUILayout.Foldout(deformAFold, "Deform A Controls", toggleOnLabelClick: true);
-                        targetMat.SetInt("_DeformAFold", Convert.ToInt16(deformAFold));
-                        if(deformAFold)
-                        {
-                            DeformTxtA(materialEditor, properties);
-                        }
-                        EditorGUILayout.EndVertical();
-                        break;
-                    #endregion
-                    #region Multiply | Additive | Subtract | Divide | FMod | FMod Invert
-                    case 2:
-                    case 3:
-                    case 4:
-                    case 5:
-                    case 6:
-                    case 7:
-                        #region Deform A Settings
-                        style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(55));
-                        EditorGUILayout.BeginVertical(style);
-                        deformAFold = EditorGUILayout.Foldout(deformAFold, "Deform A Controls", toggleOnLabelClick: true);
-                        targetMat.SetInt("_DeformAFold", Convert.ToInt16(deformAFold));
-                        if(deformAFold)
-                        {
-                            DeformTxtA(materialEditor, properties);
-                        }
-                        EditorGUILayout.EndVertical();
-                        #endregion
-                        #region Deform B Settings
-                        style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(90));
-                        EditorGUILayout.BeginVertical(style);
-                        deformBFold = EditorGUILayout.Foldout(deformBFold, "Deform B Controls", toggleOnLabelClick: true);
-                        targetMat.SetInt("_DeformBFold", Convert.ToInt16(deformBFold));
-                        if(deformBFold)
-                        {
-                            DeformTxtB(materialEditor, properties);
-                        }
-                        EditorGUILayout.EndVertical();
-                        #endregion
-                        break;
-                    #endregion
-                }
-                EditorGUI.indentLevel--;
-            }
-            EditorGUILayout.EndVertical();
-            EditorGUI.indentLevel--;
-            #endregion
-        }
-        #endregion
-
-        #region Midle Wave Settings
-        style.normal.background = MakeBackground(1, 32, bdColors.GrayP(18, 204));
-        style.fontSize = 16;
-        style.normal.textColor = bdColors.NexusOrange();
-
-        checkMiddle = EditorGUILayout.ToggleLeft("MIDDLE WAVE SETTINGS", checkMiddle, style);
-        targetMat.SetInt("_MiddleWave", Convert.ToInt16(checkMiddle));
-        if(checkMiddle)
-        {
-            EditorGUI.indentLevel++;
-
-            style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(30));
-            EditorGUILayout.BeginVertical(style);
-
-            #region Middle Wave Default Settings
-            MaterialProperty defNoiseMixType = ShaderGUI.FindProperty("_NoiseMixType", properties);
-            materialEditor.ShaderProperty(defNoiseMixType, "Mix Type");
-            if((int)defNoiseMixType.floatValue > 0)
-            {
-                MaterialProperty midWaveInt = ShaderGUI.FindProperty("_MiddleWaveIntensity", properties);
-                MaterialProperty defNoGradeScale = ShaderGUI.FindProperty("_DefNoiseGradeScale", properties);
-                MaterialProperty defNoGradeOffset = ShaderGUI.FindProperty("_DefNoiseGradeOffset", properties);
-                MaterialProperty defNoContrast = ShaderGUI.FindProperty("_DefNoiseContrast", properties);
-                MaterialProperty defNoGradeType = ShaderGUI.FindProperty("_DefNoiseGradeType", properties);
-                MaterialProperty deformTog = ShaderGUI.FindProperty("_DeformToggle", properties);
-                MaterialProperty deformScale = ShaderGUI.FindProperty("_DeformScale", properties);
-                materialEditor.ShaderProperty(midWaveInt, "Middle Wave Intensity");
-                materialEditor.ShaderProperty(defNoGradeType, "Grade Type");
-                materialEditor.ShaderProperty(defNoContrast, "Noise Contrast");
-                materialEditor.ShaderProperty(defNoGradeScale, "Noise Grade Scale");
-                materialEditor.ShaderProperty(defNoGradeOffset, "Noise Grade Offset");
-                materialEditor.ShaderProperty(deformTog, "Deform Toggle");
-                materialEditor.ShaderProperty(deformScale, "Deform Scale");
-            }
-
-            MaterialProperty ntTypeA = ShaderGUI.FindProperty("_NoiseTypeA", properties);
-            MaterialProperty ntTypeB = ShaderGUI.FindProperty("_NoiseTypeB", properties);
-
-            switch((int)defNoiseMixType.floatValue)
-            {
-                case 0: // no 
                     break;
                 case 1:
-                    style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(55));
-                    EditorGUILayout.BeginVertical(style);
-                    MidWaveASet(materialEditor, properties, targetMat, (int)ntTypeA.floatValue);
-                    EditorGUILayout.EndVertical();
+                    #region Layer B
+                    DefLayerB(materialEditor, properties, style, targetMat);
+                    #endregion
                     break;
                 case 2:
                 case 3:
@@ -297,320 +207,42 @@ public class BWaterSurfaceEditor : ShaderGUI
                 case 6:
                 case 7:
                 case 8:
-                    style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(55));
-                    EditorGUILayout.BeginVertical(style);
-                    MidWaveASet(materialEditor, properties, targetMat, (int)ntTypeA.floatValue);
-                    EditorGUILayout.EndVertical();
-                    style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(90));
-                    EditorGUILayout.BeginVertical(style);
-                    MidWaveBSet(materialEditor, properties, targetMat, (int)ntTypeB.floatValue);
-                    EditorGUILayout.EndVertical();
+                    #region Layer A
+                    DefLayerA(materialEditor, properties, style, targetMat);
+                    #endregion
+                    #region Layer B
+                    DefLayerB(materialEditor, properties, style, targetMat);
+                    #endregion
                     break;
             }
-            #endregion
-
-            EditorGUILayout.EndVertical();
-            EditorGUI.indentLevel--;
-        }
-        #endregion
-
-        #region Fog Settings
-        style.normal.background = MakeBackground(1, 32, bdColors.GrayP(18, 204));
-        style.fontSize = 16;
-        style.normal.textColor = bdColors.NexusOrange();
-
-        checkFog = EditorGUILayout.ToggleLeft("FOG SETTINGS", checkFog, style);
-        targetMat.SetInt("_FogToggle", Convert.ToInt16(checkFog));
-        EditorGUILayout.BeginVertical();
-        if(checkFog)
-        {
-            EditorGUI.indentLevel++;
-
-            MaterialProperty fogCol = ShaderGUI.FindProperty("_FogColor", properties);
-            MaterialProperty fogGradType = ShaderGUI.FindProperty("_FogDepthGradeType", properties);
-            MaterialProperty fogDepthDist = ShaderGUI.FindProperty("_FogDepthDistance", properties);
-            MaterialProperty fogDepthExp = ShaderGUI.FindProperty("_FogDepthExponential", properties);
-
-            materialEditor.ShaderProperty(fogCol, "Fog Color");
-            materialEditor.ShaderProperty(fogGradType, "Fog Depth Grade Type");
-            materialEditor.ShaderProperty(fogDepthDist, "Fog Depth Distance");
-            materialEditor.ShaderProperty(fogDepthExp, "Fog Depth Exponential");
 
             EditorGUI.indentLevel--;
         }
         EditorGUILayout.EndVertical();
-        #endregion
-        
-        #region Normal Controls Settings
-        style.normal.background = MakeBackground(1, 32, bdColors.GrayP(18, 204));
-        style.fontSize = 16;
-        style.normal.textColor = bdColors.NexusOrange();
-
-        checkNormal = EditorGUILayout.ToggleLeft("NORMAL CONTROLS", checkNormal, style);
-        targetMat.SetInt("_Normal", Convert.ToInt16(checkNormal));
-        EditorGUILayout.BeginVertical();
-        if(checkNormal)
-        {
-            EditorGUI.indentLevel++;
-
-            style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(30));
-            EditorGUILayout.BeginVertical(style);
-            {
-                MaterialProperty normsc = ShaderGUI.FindProperty("_NormalStrength", properties);
-                MaterialProperty normWave = ShaderGUI.FindProperty("_NormWaveIntensity", properties);
-                MaterialProperty normShor = ShaderGUI.FindProperty("_NormShoreIntensity", properties);
-                MaterialProperty rfrSize = ShaderGUI.FindProperty("_RefractSize", properties);
-                materialEditor.ShaderProperty(normsc, "Bump Strength");
-                materialEditor.ShaderProperty(normWave, "Wave Bump Intensity");
-                materialEditor.ShaderProperty(normShor, "Shore Bump Intensity");
-                materialEditor.ShaderProperty(rfrSize, "Refract | Reflect Control");
-
-                checkNormTxt = EditorGUILayout.Toggle("Normal Map", checkNormTxt);
-                targetMat.SetInt("_NormalTxt", Convert.ToInt16(checkNormTxt));
-                if(checkNormTxt)
-                {
-                    #region Normal Map Mixer
-                    EditorGUI.indentLevel++;
-
-                    MaterialProperty nrmA = ShaderGUI.FindProperty("_NormalAMap", properties);
-                    MaterialProperty nrmB = ShaderGUI.FindProperty("_NormalBMap", properties);
-                    MaterialProperty nrmAInt = ShaderGUI.FindProperty("_NrmAInt", properties);
-                    MaterialProperty nrmBInt = ShaderGUI.FindProperty("_NrmBInt", properties);
-                    MaterialProperty nrmMix = ShaderGUI.FindProperty("_NormalMix", properties);
-
-                    materialEditor.ShaderProperty(nrmMix, "Mix Type");
-
-                    style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(30));
-                    EditorGUILayout.BeginVertical(style);
-                    {
-                        normAFold = EditorGUILayout.Foldout(normAFold, "Normal Map A", toggleOnLabelClick: true);
-                        targetMat.SetInt("_NormMapAFold", Convert.ToInt16(normAFold));
-                        if(normAFold)
-                        {
-                            materialEditor.ShaderProperty(nrmA, "Normal Map A");
-                            NormTxtA(materialEditor, properties);
-                        }
-                    }
-                    EditorGUILayout.EndVertical();
-
-                    if(nrmMix.floatValue > 0.1f)
-                    {
-                        style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(60));
-                        EditorGUILayout.BeginVertical(style);
-                        {
-                            normBFold = EditorGUILayout.Foldout(normBFold, "Normal Map B", toggleOnLabelClick: true);
-                            targetMat.SetInt("_NormMapBFold", Convert.ToInt16(normBFold));
-                            if(normBFold)
-                            {
-                                materialEditor.ShaderProperty(nrmB, "Normal Map B");
-                                NormTxtB(materialEditor, properties);
-                            }
-                        }
-                        EditorGUILayout.EndVertical();
-                    }
-
-                    EditorGUI.indentLevel--;
-                    #endregion
-                }
-                else
-                {
-                    #region Generator Mixer
-                    // Normal From Height
-                    style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(30));
-                    EditorGUILayout.BeginVertical(style);
-                    {
-                        EditorGUI.indentLevel++;
-
-                        MaterialProperty nrmGradeType = ShaderGUI.FindProperty("_NormNoiseGradeType", properties);
-                        MaterialProperty nrmMixType = ShaderGUI.FindProperty("_NormMixType", properties);
-                        MaterialProperty nrmNCont = ShaderGUI.FindProperty("_NormNoiseContrast", properties);
-                        MaterialProperty nrmNGradeScl = ShaderGUI.FindProperty("_NormNoiseGradeScale", properties);
-                        MaterialProperty nrmNGradeOff = ShaderGUI.FindProperty("_NormNoiseGradeOffset", properties);
-
-                        materialEditor.ShaderProperty(nrmGradeType, "Noise Grade Type");
-                        materialEditor.ShaderProperty(nrmMixType, "Noise Grade Mix");
-                        materialEditor.ShaderProperty(nrmNCont, "Noise Contrast");
-                        materialEditor.ShaderProperty(nrmNGradeScl, "Noise Grade Scale");
-                        materialEditor.ShaderProperty(nrmNGradeOff, "Noise Grade Offset");
-
-                        MaterialProperty nntTypeA = ShaderGUI.FindProperty("_NoiseTypeA", properties);
-                        MaterialProperty nntTypeB = ShaderGUI.FindProperty("_NoiseTypeB", properties);
-
-                        switch((int)nrmMixType.floatValue)
-                        {
-                            case 0: // no 
-                                break;
-                            case 1:
-                                style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(55));
-                                EditorGUILayout.BeginVertical(style);
-                                NormASet(materialEditor, properties, targetMat, (int)nntTypeA.floatValue);
-                                EditorGUILayout.EndVertical();
-                                break;
-                            case 2:
-                            case 3:
-                            case 4:
-                            case 5:
-                            case 6:
-                            case 7:
-                            case 8:
-                                style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(55));
-                                EditorGUILayout.BeginVertical(style);
-                                NormASet(materialEditor, properties, targetMat, (int)nntTypeA.floatValue);
-                                EditorGUILayout.EndVertical();
-                                style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(90));
-                                EditorGUILayout.BeginVertical(style);
-                                NormBSet(materialEditor, properties, targetMat, (int)nntTypeB.floatValue);
-                                EditorGUILayout.EndVertical();
-                                break;
-                        }
-
-                        EditorGUI.indentLevel--;
-                    }
-                    EditorGUILayout.EndVertical();
-                    #endregion
-                }
-            }
-            EditorGUILayout.EndVertical();
-
-            EditorGUI.indentLevel--;
-        }
-        EditorGUILayout.EndVertical();
+        EditorGUILayout.Space(1);
         #endregion
 
-        #region Reflection Settings
-        style.normal.background = MakeBackground(1, 32, bdColors.GrayP(18, 204));
-        style.fontSize = 16;
-        style.normal.textColor = bdColors.NexusOrange();
-
-        checkReflect = EditorGUILayout.ToggleLeft("REFLECTION SETTINGS", checkReflect, style);
-        targetMat.SetInt("_Reflect", Convert.ToInt16(checkReflect));
-        EditorGUILayout.BeginVertical();
-        if(checkReflect)
-        {
-            EditorGUI.indentLevel++;
-
-            MaterialProperty mirRef = ShaderGUI.FindProperty("_MirrorReflect", properties);
-            MaterialProperty mirRefCol = ShaderGUI.FindProperty("_MirrorRefColor", properties);
-            MaterialProperty mirRefInt = ShaderGUI.FindProperty("_MirrorRefIntensity", properties);
-
-            MaterialProperty cmRef = ShaderGUI.FindProperty("_CMReflect", properties);
-            MaterialProperty refStr = ShaderGUI.FindProperty("_ReflectionStrength", properties);
-            MaterialProperty refMult = ShaderGUI.FindProperty("_ReflectionMultiplier", properties);
-            MaterialProperty refColor = ShaderGUI.FindProperty("_ReflectColor", properties);
-            MaterialProperty refMap = ShaderGUI.FindProperty("_ReflectMap", properties);
-            MaterialProperty refMapRot = ShaderGUI.FindProperty("_CubeMapRotate", properties);
-            MaterialProperty refMapx = ShaderGUI.FindProperty("_CMXPos", properties);
-            MaterialProperty refMapy = ShaderGUI.FindProperty("_CMYPos", properties);
-            MaterialProperty refMapz = ShaderGUI.FindProperty("_CMZPos", properties);
-
-            materialEditor.ShaderProperty(mirRef, "Mirrored Reflect");
-            materialEditor.ShaderProperty(mirRefInt, "Mirrored Reflect Intensity");
-            materialEditor.ShaderProperty(mirRefCol, "Mirrored Reflect Color");
-            EditorGUILayout.Space(5);
-            materialEditor.ShaderProperty(cmRef, "Cube Map Reflect");
-            materialEditor.ShaderProperty(refStr, "Strength");
-            materialEditor.ShaderProperty(refMult, "Multiplier");
-            materialEditor.ShaderProperty(refColor, "Reflect Color");
-            materialEditor.ShaderProperty(refMap, "Reflect Map");
-            materialEditor.ShaderProperty(refMapRot, "Cube Map Rotate");
-            materialEditor.ShaderProperty(refMapx, "Cube Map X Position");
-            materialEditor.ShaderProperty(refMapy, "Cube Map Y Position");
-            materialEditor.ShaderProperty(refMapz, "Cube Map Z Position");
-
-            EditorGUI.indentLevel--;
-        }
-        EditorGUILayout.EndVertical();
-        #endregion
-
-        #region Refraction Settings
-        style.normal.background = MakeBackground(1, 32, bdColors.GrayP(18, 204));
-        style.fontSize = 16;
-        style.normal.textColor = bdColors.NexusOrange();
-
-        checkRefract = EditorGUILayout.ToggleLeft("REFRACTION SETTINGS", checkRefract, style);
-        targetMat.SetInt("_RefractionToggle", Convert.ToInt16(checkRefract));
-        EditorGUILayout.BeginVertical();
-        if(checkRefract)
-        {
-            EditorGUI.indentLevel++;
-            MaterialProperty rfrColor = ShaderGUI.FindProperty("_RefractColor", properties);
-            MaterialProperty trInt = ShaderGUI.FindProperty("_TransparentIntensity", properties);
-            MaterialProperty rfrCont = ShaderGUI.FindProperty("_ScreenContrast", properties);
-
-            materialEditor.ShaderProperty(rfrColor, "Refract Color");
-            materialEditor.ShaderProperty(trInt, "Transparent Intensity");
-            materialEditor.ShaderProperty(rfrCont, "Refract Contrast");
-            EditorGUI.indentLevel--;
-        }
-        EditorGUILayout.EndVertical();
-        #endregion
-
-        #region Displacement Settings
-        style.normal.background = MakeBackground(1, 32, bdColors.GrayP(18, 204));
-        style.fontSize = 16;
-        style.normal.textColor = bdColors.NexusOrange();
-
-        checkDisp = EditorGUILayout.ToggleLeft("DISPLACEMENT SETTINGS", checkDisp, style);
-        targetMat.SetInt("_Displacement", Convert.ToInt16(checkDisp));
-        EditorGUILayout.BeginVertical();
-        if(checkDisp)
-        {
-            EditorGUI.indentLevel++;
-            MaterialProperty waveLength = ShaderGUI.FindProperty("_WaveLength", properties);
-            MaterialProperty eWaveMulti = ShaderGUI.FindProperty("_EdgeWaveMultiplier", properties);
-            MaterialProperty eWaveExpo = ShaderGUI.FindProperty("_EdgeWaveExponential", properties);
-            materialEditor.ShaderProperty(waveLength, "Wave Length");
-            materialEditor.ShaderProperty(eWaveMulti, "Edge Wave Multiplier");
-            materialEditor.ShaderProperty(eWaveExpo, "Edge Wave Exponential");
-            EditorGUI.indentLevel--;
-        }
-        EditorGUILayout.EndVertical();
-        #endregion
-
-        #region Screen Space Bluric Transparent Settings
+        #region Shader Defaults
         style.normal.background = MakeBackground(1, 1, bdColors.GrayP(18, 204));
         style.fontSize = 16;
         style.normal.textColor = bdColors.NexusOrange();
-
-        EditorGUILayout.BeginVertical();
-        checkSSBlur = EditorGUILayout.ToggleLeft("SCREEN SPACE BLUR", checkSSBlur, style);
-        targetMat.SetInt("_SSBluricTransparent", Convert.ToInt16(checkSSBlur));
+        EditorGUILayout.BeginVertical(style);
+        checkDef = EditorGUILayout.ToggleLeft("SHADER DEFAULTS", checkDef, style);
+        targetMat.SetInt("_CheckDef", Convert.ToInt16(checkDef));
         EditorGUILayout.EndVertical();
         style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
         EditorGUILayout.BeginVertical(style);
-        if(checkSSBlur)
+        if(checkDef)
         {
-            EditorGUILayout.Space(4);
-
-            MaterialProperty ssbTxt = ShaderGUI.FindProperty("_BluricRefractionPattern", properties);
-
-
-            MaterialProperty ssbSize = ShaderGUI.FindProperty("_SSSize", properties);
-
-            MaterialProperty ssbPHgt = ShaderGUI.FindProperty("_PatternHeight", properties);
-            //MaterialProperty ssbPRot = ShaderGUI.FindProperty("_PatternRotator", properties);
-
-            materialEditor.TextureProperty(ssbTxt, "Blur Pattern");
-            materialEditor.RangeProperty(ssbPHgt, "Pattern Height");
-            materialEditor.FloatProperty(ssbSize, "Size");
-            SS_TxtTileOffset(materialEditor, properties);
+            EditorGUI.indentLevel++;
+            EditorGUILayout.Space(2);
+            materialEditor.RenderQueueField();
+            materialEditor.EnableInstancingField();
+            materialEditor.DoubleSidedGIField();
+            EditorGUI.indentLevel--;
         }
         EditorGUILayout.EndVertical();
-        #endregion
-
-        #region Other Shader Settings
-        MaterialProperty spec = ShaderGUI.FindProperty("_Specular", properties);
-        MaterialProperty smoothness = ShaderGUI.FindProperty("_Smoothness", properties);
-        //MaterialProperty clipThreshold = ShaderGUI.FindProperty("_ClipThreshold", properties);
-        materialEditor.ShaderProperty(spec, "Specular");
-        materialEditor.ShaderProperty(smoothness, "Smoothness");
-        //materialEditor.ShaderProperty(clipThreshold, "Clip Threshold");
-        #endregion
-        
-        #region Shader Defaults
-        materialEditor.RenderQueueField();
-        materialEditor.EnableInstancingField();
-        materialEditor.DoubleSidedGIField();
+        EditorGUILayout.Space(1);
         #endregion
 
         #region BUDU Copyright
@@ -631,74 +263,308 @@ public class BWaterSurfaceEditor : ShaderGUI
             EditorGUILayout.HelpBox(gc, true);
         }
         #endregion
+
+        /////////////
+        EditorGUILayout.Space(50);
+        GUI.backgroundColor = bdColors.Black(100);
+        base.OnGUI(materialEditor, properties);
     }
 
+
+    public void DefLayerA(MaterialEditor materialEditor, MaterialProperty[] properties, GUIStyle style, Material targetMat)
+    {
+        style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(20));
+        EditorGUILayout.BeginVertical(style);
+        dfNoiseAFold = EditorGUILayout.Foldout(dfNoiseAFold, "Deform Noise Type A", toggleOnLabelClick: true);
+        targetMat.SetInt("_dfNoiseAFold", Convert.ToInt16(dfNoiseAFold));
+        if(dfNoiseAFold)
+        {
+            EditorGUI.indentLevel++;
+
+            MaterialProperty dfNTypeA = ShaderGUI.FindProperty("_NoiseAType", properties);
+            materialEditor.ShaderProperty(dfNTypeA, "Noise Type");
+
+            MaterialProperty naType = ShaderGUI.FindProperty("_DFAGradeType", properties);
+            MaterialProperty naInvert = ShaderGUI.FindProperty("_DfNoiseAInvert", properties);
+            MaterialProperty naAmpl = ShaderGUI.FindProperty("_DFAAmplitude", properties);
+            MaterialProperty naCont = ShaderGUI.FindProperty("_NoiseAContrast", properties);
+            MaterialProperty naInt = ShaderGUI.FindProperty("_NA_Intensity", properties);
+            MaterialProperty naBias = ShaderGUI.FindProperty("_DFAExp", properties);
+
+
+            MaterialProperty naVorAngleSpeed = ShaderGUI.FindProperty("_AVoronoiAngleSpeed", properties);
+            MaterialProperty naScale = ShaderGUI.FindProperty("_ANoiseScale", properties);
+
+            switch((int)dfNTypeA.floatValue)
+            {
+                case 0:
+                    #region None
+
+                    #endregion
+                    break;
+                case 1:
+                    #region Voronoi Cell
+                    MaterialProperty naCellOct = ShaderGUI.FindProperty("_CellA_OCT", properties);
+                    MaterialProperty naVorSmooth = ShaderGUI.FindProperty("_AVoronoiSmooth", properties);
+
+                    materialEditor.ShaderProperty(naCellOct, "Cell Octave");
+                    materialEditor.ShaderProperty(naVorAngleSpeed, "Angle Speed");
+                    materialEditor.ShaderProperty(naVorSmooth, "Smooth");
+                    materialEditor.ShaderProperty(naScale, "Noise Scale");
+                    #endregion
+                    break;
+                case 2:
+                    #region Voronoi Caustic
+                    MaterialProperty naCausOct = ShaderGUI.FindProperty("_CausticA_OCT", properties);
+
+                    materialEditor.ShaderProperty(naCausOct, "Caustic Octave");
+                    materialEditor.ShaderProperty(naVorAngleSpeed, "Angle Speed");
+                    materialEditor.ShaderProperty(naScale, "Noise Scale");
+                    #endregion
+                    break;
+                case 3:
+                    #region Perlin
+                    materialEditor.ShaderProperty(naScale, "Noise Scale");
+                    #endregion
+                    break;
+                case 4:
+                    #region Texture
+                    MaterialProperty naTxt = ShaderGUI.FindProperty("_DeformNoiseTypeA", properties);
+                    materialEditor.ShaderProperty(naTxt, "Noise Map");
+                    #endregion
+                    break;
+            }
+
+            materialEditor.ShaderProperty(naInvert, "Invert");
+            materialEditor.ShaderProperty(naType, "Grade Type");
+            materialEditor.ShaderProperty(naInt, "Intensity");
+            materialEditor.ShaderProperty(naAmpl, "Amplitude");
+            materialEditor.ShaderProperty(naCont, "Contrast");
+            materialEditor.ShaderProperty(naBias, "Exponential");
+
+            DeformTXTASet(materialEditor, properties);
+
+            EditorGUI.indentLevel--;
+        }
+        EditorGUILayout.EndVertical();
+    }
+    public void DefLayerB(MaterialEditor materialEditor, MaterialProperty[] properties, GUIStyle style, Material targetMat)
+    {
+        style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(40));
+        EditorGUILayout.BeginVertical(style);
+        dfNoiseBFold = EditorGUILayout.Foldout(dfNoiseBFold, "Deform Noise Type B", toggleOnLabelClick: true);
+        targetMat.SetInt("_dfNoiseBFold", Convert.ToInt16(dfNoiseBFold));
+        if(dfNoiseBFold)
+        {
+            EditorGUI.indentLevel++;
+
+            MaterialProperty dfNTypeB = ShaderGUI.FindProperty("_NoiseBType", properties);
+            materialEditor.ShaderProperty(dfNTypeB, "Noise Type");
+
+            MaterialProperty nbType = ShaderGUI.FindProperty("_DFBGradeType", properties);
+            MaterialProperty nbInvert = ShaderGUI.FindProperty("_DfNoiseBInvert", properties);
+            MaterialProperty nbAmpl = ShaderGUI.FindProperty("_DFBAmplitude", properties);
+            MaterialProperty nbCont = ShaderGUI.FindProperty("_NoiseBContrast", properties);
+            MaterialProperty nbInt = ShaderGUI.FindProperty("_NB_Intensity", properties);
+            MaterialProperty nbBias = ShaderGUI.FindProperty("_DFBExp", properties);
+
+            MaterialProperty nbVorAngleSpeed = ShaderGUI.FindProperty("_BVoronoiAngleSpeed", properties);
+            MaterialProperty nbScale = ShaderGUI.FindProperty("_BNoiseScale", properties);
+
+            switch((int)dfNTypeB.floatValue)
+            {
+                case 0:
+                    #region None
+
+                    #endregion
+                    break;
+                case 1:
+                    #region Voronoi Cell
+                    MaterialProperty nbCellOct = ShaderGUI.FindProperty("_CellB_OCT", properties);
+                    MaterialProperty nbVorSmooth = ShaderGUI.FindProperty("_BVoronoiSmooth", properties);
+
+                    materialEditor.ShaderProperty(nbCellOct, "Cell Octave");
+                    materialEditor.ShaderProperty(nbVorAngleSpeed, "Angle Speed");
+                    materialEditor.ShaderProperty(nbVorSmooth, "Smooth");
+                    materialEditor.ShaderProperty(nbScale, "Noise Scale");
+                    #endregion
+                    break;
+                case 2:
+                    #region Voronoi Caustic
+                    MaterialProperty nbCausOct = ShaderGUI.FindProperty("_CausticA_OCT", properties);
+
+                    materialEditor.ShaderProperty(nbCausOct, "Caustic Octave");
+                    materialEditor.ShaderProperty(nbVorAngleSpeed, "Angle Speed");
+                    materialEditor.ShaderProperty(nbScale, "Noise Scale");
+
+                    #endregion
+                    break;
+                case 3:
+                    #region Perlin
+                    materialEditor.ShaderProperty(nbScale, "Noise Scale");
+                    #endregion
+                    break;
+                case 4:
+                    #region Texture
+                    MaterialProperty nbTxt = ShaderGUI.FindProperty("_DeformNoiseTypeB", properties);
+                    materialEditor.ShaderProperty(nbTxt, "Noise Map");
+                    #endregion
+                    break;
+
+            }
+
+            materialEditor.ShaderProperty(nbInvert, "Invert");
+            materialEditor.ShaderProperty(nbType, "Grade Type");
+            materialEditor.ShaderProperty(nbInt, "Intensity");
+            materialEditor.ShaderProperty(nbAmpl, "Amplitude");
+            materialEditor.ShaderProperty(nbCont, "Contrast");
+            materialEditor.ShaderProperty(nbBias, "Exponential");
+
+            DeformTXTBSet(materialEditor, properties);
+
+            EditorGUI.indentLevel--;
+        }
+        EditorGUILayout.EndVertical();
+    }
     void loadMaterialVariables(Material targetMat)
     {
-        tempVar = targetMat.GetInt("_FlowMapSettings");
-        checkFlowMap = tempVar == 1 ? true : false;
-
-        tempVar = targetMat.GetInt("_DeformSettings");
+        tempVar = targetMat.GetInt("_DeformFold");
         checkDeform = tempVar == 1 ? true : false;
 
-        tempVar = targetMat.GetInt("_DeformAFold");
-        deformAFold = tempVar == 1 ? true : false;
+        tempVar = targetMat.GetInt("_dfNoiseAFold");
+        dfNoiseAFold = tempVar == 1 ? true : false;
 
-        tempVar = targetMat.GetInt("_DeformBFold");
-        deformBFold = tempVar == 1 ? true : false;
+        tempVar = targetMat.GetInt("_dfNoiseBFold");
+        dfNoiseBFold = tempVar == 1 ? true : false;
 
-        tempVar = targetMat.GetInt("_NoiseFold");
-        noiseFold = tempVar == 1 ? true : false;
+        tempVar = targetMat.GetInt("_CheckDef");
+        checkDef = tempVar == 1 ? true : false;
 
-        tempVar = targetMat.GetInt("_MiddleNAFold");
-        midNAFold = tempVar == 1 ? true : false;
+        tempVar = targetMat.GetInt("_CheckFlowMap");
+        checkFlowMap= tempVar == 1 ? true : false;
 
-        tempVar = targetMat.GetInt("_MiddleNBFold");
-        midNBFold = tempVar == 1 ? true : false;
+        tempVar = targetMat.GetInt("_fMapFold");
+        fMapFold = tempVar == 1 ? true : false;
 
-        tempVar = targetMat.GetInt("_MiddleWave");
-        checkMiddle = tempVar == 1 ? true : false;
+        tempVar = targetMat.GetInt("_fTxtFold");
+        fTxtFold = tempVar == 1 ? true : false;
 
-        tempVar = targetMat.GetInt("_ShoreToggle");
-        checkShore = tempVar == 1 ? true : false;
+        tempVar = targetMat.GetInt("_fMaskFold");
+        fMaskFold = tempVar == 1 ? true : false;
 
-        tempVar = targetMat.GetInt("_ShoreFold");
-        shoreTXFold = tempVar == 1 ? true : false;
-
-        tempVar = targetMat.GetInt("_FoamFold");
-        foamFold = tempVar == 1 ? true : false;
-
-        tempVar = targetMat.GetInt("_Normal");
-        checkNormal = tempVar == 1 ? true : false;
-
-        tempVar = targetMat.GetInt("_NormGenAFold");
-        normGenAFold = tempVar == 1 ? true : false;
-
-        tempVar = targetMat.GetInt("_NormGenBFold");
-        normGenBFold = tempVar == 1 ? true : false;
-
-        tempVar = targetMat.GetInt("_NormMapAFold");
-        normAFold = tempVar == 1 ? true : false;
-
-        tempVar = targetMat.GetInt("_NormMapBFold");
-        normBFold = tempVar == 1 ? true : false;
-
-        tempVar = targetMat.GetInt("_NormalTxt");
-        checkNormTxt = tempVar == 1 ? true : false;
-
-        tempVar = targetMat.GetInt("_SSBluricTransparent");
-        checkSSBlur = tempVar == 1 ? true : false;
-
-        tempVar = targetMat.GetInt("_FogToggle");
-        checkFog = tempVar == 1 ? true : false;
-
-        tempVar = targetMat.GetInt("_RefractionToggle");
-        checkRefract = tempVar == 1 ? true : false;
-
-        tempVar = targetMat.GetInt("_Reflect");
-        checkReflect = tempVar == 1 ? true : false;
+        tempVar = targetMat.GetInt("_dMaskFold");
+        dMaskFold = tempVar == 1 ? true : false;
     }
 
+    void flowTextureSettings(MaterialEditor materialEditor, MaterialProperty[] properties,GUIStyle style, Material targetMat)
+    {
+        style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(40));
+        EditorGUILayout.BeginVertical(style);
+        fTxtFold = EditorGUILayout.Foldout(fTxtFold, "Flow Texture Settings", toggleOnLabelClick: true);
+        targetMat.SetInt("_fTxtFold", Convert.ToInt16(fTxtFold));
+        if(fTxtFold)
+        {
+            EditorGUI.indentLevel++;
+            MaterialProperty fTxtMap = ShaderGUI.FindProperty("_TextureMap", properties);
+            MaterialProperty fMapGradeType = ShaderGUI.FindProperty("_TxtGradeType", properties);
+            MaterialProperty fMapAmp = ShaderGUI.FindProperty("_FlowTextureAmplitude", properties);
+            MaterialProperty fMapCont = ShaderGUI.FindProperty("_FlowTextureContrast", properties);
+            MaterialProperty fMapExp = ShaderGUI.FindProperty("_FlowTextureExponential", properties);
+
+            materialEditor.ShaderProperty(fMapGradeType, "Texture Grade Type");
+            materialEditor.ShaderProperty(fMapCont, "Flow Texture Contrast");
+            materialEditor.ShaderProperty(fMapAmp, "Flow Texture Amplitude");
+            materialEditor.ShaderProperty(fMapExp, "Flow Texture Exponential");
+
+            materialEditor.ShaderProperty(fTxtMap, "Flow Texture");
+            FlowTxtSet(materialEditor, properties);
+            EditorGUI.indentLevel--;
+        }
+        EditorGUILayout.EndVertical();
+    }
+
+    void DeformTXTASet(MaterialEditor materialEditor, MaterialProperty[] properties)
+    {
+        BD_ScaleOffset_GUI selectedTO = new BD_ScaleOffset_GUI();
+        selectedTO.Tile.x = "_NTypeATileX";
+        selectedTO.Tile.y = "_NTypeATileY";
+        selectedTO.Offset.x = "_NTypeAOffsetX";
+        selectedTO.Offset.y = "_NTypeAOffsetY";
+        selectedTO.Speed.x = "_NTypeASpeedX";
+        selectedTO.Speed.y = "_NTypeASpeedY";
+        selectedTO.Anchor.x = "_NTypeAAnchorX";
+        selectedTO.Anchor.y = "_NTypeAAnchorY";
+        selectedTO.OverallSpeed = "_NTypeAOverallSpeed";
+        selectedTO.Rotate = "_NTypeARotate";
+        selectedTO.RotateSpeed = "_NTypeARotateSpeed";
+        BDShaderGUI.ScaleOffsetGUI(materialEditor, properties, selectedTO);
+    }
+    void DeformTXTBSet(MaterialEditor materialEditor, MaterialProperty[] properties)
+    {
+        BD_ScaleOffset_GUI selectedTO = new BD_ScaleOffset_GUI();
+        selectedTO.Tile.x = "_NTypeBTileX";
+        selectedTO.Tile.y = "_NTypeBTileY";
+        selectedTO.Offset.x = "_NTypeBOffsetX";
+        selectedTO.Offset.y = "_NTypeBOffsetY";
+        selectedTO.Speed.x = "_NTypeBSpeedX";
+        selectedTO.Speed.y = "_NTypeBSpeedY";
+        selectedTO.Anchor.x = "_NTypeBAnchorX";
+        selectedTO.Anchor.y = "_NTypeBAnchorY";
+        selectedTO.OverallSpeed = "_NTypeBOverallSpeed";
+        selectedTO.Rotate = "_NTypeBRotate";
+        selectedTO.RotateSpeed = "_NTypeBRotateSpeed";
+        BDShaderGUI.ScaleOffsetGUI(materialEditor, properties, selectedTO);
+    }
+
+    private void FlowTxtSet(MaterialEditor materialEditor, MaterialProperty[] properties)
+    {
+        BD_ScaleOffset_GUI selectedTXT = new BD_ScaleOffset_GUI();
+        selectedTXT.Tile.x = "_ATileX";
+        selectedTXT.Tile.y = "_ATileY";
+        selectedTXT.Offset.x = "";
+        selectedTXT.Offset.y = "";
+        selectedTXT.Speed.x = "";
+        selectedTXT.Speed.y = "";
+        selectedTXT.Anchor.x = "";
+        selectedTXT.Anchor.y = "";
+        selectedTXT.OverallSpeed = "";
+        selectedTXT.Rotate = "_RotateA";
+        selectedTXT.RotateSpeed = "";
+        EditorGUILayout.LabelField("Tile Offset A");
+        BDShaderGUI.ScaleOffsetGUI(materialEditor,properties, selectedTXT);
+        EditorGUILayout.Space(4);
+        BD_ScaleOffset_GUI selectedTXTB = new BD_ScaleOffset_GUI();
+        selectedTXTB.Tile.x = "_BTileX";
+        selectedTXTB.Tile.y = "_BTileY";
+        selectedTXTB.Offset.x = "";
+        selectedTXTB.Offset.y = "";
+        selectedTXTB.Speed.x = "";
+        selectedTXTB.Speed.y = "";
+        selectedTXTB.Anchor.x = "";
+        selectedTXTB.Anchor.y = "";
+        selectedTXTB.OverallSpeed = "";
+        selectedTXTB.Rotate = "_RotateB";
+        selectedTXTB.RotateSpeed = "";
+        EditorGUILayout.LabelField("Tile Offset B");
+        BDShaderGUI.ScaleOffsetGUI(materialEditor, properties, selectedTXTB);
+        MaterialProperty fOffset = ShaderGUI.FindProperty("_OffsetB",properties);
+        materialEditor.ShaderProperty(fOffset, "Offset Second Layer");
+    }
+
+    private Texture2D MakeBackground(int width, int height, Color col)
+    {
+        Color[] pix = new Color[width * height];
+        for(int i = 0; i < pix.Length; i++)
+        {
+            pix[i] = col;
+        }
+        Texture2D result = new Texture2D(width, height);
+        result.SetPixels(pix);
+        result.Apply();
+        return result;
+    }
+
+    /*
     private void SS_TxtTileOffset(MaterialEditor materialEditor, MaterialProperty[] properties)
     {
         BD_ScaleOffset_GUI selected = new BD_ScaleOffset_GUI();
@@ -717,7 +583,6 @@ public class BWaterSurfaceEditor : ShaderGUI
         BDShaderGUI.ScaleOffsetGUI(materialEditor, properties, selected);
     }
 
-    // surface kullanmicam
     private void SurfTxtA(MaterialEditor materialEditor, MaterialProperty[] properties)
     {
         BD_Misc_GUI selectedMisc = new BD_Misc_GUI();
@@ -779,9 +644,9 @@ public class BWaterSurfaceEditor : ShaderGUI
         if(ShaderGUI.FindProperty(selectedNT.NoiseType, properties).floatValue > 0.1f)
         {
             BD_Misc_GUI selectedMisc = new BD_Misc_GUI();
-            selectedMisc.Invert = "_DefNoiseBInvert";
-            selectedMisc.Intensity = "_NoiseB_Intensity";
-            selectedMisc.Contrast = "_NoiseB_Contrast";
+            selectedMisc.Invert = "_DefNoiseAInvert";
+            selectedMisc.Intensity = "_DeformAIntensity";
+            selectedMisc.Contrast = "_DeformAContrast";
             BDShaderGUI.MiscGUI(materialEditor, properties, selectedMisc);
 
             BD_ScaleOffset_GUI selected = new BD_ScaleOffset_GUI();
@@ -816,8 +681,8 @@ public class BWaterSurfaceEditor : ShaderGUI
         {
             BD_Misc_GUI selectedMisc = new BD_Misc_GUI();
             selectedMisc.Invert = "_DefNoiseBInvert";
-            selectedMisc.Intensity = "_NoiseB_Intensity";
-            selectedMisc.Contrast = "_NoiseB_Contrast";
+            selectedMisc.Intensity = "_DeformBIntensity";
+            selectedMisc.Contrast = "_DeformBContrast";
             BDShaderGUI.MiscGUI(materialEditor, properties, selectedMisc);
 
             BD_ScaleOffset_GUI selected = new BD_ScaleOffset_GUI();
@@ -842,7 +707,7 @@ public class BWaterSurfaceEditor : ShaderGUI
         selectedNoise.NoiseType = "_NoiseTypeA";
         selectedNoise.VorCellOct = "_Def_VorCell_A_Type";
         selectedNoise.VorCaustOct = "_Def_VorCaustic_A_Type";
-        selectedNoise.TextureMap = "_DeformAMap";
+        selectedNoise.TextureMap = "_NoiseAMap";
         selectedNoise.NoiseAngle = "_DefVorAAngle";
         selectedNoise.NoiseSmooth = "_DefVorASmooth";
         selectedNoise.NoiseScale = "_DefNoiseAScale";
@@ -877,7 +742,7 @@ public class BWaterSurfaceEditor : ShaderGUI
         selectedNoise.NoiseType = "_NoiseTypeB";
         selectedNoise.VorCellOct = "_Def_VorCell_B_Type";
         selectedNoise.VorCaustOct = "_Def_VorCaustic_B_Type";
-        selectedNoise.TextureMap = "_DeformBMap";
+        selectedNoise.TextureMap = "_NoiseBMap";
         selectedNoise.NoiseAngle = "_DefVorBAngle";
         selectedNoise.NoiseSmooth = "_DefVorBSmooth";
         selectedNoise.NoiseScale = "_DefNoiseBScale";
@@ -978,9 +843,9 @@ public class BWaterSurfaceEditor : ShaderGUI
     private void NormTxtA(MaterialEditor materialEditor, MaterialProperty[] properties)
     {
         BD_Misc_GUI selectedMisc = new BD_Misc_GUI();
-        selectedMisc.Invert = "_DefNoiseBInvert";
-        selectedMisc.Intensity = "_NoiseB_Intensity";
-        selectedMisc.Contrast = "_NoiseB_Contrast";
+        selectedMisc.Invert = "";
+        selectedMisc.Intensity = "_NrmAInt";
+        selectedMisc.Contrast = "";
         BDShaderGUI.MiscGUI(materialEditor, properties, selectedMisc);
 
         BD_ScaleOffset_GUI selected = new BD_ScaleOffset_GUI();
@@ -1000,9 +865,9 @@ public class BWaterSurfaceEditor : ShaderGUI
     private void NormTxtB(MaterialEditor materialEditor, MaterialProperty[] properties)
     {
         BD_Misc_GUI selectedMisc = new BD_Misc_GUI();
-        selectedMisc.Invert = "_DefNoiseBInvert";
-        selectedMisc.Intensity = "_NoiseB_Intensity";
-        selectedMisc.Contrast = "_NoiseB_Contrast";
+        selectedMisc.Invert = "";
+        selectedMisc.Intensity = "_NrmBInt";
+        selectedMisc.Contrast = "";
         BDShaderGUI.MiscGUI(materialEditor, properties, selectedMisc);
 
         BD_ScaleOffset_GUI selected = new BD_ScaleOffset_GUI();
@@ -1042,105 +907,5 @@ public class BWaterSurfaceEditor : ShaderGUI
             EditorGUI.indentLevel--;
         }
     }
-
-    private Texture2D MakeBackground(int width, int height, Color col)
-    {
-        Color[] pix = new Color[width * height];
-        for(int i = 0; i < pix.Length; i++)
-        {
-            pix[i] = col;
-        }
-        Texture2D result = new Texture2D(width, height);
-        result.SetPixels(pix);
-        result.Apply();
-        return result;
-    }
+    */
 }
-
-/* #region Surface Texture Settings - OK Eskidi kullanmıyorum
-style.normal.background = MakeBackground(1, 32, bdColors.GrayP(18, 204));
-style.fontSize = 16;
-style.normal.textColor = bdColors.NexusOrange();
-
-checkSurface = EditorGUILayout.ToggleLeft("SURFACE SETTINGS", checkSurface, style);
-targetMat.SetInt("_SurfaceWaves",Convert.ToInt16(checkSurface));
-EditorGUILayout.BeginVertical();
-if(checkSurface)
-{
-    EditorGUI.indentLevel++;
-    MaterialProperty sc = ShaderGUI.FindProperty("_SurfaceColor", properties);
-    MaterialProperty shtb = ShaderGUI.FindProperty("_SurfaceTextureBlendingType", properties);
-    MaterialProperty shdef = ShaderGUI.FindProperty("_SurfaceDeformation", properties);
-    MaterialProperty shdefScl = ShaderGUI.FindProperty("_SurfaceDeformScale", properties);
-
-    materialEditor.ColorProperty(sc, "Surface Color");
-    materialEditor.ShaderProperty(shtb, "Texture Blending Type");
-    materialEditor.ShaderProperty(shdef, "Surface Deformation");
-    materialEditor.ShaderProperty(shdefScl, "Surface Deformation Scale");
-
-    MaterialProperty scma = ShaderGUI.FindProperty("_SurfaceColorMapA", properties);
-    MaterialProperty scmb = ShaderGUI.FindProperty("_SurfaceColorMapB", properties);
-
-    switch((int)(shtb.floatValue))
-    {
-        #region No Texture
-        case 0:
-            // No Parameters
-            break;
-        #endregion
-        #region One Texture
-        case 1:
-            style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(30));
-            EditorGUILayout.BeginVertical(style);
-            surfaceMAFold = EditorGUILayout.Foldout(surfaceMAFold, "Map A Controls", toggleOnLabelClick: true);
-            targetMat.SetInt("_SurfaceMapA", Convert.ToInt16(surfaceMAFold));
-            #region Surface Map A
-            if(surfaceMAFold)
-            {
-                materialEditor.TextureProperty(scma, "Surface Map A");
-                SurfTxtA(materialEditor, properties);
-            }
-            #endregion
-            EditorGUILayout.EndVertical();
-            break;
-        #endregion
-        #region Add Sub Mult Div FMod FModInv
-        case 2:
-        case 3:
-        case 4:
-        case 5:
-        case 6:
-        case 7:
-            #region Map A Settings
-            style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(30));
-            EditorGUILayout.BeginVertical(style);
-            surfaceMAFold = EditorGUILayout.Foldout(surfaceMAFold, "Map A Controls", toggleOnLabelClick: true);
-            targetMat.SetInt("_SurfaceMapA", Convert.ToInt16(surfaceMAFold));
-            if(surfaceMAFold)
-            {
-                materialEditor.TextureProperty(scma, "Surface Map A");
-                SurfTxtA(materialEditor, properties);
-            }
-            EditorGUILayout.EndVertical();
-            style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(60));
-            EditorGUILayout.BeginVertical(style);
-            surfaceMBFold = EditorGUILayout.Foldout(surfaceMBFold, "Map B Controls", toggleOnLabelClick: true);
-            targetMat.SetInt("_SurfaceMapB", Convert.ToInt16(surfaceMBFold));
-            #endregion
-            #region Map B Settings
-            if(surfaceMBFold)
-            {
-                materialEditor.TextureProperty(scmb, "Surface Map B");
-                SurfTxtB(materialEditor, properties);
-            }
-            EditorGUILayout.EndVertical();
-            #endregion
-            break;
-            #endregion
-    }
-
-    EditorGUI.indentLevel--;
-}
-EditorGUILayout.EndVertical();
-#endregion
-*/

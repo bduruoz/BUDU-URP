@@ -8,20 +8,16 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: BWaterToonDeep
-  m_Shader: {fileID: 4800000, guid: 8e31880eca74c0c48a998702cb100670, type: 3}
+  m_Shader: {fileID: 4800000, guid: 237715e325416fd448e8ad2f56fbd0ae, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
+  - _BLENDINGOP_ALPHABLEND
+  - _DEPTH3DGRADETYPE_LINEAR
+  - _DEPTHGRADETYPE_GAMMA
+  m_InvalidKeywords:
   - _DEFNOISEGRADETYPE_LINEAR
   - _DEFNOISEMIXTYPE_SUBTRACT
-  - _DEPTHGRADETYPE_NORMAL
-  - _FOAMBLENDTYPE_MULTIPLY
-  - _NOISETYPEA_TEXTURE
-  - _NOISETYPEB_TEXTURE
-  - _NOISETYPE_VORAPERA
-  - _SHORETEXTUREBLENDINGTYPE_NOTEXTURE
-  - _TEXTUREGRADETYPE_GAMMA
-  m_InvalidKeywords:
   - _DEFORMTOGGLE_ON
   - _DEF_VORCAUSTIC_A_TYPE_CAUSTIC1
   - _DEF_VORCAUSTIC_B_TYPE_CAUSTIC1
@@ -29,9 +25,13 @@ Material:
   - _DEF_VORCELL_B_TYPE_CELL1
   - _DEPTHGRADETYPE2_GAMMA
   - _ENVIRONMENTREFLECTIONS_OFF
+  - _FOAMBLENDTYPE_MULTIPLY
   - _FOGDEPTHGRADETYPE_LINEAR
   - _INVERTFOAMTEXTURE_ON
   - _MIDDLEWAVE_ON
+  - _NOISETYPEA_TEXTURE
+  - _NOISETYPEB_TEXTURE
+  - _NOISETYPE_VORAPERA
   - _NORMNOISEGRADETYPE_LINEAR
   - _NORMNOISEMIXTYPE_MULTIPLY
   - _NORMNOISETYPEA_NONE
@@ -42,14 +42,16 @@ Material:
   - _NORM_VORCELL_B_TYPE_CELL1
   - _RECEIVESHADOWS_OFF
   - _RECEIVE_SHADOWS_OFF
+  - _SHORETEXTUREBLENDINGTYPE_NOTEXTURE
   - _SPECULARHIGHLIGHTS_OFF
+  - _TEXTUREGRADETYPE_GAMMA
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: 3010
   stringTagMap: {}
   disabledShaderPasses: []
-  m_LockedProperties: 
+  m_LockedProperties: _Exponential
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -127,6 +129,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _3DFog: 0
+    - _3DFogInvert: 0
+    - _3DGradeExponential: 2
+    - _3DGradeOffset: 0
+    - _3DGradeScale: 1
     - _ADist: 1.57
     - _AExp: 1
     - _AFoamFold: 0
@@ -137,9 +144,14 @@ Material:
     - _AffectFoamDeformation: 0
     - _AlphaCutoff: 0.5
     - _AlphaSetting: 1
+    - _BlendingOp: 0
     - _CMXPos: 0
     - _CMYPos: 0
     - _CMZPos: 0
+    - _CameraDepthFadeLength: 1
+    - _CameraDepthFadeOffset: 0
+    - _CheckBase: 0
+    - _CheckDef: 1
     - _ClipThreshold: 0
     - _CubeMapRotate1: 0
     - _DefNoiseAInvert: 0
@@ -189,21 +201,22 @@ Material:
     - _DeformOffset: 0
     - _DeformScale: 0.04
     - _DeformToggle: 1
+    - _Depth3DGradeType: 0
     - _DepthDistance: 2.29
     - _DepthExponential: 0.11
-    - _DepthFadeDistance: 1500
-    - _DepthGradeType: 1
+    - _DepthFadeDistance: 2.5
+    - _DepthGradeType: 2
     - _DepthGradeType1: 0
     - _DepthGradeType2: 2
-    - _DepthInvert: 1
+    - _DepthInvert: 0
     - _DepthSetting: 0
     - _DepthSize: -0.8
     - _Displacement: 0
-    - _DstBlend: 0
+    - _DstBlend: 10
     - _EdgeWaveExponential: 1
     - _EdgeWaveMultiplier: 1
     - _EnvironmentReflections: 0
-    - _Exponential: 2.27
+    - _Exponential: 1
     - _FSwitch: 0
     - _FinalOffset: -2
     - _FinalScale: 5
@@ -237,9 +250,10 @@ Material:
     - _FogDepthOffset: 0
     - _FogDepthScale: 0
     - _FogGradeExponential: 0
-    - _GradeExponential: 0.35
-    - _GradeOffset: -1.5
-    - _GradeScale: 2
+    - _FogSwitch: 1
+    - _GradeExponential: 1
+    - _GradeOffset: 0
+    - _GradeScale: 1
     - _InvertFoamTexture: 1
     - _InvertShoreTexture: 0
     - _InvertTexture: 1
@@ -367,10 +381,11 @@ Material:
     - _Smoothnes: 0.5
     - _Specular: 0.5
     - _SpecularHighlights: 0
-    - _SrcBlend: 1
+    - _SrcBlend: 5
     - _TextureGradeType: 2
     - _TextureOff: -65.7
     - _TextureScl: 66.6
+    - _Transparency: 1
     - _TransparentIntensity: 1
     - _TypeAScale: 4
     - _TypeBScale: 4

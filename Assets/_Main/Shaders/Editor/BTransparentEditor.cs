@@ -5,10 +5,9 @@ using budu;
 
 public class BTransparentEditor: ShaderGUI
 {
-    bool checkSurface, checkTrans, checkDepth, checkTrFresnel, checkRefractive, checkNormal, checkSpec, checkSSBlur, 
+    bool checkSurface, checkTrans, checkDepth, checkTrFresnel, checkRefractive, checkNormal, checkSpec, checkSSBlur, checkDef, 
         checkReflect, checkRefFresnel, checkRefFrsInvert, checkCurvFold, checkCurv, checkThickness, CheckRimContour;
-    bool aboutFold, surfaceFold, transFold, dpFold, depthFold, trFrFold, trFresnelFold, rfIdxFold, refIndexFold, rfFineFold, 
-        transFineTune, normalFold, specFold, specExtFold, ssBlurFold, reflectFold, cubemapFold, fresnelFold, curvFold, thickFold, rimContFold;
+    bool aboutFold, trFrFold, dpFold, rfIdxFold, specExtFold, transFineTune, depthFold, refIndexFold, rfFineFold, cubemapFold, fresnelFold, curvFold;
     int tempVar;
     
     public override void OnGUI(MaterialEditor materialEditor, MaterialProperty[] properties)
@@ -31,7 +30,7 @@ public class BTransparentEditor: ShaderGUI
             EditorGUILayout.EndHorizontal();
         }
         GUILayout.EndArea();
-        GUILayout.Space(32);
+        GUILayout.Space(28);
         GUI.backgroundColor = bdColors.White(255);
         #endregion
 
@@ -42,20 +41,22 @@ public class BTransparentEditor: ShaderGUI
 
         EditorGUILayout.BeginVertical(style);
         checkSurface = EditorGUILayout.ToggleLeft("SURFACE SETTINGS", checkSurface, style);
-        surfaceFold = checkSurface;
         targetMat.SetInt("_SurfaceSettings", Convert.ToInt16(checkSurface));
         EditorGUILayout.EndVertical();
+
         style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
         EditorGUILayout.BeginVertical(style);
-        if(surfaceFold)
+        if(checkSurface)
         {
-            EditorGUILayout.Space(4);
+            EditorGUI.indentLevel++;
+            EditorGUILayout.Space(2);
 
             MaterialProperty bc = ShaderGUI.FindProperty("_BaseColor", properties);
             MaterialProperty bt = ShaderGUI.FindProperty("_BaseMap", properties);
 
             materialEditor.ColorProperty(bc, "Base Color");
             materialEditor.TextureProperty(bt, "Base Map");
+            EditorGUI.indentLevel--;
         }
         EditorGUILayout.EndVertical();
         EditorGUILayout.Space(1);
@@ -68,40 +69,49 @@ public class BTransparentEditor: ShaderGUI
 
         EditorGUILayout.BeginVertical(style);
         checkTrans = EditorGUILayout.ToggleLeft("TRANSPARENCY", checkTrans, style);
-        transFold = checkTrans;
         targetMat.SetInt("_TransparentToggle", Convert.ToInt16(checkTrans));
         EditorGUILayout.EndVertical();
+
         style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
         EditorGUILayout.BeginVertical(style);
-        if(transFold)
+        if(checkTrans)
         {
-            EditorGUILayout.Space(4);
+            EditorGUI.indentLevel++;
+            EditorGUILayout.Space(2);
 
             MaterialProperty trIntens = ShaderGUI.FindProperty("_TransparentIntensity", properties);
-
             MaterialProperty trColor = ShaderGUI.FindProperty("_TransparencyColor", properties);
 
             materialEditor.RangeProperty(trIntens, "Transparent Intensity");
             materialEditor.ColorProperty(trColor, "Transparent Color");
 
-            style.normal.background = MakeBackground(1, 1, bdColors.BrightRed(100));
 
             #region Transparency Fine Tune Settings
+            style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(20));
+
             EditorGUILayout.BeginVertical(style);
             transFineTune = EditorGUILayout.Foldout(transFineTune, "Transparency Fine Tune");
             targetMat.SetInt("_TRFineTune",Convert.ToInt16(transFineTune));
             if(transFineTune)
             {
+                EditorGUI.indentLevel++;
+                EditorGUILayout.BeginHorizontal();
+                EditorGUIUtility.labelWidth = 170;
+                EditorGUIUtility.fieldWidth = 30;
                 MaterialProperty trScale = ShaderGUI.FindProperty("_TRScale", properties);
                 MaterialProperty trOffset = ShaderGUI.FindProperty("_TROffset", properties);
                 materialEditor.FloatProperty(trScale, "Transparent Scale");
                 materialEditor.FloatProperty(trOffset, "Transparent Offset");
+                EditorGUIUtility.labelWidth = 0;
+                EditorGUIUtility.fieldWidth = 0;
+                EditorGUILayout.EndHorizontal();
+                EditorGUI.indentLevel--;
             }
             EditorGUILayout.EndVertical();
             #endregion
 
             #region Transparent Fresnel Settings
-            style.normal.background = MakeBackground(1, 1, bdColors.dOrangeViolet(15));
+            style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(40));
 
             EditorGUILayout.BeginVertical(style);
             trFrFold = EditorGUILayout.Foldout(trFrFold, "Fresnel Settings", toggleOnLabelClick: true);
@@ -112,6 +122,7 @@ public class BTransparentEditor: ShaderGUI
                 targetMat.SetInt("_TransparentFresnel", Convert.ToInt16(checkTrFresnel));
                 if(checkTrFresnel)
                 {
+                    EditorGUI.indentLevel++;
                     MaterialProperty trFresInv = ShaderGUI.FindProperty("_TransparentFresnelInvert", properties);
                     MaterialProperty trFresBias = ShaderGUI.FindProperty("_TransparentFresnelBias",properties);
                     MaterialProperty trFresScale = ShaderGUI.FindProperty("_TransparentFresnelScale", properties);
@@ -121,19 +132,21 @@ public class BTransparentEditor: ShaderGUI
                     materialEditor.ShaderProperty(trFresBias, "Fresnel Bias");
                     materialEditor.ShaderProperty(trFresScale, "Fresnel Scale");
                     materialEditor.ShaderProperty(trFresPower, "Fresnle Power");
+                    EditorGUI.indentLevel--;
                 }
             }
             EditorGUILayout.EndVertical();
             #endregion
 
             #region Depth Settings
-            style.normal.background = MakeBackground(1, 1, bdColors.dOrangeViolet(30));
+            style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(60));
 
             EditorGUILayout.BeginVertical(style);
             dpFold = EditorGUILayout.Foldout(dpFold, "Depth Settings", toggleOnLabelClick: true);
             targetMat.SetInt("_DPFold",Convert.ToInt16(dpFold));
             if(dpFold)
             {
+                EditorGUI.indentLevel++;
                 checkDepth = EditorGUILayout.Toggle("Transparency Depth", checkDepth);
                 targetMat.SetInt("_Depth",Convert.ToInt16(checkDepth));
                 targetMat.SetInt("_DepthToggle", Convert.ToInt16(checkDepth));
@@ -150,18 +163,20 @@ public class BTransparentEditor: ShaderGUI
                     materialEditor.FloatProperty(dpOffset, "Depth Offset");
                     materialEditor.FloatProperty(dpContrast, "Depth Contrast");
                 }
+                EditorGUI.indentLevel--;
             }
             EditorGUILayout.EndVertical();
             #endregion
 
             #region Refractive Index Settings
-            style.normal.background = MakeBackground(1,1,bdColors.dOrangeViolet(45));
+            style.normal.background = MakeBackground(1,1,bdColors.DarkRed(80));
 
             EditorGUILayout.BeginVertical(style);
             rfIdxFold = EditorGUILayout.Foldout(rfIdxFold,"Refractive Index Settings", toggleOnLabelClick: true);
             targetMat.SetInt("_RIFold",Convert.ToInt16(rfIdxFold));
             if (rfIdxFold)
             {
+                EditorGUI.indentLevel++;
                 checkRefractive = EditorGUILayout.Toggle("Refraction", checkRefractive);
                 targetMat.SetInt("_Refraction", Convert.ToInt16(checkRefractive));
                 targetMat.SetInt("_RefrControl", Convert.ToInt16(checkRefractive));
@@ -182,7 +197,7 @@ public class BTransparentEditor: ShaderGUI
                     materialEditor.RangeProperty(refrPower, "Power");
                     materialEditor.RangeProperty(refrCont, "Contrast");
 
-                    style.normal.background = MakeBackground(1, 1, bdColors.BrightRed(100));
+                    style.normal.background = MakeBackground(1, 1, bdColors.BrightRed(40));
 
                     #region Index Of Refraction Fine Tune Settings
                     EditorGUILayout.BeginVertical(style);
@@ -190,34 +205,45 @@ public class BTransparentEditor: ShaderGUI
                     targetMat.SetInt("_RIFineTune",Convert.ToInt16(rfFineFold));
                     if (rfFineFold)
                     {
+                        EditorGUILayout.HelpBox("Original Values\n" +
+                            "Old Min:\t\t0\t\tOld Max:\t\t1\n" +
+                            "New Min: \t0.95\t\tNew Max: \t1.2",
+                            MessageType.Info);
+                        EditorGUILayout.Space(3);
+                        EditorGUI.indentLevel++;
                         MaterialProperty rfrOldMin = ShaderGUI.FindProperty("_OldMin", properties);
                         MaterialProperty rfrOldMax = ShaderGUI.FindProperty("_OldMax", properties);
                         MaterialProperty rfrNewMin = ShaderGUI.FindProperty("_NewMin", properties);
                         MaterialProperty rfrNewMax = ShaderGUI.FindProperty("_NewMax", properties);
 
                         EditorGUILayout.BeginHorizontal();
-                        EditorGUIUtility.labelWidth = 65;
+                        EditorGUIUtility.labelWidth = 170;
                         EditorGUIUtility.fieldWidth = 35;
                         materialEditor.ShaderProperty(rfrOldMin, "Old Min");
                         materialEditor.ShaderProperty(rfrOldMax, "Old Max");
+                        EditorGUIUtility.labelWidth = 0;
+                        EditorGUIUtility.fieldWidth = 0;
                         EditorGUILayout.EndHorizontal();
                         EditorGUILayout.BeginHorizontal();
-                        EditorGUIUtility.labelWidth = 65;
+                        EditorGUIUtility.labelWidth = 170;
                         EditorGUIUtility.fieldWidth = 35;
                         materialEditor.ShaderProperty(rfrNewMin, "New Min");
                         materialEditor.ShaderProperty(rfrNewMax, "New Max");
-                        EditorGUILayout.EndHorizontal();
                         EditorGUIUtility.labelWidth = 0;
+                        EditorGUIUtility.fieldWidth = 0;
+                        EditorGUILayout.EndHorizontal();
+                        EditorGUI.indentLevel--;
                     }
                     EditorGUILayout.EndVertical();
                     #endregion
 
                 }
+                EditorGUI.indentLevel--;
             }
-
             EditorGUILayout.EndVertical();
             #endregion
-
+            
+            EditorGUI.indentLevel--;
         }
         EditorGUILayout.EndVertical();
         EditorGUILayout.Space(1);
@@ -230,20 +256,21 @@ public class BTransparentEditor: ShaderGUI
 
         EditorGUILayout.BeginVertical(style);
         checkNormal = EditorGUILayout.ToggleLeft("NORMAL", checkNormal, style);
-        normalFold = checkNormal;
         targetMat.SetInt("_Normal", Convert.ToInt16(checkNormal));
         EditorGUILayout.EndVertical();
         style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
         EditorGUILayout.BeginVertical(style);
-        if(normalFold)
+        if(checkNormal)
         {
-            EditorGUILayout.Space(4);
+            EditorGUI.indentLevel++;
+            EditorGUILayout.Space(2);
 
             MaterialProperty nmap = ShaderGUI.FindProperty("_NormalMap", properties);
             MaterialProperty nscl = ShaderGUI.FindProperty("_NormalScale", properties);
 
             materialEditor.TextureProperty(nmap, "Normal Map");
             materialEditor.RangeProperty(nscl, "Normal Scale");
+            EditorGUI.indentLevel--;
         }
         EditorGUILayout.EndVertical();
         EditorGUILayout.Space(1);
@@ -256,14 +283,14 @@ public class BTransparentEditor: ShaderGUI
 
         EditorGUILayout.BeginVertical(style);
         checkSpec = EditorGUILayout.ToggleLeft("SPECULAR", checkSpec, style);
-        specFold = checkSpec;
         targetMat.SetInt("_SpecularSwitch", Convert.ToInt16(checkSpec));
         EditorGUILayout.EndVertical();
         style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
         EditorGUILayout.BeginVertical(style);
-        if(specFold)
+        if(checkSpec)
         {
-            EditorGUILayout.Space(4);
+            EditorGUI.indentLevel++;
+            EditorGUILayout.Space(2);
 
             MaterialProperty spcol = ShaderGUI.FindProperty("_SpecColor", properties);
             MaterialProperty spInt = ShaderGUI.FindProperty("_SpecularIntensity", properties);
@@ -275,7 +302,7 @@ public class BTransparentEditor: ShaderGUI
             materialEditor.RangeProperty(spGls, "Glossy");
             materialEditor.RangeProperty(spSmo, "Smoothness");
 
-            style.normal.background = MakeBackground(1, 1, bdColors.BrightRed(100));
+            style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(20));
             style.fontSize = default;
             style.normal.textColor = default;
 
@@ -284,6 +311,7 @@ public class BTransparentEditor: ShaderGUI
             targetMat.SetInt("_SpecularExtras", Convert.ToInt16(specExtFold));
             if(specExtFold)
             {
+                EditorGUI.indentLevel++;
                 MaterialProperty spAmb = ShaderGUI.FindProperty("_SpecularAmbient", properties);
                 MaterialProperty spSat = ShaderGUI.FindProperty("_SpecularSaturation", properties);
                 MaterialProperty spSmt = ShaderGUI.FindProperty("_Softness", properties);
@@ -295,8 +323,10 @@ public class BTransparentEditor: ShaderGUI
                 materialEditor.RangeProperty(spSmt, "Specular Softness");
                 materialEditor.RangeProperty(spOut, "Specular Out");
                 materialEditor.RangeProperty(spIn, "Specular In");
+                EditorGUI.indentLevel--;
             }
             EditorGUILayout.EndVertical();
+            EditorGUI.indentLevel--;
         }
         EditorGUILayout.EndVertical();
         EditorGUILayout.Space(1);
@@ -309,14 +339,14 @@ public class BTransparentEditor: ShaderGUI
 
         EditorGUILayout.BeginVertical(style);
         checkSSBlur = EditorGUILayout.ToggleLeft("SCREEN SPACE BLUR", checkSSBlur, style);
-        ssBlurFold = checkSSBlur;
-        targetMat.SetInt("_SSBluricTransparent",Convert.ToInt16(ssBlurFold));
+        targetMat.SetInt("_SSBluricTransparent",Convert.ToInt16(checkSSBlur));
         EditorGUILayout.EndVertical();
         style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
         EditorGUILayout.BeginVertical(style);
-        if(ssBlurFold)
+        if(checkSSBlur)
         {
-            EditorGUILayout.Space(4);
+            EditorGUI.indentLevel++;
+            EditorGUILayout.Space(2);
 
             MaterialProperty sstog = ShaderGUI.FindProperty("_ScreenSpace",properties);                                                                       
             MaterialProperty ssbTxt = ShaderGUI.FindProperty("_BluricRefractionPattern", properties);
@@ -327,10 +357,10 @@ public class BTransparentEditor: ShaderGUI
             materialEditor.FloatProperty(ssbSize, "Size");
 
             BluricScaleOffset(materialEditor,properties,(int)sstog.floatValue);
+            EditorGUI.indentLevel--;
         }
         EditorGUILayout.EndVertical();
         EditorGUILayout.Space(1);
-
         #endregion
 
         #region Reflection Settings
@@ -340,15 +370,15 @@ public class BTransparentEditor: ShaderGUI
 
         EditorGUILayout.BeginVertical(style);
         checkReflect = EditorGUILayout.ToggleLeft("REFLECT", checkReflect, style);
-        reflectFold = checkReflect;
         targetMat.SetInt("_Reflect", Convert.ToInt16(checkReflect));
         EditorGUILayout.EndVertical();
 
         style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
         EditorGUILayout.BeginVertical(style);
-        if(reflectFold)
+        if(checkReflect)
         {
-            EditorGUILayout.Space(4);
+            EditorGUI.indentLevel++;
+            EditorGUILayout.Space(2);
 
             MaterialProperty rfcol = ShaderGUI.FindProperty("_ReflectColor", properties);
             MaterialProperty rfs = ShaderGUI.FindProperty("_ReflectionStrength", properties);
@@ -360,7 +390,7 @@ public class BTransparentEditor: ShaderGUI
             materialEditor.TextureProperty(rft, "Reflect Map");
 
             #region Cubemap Extras Settings
-            style.normal.background = MakeBackground(1, 1, bdColors.dCyanGreen(30));
+            style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(20));
             style.fontSize = default;
             style.normal.textColor = default;
 
@@ -369,6 +399,7 @@ public class BTransparentEditor: ShaderGUI
             targetMat.SetInt("_CubeMapExtras", Convert.ToInt16(cubemapFold));
             if(cubemapFold)
             {
+                EditorGUI.indentLevel++;
                 MaterialProperty cmx = ShaderGUI.FindProperty("_CMXPos", properties);
                 MaterialProperty cmy = ShaderGUI.FindProperty("_CMYPos", properties);
                 MaterialProperty cmz = ShaderGUI.FindProperty("_CMZPos", properties);
@@ -377,12 +408,13 @@ public class BTransparentEditor: ShaderGUI
                 materialEditor.RangeProperty(cmx, "CM X Pos");
                 materialEditor.RangeProperty(cmy, "CM Y Pos");
                 materialEditor.RangeProperty(cmz, "CM Z Pos");
+                EditorGUI.indentLevel--;
             }
             EditorGUILayout.EndVertical();
             #endregion
 
             #region Reflection Fresnel Settings
-            style.normal.background = MakeBackground(1, 1, bdColors.dCyanGreen(60));
+            style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(40));
             style.fontSize = default;
             style.normal.textColor = default;
 
@@ -391,7 +423,7 @@ public class BTransparentEditor: ShaderGUI
             targetMat.SetInt("_FresnelFold", Convert.ToInt16(fresnelFold));
             if(fresnelFold)
             {
-
+                EditorGUI.indentLevel++;
                 checkRefFresnel = EditorGUILayout.Toggle("Reflection Fresnel", checkRefFresnel);
                 targetMat.SetInt("_RefFresnelSwitch", Convert.ToInt16(checkRefFresnel));
                 if(checkRefFresnel)
@@ -409,12 +441,13 @@ public class BTransparentEditor: ShaderGUI
                     materialEditor.RangeProperty(rfscl, "Fresnel Scale");
                     materialEditor.RangeProperty(rfPow, "Fresnel Power");
                 }
+                EditorGUI.indentLevel--;
             }
             EditorGUILayout.EndVertical();
             #endregion
 
             #region Reflection Curvature Settings
-            style.normal.background = MakeBackground(1, 1, bdColors.dCyanGreen(90));
+            style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(60));
             style.fontSize = default;
             style.normal.textColor = default;
 
@@ -423,6 +456,7 @@ public class BTransparentEditor: ShaderGUI
             targetMat.SetInt("_CurvFold", Convert.ToInt16(curvFold));
             if(curvFold)
             {
+                EditorGUI.indentLevel++;
                 checkCurvFold = EditorGUILayout.Toggle("Curvature",checkCurvFold);
                 targetMat.SetInt("_ReflectionCurvature",Convert.ToInt16(checkCurvFold));
                 if(checkCurvFold)
@@ -433,13 +467,12 @@ public class BTransparentEditor: ShaderGUI
                     materialEditor.ShaderProperty(crvTxt, "Curvature Texture");
                     materialEditor.ShaderProperty(crvScl, "Curvature Scale");
                 }
+                EditorGUI.indentLevel--;
             }
             EditorGUILayout.EndVertical();
-
-
-
-
             #endregion
+        
+            EditorGUI.indentLevel--;
         }
         EditorGUILayout.EndVertical();
         EditorGUILayout.Space(1);
@@ -452,14 +485,15 @@ public class BTransparentEditor: ShaderGUI
 
         EditorGUILayout.BeginVertical(style);
         checkThickness = EditorGUILayout.ToggleLeft("THICKNESS", checkThickness, style);
-        thickFold = checkThickness;
         targetMat.SetInt("_Thickness", Convert.ToInt16(checkThickness));
         EditorGUILayout.EndVertical();
+
         style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
         EditorGUILayout.BeginVertical(style);
-        if(thickFold)
+        if(checkThickness)
         {
-            EditorGUILayout.Space(4);
+            EditorGUI.indentLevel++;
+            EditorGUILayout.Space(2);
 
             MaterialProperty thickInv = ShaderGUI.FindProperty("_ThichnessInvert", properties);
             MaterialProperty thickInt = ShaderGUI.FindProperty("_ThicknessIntensity", properties);
@@ -473,18 +507,17 @@ public class BTransparentEditor: ShaderGUI
             materialEditor.ColorProperty(thickColor, "Thickness Color");
             materialEditor.TextureProperty(thickTxt, "Thickness Texture");
             EditorGUILayout.BeginHorizontal();
-            EditorGUIUtility.labelWidth = 100;
-            EditorGUIUtility.fieldWidth = 25;
+            EditorGUIUtility.labelWidth = 170;
+            EditorGUIUtility.fieldWidth = 30;
             materialEditor.FloatProperty(thickScale, "Thicness Scale");
             materialEditor.FloatProperty(thickOffset, "Thicness Offset");
             EditorGUIUtility.labelWidth = 0;
             EditorGUIUtility.fieldWidth = 0;
             EditorGUILayout.EndHorizontal();
-
+            EditorGUI.indentLevel--;
         }
         EditorGUILayout.EndVertical();
         EditorGUILayout.Space(1);
-
         #endregion
 
         #region Rim Contour Settings
@@ -494,14 +527,15 @@ public class BTransparentEditor: ShaderGUI
 
         EditorGUILayout.BeginVertical(style);
         CheckRimContour = EditorGUILayout.ToggleLeft("RIM CONTOUR", CheckRimContour, style);
-        rimContFold = CheckRimContour;
         targetMat.SetInt("_RimContour", Convert.ToInt16(CheckRimContour));
         EditorGUILayout.EndVertical();
+
         style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
         EditorGUILayout.BeginVertical(style);
-        if(rimContFold)
+        if(CheckRimContour)
         {
-            EditorGUILayout.Space(4);
+            EditorGUI.indentLevel++;
+            EditorGUILayout.Space(2);
 
             MaterialProperty rimLA = ShaderGUI.FindProperty("_RimCAtt", properties);
             MaterialProperty rimCol = ShaderGUI.FindProperty("_RimContourColor", properties);
@@ -513,22 +547,40 @@ public class BTransparentEditor: ShaderGUI
             materialEditor.ColorProperty(rimCol, "Contour Color");
             materialEditor.RangeProperty(rimInt, "Contour Intensity");
             EditorGUILayout.BeginVertical();
-            EditorGUIUtility.labelWidth = 100;
-            EditorGUIUtility.fieldWidth = 35;
+            EditorGUIUtility.labelWidth = 170;
+            EditorGUIUtility.fieldWidth = 30;
             materialEditor.FloatProperty(rimCnSc, "Contour Scale");
             materialEditor.FloatProperty(rimCnOf, "Contour Offset");
             EditorGUIUtility.labelWidth = 0;
             EditorGUIUtility.fieldWidth = 0;
             EditorGUILayout.EndHorizontal();
+            EditorGUI.indentLevel--;
         }
         EditorGUILayout.EndVertical();
         EditorGUILayout.Space(1);
         #endregion
 
         #region Shader Defaults
-        materialEditor.RenderQueueField();
-        materialEditor.EnableInstancingField();
-        materialEditor.DoubleSidedGIField();
+        style.normal.background = MakeBackground(1, 1, bdColors.GrayP(18, 204));
+        style.fontSize = 16;
+        style.normal.textColor = bdColors.NexusOrange();
+        EditorGUILayout.BeginVertical(style);
+        checkDef = EditorGUILayout.ToggleLeft("SHADER DEFAULTS", checkDef, style);
+        targetMat.SetInt("_CheckDef", Convert.ToInt16(checkDef));
+        EditorGUILayout.EndVertical();
+        style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
+        EditorGUILayout.BeginVertical(style);
+        if(checkDef)
+        {
+            EditorGUI.indentLevel++;
+            EditorGUILayout.Space(2);
+            materialEditor.RenderQueueField();
+            materialEditor.EnableInstancingField();
+            materialEditor.DoubleSidedGIField();
+            EditorGUI.indentLevel--;
+        }
+        EditorGUILayout.EndVertical();
+        EditorGUILayout.Space(1);
         #endregion
 
         #region BUDU Copyright
@@ -556,51 +608,42 @@ public class BTransparentEditor: ShaderGUI
     {
         tempVar = targetMat.GetInt("_SpecularSwitch");
         checkSpec = tempVar == 1 ? true : false;
-        specFold = checkSpec;
+
+        tempVar = targetMat.GetInt("_CheckDef");
+        checkDef= tempVar == 1 ? true : false;
 
         tempVar = targetMat.GetInt("_RimContour");
         CheckRimContour = tempVar == 1 ? true : false;
-        rimContFold = CheckRimContour;
 
         tempVar = targetMat.GetInt("_Normal");
         checkNormal = tempVar == 1 ? true : false;
-        normalFold = checkNormal;
 
         tempVar = targetMat.GetInt("_SurfaceSettings");
         checkSurface = tempVar == 1 ? true : false;
-        surfaceFold = checkSurface;
 
         tempVar = targetMat.GetInt("_SurfaceSettings");
         checkSurface = tempVar == 1 ? true: false;
-        surfaceFold = checkSurface;
         
         tempVar = targetMat.GetInt("_TransparentToggle");
         checkTrans = tempVar == 1 ? true: false;
-        transFold = checkTrans;
 
         tempVar = targetMat.GetInt("_Depth");
         checkDepth = tempVar == 1 ? true : false;
-        depthFold = checkDepth;
 
         tempVar = targetMat.GetInt("_TransparentFresnel");
         checkTrFresnel = tempVar == 1 ? true : false;
-        trFresnelFold = checkTrFresnel;
 
         tempVar = targetMat.GetInt("_Refraction");
         checkRefractive = tempVar == 1 ? true : false;
-        refIndexFold = checkRefractive;
 
         tempVar = targetMat.GetInt("_Reflect");
         checkReflect = tempVar == 1 ? true : false;
-        reflectFold = checkReflect;
 
         tempVar = targetMat.GetInt("_Thickness");
         checkThickness = tempVar == 1 ? true : false;
-        thickFold = checkThickness;
 
         tempVar = targetMat.GetInt("_SSBluricTransparent");
         checkSSBlur = tempVar == 1 ? true : false;
-        ssBlurFold = checkSSBlur;
 
         tempVar = targetMat.GetInt("_TRFRFold");
         trFrFold = tempVar == 1 ? true : false;

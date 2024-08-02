@@ -423,13 +423,11 @@ public class BCarPaintEditor : ShaderGUI
             MaterialProperty sptype = ShaderGUI.FindProperty("_SpecType", properties);
             MaterialProperty spcol = ShaderGUI.FindProperty("_SpecColor", properties);
             MaterialProperty spInt = ShaderGUI.FindProperty("_SpecularIntensity", properties);
-            MaterialProperty spGls = ShaderGUI.FindProperty("_Glossy", properties);
 
 
             materialEditor.ShaderProperty(sptype, "Specular Type");
             materialEditor.ColorProperty(spcol, "Specular Color");
             materialEditor.RangeProperty(spInt, "Specular Intensity");
-            materialEditor.RangeProperty(spGls, "Specular Glossy");
 
             #region Specular Controls
             style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(20));
@@ -451,10 +449,10 @@ public class BCarPaintEditor : ShaderGUI
                 MaterialProperty spGloss = ShaderGUI.FindProperty("_BGloss", properties);
 
                 materialEditor.RangeProperty(spGloss, "Blinn Gloss");
-                materialEditor.RangeProperty(spSpecMin, "Smooth Specular Min");
-                materialEditor.RangeProperty(spSpecMax, "Smooth Specular Max");
-                materialEditor.RangeProperty(spSat, "Specular Saturate");
                 materialEditor.RangeProperty(spSoft, "Specular Softness");
+                materialEditor.RangeProperty(spSpecMin, "Soft Specular Min");
+                materialEditor.RangeProperty(spSpecMax, "Soft Specular Max");
+                materialEditor.RangeProperty(spSat, "Specular Saturate");
                 materialEditor.RangeProperty(spIn, "Specular In");
                 materialEditor.RangeProperty(spOut, "Specular Out");
                 EditorGUI.indentLevel--;

@@ -84,7 +84,7 @@ Shader "BUDU Shaders/BFoilage"
 		[Toggle]_TranslucTog("TranslucTog", Float) = 0
 
 
-		_TransmissionShadow( "Transmission Shadow", Range( 0, 1 ) ) = 0.5
+		//_TransmissionShadow( "Transmission Shadow", Range( 0, 1 ) ) = 0.5
 		//_TransStrength( "Strength", Range( 0, 50 ) ) = 1
 		//_TransNormal( "Normal Distortion", Range( 0, 1 ) ) = 0.5
 		//_TransScattering( "Scattering", Range( 1, 50 ) ) = 2
@@ -452,24 +452,24 @@ Shader "BUDU Shaders/BFoilage"
 			float _Smoothness;
 			float _ClipThreshold;
 			float _LeavesRim;
-			int _TextureWrapMode;
+			float _TextureRotate;
 			float _TypeBIntensity;
 			float _NoiseFreqA;
-			int _FoilageSetting;
 			int _AlphaAntiAliasing;
-			int _NoiseBFold;
+			int _FoilageSetting;
+			int _TextureWrapMode;
 			int _NoiseAFold;
-			float _ShadowThreshold;
-			int _CheckBase;
+			int _NoiseBFold;
 			int _CheckDef;
-			float _TextureRotate;
+			int _CheckBase;
+			int _CheckTranslucent;
 			float _TRStrength;
 			float _TRNormDist;
-			float _TRScattering;
-			float _TRDirec;
 			float _TRAmbient;
 			float _TRShadow;
-			int _CheckTranslucent;
+			float _TRScattering;
+			float _TRDirec;
+			float _ShadowThreshold;
 			float _WindToggle;
 			float _SurfaceFoilage;
 			float _TileTypeAY;
@@ -1311,24 +1311,24 @@ Shader "BUDU Shaders/BFoilage"
 			float _Smoothness;
 			float _ClipThreshold;
 			float _LeavesRim;
-			int _TextureWrapMode;
+			float _TextureRotate;
 			float _TypeBIntensity;
 			float _NoiseFreqA;
-			int _FoilageSetting;
 			int _AlphaAntiAliasing;
-			int _NoiseBFold;
+			int _FoilageSetting;
+			int _TextureWrapMode;
 			int _NoiseAFold;
-			float _ShadowThreshold;
-			int _CheckBase;
+			int _NoiseBFold;
 			int _CheckDef;
-			float _TextureRotate;
+			int _CheckBase;
+			int _CheckTranslucent;
 			float _TRStrength;
 			float _TRNormDist;
-			float _TRScattering;
-			float _TRDirec;
 			float _TRAmbient;
 			float _TRShadow;
-			int _CheckTranslucent;
+			float _TRScattering;
+			float _TRDirec;
+			float _ShadowThreshold;
 			float _WindToggle;
 			float _SurfaceFoilage;
 			float _TileTypeAY;
@@ -1880,24 +1880,24 @@ Shader "BUDU Shaders/BFoilage"
 			float _Smoothness;
 			float _ClipThreshold;
 			float _LeavesRim;
-			int _TextureWrapMode;
+			float _TextureRotate;
 			float _TypeBIntensity;
 			float _NoiseFreqA;
-			int _FoilageSetting;
 			int _AlphaAntiAliasing;
-			int _NoiseBFold;
+			int _FoilageSetting;
+			int _TextureWrapMode;
 			int _NoiseAFold;
-			float _ShadowThreshold;
-			int _CheckBase;
+			int _NoiseBFold;
 			int _CheckDef;
-			float _TextureRotate;
+			int _CheckBase;
+			int _CheckTranslucent;
 			float _TRStrength;
 			float _TRNormDist;
-			float _TRScattering;
-			float _TRDirec;
 			float _TRAmbient;
 			float _TRShadow;
-			int _CheckTranslucent;
+			float _TRScattering;
+			float _TRDirec;
+			float _ShadowThreshold;
 			float _WindToggle;
 			float _SurfaceFoilage;
 			float _TileTypeAY;
@@ -2408,24 +2408,24 @@ Shader "BUDU Shaders/BFoilage"
 			float _Smoothness;
 			float _ClipThreshold;
 			float _LeavesRim;
-			int _TextureWrapMode;
+			float _TextureRotate;
 			float _TypeBIntensity;
 			float _NoiseFreqA;
-			int _FoilageSetting;
 			int _AlphaAntiAliasing;
-			int _NoiseBFold;
+			int _FoilageSetting;
+			int _TextureWrapMode;
 			int _NoiseAFold;
-			float _ShadowThreshold;
-			int _CheckBase;
+			int _NoiseBFold;
 			int _CheckDef;
-			float _TextureRotate;
+			int _CheckBase;
+			int _CheckTranslucent;
 			float _TRStrength;
 			float _TRNormDist;
-			float _TRScattering;
-			float _TRDirec;
 			float _TRAmbient;
 			float _TRShadow;
-			int _CheckTranslucent;
+			float _TRScattering;
+			float _TRDirec;
+			float _ShadowThreshold;
 			float _WindToggle;
 			float _SurfaceFoilage;
 			float _TileTypeAY;
@@ -2978,24 +2978,24 @@ Shader "BUDU Shaders/BFoilage"
 			float _Smoothness;
 			float _ClipThreshold;
 			float _LeavesRim;
-			int _TextureWrapMode;
+			float _TextureRotate;
 			float _TypeBIntensity;
 			float _NoiseFreqA;
-			int _FoilageSetting;
 			int _AlphaAntiAliasing;
-			int _NoiseBFold;
+			int _FoilageSetting;
+			int _TextureWrapMode;
 			int _NoiseAFold;
-			float _ShadowThreshold;
-			int _CheckBase;
+			int _NoiseBFold;
 			int _CheckDef;
-			float _TextureRotate;
+			int _CheckBase;
+			int _CheckTranslucent;
 			float _TRStrength;
 			float _TRNormDist;
-			float _TRScattering;
-			float _TRDirec;
 			float _TRAmbient;
 			float _TRShadow;
-			int _CheckTranslucent;
+			float _TRScattering;
+			float _TRDirec;
+			float _ShadowThreshold;
 			float _WindToggle;
 			float _SurfaceFoilage;
 			float _TileTypeAY;
@@ -3524,24 +3524,24 @@ Shader "BUDU Shaders/BFoilage"
 			float _Smoothness;
 			float _ClipThreshold;
 			float _LeavesRim;
-			int _TextureWrapMode;
+			float _TextureRotate;
 			float _TypeBIntensity;
 			float _NoiseFreqA;
-			int _FoilageSetting;
 			int _AlphaAntiAliasing;
-			int _NoiseBFold;
+			int _FoilageSetting;
+			int _TextureWrapMode;
 			int _NoiseAFold;
-			float _ShadowThreshold;
-			int _CheckBase;
+			int _NoiseBFold;
 			int _CheckDef;
-			float _TextureRotate;
+			int _CheckBase;
+			int _CheckTranslucent;
 			float _TRStrength;
 			float _TRNormDist;
-			float _TRScattering;
-			float _TRDirec;
 			float _TRAmbient;
 			float _TRShadow;
-			int _CheckTranslucent;
+			float _TRScattering;
+			float _TRDirec;
+			float _ShadowThreshold;
 			float _WindToggle;
 			float _SurfaceFoilage;
 			float _TileTypeAY;
@@ -4098,24 +4098,24 @@ Shader "BUDU Shaders/BFoilage"
 			float _Smoothness;
 			float _ClipThreshold;
 			float _LeavesRim;
-			int _TextureWrapMode;
+			float _TextureRotate;
 			float _TypeBIntensity;
 			float _NoiseFreqA;
-			int _FoilageSetting;
 			int _AlphaAntiAliasing;
-			int _NoiseBFold;
+			int _FoilageSetting;
+			int _TextureWrapMode;
 			int _NoiseAFold;
-			float _ShadowThreshold;
-			int _CheckBase;
+			int _NoiseBFold;
 			int _CheckDef;
-			float _TextureRotate;
+			int _CheckBase;
+			int _CheckTranslucent;
 			float _TRStrength;
 			float _TRNormDist;
-			float _TRScattering;
-			float _TRDirec;
 			float _TRAmbient;
 			float _TRShadow;
-			int _CheckTranslucent;
+			float _TRScattering;
+			float _TRDirec;
+			float _ShadowThreshold;
 			float _WindToggle;
 			float _SurfaceFoilage;
 			float _TileTypeAY;
@@ -4603,24 +4603,24 @@ Shader "BUDU Shaders/BFoilage"
 			float _Smoothness;
 			float _ClipThreshold;
 			float _LeavesRim;
-			int _TextureWrapMode;
+			float _TextureRotate;
 			float _TypeBIntensity;
 			float _NoiseFreqA;
-			int _FoilageSetting;
 			int _AlphaAntiAliasing;
-			int _NoiseBFold;
+			int _FoilageSetting;
+			int _TextureWrapMode;
 			int _NoiseAFold;
-			float _ShadowThreshold;
-			int _CheckBase;
+			int _NoiseBFold;
 			int _CheckDef;
-			float _TextureRotate;
+			int _CheckBase;
+			int _CheckTranslucent;
 			float _TRStrength;
 			float _TRNormDist;
-			float _TRScattering;
-			float _TRDirec;
 			float _TRAmbient;
 			float _TRShadow;
-			int _CheckTranslucent;
+			float _TRScattering;
+			float _TRDirec;
+			float _ShadowThreshold;
 			float _WindToggle;
 			float _SurfaceFoilage;
 			float _TileTypeAY;
@@ -5179,8 +5179,6 @@ Node;AmplifyShaderEditor.GetLocalVarNode;581;-2432,-192;Inherit;False;580;RF_Tra
 Node;AmplifyShaderEditor.GetLocalVarNode;125;-2400,-112;Inherit;False;124;RF_Foilage;1;0;OBJECT;;False;1;COLOR;0
 Node;AmplifyShaderEditor.GetLocalVarNode;584;-2416,-448;Inherit;False;583;RF_ClipThr;1;0;OBJECT;;False;1;FLOAT;0
 Node;AmplifyShaderEditor.GetLocalVarNode;586;-2464,-368;Inherit;False;585;RF_ClipShadowThr;1;0;OBJECT;;False;1;FLOAT;0
-Node;AmplifyShaderEditor.IntNode;279;-3584,-976;Inherit;False;Property;_CheckDef;CheckDef;64;1;[HideInInspector];Create;True;0;0;0;True;0;False;0;0;False;0;1;INT;0
-Node;AmplifyShaderEditor.IntNode;280;-3600,-896;Inherit;False;Property;_CheckBase;CheckBase;66;1;[HideInInspector];Create;True;0;0;0;True;0;False;0;0;False;0;1;INT;0
 Node;AmplifyShaderEditor.IntNode;591;-3616,-1056;Inherit;False;Property;_CheckTranslucent;CheckTranslucent;65;1;[HideInInspector];Create;True;0;0;0;True;0;False;0;0;False;0;1;INT;0
 Node;AmplifyShaderEditor.RangedFloatNode;265;-3712,576;Inherit;False;Property;_Transmission;Transmission;60;0;Create;True;0;0;0;True;0;False;0;0;0;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.ColorNode;575;-3648,416;Inherit;False;Property;_TransmissionColor;Transmission Color;72;0;Create;True;0;0;0;False;0;False;1,1,1,0;0,0,0,0;True;False;0;6;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT3;5
@@ -5201,6 +5199,8 @@ Node;AmplifyShaderEditor.RangedFloatNode;571;-3264,-832;Inherit;False;Property;_
 Node;AmplifyShaderEditor.RangedFloatNode;574;-3264,-1152;Inherit;False;Property;_TransmissionShadow;Transmission Shadow;63;1;[HideInInspector];Create;True;0;0;0;True;0;False;0.5;0.5;0;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;268;-3264,-1248;Inherit;False;Property;_ShadowThreshold;ShadowThreshold;62;1;[HideInInspector];Create;True;0;0;0;True;0;False;0.5;0.5;0;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RegisterLocalVarNode;585;-2976,-1248;Inherit;False;RF_ClipShadowThr;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.IntNode;279;-3584,-976;Inherit;False;Property;_CheckDef;CheckDef;64;1;[HideInInspector];Create;True;0;0;0;True;0;False;0;0;False;0;1;INT;0
+Node;AmplifyShaderEditor.IntNode;280;-3600,-896;Inherit;False;Property;_CheckBase;CheckBase;66;1;[HideInInspector];Create;True;0;0;0;True;0;False;0;0;False;0;1;INT;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;271;-1088,-96;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;19;New Amplify Shader;dcf3e680117c48a4cb69c2c58c49ec28;True;ShadowCaster;0;2;ShadowCaster;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;True;1;LightMode=ShadowCaster;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;272;-1088,-96;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;19;New Amplify Shader;dcf3e680117c48a4cb69c2c58c49ec28;True;DepthOnly;0;3;DepthOnly;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;True;True;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;False;False;True;1;LightMode=DepthOnly;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;273;-1088,-96;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;19;New Amplify Shader;dcf3e680117c48a4cb69c2c58c49ec28;True;Meta;0;4;Meta;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Meta;False;False;0;;0;0;Standard;0;False;0
@@ -5403,4 +5403,4 @@ WireConnection;270;14;582;0
 WireConnection;270;15;581;0
 WireConnection;270;8;125;0
 ASEEND*/
-//CHKSM=1C910D4A98CA5F1C9D16CAD211B800EF5695751E
+//CHKSM=0692B2A84113DE96350395D376BE70631AA78795

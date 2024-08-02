@@ -6,7 +6,7 @@ using AmplifyShaderEditor;
 
 public class BWaterToonEditor : ShaderGUI
 {
-    bool checkShoreColor, checkDepthSetting, checkAlphaSetting, checkMiddle;
+    bool checkShoreColor, checkDepthSetting, checkAlphaSetting, checkMiddle, checkDef;
     bool aboutFold, shoreMAFold, shoreMBFold, shoreTXFold, foamFold, noiseFold, middleWaveFold, midNAFold, midNBFold;
     int tempVar;
     
@@ -31,7 +31,7 @@ public class BWaterToonEditor : ShaderGUI
             EditorGUILayout.EndHorizontal();
         }
         GUILayout.EndArea();
-        GUILayout.Space(32);
+        GUILayout.Space(28);
         GUI.backgroundColor = bdColors.White(255);
         #endregion
 
@@ -40,12 +40,17 @@ public class BWaterToonEditor : ShaderGUI
         style.fontSize = 16;
         style.normal.textColor = bdColors.NexusOrange();
 
+        EditorGUILayout.BeginVertical(style);
         checkShoreColor = EditorGUILayout.ToggleLeft("SHORE COLOR & TEXTURE SETTINGS", checkShoreColor, style);
         targetMat.SetInt("_ShoreSetting",Convert.ToInt16(checkShoreColor));
-        EditorGUILayout.BeginVertical();
+        EditorGUILayout.EndVertical();
+
+        style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
+        EditorGUILayout.BeginVertical(style);
         if(checkShoreColor)
         {
             EditorGUI.indentLevel++;
+            EditorGUILayout.Space(2);
             MaterialProperty sc = ShaderGUI.FindProperty("_ShoreColor", properties);
             MaterialProperty shtb = ShaderGUI.FindProperty("_ShoreTextureBlendingType", properties);
 
@@ -80,7 +85,7 @@ public class BWaterToonEditor : ShaderGUI
                 case 1:
                     #region One Texture
                     materialEditor.TextureProperty(scm, "Shore Map");
-                    style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(30));
+                    style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(20));
                     EditorGUILayout.BeginVertical(style);
                     shoreMAFold = EditorGUILayout.Foldout(shoreMAFold, "Map A Controls", toggleOnLabelClick: true);
                     targetMat.SetInt("_ShoreMapA", Convert.ToInt16(shoreMAFold));
@@ -88,26 +93,26 @@ public class BWaterToonEditor : ShaderGUI
                     if(shoreMAFold)
                     {
                         EditorGUILayout.BeginHorizontal();
-                        EditorGUIUtility.labelWidth = 130;
-                        EditorGUIUtility.fieldWidth = 50;
-                        materialEditor.FloatProperty(sctx, "Map A Tile X");
-                        materialEditor.FloatProperty(scty, "Map A Tile Y");
+                        EditorGUIUtility.labelWidth = 170;
+                        EditorGUIUtility.fieldWidth = 35;
+                        materialEditor.FloatProperty(sctx, "Tile X");
+                        materialEditor.FloatProperty(scty, "Tile Y");
                         EditorGUIUtility.labelWidth = 0;
                         EditorGUIUtility.fieldWidth = 0;
                         EditorGUILayout.EndHorizontal();
                         EditorGUILayout.BeginHorizontal();
-                        EditorGUIUtility.labelWidth = 130;
-                        EditorGUIUtility.fieldWidth = 50;
-                        materialEditor.FloatProperty(scsx, "Map A Speeed X");
-                        materialEditor.FloatProperty(scsy, "Map A Speed Y");
+                        EditorGUIUtility.labelWidth = 170;
+                        EditorGUIUtility.fieldWidth = 35;
+                        materialEditor.FloatProperty(scsx, "Speeed X");
+                        materialEditor.FloatProperty(scsy, "Speed Y");
                         EditorGUIUtility.labelWidth = 0;
                         EditorGUIUtility.fieldWidth = 0;
                         EditorGUILayout.EndHorizontal();
                         EditorGUILayout.BeginHorizontal();
-                        EditorGUIUtility.labelWidth = 130;
-                        EditorGUIUtility.fieldWidth = 50;
-                        materialEditor.FloatProperty(scax, "Map A Anchor X");
-                        materialEditor.FloatProperty(scay, "Map A Anchor Y");
+                        EditorGUIUtility.labelWidth = 170;
+                        EditorGUIUtility.fieldWidth = 35;
+                        materialEditor.FloatProperty(scax, "Anchor X");
+                        materialEditor.FloatProperty(scay, "Anchor Y");
                         EditorGUIUtility.labelWidth = 0;
                         EditorGUIUtility.fieldWidth = 0;
                         EditorGUILayout.EndHorizontal();
@@ -132,26 +137,26 @@ public class BWaterToonEditor : ShaderGUI
                     {
                         EditorGUI.indentLevel++;
                         EditorGUILayout.BeginHorizontal();
-                        EditorGUIUtility.labelWidth = 130;
-                        EditorGUIUtility.fieldWidth = 50;
-                        materialEditor.FloatProperty(sctx, "Map A Tile X");
-                        materialEditor.FloatProperty(scty, "Map A Tile Y");
+                        EditorGUIUtility.labelWidth = 170;
+                        EditorGUIUtility.fieldWidth = 35;
+                        materialEditor.FloatProperty(sctx, "Tile X");
+                        materialEditor.FloatProperty(scty, "Tile Y");
                         EditorGUIUtility.labelWidth = 0;
                         EditorGUIUtility.fieldWidth = 0;
                         EditorGUILayout.EndHorizontal();
                         EditorGUILayout.BeginHorizontal();
-                        EditorGUIUtility.labelWidth = 130;
-                        EditorGUIUtility.fieldWidth = 50;
-                        materialEditor.FloatProperty(scsx, "Map A Speeed X");
-                        materialEditor.FloatProperty(scsy, "Map A Speed Y");
+                        EditorGUIUtility.labelWidth = 170;
+                        EditorGUIUtility.fieldWidth = 35;
+                        materialEditor.FloatProperty(scsx, "Speeed X");
+                        materialEditor.FloatProperty(scsy, "Speed Y");
                         EditorGUIUtility.labelWidth = 0;
                         EditorGUIUtility.fieldWidth = 0;
                         EditorGUILayout.EndHorizontal();
                         EditorGUILayout.BeginHorizontal();
-                        EditorGUIUtility.labelWidth = 130;
-                        EditorGUIUtility.fieldWidth = 50;
-                        materialEditor.FloatProperty(scax, "Map A Anchor X");
-                        materialEditor.FloatProperty(scay, "Map A Anchor Y");
+                        EditorGUIUtility.labelWidth = 170;
+                        EditorGUIUtility.fieldWidth = 35;
+                        materialEditor.FloatProperty(scax, "Anchor X");
+                        materialEditor.FloatProperty(scay, "Anchor Y");
                         EditorGUIUtility.labelWidth = 0;
                         EditorGUIUtility.fieldWidth = 0;
                         EditorGUILayout.EndHorizontal();
@@ -171,30 +176,30 @@ public class BWaterToonEditor : ShaderGUI
                     {
                         EditorGUI.indentLevel++;
                         EditorGUILayout.BeginHorizontal();
-                        EditorGUIUtility.labelWidth = 130;
-                        EditorGUIUtility.fieldWidth = 50;
-                        materialEditor.FloatProperty(scbtx, "Map B Tile X");
-                        materialEditor.FloatProperty(scbty, "Map B Tile Y");
+                        EditorGUIUtility.labelWidth = 170;
+                        EditorGUIUtility.fieldWidth = 35;
+                        materialEditor.FloatProperty(scbtx, "Tile X");
+                        materialEditor.FloatProperty(scbty, "Tile Y");
                         EditorGUIUtility.labelWidth = 0;
                         EditorGUIUtility.fieldWidth = 0;
                         EditorGUILayout.EndHorizontal();
                         EditorGUILayout.BeginHorizontal();
-                        EditorGUIUtility.labelWidth = 130;
-                        EditorGUIUtility.fieldWidth = 50;
-                        materialEditor.FloatProperty(scbsx, "Map B Speeed X");
-                        materialEditor.FloatProperty(scbsy, "Map B Speed Y");
+                        EditorGUIUtility.labelWidth = 170;
+                        EditorGUIUtility.fieldWidth = 35;
+                        materialEditor.FloatProperty(scbsx, "Speeed X");
+                        materialEditor.FloatProperty(scbsy, "Speed Y");
                         EditorGUIUtility.labelWidth = 0;
                         EditorGUIUtility.fieldWidth = 0;
                         EditorGUILayout.EndHorizontal();
                         EditorGUILayout.BeginHorizontal();
-                        EditorGUIUtility.labelWidth = 130;
-                        EditorGUIUtility.fieldWidth = 50;
-                        materialEditor.FloatProperty(scbax, "Map B Anchor X");
-                        materialEditor.FloatProperty(scbay, "Map B Anchor Y");
+                        EditorGUIUtility.labelWidth = 170;
+                        EditorGUIUtility.fieldWidth = 35;
+                        materialEditor.FloatProperty(scbax, "Anchor X");
+                        materialEditor.FloatProperty(scbay, "Anchor Y");
                         EditorGUIUtility.labelWidth = 0;
                         EditorGUIUtility.fieldWidth = 0;
                         EditorGUILayout.EndHorizontal();
-                        materialEditor.FloatProperty(scbrot, "Map B Rotation Speed");
+                        materialEditor.FloatProperty(scbrot, "Rotation Speed");
                         EditorGUI.indentLevel--;
                     }
                     EditorGUILayout.EndVertical();
@@ -206,6 +211,7 @@ public class BWaterToonEditor : ShaderGUI
             EditorGUI.indentLevel--;
         }
         EditorGUILayout.EndVertical();
+        EditorGUILayout.Space(1);
         #endregion
 
         #region Depth Settings
@@ -213,16 +219,18 @@ public class BWaterToonEditor : ShaderGUI
         style.fontSize = 16;
         style.normal.textColor = bdColors.NexusOrange();
 
+        EditorGUILayout.BeginVertical(style);
         checkDepthSetting = EditorGUILayout.ToggleLeft("DEPTH SETTINGS", checkDepthSetting, style);
         targetMat.SetInt("_DepthSetting",Convert.ToInt16(checkDepthSetting));
+        EditorGUILayout.EndVertical();  
+        style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
+        EditorGUILayout.BeginVertical(style);
         if(checkDepthSetting)
         {
             EditorGUI.indentLevel++;
+            EditorGUILayout.Space(2);
             MaterialProperty ddist = ShaderGUI.FindProperty("_DepthDistance", properties);
             MaterialProperty dexp = ShaderGUI.FindProperty("_DepthExponential",properties);
-            MaterialProperty dGrScl = ShaderGUI.FindProperty("_GradeScale", properties);
-            MaterialProperty dGrOff = ShaderGUI.FindProperty("_GradeOffset", properties);
-            MaterialProperty dGrExp = ShaderGUI.FindProperty("_GradeExponential", properties);
             MaterialProperty dsize = ShaderGUI.FindProperty("_DepthSize", properties);
             MaterialProperty dgt = ShaderGUI.FindProperty("_DepthGradeType", properties);
             MaterialProperty dMid = ShaderGUI.FindProperty("_MiddleWaveEdgeControl", properties);
@@ -230,13 +238,12 @@ public class BWaterToonEditor : ShaderGUI
             materialEditor.ShaderProperty(dgt, "Depth Grade Type");
             materialEditor.FloatProperty(ddist, "Depth Distance");
             materialEditor.FloatProperty(dexp, "Depth Exponential");
-            materialEditor.FloatProperty(dGrScl, "Grade Scale");
-            materialEditor.FloatProperty(dGrOff, "Grade Offset");
-            materialEditor.FloatProperty(dGrExp, "Grade Exponential");
             materialEditor.FloatProperty(dsize, "Depth Size");
             materialEditor.FloatProperty(dMid, "Middle Wave Edge Control");
             EditorGUI.indentLevel--;
         }
+        EditorGUILayout.EndVertical();
+        EditorGUILayout.Space(1);
         #endregion
 
         #region Alpha Settings
@@ -244,11 +251,17 @@ public class BWaterToonEditor : ShaderGUI
         style.fontSize = 16;
         style.normal.textColor = bdColors.NexusOrange();
 
+        EditorGUILayout.BeginVertical(style);
         checkAlphaSetting = EditorGUILayout.ToggleLeft("ALPHA SETTINGS", checkAlphaSetting, style);
         targetMat.SetInt("_AlphaSetting", Convert.ToInt16(checkAlphaSetting));
+        EditorGUILayout.EndVertical();
+        style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
+        EditorGUILayout.BeginVertical(style);
         if(checkAlphaSetting)
         {
             EditorGUI.indentLevel++;
+            EditorGUILayout.Space(2);
+            
             #region Shore Wave Settings
             style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(20));
             EditorGUILayout.BeginVertical(style);
@@ -325,7 +338,6 @@ public class BWaterToonEditor : ShaderGUI
                 MaterialProperty fmspx = ShaderGUI.FindProperty("_FoamSpeedX", properties);
                 MaterialProperty fmspy = ShaderGUI.FindProperty("_FoamSpeedY", properties);
 
-
                 materialEditor.ShaderProperty(fmblendt, "Foam Blend Type");
                 materialEditor.ShaderProperty(fmAff, "Affect Foam Deformation");
 
@@ -335,8 +347,8 @@ public class BWaterToonEditor : ShaderGUI
                 materialEditor.FloatProperty(fmGrOff, "Grade Offset");
 
                 EditorGUILayout.BeginHorizontal();
-                EditorGUIUtility.labelWidth = 130;
-                EditorGUIUtility.fieldWidth = 50;
+                EditorGUIUtility.labelWidth = 170;
+                EditorGUIUtility.fieldWidth = 35;
                 materialEditor.FloatProperty(fmtix, "Tile X");
                 materialEditor.FloatProperty(fmtiy, "Tile Y");
                 EditorGUIUtility.labelWidth = 0;
@@ -344,8 +356,8 @@ public class BWaterToonEditor : ShaderGUI
                 EditorGUILayout.EndHorizontal();
 
                 EditorGUILayout.BeginHorizontal();
-                EditorGUIUtility.labelWidth = 130;
-                EditorGUIUtility.fieldWidth = 50;
+                EditorGUIUtility.labelWidth = 170;
+                EditorGUIUtility.fieldWidth = 35;
                 materialEditor.FloatProperty(fmspx, "Speed X");
                 materialEditor.FloatProperty(fmspy, "Speed Y");
                 EditorGUIUtility.labelWidth = 0;
@@ -483,12 +495,12 @@ public class BWaterToonEditor : ShaderGUI
             targetMat.SetInt("_MiddleFold", Convert.ToInt16(middleWaveFold));
             if(middleWaveFold)
             {
-                #region Middle Wave Default Settings
                 EditorGUI.indentLevel++;
                 checkMiddle = EditorGUILayout.Toggle("Middle Wave", checkMiddle);
                 targetMat.SetInt("_MiddleWave",Convert.ToInt16(checkMiddle));
                 if(checkMiddle)
                 {
+                    #region Middle Wave Default Settings
                     MaterialProperty midwaveInt = ShaderGUI.FindProperty("_MiddleWaveIntensity", properties);
                     MaterialProperty defNoGradeScale = ShaderGUI.FindProperty("_DefNoiseGradeScale", properties);
                     MaterialProperty defNoGradeOffset = ShaderGUI.FindProperty("_DefNoiseGradeOffset", properties);
@@ -501,7 +513,6 @@ public class BWaterToonEditor : ShaderGUI
 
                     MaterialProperty deformScale = ShaderGUI.FindProperty("_DeformScale", properties);
                     MaterialProperty deformTog = ShaderGUI.FindProperty("_DeformToggle", properties);
-                    //MaterialProperty deformOffset = ShaderGUI.FindProperty("_DeformOffset", properties);
 
                     materialEditor.ShaderProperty(midwaveInt, "Middle Wave Intensity");
 
@@ -514,10 +525,8 @@ public class BWaterToonEditor : ShaderGUI
                     materialEditor.ShaderProperty(defNoFinalScale, "Final Scale");
                     materialEditor.ShaderProperty(defNoFinalOffset, "Final Offset");
 
-
                     materialEditor.ShaderProperty(deformTog, "Deform Toggle");
                     materialEditor.ShaderProperty(deformScale, "Deform Scale");
-                    //materialEditor.ShaderProperty(deformOffset, "Deform Offset");
                     EditorGUI.indentLevel--;
                     #endregion
 
@@ -608,20 +617,38 @@ public class BWaterToonEditor : ShaderGUI
                         }
                         EditorGUI.indentLevel--;
                     }
+                    #endregion
                 }
-                #endregion
+                EditorGUI.indentLevel--;
             }
             EditorGUILayout.EndVertical();
             #endregion
-            EditorGUI.indentLevel--;
         }
-
+        EditorGUILayout.EndVertical ();
+        EditorGUILayout.Space(1);
         #endregion
 
         #region Shader Defaults
-        materialEditor.RenderQueueField();
-        materialEditor.EnableInstancingField();
-        materialEditor.DoubleSidedGIField();
+        style.normal.background = MakeBackground(1, 1, bdColors.GrayP(18, 204));
+        style.fontSize = 16;
+        style.normal.textColor = bdColors.NexusOrange();
+        EditorGUILayout.BeginVertical(style);
+        checkDef = EditorGUILayout.ToggleLeft("SHADER DEFAULTS", checkDef, style);
+        targetMat.SetInt("_CheckDef", Convert.ToInt16(checkDef));
+        EditorGUILayout.EndVertical();
+        style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
+        EditorGUILayout.BeginVertical(style);
+        if(checkDef)
+        {
+            EditorGUI.indentLevel++;
+            EditorGUILayout.Space(2);
+            materialEditor.RenderQueueField();
+            materialEditor.EnableInstancingField();
+            materialEditor.DoubleSidedGIField();
+            EditorGUI.indentLevel--;
+        }
+        EditorGUILayout.EndVertical();
+        EditorGUILayout.Space(1);
         #endregion
 
         #region BUDU Copyright
@@ -646,6 +673,9 @@ public class BWaterToonEditor : ShaderGUI
 
     void loadMaterialVariables(Material targetMat)
     {
+        tempVar = targetMat.GetInt("_CheckDef");
+        checkDef = tempVar == 1 ? true : false;
+
         tempVar = targetMat.GetInt("_MiddleNAFold");
         midNAFold = tempVar == 1 ? true : false;
 

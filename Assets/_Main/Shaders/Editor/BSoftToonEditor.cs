@@ -39,7 +39,7 @@ public class BSoftToonEditor : ShaderGUI
 
         EditorGUILayout.BeginVertical(style);
         checkBase = EditorGUILayout.ToggleLeft("BASE SETTINGS", checkBase, style);
-        targetMat.SetInt("_BaseSettings",Convert.ToInt16(checkBase));
+        targetMat.SetInt("_CheckBase",Convert.ToInt16(checkBase));
         EditorGUILayout.EndVertical();
         style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
         EditorGUILayout.BeginVertical(style);
@@ -375,7 +375,7 @@ public class BSoftToonEditor : ShaderGUI
 
     void loadMaterialVariables(Material targetMat)
     {
-        tempVar = targetMat.GetInt("_BaseSettings");
+        tempVar = targetMat.GetInt("_CheckBase");
         checkBase = tempVar == 1 ? true : false;
 
         tempVar = targetMat.GetInt("_CheckDef");

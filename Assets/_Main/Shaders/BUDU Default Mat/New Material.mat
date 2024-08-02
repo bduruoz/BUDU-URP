@@ -29,6 +29,7 @@ Material:
   m_InvalidKeywords:
   - _AFFECTAO_ON
   - _EMISSION
+  - _SPECULARSWITCH_ON
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -146,6 +147,8 @@ Material:
     - _CMXPos: 0
     - _CMYPos: 0
     - _CMZPos: 0
+    - _CheckBase: 0
+    - _CheckDef: 0
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _CubeMapExtras: 0
@@ -218,20 +221,26 @@ Material:
     - _SpecToggle: 1
     - _SpecType: 0
     - _SpecularAmbient: 0
-    - _SpecularExtras: 0
+    - _SpecularExtras: 1
     - _SpecularHighlights: 1
     - _SpecularIn: 0.2318832
     - _SpecularIntensity: 1
     - _SpecularInvert: 0
-    - _SpecularNormalIntensity: 0.3
+    - _SpecularNormalIntensity: 0
     - _SpecularOut: 0.8793107
     - _SpecularSaturation: 1
-    - _SpecularSwitch: 0
+    - _SpecularSwitch: 1
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
     - _TileX: 1
     - _TileY: 1
+    - _TransAmbient: 0.1
+    - _TransDirect: 0.9
+    - _TransNormal: 0.5
+    - _TransScattering: 2
+    - _TransShadow: 0.5
+    - _TransStrength: 1
     - _TranslucencyInvert: 0
     - _TranslucencySettings: 0
     - _TranslucencyToggle: 0

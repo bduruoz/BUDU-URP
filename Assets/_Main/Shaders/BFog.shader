@@ -1,4 +1,4 @@
-// Made with Amplify Shader Editor v1.9.4.4
+// Made with Amplify Shader Editor v1.9.6.1
 // Available at the Unity Asset Store - http://u3d.as/y3X 
 Shader "BUDU Shaders/BFog"
 {
@@ -27,6 +27,8 @@ Shader "BUDU Shaders/BFog"
 		_FogSwitch("FogSwitch", Int) = 0
 		_SrcBlend("SrcBlend", Float) = 0
 		_DstBlend("DstBlend", Float) = 0
+		_CheckDef("CheckDef", Int) = 0
+		_CheckBase("CheckBase", Int) = 0
 
 
 		//_TessPhongStrength( "Tess Phong Strength", Range( 0, 1 ) ) = 0.5
@@ -297,18 +299,20 @@ Shader "BUDU Shaders/BFog"
 			CBUFFER_START(UnityPerMaterial)
 			float4 _FogColor;
 			int _FogSwitch;
-			float _3DFog;
-			float _DepthInvert;
-			float _DepthFadeDistance;
-			float _Exponential;
-			float _GradeScale;
-			float _GradeOffset;
-			float _GradeExponential;
-			float _CameraDepthFadeLength;
-			float _CameraDepthFadeOffset;
-			float _Transparency;
-			float _3DFogInvert;
 			float _3DGradeScale;
+			float _3DFogInvert;
+			float _Transparency;
+			float _CameraDepthFadeOffset;
+			float _CameraDepthFadeLength;
+			float _GradeExponential;
+			float _GradeOffset;
+			float _GradeScale;
+			float _Exponential;
+			float _DepthFadeDistance;
+			float _DepthInvert;
+			float _3DFog;
+			int _CheckBase;
+			int _CheckDef;
 			float _3DGradeOffset;
 			float _3DGradeExponential;
 			#ifdef ASE_TESSELLATION
@@ -649,18 +653,20 @@ Shader "BUDU Shaders/BFog"
 			CBUFFER_START(UnityPerMaterial)
 			float4 _FogColor;
 			int _FogSwitch;
-			float _3DFog;
-			float _DepthInvert;
-			float _DepthFadeDistance;
-			float _Exponential;
-			float _GradeScale;
-			float _GradeOffset;
-			float _GradeExponential;
-			float _CameraDepthFadeLength;
-			float _CameraDepthFadeOffset;
-			float _Transparency;
-			float _3DFogInvert;
 			float _3DGradeScale;
+			float _3DFogInvert;
+			float _Transparency;
+			float _CameraDepthFadeOffset;
+			float _CameraDepthFadeLength;
+			float _GradeExponential;
+			float _GradeOffset;
+			float _GradeScale;
+			float _Exponential;
+			float _DepthFadeDistance;
+			float _DepthInvert;
+			float _3DFog;
+			int _CheckBase;
+			int _CheckDef;
 			float _3DGradeOffset;
 			float _3DGradeExponential;
 			#ifdef ASE_TESSELLATION
@@ -983,18 +989,20 @@ Shader "BUDU Shaders/BFog"
 			CBUFFER_START(UnityPerMaterial)
 			float4 _FogColor;
 			int _FogSwitch;
-			float _3DFog;
-			float _DepthInvert;
-			float _DepthFadeDistance;
-			float _Exponential;
-			float _GradeScale;
-			float _GradeOffset;
-			float _GradeExponential;
-			float _CameraDepthFadeLength;
-			float _CameraDepthFadeOffset;
-			float _Transparency;
-			float _3DFogInvert;
 			float _3DGradeScale;
+			float _3DFogInvert;
+			float _Transparency;
+			float _CameraDepthFadeOffset;
+			float _CameraDepthFadeLength;
+			float _GradeExponential;
+			float _GradeOffset;
+			float _GradeScale;
+			float _Exponential;
+			float _DepthFadeDistance;
+			float _DepthInvert;
+			float _3DFog;
+			int _CheckBase;
+			int _CheckDef;
 			float _3DGradeOffset;
 			float _3DGradeExponential;
 			#ifdef ASE_TESSELLATION
@@ -1309,18 +1317,20 @@ Shader "BUDU Shaders/BFog"
 			CBUFFER_START(UnityPerMaterial)
 			float4 _FogColor;
 			int _FogSwitch;
-			float _3DFog;
-			float _DepthInvert;
-			float _DepthFadeDistance;
-			float _Exponential;
-			float _GradeScale;
-			float _GradeOffset;
-			float _GradeExponential;
-			float _CameraDepthFadeLength;
-			float _CameraDepthFadeOffset;
-			float _Transparency;
-			float _3DFogInvert;
 			float _3DGradeScale;
+			float _3DFogInvert;
+			float _Transparency;
+			float _CameraDepthFadeOffset;
+			float _CameraDepthFadeLength;
+			float _GradeExponential;
+			float _GradeOffset;
+			float _GradeScale;
+			float _Exponential;
+			float _DepthFadeDistance;
+			float _DepthInvert;
+			float _3DFog;
+			int _CheckBase;
+			int _CheckDef;
 			float _3DGradeOffset;
 			float _3DGradeExponential;
 			#ifdef ASE_TESSELLATION
@@ -1644,18 +1654,20 @@ Shader "BUDU Shaders/BFog"
 			CBUFFER_START(UnityPerMaterial)
 			float4 _FogColor;
 			int _FogSwitch;
-			float _3DFog;
-			float _DepthInvert;
-			float _DepthFadeDistance;
-			float _Exponential;
-			float _GradeScale;
-			float _GradeOffset;
-			float _GradeExponential;
-			float _CameraDepthFadeLength;
-			float _CameraDepthFadeOffset;
-			float _Transparency;
-			float _3DFogInvert;
 			float _3DGradeScale;
+			float _3DFogInvert;
+			float _Transparency;
+			float _CameraDepthFadeOffset;
+			float _CameraDepthFadeLength;
+			float _GradeExponential;
+			float _GradeOffset;
+			float _GradeScale;
+			float _Exponential;
+			float _DepthFadeDistance;
+			float _DepthInvert;
+			float _3DFog;
+			int _CheckBase;
+			int _CheckDef;
 			float _3DGradeOffset;
 			float _3DGradeExponential;
 			#ifdef ASE_TESSELLATION
@@ -1906,7 +1918,7 @@ Shader "BUDU Shaders/BFog"
 	Fallback Off
 }
 /*ASEBEGIN
-Version=19404
+Version=19601
 Node;AmplifyShaderEditor.CommentaryNode;43;-2704,-944;Inherit;False;2214.773;362.4236;Depth Fade Settings;16;42;410;411;322;413;62;416;415;414;66;65;64;59;60;37;38;Depth Fade Settings;1,1,1,1;0;0
 Node;AmplifyShaderEditor.CommentaryNode;420;-2704,-1360;Inherit;False;2210.399;373.5998;3D Fog Settings;16;440;422;432;423;380;378;379;370;372;371;376;426;424;425;369;364;3D Fog Settings;1,1,1,1;0;0
 Node;AmplifyShaderEditor.PosVertexDataNode;364;-2688,-1280;Inherit;False;0;0;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
@@ -1954,14 +1966,12 @@ Node;AmplifyShaderEditor.GetLocalVarNode;388;-2096,-400;Inherit;False;44;CameraD
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;429;-1808,-224;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;389;-1808,-480;Inherit;False;3;3;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;2;FLOAT;0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.ToggleSwitchNode;427;-1632,-336;Inherit;False;Property;_3DFog;3D Fog;17;0;Create;True;0;0;0;False;0;False;0;True;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.CommentaryNode;255;-2704,-528;Inherit;False;490.1748;700.8843;Local Vars;10;421;444;443;442;261;257;259;260;256;258;Local Vars;1,1,1,1;0;0
+Node;AmplifyShaderEditor.CommentaryNode;255;-2704,-528;Inherit;False;506.8416;702.8843;Local Vars;12;421;444;446;445;261;257;259;260;256;258;443;442;Local Vars;1,1,1,1;0;0
 Node;AmplifyShaderEditor.RegisterLocalVarNode;418;-1408,-336;Inherit;False;FinalCompRef;-1;True;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.StickyNoteNode;440;-2560,-1120;Inherit;False;150;100;New Note;;1,1,1,1;ortası boş neden ?$;0;0
 Node;AmplifyShaderEditor.IntNode;442;-2672,-240;Inherit;False;Property;_FogSwitch;FogSwitch;18;0;Create;True;0;0;0;True;0;False;0;0;False;0;1;INT;0
 Node;AmplifyShaderEditor.RangedFloatNode;443;-2672,-160;Inherit;False;Property;_DstBlend;DstBlend;20;0;Create;True;0;0;0;True;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;444;-2528,-160;Inherit;False;Property;_SrcBlend;SrcBlend;19;0;Create;True;0;0;0;True;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.StaticSwitch;421;-2672,-64;Inherit;False;Property;_BlendingOp;BlendingOp;15;0;Create;True;0;0;0;True;0;False;0;0;0;True;;KeywordEnum;7;AlphaBlend;Premultiplied;Additive;SoftAdditive;Multiplicative;2xMultiplicative;ParticleAdditive;Create;True;True;All;9;1;FLOAT;0;False;0;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT;0;False;7;FLOAT;0;False;8;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.ColorNode;50;-960,-448;Inherit;False;Property;_FogColor;Fog Color;4;0;Create;True;0;0;0;False;0;False;0,0.6666666,0.5561445,1;0,0.6666666,0.5561445,1;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;50;-960,-448;Inherit;False;Property;_FogColor;Fog Color;4;0;Create;True;0;0;0;False;0;False;0,0.6666666,0.5561445,1;0,0.6666666,0.5561445,1;True;True;0;6;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT3;5
 Node;AmplifyShaderEditor.RangedFloatNode;258;-2672,-400;Inherit;False;Constant;_Zero1;[Zero];19;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;256;-2672,-480;Inherit;False;Constant;_One1;[One];20;0;Create;True;0;0;0;False;0;False;1;1;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;260;-2672,-320;Inherit;False;Constant;_Gray;[Gray];19;0;Create;True;0;0;0;False;0;False;0.5;0;0;0;0;1;FLOAT;0
@@ -1969,6 +1979,10 @@ Node;AmplifyShaderEditor.RegisterLocalVarNode;259;-2448,-400;Inherit;False;Zero;
 Node;AmplifyShaderEditor.RegisterLocalVarNode;257;-2448,-480;Inherit;False;One;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.RegisterLocalVarNode;261;-2448,-320;Inherit;False;Gray;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.GetLocalVarNode;419;-960,-256;Inherit;False;418;FinalCompRef;1;0;OBJECT;;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.IntNode;445;-2416,-160;Inherit;False;Property;_CheckDef;CheckDef;21;0;Create;True;0;0;0;True;0;False;0;0;False;0;1;INT;0
+Node;AmplifyShaderEditor.IntNode;446;-2432,-240;Inherit;False;Property;_CheckBase;CheckBase;22;0;Create;True;0;0;0;True;0;False;0;0;False;0;1;INT;0
+Node;AmplifyShaderEditor.RangedFloatNode;444;-2672,-80;Inherit;False;Property;_SrcBlend;SrcBlend;19;0;Create;True;0;0;0;True;0;False;0;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.StaticSwitch;421;-2480,-64;Inherit;False;Property;_BlendingOp;BlendingOp;15;0;Create;True;0;0;0;True;0;False;0;0;0;True;;KeywordEnum;7;AlphaBlend;Premultiplied;Additive;SoftAdditive;Multiplicative;2xMultiplicative;ParticleAdditive;Create;True;True;All;9;1;FLOAT;0;False;0;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT;0;False;7;FLOAT;0;False;8;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;230;480,-304;Float;False;False;-1;2;UnityEditor.ShaderGraphUnlitGUI;0;18;New Amplify Shader;7489fd76ebdb00b448e337e26be4b0c3;True;ExtraPrePass;0;0;ExtraPrePass;5;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Unlit;True;5;True;12;all;0;False;True;1;1;False;;0;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;0;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;232;480,-304;Float;False;False;-1;2;UnityEditor.ShaderGraphUnlitGUI;0;18;New Amplify Shader;7489fd76ebdb00b448e337e26be4b0c3;True;ShadowCaster;0;2;ShadowCaster;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Unlit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;True;1;LightMode=ShadowCaster;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;233;480,-304;Float;False;False;-1;2;UnityEditor.ShaderGraphUnlitGUI;0;18;New Amplify Shader;7489fd76ebdb00b448e337e26be4b0c3;True;DepthOnly;0;3;DepthOnly;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Unlit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;True;True;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;False;False;True;1;LightMode=DepthOnly;False;False;0;;0;0;Standard;0;False;0
@@ -2032,4 +2046,4 @@ WireConnection;261;0;260;0
 WireConnection;231;2;50;0
 WireConnection;231;3;419;0
 ASEEND*/
-//CHKSM=6E41B74B01E0A0E26FD0D1CBF69547B511AA200F
+//CHKSM=831F41727835F65367854B2E5F14FAAD04990A34
