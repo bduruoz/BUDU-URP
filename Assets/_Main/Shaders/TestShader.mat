@@ -14,37 +14,40 @@ Material:
   m_ValidKeywords:
   - _CAUSTICA_OCT_CAUSTIC3
   - _CAUSTICB_OCT_CAUSTIC1
+  - _CAUSTICWAVEA_OCT_CAUSTIC1
+  - _CAUSTICWAVEB_OCT_CAUSTIC1
   - _CELLA_OCT_CELL2
   - _CELLB_OCT_CELL2
+  - _CELLWAVEA_OCT_CELL3
+  - _CELLWAVEB_OCT_CELL4
   - _DEPTHGRADETYPE_LINEAR
-  - _DFAGRADETYPE_GAMMA
+  - _DFAGRADETYPE_NORMAL
   - _DFBGRADETYPE_NORMAL
   - _ENVIRONMENTREFLECTIONS_OFF
   - _FLOWMAPTYPE_FLOWTEXTURE
-  - _MASKGRADETYPE_NORMAL
+  - _FOGDEPTHGRADETYPE_LINEAR
+  - _MASKGRADETYPE_GAMMA
   - _MASK_ON
   - _NOISEATYPE_VORONOICELL
   - _NOISEBTYPE_VORONOICELL
   - _RECEIVE_SHADOWS_OFF
-  - _SELECTTYPE_DOT
+  - _SELECTDEFORMTYPE_MULTIPLY
+  - _SELECTWAVETYPE_MULTIPLY
   - _SPECULARHIGHLIGHTS_OFF
-  - _TXTGRADETYPE_GAMMA
+  - _TXTGRADETYPE_NORMAL
+  - _WAVEAGRADETYPE_NORMAL
+  - _WAVEATYPE_TEXTURE
+  - _WAVEBGRADETYPE_NORMAL
+  - _WAVEBTYPE_TEXTURE
   m_InvalidKeywords:
-  - _CAUSTIC_OCT_CAUSTIC1
-  - _CELL_OCT_CELL3
-  - _DEFORMTOGGLE_ON
-  - _FLOWTYPE_DEPTHMAP
-  - _GFASG_ON
-  - _KEYWORD0_FLOWTEXTURE
-  - _LOLO_ON
-  - _MAPGRADETYPE_GAMMA
-  - _MASKTOG_ON
-  - _NOISETYPEA_VORONOICELL
-  - _NOISETYPEB_VORONOICELL
-  - _NOISETYPE_B_VORONOICELL
-  - _NOISETYPE_VORONOICELL
+  - _FOGTOGGLE
+  - _FOGTOGGLE_KEY1
+  - _MIDADEFORMTOGGLE_ON
+  - _MIDBDEFORMTOGGLE_ON
+  - _MIDFLOWMASK_ON
   - _RECEIVESHADOWS_OFF
-  - _TOGGLESWITCH1_ON
+  - _REFLECT_ON
+  - _SELECTTYPE_ADD
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -52,7 +55,7 @@ Material:
   stringTagMap:
     QUEUE: Geometry
   disabledShaderPasses: []
-  m_LockedProperties: _ReflectionStrength _ShoreCTileX _TRDirec _TranslucentColor
+  m_LockedProperties: _ShoreCTileX _TRDirec _TranslucentColor
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -221,7 +224,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ReflectMap:
-        m_Texture: {fileID: 8900000, guid: 4722c5de5ad2a7045ba97a913c33f323, type: 3}
+        m_Texture: {fileID: 8900000, guid: 7bc69c0ec653b1b4c9b07a12b3401145, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _RougnessMap:
@@ -287,6 +290,14 @@ Material:
     - _TransparentMap:
         m_Texture: {fileID: 2800000, guid: 6661719569259e44e9b3fb0bd186cf33, type: 3}
         m_Scale: {x: 5, y: 5}
+        m_Offset: {x: 0, y: 0}
+    - _WaveTypeA:
+        m_Texture: {fileID: 2800000, guid: ae2961e4565cb064c93a32ffb6aed3a2, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _WaveTypeB:
+        m_Texture: {fileID: 2800000, guid: 795f95c45b0bce340b7526085250c106, type: 3}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _texcoord:
         m_Texture: {fileID: 0}
@@ -356,7 +367,7 @@ Material:
     - _ATime6: 0
     - _ATime7: 0
     - _AVoronoiAngleSpeed: 1
-    - _AVoronoiSmooth: 0.131
+    - _AVoronoiSmooth: 0.277
     - _AdditiveTransparency: 0.448
     - _AffectAO: 1
     - _AffectAO_Rim: 0
@@ -385,14 +396,14 @@ Material:
     - _BGloss: 0.83
     - _BGloss1: 1
     - _BLightWrapping: 0
-    - _BNoiseScale: 2
+    - _BNoiseScale: 4
     - _BSpecular: 0
     - _BTileX: 1
     - _BTileX1: 1
     - _BTileY: 1
     - _BTileY1: 1
     - _BVoronoiAngleSpeed: -1
-    - _BVoronoiSmooth: 0.25
+    - _BVoronoiSmooth: 0.223
     - _BaseCellOffset: 0
     - _BaseCellSharpness: 1
     - _BaseColorToggle: 0
@@ -411,7 +422,7 @@ Material:
     - _BlueNoise: 0
     - _BlueNoiseIntensity: 0.5
     - _BodyFNormalMulti: 0.1
-    - _CMReflect: 1
+    - _CMReflect: 0
     - _CMXPos: 0
     - _CMYPos: 0
     - _CMZPos: 0
@@ -429,15 +440,21 @@ Material:
     - _CardSize: 1.21
     - _CausticA_OCT: 2
     - _CausticB_OCT: 0
+    - _CausticWaveA_OCT: 0
+    - _CausticWaveB_OCT: 0
     - _Caustic_OCT: 0
     - _CellA_OCT: 1
     - _CellB_OCT: 1
+    - _CellWaveA_OCT: 2
+    - _CellWaveB_OCT: 3
     - _Cell_OCT: 2
     - _ChangeSpeed: 0.6
     - _ChangeTime: 20
     - _CheckBase: 0
     - _CheckDef: 0
-    - _CheckFlowMap: 1
+    - _CheckFlowMap: 0
+    - _CheckFog: 0
+    - _CheckMidWave: 0
     - _CheckTranslucent: 1
     - _ClipThreshold: 0
     - _ColFresnelBias: 0
@@ -449,7 +466,7 @@ Material:
     - _Compress: 1
     - _CompressRes: 0.1
     - _CubeMapExtras: 1
-    - _CubeMapRotate: 52
+    - _CubeMapRotate: 0
     - _CullMode: 0
     - _CullOp: 0
     - _CurvFold: 0
@@ -463,13 +480,13 @@ Material:
     - _CustomNoiseTypeA: 0
     - _CustomNoiseTypeB: 0
     - _CustomRamp: 0
-    - _DFAAmplitude: 2.35
+    - _DFAAmplitude: 1
     - _DFABias: 1.52
     - _DFAContast: 1
     - _DFAContrast: 1.22
     - _DFAExp: 1
-    - _DFAGradeType: 2
-    - _DFBAmplitude: 1.42
+    - _DFAGradeType: 1
+    - _DFBAmplitude: 1
     - _DFBBias: 1
     - _DFBContast: 1
     - _DFBContrast: 1.11
@@ -520,6 +537,8 @@ Material:
     - _DefVorBSpeedY: 0.1
     - _DefVorBTileX: 4
     - _DefVorBTileY: 4
+    - _DefWeightA: 0.4
+    - _DefWeightB: 0.4
     - _Def_VorCaustic_A_Type: 2
     - _Def_VorCaustic_B_Type: 2
     - _Def_VorCell_A_Type: 2
@@ -564,7 +583,7 @@ Material:
     - _DeformBTileY: 1
     - _DeformFinalBias: -1
     - _DeformFinalContrast: 1
-    - _DeformFold: 1
+    - _DeformFold: 0
     - _DeformGradeType: 1
     - _DeformMixType: 1
     - _DeformScale: 0.35
@@ -643,14 +662,15 @@ Material:
     - _FlowMapGrade: 2
     - _FlowMapSettings: 0
     - _FlowMapType: 1
-    - _FlowSpeed: 0.5
+    - _FlowMaskInvert: 0
+    - _FlowSpeed: 0.2
     - _FlowSpeedA: -0.2
     - _FlowSpeedA1: 0.3
     - _FlowSpeedB: -0.2
     - _FlowSpeedB1: 0.3
-    - _FlowTextureAmplitude: 1.34
-    - _FlowTextureContrast: 2.52
-    - _FlowTextureExponential: 2.12
+    - _FlowTextureAmplitude: 3
+    - _FlowTextureContrast: 1
+    - _FlowTextureExponential: 2.4
     - _FlowType: 0
     - _FoamAnchorX: 0
     - _FoamAnchorY: 0
@@ -672,9 +692,10 @@ Material:
     - _FoamSpeedY: 0.1
     - _FoamTileX: 10
     - _FoamTileY: 10
-    - _FogDepthDistance: 3
-    - _FogDepthExponential: 0.43
+    - _FogDepthDistance: 5
+    - _FogDepthExponential: 1
     - _FogDepthGradeType: 0
+    - _FogDepthSize: 0
     - _FogSwitch: 0
     - _FogToggle: 0
     - _FoilageSetting: 1
@@ -722,6 +743,7 @@ Material:
     - _LightAffectToggle: 1
     - _LightShade: 1
     - _M: 1
+    - _MGradeAmplitude: 1
     - _MGradePower: 1
     - _MGradeScale: 1
     - _MOffset: 0
@@ -729,18 +751,24 @@ Material:
     - _MapChangeSpeed: 1
     - _MapChangeSpeed1: 1
     - _MapExp: 1
-    - _MapExponential: 0.369
+    - _MapExponential: 0.1
     - _MapGradeType: 2
     - _Mask: 1
-    - _MaskGradePower: 1
+    - _MaskGradeAmplitude: 1.76
+    - _MaskGradePower: 1.87
     - _MaskGradeScale: 0.25
-    - _MaskGradeType: 1
+    - _MaskGradeType: 2
     - _MaskPower: 1
     - _MaskPower1: 1
     - _MaskTog: 1
     - _Metallic: 1
     - _MetallicInvert: 1
     - _MetallicToggle: 0
+    - _MidADeformToggle: 1
+    - _MidBDeformToggle: 1
+    - _MidDeformToggle: 0
+    - _MidDeformToggle1: 0
+    - _MidFlowMask: 1
     - _MiddleFold: 1
     - _MiddleNAFold: 1
     - _MiddleNBFold: 1
@@ -760,24 +788,24 @@ Material:
     - _NTypeAAnchorY: 0
     - _NTypeAOffsetX: 0
     - _NTypeAOffsetY: 0
-    - _NTypeAOverallSpeed: 1
-    - _NTypeARotate: 0
+    - _NTypeAOverallSpeed: 0.3
+    - _NTypeARotate: -9
     - _NTypeARotateSpeed: 0
     - _NTypeASpeedX: 0.1
     - _NTypeASpeedY: -0.1
-    - _NTypeATileX: 1
-    - _NTypeATileY: 1
+    - _NTypeATileX: 4
+    - _NTypeATileY: 4
     - _NTypeBAnchorX: 0
     - _NTypeBAnchorY: 0
     - _NTypeBOffsetX: 0
     - _NTypeBOffsetY: 0
-    - _NTypeBOverallSpeed: -1
+    - _NTypeBOverallSpeed: -0.3
     - _NTypeBRotate: 77
     - _NTypeBRotateSpeed: 0
     - _NTypeBSpeedX: 0.1
     - _NTypeBSpeedY: -0.1
-    - _NTypeBTileX: 6
-    - _NTypeBTileY: 6
+    - _NTypeBTileX: 3
+    - _NTypeBTileY: 3
     - _NewMax: 1.2
     - _NewMin: 0.95
     - _NoiseAContrast: 1
@@ -844,7 +872,7 @@ Material:
     - _NrmAInt: 5
     - _NrmBInt: 5
     - _Offset: 0
-    - _OffsetB: 0.4
+    - _OffsetB: 0.5
     - _OffsetB1: 0.5
     - _OffsetSecond: 0.382
     - _OffsetX: 0
@@ -887,13 +915,13 @@ Material:
     - _RefFresnelScale: 1
     - _RefFresnelSwitch: 0
     - _RefFrsType: 0
-    - _Reflect: 0
+    - _Reflect: 1
     - _ReflectLightAdd: 0.02
     - _ReflectLightAffect: 0
     - _ReflectLightPower: 1
     - _ReflectionCurvature: 0
     - _ReflectionMultiplier: 1
-    - _ReflectionStrength: 0.736
+    - _ReflectionStrength: 1
     - _RefrControl: 1
     - _RefractSize: 0.127
     - _Refraction: 1
@@ -937,7 +965,9 @@ Material:
     - _ScreenSpace: 0
     - _SecSpecularIntensity: 1
     - _SecondColorTextureSwitch: 1
-    - _SelectType: 6
+    - _SelectDeformType: 2
+    - _SelectType: 3
+    - _SelectWaveType: 2
     - _ShadeColorToggle: 0
     - _ShadeContrast: 1.8
     - _ShadeExtras: 0
@@ -946,6 +976,10 @@ Material:
     - _ShadingContribution: 4
     - _ShadingIntensity: 2
     - _ShadingOffset: 0
+    - _ShadowOffsetX: 0.3
+    - _ShadowOffsetY: 0.3
+    - _ShadowSmooth: 1
+    - _ShadowStrength: 1
     - _ShadowThreshold: 0.05
     - _ShoreAnchorX: 0
     - _ShoreAnchorY: 0
@@ -1104,7 +1138,7 @@ Material:
     - _TrnsmisShadow: 0.5
     - _TwoColSwitch: 0
     - _TwoColors: 0
-    - _TxtGradeType: 2
+    - _TxtGradeType: 1
     - _TypeAIntensity: 0.542
     - _TypeANeg: 0
     - _TypeBIntensity: 1
@@ -1132,6 +1166,48 @@ Material:
     - _VorBTileY: 1
     - _VoronoiAngleSpeed: 1
     - _VoronoiSmooth: 0
+    - _WANoiseScale: 3
+    - _WAVoronoiAngleSpeed: 1
+    - _WAVoronoiSmooth: 0
+    - _WBNoiseScale: 3
+    - _WBVoronoiAngleSpeed: 2
+    - _WBVoronoiSmooth: 0
+    - _WTypeAAnchorX: 0
+    - _WTypeAAnchorY: 0
+    - _WTypeAOffsetX: 0
+    - _WTypeAOffsetY: 0
+    - _WTypeAOverallSpeed: -1
+    - _WTypeARotate: 0
+    - _WTypeARotateSpeed: 0
+    - _WTypeASpeedX: 0.1
+    - _WTypeASpeedY: 0.03
+    - _WTypeATileX: 4
+    - _WTypeATileY: 4
+    - _WTypeBAnchorX: 0
+    - _WTypeBAnchorY: 0
+    - _WTypeBOffsetX: 0
+    - _WTypeBOffsetY: 0
+    - _WTypeBOverallSpeed: 1
+    - _WTypeBRotate: 0
+    - _WTypeBRotateSpeed: 0
+    - _WTypeBSpeedX: 0.03
+    - _WTypeBSpeedY: 0.1
+    - _WTypeBTileX: 2
+    - _WTypeBTileY: 2
+    - _WaveAAmplitude: 2.46
+    - _WaveAContrast: 1
+    - _WaveAExp: 1
+    - _WaveAGradeType: 1
+    - _WaveAIntensity: 1
+    - _WaveAInvert: 0
+    - _WaveAType: 4
+    - _WaveBAmplitude: 2.62
+    - _WaveBContrast: 1
+    - _WaveBExp: 1
+    - _WaveBGradeType: 1
+    - _WaveBIntensity: 1
+    - _WaveBInvert: 0
+    - _WaveBType: 4
     - _WaveLength: 4
     - _WaveSpeedX: 0.1
     - _WaveSpeedY: 0.1
@@ -1145,14 +1221,14 @@ Material:
     - _bias2: 0
     - _dMaskFold: 0
     - _deformFold: 0
-    - _dfNoiseAFold: 1
-    - _dfNoiseBFold: 1
+    - _dfNoiseAFold: 0
+    - _dfNoiseBFold: 0
     - _dir: 0
     - _dirx: -1
     - _diry: 1
-    - _fMapFold: 1
-    - _fMaskFold: 1
-    - _fTxtFold: 1
+    - _fMapFold: 0
+    - _fMaskFold: 0
+    - _fTxtFold: 0
     - _flspeed: 0.1
     - _gfasg: 1
     - _lolo: 1
@@ -1162,6 +1238,8 @@ Material:
     - _strx: -1
     - _stry: 1
     - _tiling: 2
+    - _wAFold: 0
+    - _wBFold: 0
     m_Colors:
     - _AOColor: {r: 0, g: 0, b: 0, a: 1}
     - _AmbientColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
@@ -1180,7 +1258,7 @@ Material:
     - _DepthColor: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _FlakesColor: {r: 1, g: 1, b: 1, a: 1}
-    - _FogColor: {r: 0, g: 0.37378335, b: 0.547, a: 1}
+    - _FogColor: {r: 0, g: 0.41666663, b: 0.5, a: 1}
     - _LeavesColor: {r: 0.31933287, g: 0.46540868, b: 0.16538107, a: 1}
     - _LeavesRimColor: {r: 0.693, g: 0.4130824, b: 0, a: 1}
     - _LeavesSpecColor: {r: 0.8507167, g: 1, b: 0.2295596, a: 1}
