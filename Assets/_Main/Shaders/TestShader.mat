@@ -25,7 +25,7 @@ Material:
   - _DFBGRADETYPE_NORMAL
   - _ENVIRONMENTREFLECTIONS_OFF
   - _FLOWMAPTYPE_FLOWTEXTURE
-  - _FOGDEPTHGRADETYPE_LINEAR
+  - _FOGDEPTHGRADETYPE_GAMMA
   - _MASKGRADETYPE_GAMMA
   - _MASK_ON
   - _NOISEATYPE_VORONOICELL
@@ -34,20 +34,36 @@ Material:
   - _SELECTDEFORMTYPE_MULTIPLY
   - _SELECTWAVETYPE_MULTIPLY
   - _SPECULARHIGHLIGHTS_OFF
-  - _TXTGRADETYPE_NORMAL
-  - _WAVEAGRADETYPE_NORMAL
-  - _WAVEATYPE_TEXTURE
-  - _WAVEBGRADETYPE_NORMAL
-  - _WAVEBTYPE_TEXTURE
+  - _TXTGRADETYPE_GAMMA
+  - _WAVEAGRADETYPE_LINEAR
+  - _WAVEATYPE_VORONOICAUSTIC
+  - _WAVEBGRADETYPE_LINEAR
+  - _WAVEBTYPE_VORONOICAUSTIC
   m_InvalidKeywords:
+  - _ALPHACHANNEL_LUMA
+  - _CMREFLECT_ON
   - _FOGTOGGLE
   - _FOGTOGGLE_KEY1
+  - _FOGTOGGLE_ON
+  - _LEAVESRIM_ON
+  - _LEAVESSPECULAR_ON
   - _MIDADEFORMTOGGLE_ON
   - _MIDBDEFORMTOGGLE_ON
   - _MIDFLOWMASK_ON
+  - _MIRRORREFLECT_ON
+  - _NOISETYPEA_ON
+  - _NOISETYPEB_ON
+  - _NORMALTOGGLE_ON
+  - _RANDOMROTATE_ON
   - _RECEIVESHADOWS_OFF
   - _REFLECT_ON
+  - _REFRACTIONTOGGLE_ON
   - _SELECTTYPE_ADD
+  - _SURFACEFOILAGE_ON
+  - _TRANSLUCTOG_ON
+  - _TRANSMISTOG_ON
+  - _TRSURFWAVETOGGLE_ON
+  - _WINDTOGGLE_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -224,7 +240,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ReflectMap:
-        m_Texture: {fileID: 8900000, guid: 7bc69c0ec653b1b4c9b07a12b3401145, type: 3}
+        m_Texture: {fileID: 8900000, guid: 4722c5de5ad2a7045ba97a913c33f323, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _RougnessMap:
@@ -422,8 +438,8 @@ Material:
     - _BlueNoise: 0
     - _BlueNoiseIntensity: 0.5
     - _BodyFNormalMulti: 0.1
-    - _CMReflect: 0
-    - _CMXPos: 0
+    - _CMReflect: 1
+    - _CMXPos: -0.72
     - _CMYPos: 0
     - _CMZPos: 0
     - _CTime0: 0
@@ -466,7 +482,7 @@ Material:
     - _Compress: 1
     - _CompressRes: 0.1
     - _CubeMapExtras: 1
-    - _CubeMapRotate: 0
+    - _CubeMapRotate: 94
     - _CullMode: 0
     - _CullOp: 0
     - _CurvFold: 0
@@ -537,8 +553,8 @@ Material:
     - _DefVorBSpeedY: 0.1
     - _DefVorBTileX: 4
     - _DefVorBTileY: 4
-    - _DefWeightA: 0.4
-    - _DefWeightB: 0.4
+    - _DefWeightA: -0.4
+    - _DefWeightB: -0.4
     - _Def_VorCaustic_A_Type: 2
     - _Def_VorCaustic_B_Type: 2
     - _Def_VorCell_A_Type: 2
@@ -594,8 +610,8 @@ Material:
     - _Depth: 0
     - _Depth3DGradeType: 0
     - _DepthContrast: 1
-    - _DepthDistance: 11.55
-    - _DepthExponential: 0.26
+    - _DepthDistance: 4
+    - _DepthExponential: 1
     - _DepthFadeDistance: 5
     - _DepthGradeType: 0
     - _DepthInvert: 0
@@ -651,7 +667,7 @@ Material:
     - _FlakesType: 0
     - _Floa555: 2
     - _Float0: 1
-    - _Float1: 5.67
+    - _Float1: 1
     - _Float2: 0.1
     - _Float3: 1
     - _Float4: 1
@@ -668,9 +684,9 @@ Material:
     - _FlowSpeedA1: 0.3
     - _FlowSpeedB: -0.2
     - _FlowSpeedB1: 0.3
-    - _FlowTextureAmplitude: 3
-    - _FlowTextureContrast: 1
-    - _FlowTextureExponential: 2.4
+    - _FlowTextureAmplitude: 0.66
+    - _FlowTextureContrast: 1.11
+    - _FlowTextureExponential: 2.57
     - _FlowType: 0
     - _FoamAnchorX: 0
     - _FoamAnchorY: 0
@@ -692,12 +708,12 @@ Material:
     - _FoamSpeedY: 0.1
     - _FoamTileX: 10
     - _FoamTileY: 10
-    - _FogDepthDistance: 5
-    - _FogDepthExponential: 1
-    - _FogDepthGradeType: 0
+    - _FogDepthDistance: 2.12
+    - _FogDepthExponential: 0.71
+    - _FogDepthGradeType: 2
     - _FogDepthSize: 0
     - _FogSwitch: 0
-    - _FogToggle: 0
+    - _FogToggle: 1
     - _FoilageSetting: 1
     - _FresnelBias: 0
     - _FresnelFold: 1
@@ -751,7 +767,7 @@ Material:
     - _MapChangeSpeed: 1
     - _MapChangeSpeed1: 1
     - _MapExp: 1
-    - _MapExponential: 0.1
+    - _MapExponential: 0.15
     - _MapGradeType: 2
     - _Mask: 1
     - _MaskGradeAmplitude: 1.76
@@ -773,10 +789,11 @@ Material:
     - _MiddleNAFold: 1
     - _MiddleNBFold: 1
     - _MiddleWave: 0
+    - _MiddleWaveBumpIntensity: 0.103
     - _MiddleWaveEdgeControl: 1
     - _MiddleWaveIntensity: 0.269
-    - _MirrorRefIntensity: 1
-    - _MirrorReflect: 0
+    - _MirrorRefIntensity: 0.144
+    - _MirrorReflect: 1
     - _NA_Intensity: 1
     - _NB_Intensity: 1
     - _NFallOff: 1
@@ -862,27 +879,31 @@ Material:
     - _NormNoiseGradeType: 2
     - _NormShoreIntensity: 1
     - _NormWaveIntensity: 1
-    - _Normal: 0
-    - _NormalMix: 1
-    - _NormalMultiplier: 1.84
+    - _Normal: 1
+    - _NormalGradePower: 1
+    - _NormalIntensity: 10
+    - _NormalMix: 10.77
+    - _NormalMultiplier: 26.87
     - _NormalScale: 0.3
     - _NormalScaleMultiplier: 1
     - _NormalStrength: 1
+    - _NormalToggle: 1
     - _NormalTxt: 1
     - _NrmAInt: 5
     - _NrmBInt: 5
     - _Offset: 0
-    - _OffsetB: 0.5
+    - _OffsetB: 0.281
     - _OffsetB1: 0.5
     - _OffsetSecond: 0.382
     - _OffsetX: 0
     - _OffsetY: 0
     - _OldMax: 1
     - _OldMin: 0
-    - _Opacity: 1.43
+    - _Opacity: 1
     - _OverForce: 0.2
     - _PaintMethod: 0
-    - _PatternHeight: 0.324
+    - _PatternHeight: 1
+    - _PatternMultiplier: 1
     - _PatternRotator: -117
     - _PerAScale: 5
     - _PerASpeedX: 0.1
@@ -921,12 +942,12 @@ Material:
     - _ReflectLightPower: 1
     - _ReflectionCurvature: 0
     - _ReflectionMultiplier: 1
-    - _ReflectionStrength: 1
+    - _ReflectionStrength: 0.17
     - _RefrControl: 1
     - _RefractSize: 0.127
     - _Refraction: 1
     - _RefractionInvert: 0
-    - _RefractionToggle: 0
+    - _RefractionToggle: 1
     - _RimCAtt: 0
     - _RimContour: 0
     - _RimContourIntensity: 1
@@ -948,11 +969,14 @@ Material:
     - _SSAnchorX: 0
     - _SSAnchorY: 0
     - _SSBluricTransparent: 0
+    - _SSBluricTransparent1: 0
     - _SSOffX: 0
     - _SSOffY: 0
-    - _SSSize: 10
+    - _SSSize: 64
+    - _SSTextInfo: 0
     - _SSTileX: 1
     - _SSTileY: 1
+    - _SSTxtInfo: 1
     - _SatinContrast: 0.7
     - _SatinIntensity: 1
     - _SatinLightShade: 0.503
@@ -961,7 +985,7 @@ Material:
     - _SatinTransparency: 1
     - _SatinType: 0
     - _Scale: 1
-    - _ScreenContrast: 0.471
+    - _ScreenContrast: 0.447
     - _ScreenSpace: 0
     - _SecSpecularIntensity: 1
     - _SecondColorTextureSwitch: 1
@@ -983,6 +1007,7 @@ Material:
     - _ShadowThreshold: 0.05
     - _ShoreAnchorX: 0
     - _ShoreAnchorY: 0
+    - _ShoreBumpIntensity: 0
     - _ShoreCAnchorX: 0.5
     - _ShoreCAnchorY: 0.5
     - _ShoreCBAnchorX: 0
@@ -1021,7 +1046,7 @@ Material:
     - _ShoreToggle: 0
     - _ShoreWaves: 1
     - _Size: 0.43
-    - _Smoothness: 0.581
+    - _Smoothness: 0.595
     - _SmoothnessInvert: 0
     - _SmoothnessToggle: 0
     - _Softness: 3
@@ -1029,7 +1054,7 @@ Material:
     - _SpecMin: 0
     - _SpecToggle: 1
     - _SpecType: 0
-    - _Specular: 0.62
+    - _Specular: 0
     - _SpecularAmbient: 0
     - _SpecularExtras: 1
     - _SpecularHighlights: 0
@@ -1061,6 +1086,7 @@ Material:
     - _TRScattering: 27.4
     - _TRShadow: 0.721
     - _TRStrength: 2
+    - _TRSurfWaveToggle: 1
     - _TSpec: 0
     - _TextureAdd: 0
     - _TextureContrast: 1
@@ -1138,11 +1164,12 @@ Material:
     - _TrnsmisShadow: 0.5
     - _TwoColSwitch: 0
     - _TwoColors: 0
-    - _TxtGradeType: 1
+    - _TxtGradeType: 2
     - _TypeAIntensity: 0.542
     - _TypeANeg: 0
     - _TypeBIntensity: 1
     - _TypeBNeg: 0
+    - _VT_Intensity: 1
     - _VelvetBias: 0
     - _VelvetIntensity: 1
     - _VelvetInvert: 0
@@ -1166,18 +1193,18 @@ Material:
     - _VorBTileY: 1
     - _VoronoiAngleSpeed: 1
     - _VoronoiSmooth: 0
-    - _WANoiseScale: 3
-    - _WAVoronoiAngleSpeed: 1
+    - _WANoiseScale: 5.39
+    - _WAVoronoiAngleSpeed: 2
     - _WAVoronoiSmooth: 0
-    - _WBNoiseScale: 3
-    - _WBVoronoiAngleSpeed: 2
+    - _WBNoiseScale: 5
+    - _WBVoronoiAngleSpeed: -1
     - _WBVoronoiSmooth: 0
     - _WTypeAAnchorX: 0
     - _WTypeAAnchorY: 0
     - _WTypeAOffsetX: 0
     - _WTypeAOffsetY: 0
-    - _WTypeAOverallSpeed: -1
-    - _WTypeARotate: 0
+    - _WTypeAOverallSpeed: 0
+    - _WTypeARotate: 9
     - _WTypeARotateSpeed: 0
     - _WTypeASpeedX: 0.1
     - _WTypeASpeedY: 0.03
@@ -1187,27 +1214,27 @@ Material:
     - _WTypeBAnchorY: 0
     - _WTypeBOffsetX: 0
     - _WTypeBOffsetY: 0
-    - _WTypeBOverallSpeed: 1
+    - _WTypeBOverallSpeed: 0
     - _WTypeBRotate: 0
     - _WTypeBRotateSpeed: 0
     - _WTypeBSpeedX: 0.03
     - _WTypeBSpeedY: 0.1
-    - _WTypeBTileX: 2
-    - _WTypeBTileY: 2
-    - _WaveAAmplitude: 2.46
+    - _WTypeBTileX: 4
+    - _WTypeBTileY: 4
+    - _WaveAAmplitude: 4
     - _WaveAContrast: 1
-    - _WaveAExp: 1
-    - _WaveAGradeType: 1
+    - _WaveAExp: 1.41
+    - _WaveAGradeType: 0
     - _WaveAIntensity: 1
     - _WaveAInvert: 0
-    - _WaveAType: 4
-    - _WaveBAmplitude: 2.62
+    - _WaveAType: 2
+    - _WaveBAmplitude: 4
     - _WaveBContrast: 1
-    - _WaveBExp: 1
-    - _WaveBGradeType: 1
+    - _WaveBExp: 2.37
+    - _WaveBGradeType: 0
     - _WaveBIntensity: 1
     - _WaveBInvert: 0
-    - _WaveBType: 4
+    - _WaveBType: 2
     - _WaveLength: 4
     - _WaveSpeedX: 0.1
     - _WaveSpeedY: 0.1
@@ -1222,24 +1249,25 @@ Material:
     - _dMaskFold: 0
     - _deformFold: 0
     - _dfNoiseAFold: 0
-    - _dfNoiseBFold: 0
+    - _dfNoiseBFold: 1
     - _dir: 0
     - _dirx: -1
     - _diry: 1
-    - _fMapFold: 0
-    - _fMaskFold: 0
-    - _fTxtFold: 0
+    - _fMapFold: 1
+    - _fMaskFold: 1
+    - _fTxtFold: 1
     - _flspeed: 0.1
     - _gfasg: 1
     - _lolo: 1
+    - _noluyo: 1
     - _scale: 0.5
     - _scale1: 1
     - _scale2: 1
     - _strx: -1
     - _stry: 1
     - _tiling: 2
-    - _wAFold: 0
-    - _wBFold: 0
+    - _wAFold: 1
+    - _wBFold: 1
     m_Colors:
     - _AOColor: {r: 0, g: 0, b: 0, a: 1}
     - _AmbientColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
@@ -1263,8 +1291,8 @@ Material:
     - _LeavesRimColor: {r: 0.693, g: 0.4130824, b: 0, a: 1}
     - _LeavesSpecColor: {r: 0.8507167, g: 1, b: 0.2295596, a: 1}
     - _MirrorRefColor: {r: 1, g: 1, b: 1, a: 1}
-    - _ReflectColor: {r: 1, g: 1, b: 1, a: 1}
-    - _RefractColor: {r: 1, g: 1, b: 1, a: 0}
+    - _ReflectColor: {r: 0.6, g: 0.8745098, b: 1, a: 1}
+    - _RefractColor: {r: 1, g: 1, b: 1, a: 1}
     - _RimContourColor: {r: 1, g: 1, b: 1, a: 0}
     - _RimLightColor: {r: 0.5220125, g: 0.5220125, b: 0.5220125, a: 0}
     - _SatinColor: {r: 1, g: 1, b: 1, a: 1}

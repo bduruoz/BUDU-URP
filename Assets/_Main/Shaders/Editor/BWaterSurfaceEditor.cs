@@ -2,12 +2,11 @@
 using UnityEditor;
 using System;
 using budu;
-using TMPro;
 
 public class BWaterSurfaceEditor : ShaderGUI
 {
-    bool checkDef, checkFlowMap, checkDeform, checkFog, checkMidWave, checkReflect;
-    bool aboutFold, fMapFold, fTxtFold, fMaskFold, dMaskFold, dfNoiseAFold, dfNoiseBFold, wAFold, wBFold;
+    bool checkDef, checkFlowMap, checkDeform, checkFog, checkMidWave, checkReflect, checkRefract, checkSSBlur, checkNormal;
+    bool aboutFold, fMapFold, fTxtFold, fMaskFold, dMaskFold, dfNoiseAFold, dfNoiseBFold, wAFold, wBFold, SSTxtInfo;
     int tempVar;
 
     public override void OnGUI(MaterialEditor materialEditor, MaterialProperty[] properties)
@@ -276,6 +275,42 @@ public class BWaterSurfaceEditor : ShaderGUI
         EditorGUILayout.Space(1);
         #endregion
 
+        #region Normal Controls Settings
+        style.normal.background = MakeBackground(1, 32, bdColors.GrayP(18, 204));
+        style.fontSize = 16;
+        style.normal.textColor = bdColors.NexusOrange();
+
+        EditorGUILayout.BeginVertical(style);
+        checkNormal = EditorGUILayout.ToggleLeft("NORMAL SETTINGS", checkNormal, style);
+        targetMat.SetInt("_NormalToggle", Convert.ToInt16(checkNormal));
+        EditorGUILayout.EndVertical();
+
+        style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
+        EditorGUILayout.BeginVertical(style);
+        if(checkNormal)
+        {
+            EditorGUI.indentLevel++;
+            EditorGUILayout.Space(2);
+
+            MaterialProperty normsc = ShaderGUI.FindProperty("_NormalIntensity", properties);
+            MaterialProperty normWave = ShaderGUI.FindProperty("_MiddleWaveBumpIntensity", properties);
+            MaterialProperty normShor = ShaderGUI.FindProperty("_ShoreBumpIntensity", properties);
+            MaterialProperty normGradePow = ShaderGUI.FindProperty("_NormalGradePower", properties);
+            MaterialProperty vertTang = ShaderGUI.FindProperty("_VT_Intensity", properties);
+
+            materialEditor.ShaderProperty(normsc, "Bump Intensity");
+            materialEditor.ShaderProperty(normWave, "Middle Wave Bump Intensity");
+            materialEditor.ShaderProperty(normShor, "Shore Bump Intensity");
+            materialEditor.ShaderProperty(normGradePow, "Normal Contrast");
+            materialEditor.ShaderProperty(vertTang, "Vertex Tangent Control");
+
+
+            EditorGUI.indentLevel--;
+        }
+        EditorGUILayout.EndVertical();
+        EditorGUILayout.Space(1);
+        #endregion
+
         #region Reflection Settings
         style.normal.background = MakeBackground(1, 32, bdColors.GrayP(18, 204));
         style.fontSize = 16;
@@ -321,6 +356,84 @@ public class BWaterSurfaceEditor : ShaderGUI
             materialEditor.ShaderProperty(refMapy, "Cube Map Y Position");
             materialEditor.ShaderProperty(refMapz, "Cube Map Z Position");
 
+            EditorGUI.indentLevel--;
+        }
+        EditorGUILayout.EndVertical();
+        EditorGUILayout.Space(1);
+        #endregion
+
+        #region Refraction Settings
+        style.normal.background = MakeBackground(1, 32, bdColors.GrayP(18, 204));
+        style.fontSize = 16;
+        style.normal.textColor = bdColors.NexusOrange();
+
+        EditorGUILayout.BeginVertical(style);
+        checkRefract = EditorGUILayout.ToggleLeft("REFRACTION SETTINGS", checkRefract, style);
+        targetMat.SetInt("_RefractionToggle", Convert.ToInt16(checkRefract));
+        EditorGUILayout.EndVertical();
+
+        style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
+        EditorGUILayout.BeginVertical(style);
+        if(checkRefract)
+        {
+            EditorGUI.indentLevel++;
+            EditorGUILayout.Space(2);
+
+            MaterialProperty rfrColor = ShaderGUI.FindProperty("_RefractColor", properties);
+            MaterialProperty rfTrTog = ShaderGUI.FindProperty("_TRSurfWaveToggle",properties);
+            MaterialProperty trInt = ShaderGUI.FindProperty("_Transparency", properties);
+            MaterialProperty rfrCont = ShaderGUI.FindProperty("_ScreenContrast", properties);
+
+            materialEditor.ShaderProperty(rfrColor, "Refract Color");
+            materialEditor.ShaderProperty(rfTrTog, "Surface Wave Transparency");
+            materialEditor.ShaderProperty(trInt, "Transparency");
+            materialEditor.ShaderProperty(rfrCont, "Refract Contrast");
+            EditorGUI.indentLevel--;
+        }
+        EditorGUILayout.EndVertical();
+        #endregion
+
+        #region Screen Space Blur Settings
+        style.normal.background = MakeBackground(1, 1, bdColors.GrayP(18, 204));
+        style.fontSize = 16;
+        style.normal.textColor = bdColors.NexusOrange();
+
+        EditorGUILayout.BeginVertical(style);
+        checkSSBlur = EditorGUILayout.ToggleLeft("SCREEN SPACE BLUR", checkSSBlur, style);
+        targetMat.SetInt("_SSBluricTransparent", Convert.ToInt16(checkSSBlur));
+        EditorGUILayout.EndVertical();
+
+        style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
+        EditorGUILayout.BeginVertical(style);
+        if(checkSSBlur)
+        {
+            EditorGUI.indentLevel++;
+            EditorGUILayout.Space(2);
+
+            MaterialProperty ssbTxt = ShaderGUI.FindProperty("_BluricRefractionPattern", properties);
+            MaterialProperty ssbSize = ShaderGUI.FindProperty("_SSSize", properties);
+            MaterialProperty ssbPHgt = ShaderGUI.FindProperty("_PatternHeight", properties);
+            MaterialProperty ssbPMult = ShaderGUI.FindProperty("_PatternMultiplier", properties);
+            //MaterialProperty ssbPRot = ShaderGUI.FindProperty("_PatternRotator", properties);
+
+            materialEditor.ShaderProperty(ssbTxt, "Blur Pattern");
+            materialEditor.ShaderProperty(ssbPHgt, "Pattern Height");
+            materialEditor.ShaderProperty(ssbPMult, "Pattern Multiplier");
+            style.normal.background = MakeBackground(1, 1, bdColors.dYellowRed(20));
+            EditorGUILayout.BeginVertical(style);
+            SSTxtInfo = EditorGUILayout.Foldout(SSTxtInfo, "Texture Info",toggleOnLabelClick: true);
+            targetMat.SetInt("_SSTxtInfo",Convert.ToInt16(SSTxtInfo));
+            if(SSTxtInfo) 
+            {
+                EditorGUILayout.HelpBox(
+                    "Texture Dimensions\n" +
+                    " Width: " + ssbTxt.textureValue.width + 
+                    " - Height: " + ssbTxt.textureValue.height,
+                    MessageType.Info);
+            }
+            EditorGUILayout.EndVertical();
+            materialEditor.FloatProperty(ssbSize, "Size");
+            SS_TxtTileOffset(materialEditor, properties);
             EditorGUI.indentLevel--;
         }
         EditorGUILayout.EndVertical();
@@ -404,6 +517,23 @@ public class BWaterSurfaceEditor : ShaderGUI
         }
         #endregion
 
+        string debug1 = "_Specular";
+        MaterialProperty temProp1 = ShaderGUI.FindProperty(debug1, properties);
+        materialEditor.ShaderProperty(temProp1, debug1);
+
+        string debug2 = "_Smoothness";
+        MaterialProperty temProp2 = ShaderGUI.FindProperty(debug2, properties);
+        materialEditor.ShaderProperty(temProp2, debug2);
+
+        string debug3 = "_noluyo";
+        MaterialProperty temProp3 = ShaderGUI.FindProperty(debug3, properties);
+        materialEditor.ShaderProperty(temProp3, debug3);
+
+        string debug4 = "_NormalGradePower";
+        MaterialProperty temProp4 = ShaderGUI.FindProperty(debug4, properties);
+        materialEditor.ShaderProperty(temProp4, debug4);
+
+
         /////////////
         //EditorGUILayout.Space(50);
         //GUI.backgroundColor = bdColors.Black(100);
@@ -412,6 +542,18 @@ public class BWaterSurfaceEditor : ShaderGUI
 
     void loadMaterialVariables(Material targetMat)
     {
+        tempVar = targetMat.GetInt("_NormalToggle");
+        checkNormal = tempVar == 1 ? true : false;
+
+        tempVar = targetMat.GetInt("_SSTxtInfo");
+        SSTxtInfo = tempVar == 1 ? true : false;
+
+        tempVar = targetMat.GetInt("_SSBluricTransparent");
+        checkSSBlur = tempVar == 1 ? true : false;
+
+        tempVar = targetMat.GetInt("_RefractionToggle");
+        checkRefract = tempVar == 1 ? true : false;
+
         tempVar = targetMat.GetInt("_Reflect");
         checkReflect = tempVar == 1 ? true : false;
 
@@ -875,6 +1017,24 @@ public class BWaterSurfaceEditor : ShaderGUI
         selectedTO.Rotate = "_NTypeBRotate";
         selectedTO.RotateSpeed = "_NTypeBRotateSpeed";
         BDShaderGUI.ScaleOffsetGUI(materialEditor, properties, selectedTO);
+    }
+
+    private void SS_TxtTileOffset(MaterialEditor materialEditor, MaterialProperty[] properties)
+    {
+        BD_ScaleOffset_GUI selected = new BD_ScaleOffset_GUI();
+        selected.Tile.x = "_SSTileX";
+        selected.Tile.y = "_SSTileY";
+        selected.Offset.x = "";
+        selected.Offset.y = "";
+        selected.Anchor.x = "";
+        selected.Anchor.y = "";
+        selected.Speed.x = "";
+        selected.Speed.y = "";
+        //selected.Rotate = "_PatternRotator";
+        selected.Rotate = "";
+        selected.OverallSpeed = "";
+        selected.RotateSpeed = "";
+        BDShaderGUI.ScaleOffsetGUI(materialEditor, properties, selected);
     }
 
     private void FlowTxtSet(MaterialEditor materialEditor, MaterialProperty[] properties)
