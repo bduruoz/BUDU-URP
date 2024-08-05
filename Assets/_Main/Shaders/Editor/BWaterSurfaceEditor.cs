@@ -5,8 +5,8 @@ using budu;
 
 public class BWaterSurfaceEditor : ShaderGUI
 {
-    bool checkDef, checkFlowMap, checkDeform, checkFog, checkMidWave, checkReflect, checkRefract, checkSSBlur, checkNormal;
-    bool aboutFold, fMapFold, fTxtFold, fMaskFold, dMaskFold, dfNoiseAFold, dfNoiseBFold, wAFold, wBFold, SSTxtInfo;
+    bool checkDef, checkFlowMap, checkDeform, checkFog, checkMidWave, checkReflect, checkRefract, checkSSBlur, checkNormal, checkSurface, checkDisp, otherFold;
+    bool aboutFold, fMapFold, fTxtFold, fMaskFold, dMaskFold, dfNoiseAFold, dfNoiseBFold, wAFold, wBFold, SSTxtInfo, foamFold;
     int tempVar;
 
     public override void OnGUI(MaterialEditor materialEditor, MaterialProperty[] properties)
@@ -31,6 +31,45 @@ public class BWaterSurfaceEditor : ShaderGUI
         GUILayout.EndArea();
         GUILayout.Space(28);
         GUI.backgroundColor = bdColors.White(255);
+        #endregion
+
+        #region Surface Settings
+        style.normal.background = MakeBackground(1, 1, bdColors.GrayP(18, 204));
+        style.fontSize = 16;
+        style.normal.textColor = bdColors.NexusOrange();
+        EditorGUILayout.BeginVertical(style);
+
+        checkSurface = EditorGUILayout.ToggleLeft("SURFACE SETTINGS", checkSurface, style);
+        targetMat.SetInt("_SurfaceToggle", Convert.ToInt16(checkSurface));
+
+        EditorGUILayout.EndVertical();
+        style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
+        EditorGUILayout.BeginVertical(style);
+        if(checkSurface)
+        {
+            EditorGUI.indentLevel++;
+            EditorGUILayout.Space(2);
+
+            MaterialProperty surfInt = ShaderGUI.FindProperty("_SurfaceIntensity", properties);
+            MaterialProperty shoreInt = ShaderGUI.FindProperty("_ShoreIntensity", properties);
+            MaterialProperty midWavInt = ShaderGUI.FindProperty("_MiddleWaveIntensity", properties);
+
+            materialEditor.ShaderProperty(surfInt, "Intensity");
+            materialEditor.ShaderProperty(shoreInt, "Shore Intensity");
+            materialEditor.ShaderProperty(midWavInt, "Middle Wave Intensity");
+
+            MaterialProperty shrFoamTog = ShaderGUI.FindProperty("_ShoreFoamToggle",properties);
+            MaterialProperty midFoamTog = ShaderGUI.FindProperty("_MiddleFoamToggle", properties);
+
+            materialEditor.ShaderProperty(shrFoamTog, "Shore Foam");
+            materialEditor.ShaderProperty(midFoamTog, "Middle Wave Foam");
+
+            FoamLayer(materialEditor, properties, style, targetMat);
+
+            EditorGUI.indentLevel--;
+        }
+        EditorGUILayout.EndVertical();
+        EditorGUILayout.Space(1);
         #endregion
 
         #region Flow Map Settings
@@ -475,6 +514,64 @@ public class BWaterSurfaceEditor : ShaderGUI
         EditorGUILayout.Space(1);
         #endregion
 
+        #region Displacement Settings
+        style.normal.background = MakeBackground(1, 32, bdColors.GrayP(18, 204));
+        style.fontSize = 16;
+        style.normal.textColor = bdColors.NexusOrange();
+
+        EditorGUILayout.BeginVertical(style);
+        checkDisp = EditorGUILayout.ToggleLeft("DISPLACEMENT SETTINGS", checkDisp, style);
+        targetMat.SetInt("_Displacement", Convert.ToInt16(checkDisp));
+        EditorGUILayout.EndVertical();
+
+        style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
+        EditorGUILayout.BeginVertical(style);
+        if(checkDisp)
+        {
+            EditorGUI.indentLevel++;
+            EditorGUILayout.Space(2);
+            MaterialProperty waveLength = ShaderGUI.FindProperty("_WaveLength", properties);
+            MaterialProperty eWaveMulti = ShaderGUI.FindProperty("_EdgeWaveMultiplier", properties);
+            MaterialProperty eWaveExpo = ShaderGUI.FindProperty("_EdgeWaveExponential", properties);
+            materialEditor.ShaderProperty(waveLength, "Wave Length");
+            materialEditor.ShaderProperty(eWaveMulti, "Edge Wave Multiplier");
+            materialEditor.ShaderProperty(eWaveExpo, "Edge Wave Exponential");
+            EditorGUI.indentLevel--;
+        }
+        EditorGUILayout.EndVertical();
+        EditorGUILayout.Space(1);
+        #endregion
+
+        #region Other Shader Settings
+        style.normal.background = MakeBackground(1, 1, bdColors.GrayP(18, 204));
+        style.fontSize = 16;
+        style.normal.textColor = bdColors.NexusOrange();
+
+        EditorGUILayout.BeginVertical(style);
+        otherFold = EditorGUILayout.ToggleLeft("OTHER SETTINGS", otherFold, style);
+        targetMat.SetInt("_otherFold", Convert.ToInt16(otherFold));
+        EditorGUILayout.EndVertical();
+
+        style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
+        EditorGUILayout.BeginVertical(style);
+        if(otherFold)
+        {
+            EditorGUI.indentLevel++;
+            EditorGUILayout.Space(2);
+            MaterialProperty spec = ShaderGUI.FindProperty("_Specular", properties);
+            MaterialProperty specCol = ShaderGUI.FindProperty("_SpecularColor", properties);
+            MaterialProperty smoothness = ShaderGUI.FindProperty("_Smoothness", properties);
+            //MaterialProperty clipThreshold = ShaderGUI.FindProperty("_ClipThreshold", properties);
+            materialEditor.ShaderProperty(specCol, "Specular Color");
+            materialEditor.ShaderProperty(spec, "Specular");
+            materialEditor.ShaderProperty(smoothness, "Smoothness");
+            //materialEditor.ShaderProperty(clipThreshold, "Clip Threshold");
+            EditorGUI.indentLevel--;
+        }
+        EditorGUILayout.EndVertical();
+        EditorGUILayout.Space(1);
+        #endregion
+
         #region Shader Defaults
         style.normal.background = MakeBackground(1, 1, bdColors.GrayP(18, 204));
         style.fontSize = 16;
@@ -517,31 +614,22 @@ public class BWaterSurfaceEditor : ShaderGUI
         }
         #endregion
 
-        string debug1 = "_Specular";
-        MaterialProperty temProp1 = ShaderGUI.FindProperty(debug1, properties);
-        materialEditor.ShaderProperty(temProp1, debug1);
-
-        string debug2 = "_Smoothness";
-        MaterialProperty temProp2 = ShaderGUI.FindProperty(debug2, properties);
-        materialEditor.ShaderProperty(temProp2, debug2);
-
-        string debug3 = "_noluyo";
-        MaterialProperty temProp3 = ShaderGUI.FindProperty(debug3, properties);
-        materialEditor.ShaderProperty(temProp3, debug3);
-
-        string debug4 = "_NormalGradePower";
-        MaterialProperty temProp4 = ShaderGUI.FindProperty(debug4, properties);
-        materialEditor.ShaderProperty(temProp4, debug4);
-
-
-        /////////////
-        //EditorGUILayout.Space(50);
-        //GUI.backgroundColor = bdColors.Black(100);
-        //base.OnGUI(materialEditor, properties);
     }
 
     void loadMaterialVariables(Material targetMat)
     {
+        tempVar = targetMat.GetInt("_Displacement");
+        checkDisp= tempVar == 1 ? true : false;
+
+        tempVar = targetMat.GetInt("_otherFold");
+        otherFold = tempVar == 1 ? true : false;
+
+        tempVar = targetMat.GetInt("_foamFold");
+        foamFold = tempVar == 1 ? true : false;
+
+        tempVar = targetMat.GetInt("_SurfaceToggle");
+        checkSurface = tempVar == 1 ? true : false;
+
         tempVar = targetMat.GetInt("_NormalToggle");
         checkNormal = tempVar == 1 ? true : false;
 
@@ -623,7 +711,142 @@ public class BWaterSurfaceEditor : ShaderGUI
         }
         EditorGUILayout.EndVertical();
     }
+    private void FlowTxtSet(MaterialEditor materialEditor, MaterialProperty[] properties)
+    {
+        BD_ScaleOffset_GUI selectedTXT = new BD_ScaleOffset_GUI();
+        selectedTXT.Tile.x = "_ATileX";
+        selectedTXT.Tile.y = "_ATileY";
+        selectedTXT.Offset.x = "";
+        selectedTXT.Offset.y = "";
+        selectedTXT.Speed.x = "";
+        selectedTXT.Speed.y = "";
+        selectedTXT.Anchor.x = "";
+        selectedTXT.Anchor.y = "";
+        selectedTXT.OverallSpeed = "";
+        selectedTXT.Rotate = "_RotateA";
+        selectedTXT.RotateSpeed = "";
+        EditorGUILayout.LabelField("Tile Offset A");
+        BDShaderGUI.ScaleOffsetGUI(materialEditor, properties, selectedTXT);
+        EditorGUILayout.Space(4);
+        BD_ScaleOffset_GUI selectedTXTB = new BD_ScaleOffset_GUI();
+        selectedTXTB.Tile.x = "_BTileX";
+        selectedTXTB.Tile.y = "_BTileY";
+        selectedTXTB.Offset.x = "";
+        selectedTXTB.Offset.y = "";
+        selectedTXTB.Speed.x = "";
+        selectedTXTB.Speed.y = "";
+        selectedTXTB.Anchor.x = "";
+        selectedTXTB.Anchor.y = "";
+        selectedTXTB.OverallSpeed = "";
+        selectedTXTB.Rotate = "_RotateB";
+        selectedTXTB.RotateSpeed = "";
+        EditorGUILayout.LabelField("Tile Offset B");
+        BDShaderGUI.ScaleOffsetGUI(materialEditor, properties, selectedTXTB);
+        MaterialProperty fOffset = ShaderGUI.FindProperty("_OffsetB", properties);
+        materialEditor.ShaderProperty(fOffset, "Offset Second Layer");
+    }
+    public void FoamLayer(MaterialEditor materialEditor, MaterialProperty[] properties, GUIStyle style, Material targetMat)
+    {
+        style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(20));
+        EditorGUILayout.BeginVertical(style);
+        foamFold = EditorGUILayout.Foldout(foamFold, "Foam Settings", toggleOnLabelClick: true);
+        targetMat.SetInt("_foamFold", Convert.ToInt16(foamFold));
+        if(foamFold)
+        {
+            EditorGUI.indentLevel++;
+            EditorGUILayout.Space(2);
 
+            MaterialProperty foamDefTog = ShaderGUI.FindProperty("_FoamDeformToggle", properties);
+
+            materialEditor.ShaderProperty(foamDefTog, "Deform");
+            if(foamDefTog.floatValue > 0.0f)
+            {
+                MaterialProperty foamDefInt = ShaderGUI.FindProperty("_DefWeightFoam", properties);
+                materialEditor.ShaderProperty(foamDefInt, "Deform Weight");
+            }
+
+            MaterialProperty foamType = ShaderGUI.FindProperty("_FoamType", properties);
+            materialEditor.ShaderProperty(foamType, "Foam Type");
+
+            MaterialProperty foamGType = ShaderGUI.FindProperty("_FoamGradeType", properties);
+            MaterialProperty foamInvert = ShaderGUI.FindProperty("_FoamInvert", properties);
+            MaterialProperty foamAmpl = ShaderGUI.FindProperty("_FoamAmplitude", properties);
+            MaterialProperty foamCont = ShaderGUI.FindProperty("_FoamContrast", properties);
+            MaterialProperty foamInt = ShaderGUI.FindProperty("_FoamIntensity", properties);
+            MaterialProperty foamBias = ShaderGUI.FindProperty("_FoamExp", properties);
+
+            MaterialProperty foamVorAngleSpeed = ShaderGUI.FindProperty("_FoamVoronoiAngleSpeed", properties);
+            MaterialProperty foamScale = ShaderGUI.FindProperty("_FoamNoiseScale", properties);
+
+            switch((int)foamType.floatValue)
+            {
+                case 0:
+                    #region None
+
+                    #endregion
+                    break;
+                case 1:
+                    #region Voronoi Cell
+                    MaterialProperty foamCellOct = ShaderGUI.FindProperty("_CellFoam_OCT", properties);
+                    MaterialProperty foamVorSmooth = ShaderGUI.FindProperty("_FoamVoronoiSmooth", properties);
+
+                    materialEditor.ShaderProperty(foamCellOct, "Cell Octave");
+                    materialEditor.ShaderProperty(foamVorAngleSpeed, "Angle Speed");
+                    materialEditor.ShaderProperty(foamVorSmooth, "Smooth");
+                    materialEditor.ShaderProperty(foamScale, "Wave Scale");
+                    #endregion
+                    break;
+                case 2:
+                    #region Voronoi Caustic
+                    MaterialProperty foamCausOct = ShaderGUI.FindProperty("_CausticFoam_OCT", properties);
+
+                    materialEditor.ShaderProperty(foamCausOct, "Caustic Octave");
+                    materialEditor.ShaderProperty(foamVorAngleSpeed, "Angle Speed");
+                    materialEditor.ShaderProperty(foamScale, "Wave Scale");
+                    #endregion
+                    break;
+                case 3:
+                    #region Perlin
+                    materialEditor.ShaderProperty(foamScale, "Wave Scale");
+                    #endregion
+                    break;
+                case 4:
+                    #region Texture
+                    MaterialProperty foamTxt = ShaderGUI.FindProperty("_FoamTexture", properties);
+                    materialEditor.ShaderProperty(foamTxt, "Foam Map");
+                    #endregion
+                    break;
+            }
+
+            materialEditor.ShaderProperty(foamInvert, "Invert");
+            materialEditor.ShaderProperty(foamGType, "Grade Type");
+            materialEditor.ShaderProperty(foamInt, "Intensity");
+            materialEditor.ShaderProperty(foamAmpl, "Amplitude");
+            materialEditor.ShaderProperty(foamCont, "Contrast");
+            materialEditor.ShaderProperty(foamBias, "Exponential");
+
+            FoamTXTSet(materialEditor, properties);
+
+            EditorGUI.indentLevel--;
+        }
+        EditorGUILayout.EndVertical();
+    }
+    void FoamTXTSet(MaterialEditor materialEditor, MaterialProperty[] properties)
+    {
+        BD_ScaleOffset_GUI selectedTO = new BD_ScaleOffset_GUI();
+        selectedTO.Tile.x = "_FoamTileX";
+        selectedTO.Tile.y = "_FoamTileY";
+        selectedTO.Offset.x = "_FoamOffsetX";
+        selectedTO.Offset.y = "_FoamOffsetY";
+        selectedTO.Speed.x = "_FoamSpeedX";
+        selectedTO.Speed.y = "_FoamSpeedY";
+        selectedTO.Anchor.x = "_FoamAnchorX";
+        selectedTO.Anchor.y = "_FoamAnchorY";
+        selectedTO.OverallSpeed = "_FoamOverallSpeed";
+        selectedTO.Rotate = "_FoamRotate";
+        selectedTO.RotateSpeed = "_FoamRotateSpeed";
+        BDShaderGUI.ScaleOffsetGUI(materialEditor, properties, selectedTO);
+    }
     public void WaveLayerA(MaterialEditor materialEditor, MaterialProperty[] properties, GUIStyle style, Material targetMat)
     {
         style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(20));
@@ -633,8 +856,7 @@ public class BWaterSurfaceEditor : ShaderGUI
         if(wAFold)
         {
             EditorGUI.indentLevel++;
-
-            EditorGUI.indentLevel++;
+            EditorGUILayout.Space(2);
 
             MaterialProperty waDefTog = ShaderGUI.FindProperty("_MidADeformToggle", properties);
 
@@ -720,6 +942,7 @@ public class BWaterSurfaceEditor : ShaderGUI
         if(wBFold)
         {
             EditorGUI.indentLevel++;
+            EditorGUILayout.Space(2);
 
             MaterialProperty wbDefTog = ShaderGUI.FindProperty("_MidBDeformToggle",properties);
             
@@ -796,7 +1019,38 @@ public class BWaterSurfaceEditor : ShaderGUI
         }
         EditorGUILayout.EndVertical();
     }
-
+    void WaveTXTASet(MaterialEditor materialEditor, MaterialProperty[] properties)
+    {
+        BD_ScaleOffset_GUI selectedTO = new BD_ScaleOffset_GUI();
+        selectedTO.Tile.x = "_WTypeATileX";
+        selectedTO.Tile.y = "_WTypeATileY";
+        selectedTO.Offset.x = "_WTypeAOffsetX";
+        selectedTO.Offset.y = "_WTypeAOffsetY";
+        selectedTO.Speed.x = "_WTypeASpeedX";
+        selectedTO.Speed.y = "_WTypeASpeedY";
+        selectedTO.Anchor.x = "_WTypeAAnchorX";
+        selectedTO.Anchor.y = "_WTypeAAnchorY";
+        selectedTO.OverallSpeed = "_WTypeAOverallSpeed";
+        selectedTO.Rotate = "_WTypeARotate";
+        selectedTO.RotateSpeed = "_WTypeARotateSpeed";
+        BDShaderGUI.ScaleOffsetGUI(materialEditor, properties, selectedTO);
+    }
+    void WaveTXTBSet(MaterialEditor materialEditor, MaterialProperty[] properties)
+    {
+        BD_ScaleOffset_GUI selectedTO = new BD_ScaleOffset_GUI();
+        selectedTO.Tile.x = "_WTypeBTileX";
+        selectedTO.Tile.y = "_WTypeBTileY";
+        selectedTO.Offset.x = "_WTypeBOffsetX";
+        selectedTO.Offset.y = "_WTypeBOffsetY";
+        selectedTO.Speed.x = "_WTypeBSpeedX";
+        selectedTO.Speed.y = "_WTypeBSpeedY";
+        selectedTO.Anchor.x = "_WTypeBAnchorX";
+        selectedTO.Anchor.y = "_WTypeBAnchorY";
+        selectedTO.OverallSpeed = "_WTypeBOverallSpeed";
+        selectedTO.Rotate = "_WTypeBRotate";
+        selectedTO.RotateSpeed = "_WTypeBRotateSpeed";
+        BDShaderGUI.ScaleOffsetGUI(materialEditor, properties, selectedTO);
+    }
     public void DefLayerA(MaterialEditor materialEditor, MaterialProperty[] properties, GUIStyle style, Material targetMat)
     {
         style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(20));
@@ -952,40 +1206,6 @@ public class BWaterSurfaceEditor : ShaderGUI
         }
         EditorGUILayout.EndVertical();
     }
-
-    void WaveTXTASet(MaterialEditor materialEditor, MaterialProperty[] properties)
-    {
-        BD_ScaleOffset_GUI selectedTO = new BD_ScaleOffset_GUI();
-        selectedTO.Tile.x = "_WTypeATileX";
-        selectedTO.Tile.y = "_WTypeATileY";
-        selectedTO.Offset.x = "_WTypeAOffsetX";
-        selectedTO.Offset.y = "_WTypeAOffsetY";
-        selectedTO.Speed.x = "_WTypeASpeedX";
-        selectedTO.Speed.y = "_WTypeASpeedY";
-        selectedTO.Anchor.x = "_WTypeAAnchorX";
-        selectedTO.Anchor.y = "_WTypeAAnchorY";
-        selectedTO.OverallSpeed = "_WTypeAOverallSpeed";
-        selectedTO.Rotate = "_WTypeARotate";
-        selectedTO.RotateSpeed = "_WTypeARotateSpeed";
-        BDShaderGUI.ScaleOffsetGUI(materialEditor, properties, selectedTO);
-    }
-    void WaveTXTBSet(MaterialEditor materialEditor, MaterialProperty[] properties)
-    {
-        BD_ScaleOffset_GUI selectedTO = new BD_ScaleOffset_GUI();
-        selectedTO.Tile.x = "_WTypeBTileX";
-        selectedTO.Tile.y = "_WTypeBTileY";
-        selectedTO.Offset.x = "_WTypeBOffsetX";
-        selectedTO.Offset.y = "_WTypeBOffsetY";
-        selectedTO.Speed.x = "_WTypeBSpeedX";
-        selectedTO.Speed.y = "_WTypeBSpeedY";
-        selectedTO.Anchor.x = "_WTypeBAnchorX";
-        selectedTO.Anchor.y = "_WTypeBAnchorY";
-        selectedTO.OverallSpeed = "_WTypeBOverallSpeed";
-        selectedTO.Rotate = "_WTypeBRotate";
-        selectedTO.RotateSpeed = "_WTypeBRotateSpeed";
-        BDShaderGUI.ScaleOffsetGUI(materialEditor, properties, selectedTO);
-    }
-
     void DeformTXTASet(MaterialEditor materialEditor, MaterialProperty[] properties)
     {
         BD_ScaleOffset_GUI selectedTO = new BD_ScaleOffset_GUI();
@@ -1018,7 +1238,6 @@ public class BWaterSurfaceEditor : ShaderGUI
         selectedTO.RotateSpeed = "_NTypeBRotateSpeed";
         BDShaderGUI.ScaleOffsetGUI(materialEditor, properties, selectedTO);
     }
-
     private void SS_TxtTileOffset(MaterialEditor materialEditor, MaterialProperty[] properties)
     {
         BD_ScaleOffset_GUI selected = new BD_ScaleOffset_GUI();
@@ -1036,42 +1255,6 @@ public class BWaterSurfaceEditor : ShaderGUI
         selected.RotateSpeed = "";
         BDShaderGUI.ScaleOffsetGUI(materialEditor, properties, selected);
     }
-
-    private void FlowTxtSet(MaterialEditor materialEditor, MaterialProperty[] properties)
-    {
-        BD_ScaleOffset_GUI selectedTXT = new BD_ScaleOffset_GUI();
-        selectedTXT.Tile.x = "_ATileX";
-        selectedTXT.Tile.y = "_ATileY";
-        selectedTXT.Offset.x = "";
-        selectedTXT.Offset.y = "";
-        selectedTXT.Speed.x = "";
-        selectedTXT.Speed.y = "";
-        selectedTXT.Anchor.x = "";
-        selectedTXT.Anchor.y = "";
-        selectedTXT.OverallSpeed = "";
-        selectedTXT.Rotate = "_RotateA";
-        selectedTXT.RotateSpeed = "";
-        EditorGUILayout.LabelField("Tile Offset A");
-        BDShaderGUI.ScaleOffsetGUI(materialEditor,properties, selectedTXT);
-        EditorGUILayout.Space(4);
-        BD_ScaleOffset_GUI selectedTXTB = new BD_ScaleOffset_GUI();
-        selectedTXTB.Tile.x = "_BTileX";
-        selectedTXTB.Tile.y = "_BTileY";
-        selectedTXTB.Offset.x = "";
-        selectedTXTB.Offset.y = "";
-        selectedTXTB.Speed.x = "";
-        selectedTXTB.Speed.y = "";
-        selectedTXTB.Anchor.x = "";
-        selectedTXTB.Anchor.y = "";
-        selectedTXTB.OverallSpeed = "";
-        selectedTXTB.Rotate = "_RotateB";
-        selectedTXTB.RotateSpeed = "";
-        EditorGUILayout.LabelField("Tile Offset B");
-        BDShaderGUI.ScaleOffsetGUI(materialEditor, properties, selectedTXTB);
-        MaterialProperty fOffset = ShaderGUI.FindProperty("_OffsetB",properties);
-        materialEditor.ShaderProperty(fOffset, "Offset Second Layer");
-    }
-
     private Texture2D MakeBackground(int width, int height, Color col)
     {
         Color[] pix = new Color[width * height];
@@ -1085,348 +1268,4 @@ public class BWaterSurfaceEditor : ShaderGUI
         return result;
     }
 
-    /*
-    private void SS_TxtTileOffset(MaterialEditor materialEditor, MaterialProperty[] properties)
-    {
-        BD_ScaleOffset_GUI selected = new BD_ScaleOffset_GUI();
-        selected.Tile.x = "_SSTileX";
-        selected.Tile.y = "_SSTileY";
-        selected.Offset.x = "";
-        selected.Offset.y = "";
-        selected.Anchor.x = "";
-        selected.Anchor.y = "";
-        selected.Speed.x = "";
-        selected.Speed.y = "";
-        //selected.Rotate = "_PatternRotator";
-        selected.Rotate = "";
-        selected.OverallSpeed = "";
-        selected.RotateSpeed = "";
-        BDShaderGUI.ScaleOffsetGUI(materialEditor, properties, selected);
-    }
-
-    private void SurfTxtA(MaterialEditor materialEditor, MaterialProperty[] properties)
-    {
-        BD_Misc_GUI selectedMisc = new BD_Misc_GUI();
-        selectedMisc.Invert = "_DefNoiseBInvert";
-        selectedMisc.Intensity = "_NoiseB_Intensity";
-        selectedMisc.Contrast = "_NoiseB_Contrast";
-        BDShaderGUI.MiscGUI(materialEditor, properties, selectedMisc);
-
-        BD_ScaleOffset_GUI selected = new BD_ScaleOffset_GUI();
-        selected.Tile.x = "_SurfaceCATileX";
-        selected.Tile.y = "_SurfaceCATileY";
-        selected.Offset.x = "_SurfaceCAOffsetX";
-        selected.Offset.y = "_SurfaceCAOffsetY";
-        selected.Speed.x = "_SurfaceCASpeedX";
-        selected.Speed.y = "_SurfaceCASpeedY";
-        selected.Anchor.x = "_SurfaceCAAnchorX";
-        selected.Anchor.y = "_SurfaceCAAnchorY";
-        selected.OverallSpeed = "_SurfCTypeAOverallSpeed";
-        selected.Rotate = "_SurfaceCARot";
-        selected.RotateSpeed = "_SurfaceCARotSpeed";
-        BDShaderGUI.ScaleOffsetGUI(materialEditor, properties, selected);
-    }
-    private void SurfTxtB(MaterialEditor materialEditor, MaterialProperty[] properties)
-    {
-        BD_Misc_GUI selectedMisc = new BD_Misc_GUI();
-        selectedMisc.Invert = "_DefNoiseBInvert";
-        selectedMisc.Intensity = "_NoiseB_Intensity";
-        selectedMisc.Contrast = "_NoiseB_Contrast";
-        BDShaderGUI.MiscGUI(materialEditor, properties, selectedMisc);
-
-        BD_ScaleOffset_GUI selected = new BD_ScaleOffset_GUI();
-        selected.Tile.x = "_SurfaceCBTileX";
-        selected.Tile.y = "_SurfaceCBTileY";
-        selected.Offset.x = "_SurfaceCBOffsetX";
-        selected.Offset.y = "_SurfaceCBOffsetY";
-        selected.Speed.x = "_SurfaceCBSpeedX";
-        selected.Speed.y = "_SurfaceCBSpeedY";
-        selected.Anchor.x = "_SurfaceCBAnchorX";
-        selected.Anchor.y = "_SurfaceCBAnchorY";
-        selected.OverallSpeed = "_SurfCTypeBOverallSpeed";
-        selected.Rotate = "_SurfaceCBRot";
-        selected.RotateSpeed = "_SurfaceCBRotSpeed";
-        BDShaderGUI.ScaleOffsetGUI(materialEditor, properties, selected);
-    }
-
-    private void DeformTxtA(MaterialEditor materialEditor, MaterialProperty[] properties)
-    {
-        BD_NoiseTypes_GUI selectedNT = new BD_NoiseTypes_GUI();
-        selectedNT.NoiseType = "_DeformANoiseType";
-        selectedNT.VorCellOct = "_Def_VorCell_A_Type";
-        selectedNT.VorCaustOct = "_Def_VorCaustic_A_Type";
-        selectedNT.TextureMap = "_DeformAMap";
-        selectedNT.NoiseScale = "_DeformAScale";
-        selectedNT.NoiseSmooth = "_DeformASmooth";
-        selectedNT.NoiseAngle = "_DeformAAngle";
-
-        BDShaderGUI.NoiseSelectGUI(materialEditor, properties, selectedNT);
-
-        if(ShaderGUI.FindProperty(selectedNT.NoiseType, properties).floatValue > 0.1f)
-        {
-            BD_Misc_GUI selectedMisc = new BD_Misc_GUI();
-            selectedMisc.Invert = "_DefNoiseAInvert";
-            selectedMisc.Intensity = "_DeformAIntensity";
-            selectedMisc.Contrast = "_DeformAContrast";
-            BDShaderGUI.MiscGUI(materialEditor, properties, selectedMisc);
-
-            BD_ScaleOffset_GUI selected = new BD_ScaleOffset_GUI();
-            selected.Tile.x = "_DeformATileX";
-            selected.Tile.y = "_DeformATileY";
-            selected.Offset.x = "_DeformAOffsetX";
-            selected.Offset.y = "_DeformAOffsetY";
-            selected.Speed.x = "_DeformASpeedX";
-            selected.Speed.y = "_DeformASpeedY";
-            selected.Anchor.x = "_DeformAAnchorX";
-            selected.Anchor.y = "_DeformAAnchorY";
-            selected.OverallSpeed = "_DeformAOverallSpeed";
-            selected.Rotate = "_DeformARotate";
-            selected.RotateSpeed = "_DeformARotateSpeed";
-            BDShaderGUI.ScaleOffsetGUI(materialEditor, properties, selected);
-        }
-    }
-    private void DeformTxtB(MaterialEditor materialEditor, MaterialProperty[] properties)
-    {
-        BD_NoiseTypes_GUI selectedNT = new BD_NoiseTypes_GUI();
-        selectedNT.NoiseType = "_DeformBNoiseType";
-        selectedNT.VorCellOct = "_Def_VorCell_B_Type";
-        selectedNT.VorCaustOct = "_Def_VorCaustic_B_Type";
-        selectedNT.TextureMap = "_DeformBMap";
-        selectedNT.NoiseScale = "_DeformBScale";
-        selectedNT.NoiseSmooth = "_DeformBSmooth";
-        selectedNT.NoiseAngle = "_DeformBAngle";
-
-        BDShaderGUI.NoiseSelectGUI(materialEditor, properties, selectedNT);
-
-        if(ShaderGUI.FindProperty(selectedNT.NoiseType, properties).floatValue > 1.1f)
-        {
-            BD_Misc_GUI selectedMisc = new BD_Misc_GUI();
-            selectedMisc.Invert = "_DefNoiseBInvert";
-            selectedMisc.Intensity = "_DeformBIntensity";
-            selectedMisc.Contrast = "_DeformBContrast";
-            BDShaderGUI.MiscGUI(materialEditor, properties, selectedMisc);
-
-            BD_ScaleOffset_GUI selected = new BD_ScaleOffset_GUI();
-            selected.Tile.x = "_DeformBTileX";
-            selected.Tile.y = "_DeformBTileY";
-            selected.Offset.x = "_DeformBOffsetX";
-            selected.Offset.y = "_DeformBOffsetY";
-            selected.Speed.x = "_DeformBSpeedX";
-            selected.Speed.y = "_DeformBSpeedY";
-            selected.Anchor.x = "_DeformBAnchorX";
-            selected.Anchor.y = "_DeformBAnchorY";
-            selected.OverallSpeed = "_DeformBOverallSpeed";
-            selected.Rotate = "_DeformBRotate";
-            selected.RotateSpeed = "_DeformBRotateSpeed";
-            BDShaderGUI.ScaleOffsetGUI(materialEditor, properties, selected);
-        }
-    }
-
-    private void MiddleWaveA(MaterialEditor materialEditor, MaterialProperty[] properties, int type)
-    {
-        BD_NoiseTypes_GUI selectedNoise = new BD_NoiseTypes_GUI();
-        selectedNoise.NoiseType = "_NoiseTypeA";
-        selectedNoise.VorCellOct = "_Def_VorCell_A_Type";
-        selectedNoise.VorCaustOct = "_Def_VorCaustic_A_Type";
-        selectedNoise.TextureMap = "_NoiseAMap";
-        selectedNoise.NoiseAngle = "_DefVorAAngle";
-        selectedNoise.NoiseSmooth = "_DefVorASmooth";
-        selectedNoise.NoiseScale = "_DefNoiseAScale";
-        BDShaderGUI.NoiseSelectGUI(materialEditor, properties, selectedNoise);
-
-        if(type > 0)
-        {
-            BD_Misc_GUI selectedMisc = new BD_Misc_GUI();
-            selectedMisc.Invert = "_DefNoiseAInvert";
-            selectedMisc.Intensity = "_NoiseA_Intensity";
-            selectedMisc.Contrast = "_NoiseA_Contrast";
-            BDShaderGUI.MiscGUI(materialEditor, properties, selectedMisc);
-
-            BD_ScaleOffset_GUI selected = new BD_ScaleOffset_GUI();
-            selected.Tile.x = "_DefVorATileX";
-            selected.Tile.y = "_DefVorATileY";
-            selected.Offset.x = "_DefVorAOffsetX";
-            selected.Offset.y = "_DefVorAOffsetY";
-            selected.Speed.x = "_DefVorASpeedX";
-            selected.Speed.y = "_DefVorASpeedY";
-            selected.Anchor.x = "_DefTypeAAnchorX";
-            selected.Anchor.y = "_DefTypeAAnchorY";
-            selected.OverallSpeed = "_DefNoiseTypeAOverallSpeed";
-            selected.Rotate = "_DefTypeARot";
-            selected.RotateSpeed = "_DefTypeARotSpeed";
-            BDShaderGUI.ScaleOffsetGUI(materialEditor, properties, selected);
-        }
-    }
-    private void MiddleWaveB(MaterialEditor materialEditor, MaterialProperty[] properties, int type)
-    {
-        BD_NoiseTypes_GUI selectedNoise = new BD_NoiseTypes_GUI();
-        selectedNoise.NoiseType = "_NoiseTypeB";
-        selectedNoise.VorCellOct = "_Def_VorCell_B_Type";
-        selectedNoise.VorCaustOct = "_Def_VorCaustic_B_Type";
-        selectedNoise.TextureMap = "_NoiseBMap";
-        selectedNoise.NoiseAngle = "_DefVorBAngle";
-        selectedNoise.NoiseSmooth = "_DefVorBSmooth";
-        selectedNoise.NoiseScale = "_DefNoiseBScale";
-        BDShaderGUI.NoiseSelectGUI(materialEditor, properties, selectedNoise);
-
-        if(type > 0)
-        {
-            BD_Misc_GUI selectedMisc = new BD_Misc_GUI();
-            selectedMisc.Invert = "_DefNoiseBInvert";
-            selectedMisc.Intensity = "_NoiseB_Intensity";
-            selectedMisc.Contrast = "_NoiseB_Contrast";
-            BDShaderGUI.MiscGUI(materialEditor, properties, selectedMisc);
-
-            BD_ScaleOffset_GUI selected = new BD_ScaleOffset_GUI();
-            selected.Tile.x = "_DefVorBTileX";
-            selected.Tile.y = "_DefVorBTileY";
-            selected.Offset.x = "_DefVorBOffsetX";
-            selected.Offset.y = "_DefVorBOffsetY";
-            selected.Speed.x = "_DefVorBSpeedX";
-            selected.Speed.y = "_DefVorBSpeedY";
-            selected.Anchor.x = "_DefTypeBAnchorX";
-            selected.Anchor.y = "_DefTypeBAnchorY";
-            selected.OverallSpeed = "_DefNoiseTypeBOverallSpeed";
-            selected.Rotate = "_DefTypeBRot";
-            selected.RotateSpeed = "_DefTypeBRotSpeed";
-            BDShaderGUI.ScaleOffsetGUI(materialEditor, properties, selected);
-        }
-    }
-
-    private void MidWaveASet(MaterialEditor materialEditor, MaterialProperty[] properties, Material targetMat, int type)
-    {
-        midNAFold = EditorGUILayout.Foldout(midNAFold, "Noise Type A", toggleOnLabelClick: true);
-        targetMat.SetInt("_MiddleNAFold", Convert.ToInt16(midNAFold));
-        if(midNAFold)
-        {
-            EditorGUI.indentLevel++;
-            MiddleWaveA(materialEditor, properties, type);
-            EditorGUI.indentLevel--;
-        }
-    }
-    private void MidWaveBSet(MaterialEditor materialEditor, MaterialProperty[] properties, Material targetMat, int type)
-    {
-        midNBFold = EditorGUILayout.Foldout(midNBFold, "Noise Type B", toggleOnLabelClick: true);
-        targetMat.SetInt("_MiddleNBFold", Convert.ToInt16(midNBFold));
-        if(midNBFold)
-        {
-            EditorGUI.indentLevel++;
-            MiddleWaveB(materialEditor, properties, type);
-            EditorGUI.indentLevel--;
-        }            
-    }
-
-    private void ShoreTextureSet(MaterialEditor materialEditor, MaterialProperty[] properties)
-    {
-        BD_Misc_GUI selectedMisc = new BD_Misc_GUI();
-        selectedMisc.Invert = "_InvertShoreTexture";
-        selectedMisc.Intensity = "_ShoreIntensity";
-        selectedMisc.Contrast = "_ShoreContrast";
-        BDShaderGUI.MiscGUI(materialEditor, properties, selectedMisc);
-
-        BD_ScaleOffset_GUI selected = new BD_ScaleOffset_GUI();
-        selected.Tile.x = "_ShoreTileX";
-        selected.Tile.y = "_ShoreTileY";
-        selected.Offset.x = "_ShoreOffsetX";
-        selected.Offset.y = "_ShoreOffsetY";
-        selected.Speed.x = "_ShoreSpeedX";
-        selected.Speed.y = "_ShoreSpeedY";
-        selected.Anchor.x = "_ShoreAnchorX";
-        selected.Anchor.y = "_ShoreAnchorY";
-        selected.OverallSpeed = "_ShoreOverallSpeed";
-        selected.Rotate = "_ShoreRotate";
-        selected.RotateSpeed = "_ShoreRotateSpeed";
-        BDShaderGUI.ScaleOffsetGUI(materialEditor, properties, selected);
-    }
-    private void FoamTextureSet(MaterialEditor materialEditor, MaterialProperty[] properties)
-    {
-        BD_Misc_GUI selectedMisc = new BD_Misc_GUI();
-        selectedMisc.Invert = "_InvertFoamTexture";
-        selectedMisc.Intensity = "_FoamIntensity";
-        selectedMisc.Contrast = "_FoamContrast";
-        BDShaderGUI.MiscGUI(materialEditor, properties, selectedMisc);
-
-        BD_ScaleOffset_GUI selected = new BD_ScaleOffset_GUI();
-        selected.Tile.x = "_FoamTileX";
-        selected.Tile.y = "_FoamTileY";
-        selected.Offset.x = "_FoamOffsetX";
-        selected.Offset.y = "_FoamOffsetY";
-        selected.Speed.x = "_FoamSpeedX";
-        selected.Speed.y = "_FoamSpeedY";
-        selected.Anchor.x = "_FoamAnchorX";
-        selected.Anchor.y = "_FoamAnchorY";
-        selected.OverallSpeed = "_FoamOverallSpeed";
-        selected.Rotate = "_FoamRotate";
-        selected.RotateSpeed = "_FoamRotateSpeed";
-        BDShaderGUI.ScaleOffsetGUI(materialEditor, properties, selected);
-    }
-
-    private void NormTxtA(MaterialEditor materialEditor, MaterialProperty[] properties)
-    {
-        BD_Misc_GUI selectedMisc = new BD_Misc_GUI();
-        selectedMisc.Invert = "";
-        selectedMisc.Intensity = "_NrmAInt";
-        selectedMisc.Contrast = "";
-        BDShaderGUI.MiscGUI(materialEditor, properties, selectedMisc);
-
-        BD_ScaleOffset_GUI selected = new BD_ScaleOffset_GUI();
-        selected.Tile.x = "_NormATileX";
-        selected.Tile.y = "_NormATileY";
-        selected.Offset.x = "_NormAOffsetX";
-        selected.Offset.y = "_NormAOffsetY";
-        selected.Speed.x = "_NormASpeedX";
-        selected.Speed.y = "_NormASpeedY";
-        selected.Anchor.x = "_NormAAnchorX";
-        selected.Anchor.y = "_NormAAnchorY";
-        selected.OverallSpeed = "_NormAOverallSpeed";
-        selected.Rotate = "_NormARot";
-        selected.RotateSpeed = "_NormARotSpeed";
-        BDShaderGUI.ScaleOffsetGUI(materialEditor, properties, selected);
-    }
-    private void NormTxtB(MaterialEditor materialEditor, MaterialProperty[] properties)
-    {
-        BD_Misc_GUI selectedMisc = new BD_Misc_GUI();
-        selectedMisc.Invert = "";
-        selectedMisc.Intensity = "_NrmBInt";
-        selectedMisc.Contrast = "";
-        BDShaderGUI.MiscGUI(materialEditor, properties, selectedMisc);
-
-        BD_ScaleOffset_GUI selected = new BD_ScaleOffset_GUI();
-        selected.Tile.x = "_NormBTileX";
-        selected.Tile.y = "_NormBTileY";
-        selected.Offset.x = "_NormBOffsetX";
-        selected.Offset.y = "_NormBOffsetY";
-        selected.Speed.x = "_NormBSpeedX";
-        selected.Speed.y = "_NormBSpeedY";
-        selected.Anchor.x = "_NormBAnchorX";
-        selected.Anchor.y = "_NormBAnchorY";
-        selected.OverallSpeed = "_NormBOverallSpeed";
-        selected.Rotate = "_NormBRot";
-        selected.RotateSpeed = "_NormBRotSpeed";
-        BDShaderGUI.ScaleOffsetGUI(materialEditor, properties, selected);
-    }
-
-    private void NormASet(MaterialEditor materialEditor, MaterialProperty[] properties, Material targetMat, int type)
-    {
-        normGenAFold = EditorGUILayout.Foldout(normGenAFold, "Noise Type A", toggleOnLabelClick: true);
-        targetMat.SetInt("_NormGenAFold", Convert.ToInt16(normGenAFold));
-        if(normGenAFold)
-        {
-            EditorGUI.indentLevel++;
-            MiddleWaveA(materialEditor, properties, type);
-            EditorGUI.indentLevel--;
-        }
-    }
-    private void NormBSet(MaterialEditor materialEditor, MaterialProperty[] properties, Material targetMat, int type)
-    {
-        normGenBFold = EditorGUILayout.Foldout(normGenBFold, "Noise Type B", toggleOnLabelClick: true);
-        targetMat.SetInt("_NormGenBFold", Convert.ToInt16(normGenBFold));
-        if(normGenBFold)
-        {
-            EditorGUI.indentLevel++;
-            MiddleWaveB(materialEditor, properties, type);
-            EditorGUI.indentLevel--;
-        }
-    }
-    */
 }

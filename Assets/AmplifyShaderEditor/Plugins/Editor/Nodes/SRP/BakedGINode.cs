@@ -111,7 +111,7 @@ namespace AmplifyShaderEditor
 		{
 			if( !dataCollector.IsSRP )
 			{
-				UIUtils.ShowMessage( "Node only intended to use on HD and Lightweight rendering pipelines" );
+				UIUtils.ShowMessage( "Node only intended to use on HDRP and URP rendering pipelines" );
 				return GenerateErrorValue();
 			}
 
