@@ -48,9 +48,10 @@ namespace AmplifyShaderEditor
 		SV_InstanceID,
 		INTERNALTESSPOS,
 		INSTANCEID_SEMANTIC,
+		VERTEXID_SEMANTIC,
+		PRIMITIVEID_SEMANTIC,
 		BLENDWEIGHTS,
 		BLENDINDICES
-
 	}
 
 	public enum TemplateInfoOnSematics
@@ -81,7 +82,9 @@ namespace AmplifyShaderEditor
 		OTHER,
 		VFACE,
 		SHADOWCOORDS,
+		INSTANCEID,
 		VERTEXID,
+		PRIMITIVEID,
 		BLENDWEIGHTS,
 		BLENDINDICES
 	}

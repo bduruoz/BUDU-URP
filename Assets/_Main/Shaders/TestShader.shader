@@ -1,4 +1,4 @@
-// Made with Amplify Shader Editor v1.9.6.1
+// Made with Amplify Shader Editor v1.9.6.2
 // Available at the Unity Asset Store - http://u3d.as/y3X 
 Shader "BUDU Shaders/Tests/TestShader"
 {
@@ -6,10 +6,10 @@ Shader "BUDU Shaders/Tests/TestShader"
 	{
 		[HideInInspector] _AlphaCutoff("Alpha Cutoff ", Range(0, 1)) = 0.5
 		[HideInInspector] _EmissionColor("Emission Color", Color) = (1,1,1,1)
-		_ShadowStrength("Shadow Strength", Float) = 1
-		_ShadowSmooth("Shadow Smooth", Range( 0 , 1)) = 1
-		_ShadowOffsetX("ShadowOffsetX", Range( 0 , 1)) = 0.3
-		_ShadowOffsetY("ShadowOffsetY", Range( 0 , 1)) = 0.3
+		_Tilt("Tilt", Float) = 0.5
+		_Contrast("Contrast", Float) = 1
+		_Speed("Speed", Float) = 0.5
+		_SheenGap("SheenGap", Float) = 0.9
 
 
 		//_TransmissionShadow( "Transmission Shadow", Range( 0, 1 ) ) = 0.5
@@ -203,6 +203,7 @@ Shader "BUDU Shaders/Tests/TestShader"
 			#define ASE_FOG 1
 			#define _ASE_LIGHTING_SIMPLE
 			#define _SURFACE_TYPE_TRANSPARENT 1
+			#define _EMISSION
 			#define ASE_SRP_VERSION 140010
 
 
@@ -333,10 +334,10 @@ Shader "BUDU Shaders/Tests/TestShader"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float _ShadowOffsetX;
-			float _ShadowOffsetY;
-			float _ShadowSmooth;
-			float _ShadowStrength;
+			float _Speed;
+			float _Tilt;
+			float _SheenGap;
+			float _Contrast;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
 			#endif
@@ -576,80 +577,35 @@ Shader "BUDU Shaders/Tests/TestShader"
 
 				WorldViewDirection = SafeNormalize( WorldViewDirection );
 
-				float4 temp_output_11_0_g1710 = float4( 0.6,0.55,0.48,0 );
-				float2 temp_output_10_0_g1710 = float2( 0.8,0.4 );
-				#if ( SHADER_TARGET >= 50 )
-				float2 recip11_g1719 = rcp( max( temp_output_10_0_g1710 , float2( 0.001,0.001 ) ) );
-				#else
-				float2 recip11_g1719 = 1.0 / max( temp_output_10_0_g1710 , float2( 0.001,0.001 ) );
-				#endif
-				float2 texCoord22_g1710 = IN.ase_texcoord8.xy * float2( 1,1 ) + float2( 0,0 );
-				float2 temp_output_9_0_g1710 = texCoord22_g1710;
-				float2 temp_output_12_0_g1719 = float2( 0.5,0.5 );
-				float temp_output_13_0_g1718 = 1.0;
-				float temp_output_14_0_g1718 = 1.0;
-				float2 appendResult24_g1718 = (float2(( temp_output_13_0_g1718 / 2.0 ) , ( temp_output_14_0_g1718 / 2.0 )));
-				float cos20_g1718 = cos( radians( 0.0 ) );
-				float sin20_g1718 = sin( radians( 0.0 ) );
-				float2 rotator20_g1718 = mul( ( ( recip11_g1719 * ( temp_output_9_0_g1710 - temp_output_12_0_g1719 ) ) + temp_output_12_0_g1719 ) - appendResult24_g1718 , float2x2( cos20_g1718 , -sin20_g1718 , sin20_g1718 , cos20_g1718 )) + appendResult24_g1718;
-				float2 break21_g1718 = rotator20_g1718;
-				float4 lerpResult15_g1710 = lerp( temp_output_11_0_g1710 , ( temp_output_11_0_g1710 * 0.3 ) , ( 1.0 - break21_g1718.y ));
-				float2 temp_output_1_0_g1713 = temp_output_9_0_g1710;
-				float2 temp_output_8_0_g1713 = temp_output_10_0_g1710;
-				float4 break10_g1716 = float4( 0.1,0.1,0.1,0.1 );
-				float2 appendResult11_g1716 = (float2(break10_g1716.x , break10_g1716.y));
-				float2 appendResult12_g1716 = (float2(break10_g1716.z , break10_g1716.w));
-				float2 break8_g1716 = saturate( ceil( ( ( temp_output_1_0_g1713 * float2( 2,2 ) ) - float2( 1,1 ) ) ) );
-				float2 lerpResult13_g1716 = lerp( appendResult11_g1716 , appendResult12_g1716 , break8_g1716.x);
-				float2 break14_g1716 = lerpResult13_g1716;
-				float lerpResult15_g1716 = lerp( break14_g1716.x , break14_g1716.y , break8_g1716.y);
-				float temp_output_50_0_g1713 = lerpResult15_g1716;
-				float2 temp_output_51_0_g1713 = ( ( ( abs( ( ( temp_output_1_0_g1713 * float2( 2,2 ) ) - float2( 1,1 ) ) ) - temp_output_8_0_g1713 ) * float2( 1,1 ) ) + temp_output_50_0_g1713 );
-				float2 break13_g1713 = temp_output_51_0_g1713;
-				float temp_output_52_0_g1713 = ( ( length( max( temp_output_51_0_g1713 , float2( 0,0 ) ) ) + min( max( break13_g1713.x , break13_g1713.y ) , 0.0 ) ) - temp_output_50_0_g1713 );
-				float2 break41_g1713 = temp_output_8_0_g1713;
-				float temp_output_30_0_g1713 = 0.03;
-				float temp_output_27_0_g1713 = ( abs( temp_output_52_0_g1713 ) - ( break41_g1713.x * temp_output_30_0_g1713 ) );
-				float temp_output_5_0_g1712 = ( 0.0 - temp_output_27_0_g1713 );
-				float2 appendResult9_g1712 = (float2(ddx( temp_output_5_0_g1712 ) , ddy( temp_output_5_0_g1712 )));
-				float temp_output_8_0_g1710 = ( 1.0 - saturate( ( 0.5 - ( temp_output_5_0_g1712 / length( appendResult9_g1712 ) ) ) ) );
-				float4 lerpResult27_g1710 = lerp( lerpResult15_g1710 , float4( 0.3,0.2375,0.15,0 ) , temp_output_8_0_g1710);
-				float temp_output_5_0_g1711 = ( 0.0 - temp_output_52_0_g1713 );
-				float2 appendResult9_g1711 = (float2(ddx( temp_output_5_0_g1711 ) , ddy( temp_output_5_0_g1711 )));
-				float temp_output_29_0_g1710 = saturate( ( ( 1.0 - saturate( ( 0.5 - ( temp_output_5_0_g1711 / length( appendResult9_g1711 ) ) ) ) ) + temp_output_8_0_g1710 ) );
-				float4 lerpResult38_g1710 = lerp( float4( 0,0,0,0 ) , lerpResult27_g1710 , temp_output_29_0_g1710);
+				float temp_output_3_0_g5 = 1.0;
+				float temp_output_5_0_g3 = frac( ( _TimeParameters.x * _Speed ) );
+				float2 appendResult10_g1 = (float2(temp_output_5_0_g3 , 0.0));
+				float2 break4_g4 = appendResult10_g1;
+				float2 appendResult6_g4 = (float2(-break4_g4.x , break4_g4.y));
+				float2 texCoord1_g1 = IN.ase_texcoord8.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 temp_output_2_0_g2 = ( texCoord1_g1 * float2( 0.25,0.25 ) );
+				float2 temp_cast_0 = (_Tilt).xx;
+				float2 temp_output_3_0_g2 = temp_cast_0;
+				float2 temp_output_7_0_g4 = ( appendResult6_g4 + ( ( temp_output_2_0_g2 + (( temp_output_2_0_g2 * (temp_output_3_0_g2).yx )).yx ) - ( temp_output_3_0_g2 / float2( 2,2 ) ) ) );
+				float2 temp_output_4_0_g5 = ( temp_output_7_0_g4 * 1.0 );
+				float2 temp_output_6_0_g5 = ( temp_output_4_0_g5 - floor( temp_output_4_0_g5 ) );
+				float2 temp_output_9_0_g5 = ( min( temp_output_6_0_g5 , ( 1.0 - temp_output_6_0_g5 ) ) * float2( 2,2 ) );
+				float temp_output_820_0 = saturate( (( (( temp_output_3_0_g5 * temp_output_9_0_g5 )).x - _SheenGap )*_Contrast + 0.0) );
+				float3 temp_cast_1 = (temp_output_820_0).xxx;
 				
-				float2 appendResult809 = (float2((0.0 + (_ShadowOffsetX - 0.0) * (0.2 - 0.0) / (1.0 - 0.0)) , (0.0 + (_ShadowOffsetY - 0.0) * (0.2 - 0.0) / (1.0 - 0.0))));
-				float2 break4_g1721 = appendResult809;
-				float2 appendResult6_g1721 = (float2(-break4_g1721.x , break4_g1721.y));
-				float2 temp_output_7_0_g1721 = ( appendResult6_g1721 + temp_output_9_0_g1710 );
-				float2 temp_output_1_0_g1722 = temp_output_7_0_g1721;
-				float2 temp_output_8_0_g1722 = temp_output_10_0_g1710;
-				float2 break4_g1726 = float2( 1,1 );
-				float2 appendResult7_g1726 = (float2(( break4_g1726.x / break4_g1726.y ) , 1.0));
-				float2 appendResult8_g1726 = (float2(1.0 , ( break4_g1726.y / break4_g1726.x )));
-				float4 break10_g1725 = float4( 0.1,0.1,0.1,0.1 );
-				float2 appendResult11_g1725 = (float2(break10_g1725.x , break10_g1725.y));
-				float2 appendResult12_g1725 = (float2(break10_g1725.z , break10_g1725.w));
-				float2 break8_g1725 = saturate( ceil( ( ( temp_output_1_0_g1722 * float2( 2,2 ) ) - float2( 1,1 ) ) ) );
-				float2 lerpResult13_g1725 = lerp( appendResult11_g1725 , appendResult12_g1725 , break8_g1725.x);
-				float2 break14_g1725 = lerpResult13_g1725;
-				float lerpResult15_g1725 = lerp( break14_g1725.x , break14_g1725.y , break8_g1725.y);
-				float temp_output_50_0_g1722 = lerpResult15_g1725;
-				float2 temp_output_51_0_g1722 = ( ( ( abs( ( ( temp_output_1_0_g1722 * float2( 2,2 ) ) - float2( 1,1 ) ) ) - temp_output_8_0_g1722 ) * max( appendResult7_g1726 , appendResult8_g1726 ) ) + temp_output_50_0_g1722 );
-				float2 break13_g1722 = temp_output_51_0_g1722;
-				float temp_output_52_0_g1722 = ( ( length( max( temp_output_51_0_g1722 , float2( 0,0 ) ) ) + min( max( break13_g1722.x , break13_g1722.y ) , 0.0 ) ) - temp_output_50_0_g1722 );
-				float temp_output_1_0_g1723 = 0.0;
+				float3 temp_cast_2 = (temp_output_820_0).xxx;
+				
+				float3 temp_cast_3 = (0.0).xxx;
 				
 
-				float3 BaseColor = lerpResult38_g1710.rgb;
+				float3 BaseColor = temp_cast_1;
 				float3 Normal = float3(0, 0, 1);
-				float3 Emission = 0;
-				float3 Specular = 0.5;
+				float3 Emission = temp_cast_2;
+				float3 Specular = temp_cast_3;
 				float Metallic = 0;
-				float Smoothness = 0.5;
+				float Smoothness = 0.0;
 				float Occlusion = 1;
-				float Alpha = max( temp_output_29_0_g1710 , ( saturate( -( ( temp_output_52_0_g1722 - temp_output_1_0_g1723 ) / ( (0.0 + (_ShadowSmooth - 0.0) * (0.4 - 0.0) / (1.0 - 0.0)) - temp_output_1_0_g1723 ) ) ) * _ShadowStrength ) );
+				float Alpha = 1;
 				float AlphaClipThreshold = 0.5;
 				float AlphaClipThresholdShadow = 0.5;
 				float3 BakedGI = 0;
@@ -908,6 +864,7 @@ Shader "BUDU Shaders/Tests/TestShader"
 			#define ASE_FOG 1
 			#define _ASE_LIGHTING_SIMPLE
 			#define _SURFACE_TYPE_TRANSPARENT 1
+			#define _EMISSION
 			#define ASE_SRP_VERSION 140010
 
 
@@ -968,7 +925,7 @@ Shader "BUDU Shaders/Tests/TestShader"
 			{
 				float4 positionOS : POSITION;
 				float3 normalOS : NORMAL;
-				float4 ase_texcoord : TEXCOORD0;
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -982,16 +939,16 @@ Shader "BUDU Shaders/Tests/TestShader"
 				#if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR) && defined(ASE_NEEDS_FRAG_SHADOWCOORDS)
 					float4 shadowCoord : TEXCOORD2;
 				#endif				
-				float4 ase_texcoord3 : TEXCOORD3;
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float _ShadowOffsetX;
-			float _ShadowOffsetY;
-			float _ShadowSmooth;
-			float _ShadowStrength;
+			float _Speed;
+			float _Tilt;
+			float _SheenGap;
+			float _Contrast;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
 			#endif
@@ -1035,10 +992,7 @@ Shader "BUDU Shaders/Tests/TestShader"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( o );
 
-				o.ase_texcoord3.xy = v.ase_texcoord.xy;
 				
-				//setting value to unused interpolator channels and avoid initialization warnings
-				o.ase_texcoord3.zw = 0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.positionOS.xyz;
@@ -1094,8 +1048,7 @@ Shader "BUDU Shaders/Tests/TestShader"
 			{
 				float4 vertex : INTERNALTESSPOS;
 				float3 normalOS : NORMAL;
-				float4 ase_texcoord : TEXCOORD0;
-
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -1112,7 +1065,7 @@ Shader "BUDU Shaders/Tests/TestShader"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				o.vertex = v.positionOS;
 				o.normalOS = v.normalOS;
-				o.ase_texcoord = v.ase_texcoord;
+				
 				return o;
 			}
 
@@ -1151,7 +1104,7 @@ Shader "BUDU Shaders/Tests/TestShader"
 				VertexInput o = (VertexInput) 0;
 				o.positionOS = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
-				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
+				
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -1194,55 +1147,9 @@ Shader "BUDU Shaders/Tests/TestShader"
 					#endif
 				#endif
 
-				float2 texCoord22_g1710 = IN.ase_texcoord3.xy * float2( 1,1 ) + float2( 0,0 );
-				float2 temp_output_9_0_g1710 = texCoord22_g1710;
-				float2 temp_output_1_0_g1713 = temp_output_9_0_g1710;
-				float2 temp_output_10_0_g1710 = float2( 0.8,0.4 );
-				float2 temp_output_8_0_g1713 = temp_output_10_0_g1710;
-				float4 break10_g1716 = float4( 0.1,0.1,0.1,0.1 );
-				float2 appendResult11_g1716 = (float2(break10_g1716.x , break10_g1716.y));
-				float2 appendResult12_g1716 = (float2(break10_g1716.z , break10_g1716.w));
-				float2 break8_g1716 = saturate( ceil( ( ( temp_output_1_0_g1713 * float2( 2,2 ) ) - float2( 1,1 ) ) ) );
-				float2 lerpResult13_g1716 = lerp( appendResult11_g1716 , appendResult12_g1716 , break8_g1716.x);
-				float2 break14_g1716 = lerpResult13_g1716;
-				float lerpResult15_g1716 = lerp( break14_g1716.x , break14_g1716.y , break8_g1716.y);
-				float temp_output_50_0_g1713 = lerpResult15_g1716;
-				float2 temp_output_51_0_g1713 = ( ( ( abs( ( ( temp_output_1_0_g1713 * float2( 2,2 ) ) - float2( 1,1 ) ) ) - temp_output_8_0_g1713 ) * float2( 1,1 ) ) + temp_output_50_0_g1713 );
-				float2 break13_g1713 = temp_output_51_0_g1713;
-				float temp_output_52_0_g1713 = ( ( length( max( temp_output_51_0_g1713 , float2( 0,0 ) ) ) + min( max( break13_g1713.x , break13_g1713.y ) , 0.0 ) ) - temp_output_50_0_g1713 );
-				float temp_output_5_0_g1711 = ( 0.0 - temp_output_52_0_g1713 );
-				float2 appendResult9_g1711 = (float2(ddx( temp_output_5_0_g1711 ) , ddy( temp_output_5_0_g1711 )));
-				float2 break41_g1713 = temp_output_8_0_g1713;
-				float temp_output_30_0_g1713 = 0.03;
-				float temp_output_27_0_g1713 = ( abs( temp_output_52_0_g1713 ) - ( break41_g1713.x * temp_output_30_0_g1713 ) );
-				float temp_output_5_0_g1712 = ( 0.0 - temp_output_27_0_g1713 );
-				float2 appendResult9_g1712 = (float2(ddx( temp_output_5_0_g1712 ) , ddy( temp_output_5_0_g1712 )));
-				float temp_output_8_0_g1710 = ( 1.0 - saturate( ( 0.5 - ( temp_output_5_0_g1712 / length( appendResult9_g1712 ) ) ) ) );
-				float temp_output_29_0_g1710 = saturate( ( ( 1.0 - saturate( ( 0.5 - ( temp_output_5_0_g1711 / length( appendResult9_g1711 ) ) ) ) ) + temp_output_8_0_g1710 ) );
-				float2 appendResult809 = (float2((0.0 + (_ShadowOffsetX - 0.0) * (0.2 - 0.0) / (1.0 - 0.0)) , (0.0 + (_ShadowOffsetY - 0.0) * (0.2 - 0.0) / (1.0 - 0.0))));
-				float2 break4_g1721 = appendResult809;
-				float2 appendResult6_g1721 = (float2(-break4_g1721.x , break4_g1721.y));
-				float2 temp_output_7_0_g1721 = ( appendResult6_g1721 + temp_output_9_0_g1710 );
-				float2 temp_output_1_0_g1722 = temp_output_7_0_g1721;
-				float2 temp_output_8_0_g1722 = temp_output_10_0_g1710;
-				float2 break4_g1726 = float2( 1,1 );
-				float2 appendResult7_g1726 = (float2(( break4_g1726.x / break4_g1726.y ) , 1.0));
-				float2 appendResult8_g1726 = (float2(1.0 , ( break4_g1726.y / break4_g1726.x )));
-				float4 break10_g1725 = float4( 0.1,0.1,0.1,0.1 );
-				float2 appendResult11_g1725 = (float2(break10_g1725.x , break10_g1725.y));
-				float2 appendResult12_g1725 = (float2(break10_g1725.z , break10_g1725.w));
-				float2 break8_g1725 = saturate( ceil( ( ( temp_output_1_0_g1722 * float2( 2,2 ) ) - float2( 1,1 ) ) ) );
-				float2 lerpResult13_g1725 = lerp( appendResult11_g1725 , appendResult12_g1725 , break8_g1725.x);
-				float2 break14_g1725 = lerpResult13_g1725;
-				float lerpResult15_g1725 = lerp( break14_g1725.x , break14_g1725.y , break8_g1725.y);
-				float temp_output_50_0_g1722 = lerpResult15_g1725;
-				float2 temp_output_51_0_g1722 = ( ( ( abs( ( ( temp_output_1_0_g1722 * float2( 2,2 ) ) - float2( 1,1 ) ) ) - temp_output_8_0_g1722 ) * max( appendResult7_g1726 , appendResult8_g1726 ) ) + temp_output_50_0_g1722 );
-				float2 break13_g1722 = temp_output_51_0_g1722;
-				float temp_output_52_0_g1722 = ( ( length( max( temp_output_51_0_g1722 , float2( 0,0 ) ) ) + min( max( break13_g1722.x , break13_g1722.y ) , 0.0 ) ) - temp_output_50_0_g1722 );
-				float temp_output_1_0_g1723 = 0.0;
 				
 
-				float Alpha = max( temp_output_29_0_g1710 , ( saturate( -( ( temp_output_52_0_g1722 - temp_output_1_0_g1723 ) / ( (0.0 + (_ShadowSmooth - 0.0) * (0.4 - 0.0) / (1.0 - 0.0)) - temp_output_1_0_g1723 ) ) ) * _ShadowStrength ) );
+				float Alpha = 1;
 				float AlphaClipThreshold = 0.5;
 				float AlphaClipThresholdShadow = 0.5;
 
@@ -1293,6 +1200,7 @@ Shader "BUDU Shaders/Tests/TestShader"
 			#define ASE_FOG 1
 			#define _ASE_LIGHTING_SIMPLE
 			#define _SURFACE_TYPE_TRANSPARENT 1
+			#define _EMISSION
 			#define ASE_SRP_VERSION 140010
 
 
@@ -1351,7 +1259,7 @@ Shader "BUDU Shaders/Tests/TestShader"
 			{
 				float4 positionOS : POSITION;
 				float3 normalOS : NORMAL;
-				float4 ase_texcoord : TEXCOORD0;
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -1365,16 +1273,16 @@ Shader "BUDU Shaders/Tests/TestShader"
 				#if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR) && defined(ASE_NEEDS_FRAG_SHADOWCOORDS)
 				float4 shadowCoord : TEXCOORD2;
 				#endif
-				float4 ase_texcoord3 : TEXCOORD3;
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float _ShadowOffsetX;
-			float _ShadowOffsetY;
-			float _ShadowSmooth;
-			float _ShadowStrength;
+			float _Speed;
+			float _Tilt;
+			float _SheenGap;
+			float _Contrast;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
 			#endif
@@ -1415,10 +1323,7 @@ Shader "BUDU Shaders/Tests/TestShader"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
-				o.ase_texcoord3.xy = v.ase_texcoord.xy;
 				
-				//setting value to unused interpolator channels and avoid initialization warnings
-				o.ase_texcoord3.zw = 0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.positionOS.xyz;
@@ -1456,8 +1361,7 @@ Shader "BUDU Shaders/Tests/TestShader"
 			{
 				float4 vertex : INTERNALTESSPOS;
 				float3 normalOS : NORMAL;
-				float4 ase_texcoord : TEXCOORD0;
-
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -1474,7 +1378,7 @@ Shader "BUDU Shaders/Tests/TestShader"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				o.vertex = v.positionOS;
 				o.normalOS = v.normalOS;
-				o.ase_texcoord = v.ase_texcoord;
+				
 				return o;
 			}
 
@@ -1513,7 +1417,7 @@ Shader "BUDU Shaders/Tests/TestShader"
 				VertexInput o = (VertexInput) 0;
 				o.positionOS = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
-				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
+				
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -1556,55 +1460,9 @@ Shader "BUDU Shaders/Tests/TestShader"
 					#endif
 				#endif
 
-				float2 texCoord22_g1710 = IN.ase_texcoord3.xy * float2( 1,1 ) + float2( 0,0 );
-				float2 temp_output_9_0_g1710 = texCoord22_g1710;
-				float2 temp_output_1_0_g1713 = temp_output_9_0_g1710;
-				float2 temp_output_10_0_g1710 = float2( 0.8,0.4 );
-				float2 temp_output_8_0_g1713 = temp_output_10_0_g1710;
-				float4 break10_g1716 = float4( 0.1,0.1,0.1,0.1 );
-				float2 appendResult11_g1716 = (float2(break10_g1716.x , break10_g1716.y));
-				float2 appendResult12_g1716 = (float2(break10_g1716.z , break10_g1716.w));
-				float2 break8_g1716 = saturate( ceil( ( ( temp_output_1_0_g1713 * float2( 2,2 ) ) - float2( 1,1 ) ) ) );
-				float2 lerpResult13_g1716 = lerp( appendResult11_g1716 , appendResult12_g1716 , break8_g1716.x);
-				float2 break14_g1716 = lerpResult13_g1716;
-				float lerpResult15_g1716 = lerp( break14_g1716.x , break14_g1716.y , break8_g1716.y);
-				float temp_output_50_0_g1713 = lerpResult15_g1716;
-				float2 temp_output_51_0_g1713 = ( ( ( abs( ( ( temp_output_1_0_g1713 * float2( 2,2 ) ) - float2( 1,1 ) ) ) - temp_output_8_0_g1713 ) * float2( 1,1 ) ) + temp_output_50_0_g1713 );
-				float2 break13_g1713 = temp_output_51_0_g1713;
-				float temp_output_52_0_g1713 = ( ( length( max( temp_output_51_0_g1713 , float2( 0,0 ) ) ) + min( max( break13_g1713.x , break13_g1713.y ) , 0.0 ) ) - temp_output_50_0_g1713 );
-				float temp_output_5_0_g1711 = ( 0.0 - temp_output_52_0_g1713 );
-				float2 appendResult9_g1711 = (float2(ddx( temp_output_5_0_g1711 ) , ddy( temp_output_5_0_g1711 )));
-				float2 break41_g1713 = temp_output_8_0_g1713;
-				float temp_output_30_0_g1713 = 0.03;
-				float temp_output_27_0_g1713 = ( abs( temp_output_52_0_g1713 ) - ( break41_g1713.x * temp_output_30_0_g1713 ) );
-				float temp_output_5_0_g1712 = ( 0.0 - temp_output_27_0_g1713 );
-				float2 appendResult9_g1712 = (float2(ddx( temp_output_5_0_g1712 ) , ddy( temp_output_5_0_g1712 )));
-				float temp_output_8_0_g1710 = ( 1.0 - saturate( ( 0.5 - ( temp_output_5_0_g1712 / length( appendResult9_g1712 ) ) ) ) );
-				float temp_output_29_0_g1710 = saturate( ( ( 1.0 - saturate( ( 0.5 - ( temp_output_5_0_g1711 / length( appendResult9_g1711 ) ) ) ) ) + temp_output_8_0_g1710 ) );
-				float2 appendResult809 = (float2((0.0 + (_ShadowOffsetX - 0.0) * (0.2 - 0.0) / (1.0 - 0.0)) , (0.0 + (_ShadowOffsetY - 0.0) * (0.2 - 0.0) / (1.0 - 0.0))));
-				float2 break4_g1721 = appendResult809;
-				float2 appendResult6_g1721 = (float2(-break4_g1721.x , break4_g1721.y));
-				float2 temp_output_7_0_g1721 = ( appendResult6_g1721 + temp_output_9_0_g1710 );
-				float2 temp_output_1_0_g1722 = temp_output_7_0_g1721;
-				float2 temp_output_8_0_g1722 = temp_output_10_0_g1710;
-				float2 break4_g1726 = float2( 1,1 );
-				float2 appendResult7_g1726 = (float2(( break4_g1726.x / break4_g1726.y ) , 1.0));
-				float2 appendResult8_g1726 = (float2(1.0 , ( break4_g1726.y / break4_g1726.x )));
-				float4 break10_g1725 = float4( 0.1,0.1,0.1,0.1 );
-				float2 appendResult11_g1725 = (float2(break10_g1725.x , break10_g1725.y));
-				float2 appendResult12_g1725 = (float2(break10_g1725.z , break10_g1725.w));
-				float2 break8_g1725 = saturate( ceil( ( ( temp_output_1_0_g1722 * float2( 2,2 ) ) - float2( 1,1 ) ) ) );
-				float2 lerpResult13_g1725 = lerp( appendResult11_g1725 , appendResult12_g1725 , break8_g1725.x);
-				float2 break14_g1725 = lerpResult13_g1725;
-				float lerpResult15_g1725 = lerp( break14_g1725.x , break14_g1725.y , break8_g1725.y);
-				float temp_output_50_0_g1722 = lerpResult15_g1725;
-				float2 temp_output_51_0_g1722 = ( ( ( abs( ( ( temp_output_1_0_g1722 * float2( 2,2 ) ) - float2( 1,1 ) ) ) - temp_output_8_0_g1722 ) * max( appendResult7_g1726 , appendResult8_g1726 ) ) + temp_output_50_0_g1722 );
-				float2 break13_g1722 = temp_output_51_0_g1722;
-				float temp_output_52_0_g1722 = ( ( length( max( temp_output_51_0_g1722 , float2( 0,0 ) ) ) + min( max( break13_g1722.x , break13_g1722.y ) , 0.0 ) ) - temp_output_50_0_g1722 );
-				float temp_output_1_0_g1723 = 0.0;
 				
 
-				float Alpha = max( temp_output_29_0_g1710 , ( saturate( -( ( temp_output_52_0_g1722 - temp_output_1_0_g1723 ) / ( (0.0 + (_ShadowSmooth - 0.0) * (0.4 - 0.0) / (1.0 - 0.0)) - temp_output_1_0_g1723 ) ) ) * _ShadowStrength ) );
+				float Alpha = 1;
 				float AlphaClipThreshold = 0.5;
 
 				#ifdef ASE_DEPTH_WRITE_ON
@@ -1643,6 +1501,7 @@ Shader "BUDU Shaders/Tests/TestShader"
 			#define ASE_FOG 1
 			#define _ASE_LIGHTING_SIMPLE
 			#define _SURFACE_TYPE_TRANSPARENT 1
+			#define _EMISSION
 			#define ASE_SRP_VERSION 140010
 
 			#pragma shader_feature EDITOR_VISUALIZATION
@@ -1709,10 +1568,10 @@ Shader "BUDU Shaders/Tests/TestShader"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float _ShadowOffsetX;
-			float _ShadowOffsetY;
-			float _ShadowSmooth;
-			float _ShadowStrength;
+			float _Speed;
+			float _Tilt;
+			float _SheenGap;
+			float _Contrast;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
 			#endif
@@ -1907,75 +1766,28 @@ Shader "BUDU Shaders/Tests/TestShader"
 					#endif
 				#endif
 
-				float4 temp_output_11_0_g1710 = float4( 0.6,0.55,0.48,0 );
-				float2 temp_output_10_0_g1710 = float2( 0.8,0.4 );
-				#if ( SHADER_TARGET >= 50 )
-				float2 recip11_g1719 = rcp( max( temp_output_10_0_g1710 , float2( 0.001,0.001 ) ) );
-				#else
-				float2 recip11_g1719 = 1.0 / max( temp_output_10_0_g1710 , float2( 0.001,0.001 ) );
-				#endif
-				float2 texCoord22_g1710 = IN.ase_texcoord4.xy * float2( 1,1 ) + float2( 0,0 );
-				float2 temp_output_9_0_g1710 = texCoord22_g1710;
-				float2 temp_output_12_0_g1719 = float2( 0.5,0.5 );
-				float temp_output_13_0_g1718 = 1.0;
-				float temp_output_14_0_g1718 = 1.0;
-				float2 appendResult24_g1718 = (float2(( temp_output_13_0_g1718 / 2.0 ) , ( temp_output_14_0_g1718 / 2.0 )));
-				float cos20_g1718 = cos( radians( 0.0 ) );
-				float sin20_g1718 = sin( radians( 0.0 ) );
-				float2 rotator20_g1718 = mul( ( ( recip11_g1719 * ( temp_output_9_0_g1710 - temp_output_12_0_g1719 ) ) + temp_output_12_0_g1719 ) - appendResult24_g1718 , float2x2( cos20_g1718 , -sin20_g1718 , sin20_g1718 , cos20_g1718 )) + appendResult24_g1718;
-				float2 break21_g1718 = rotator20_g1718;
-				float4 lerpResult15_g1710 = lerp( temp_output_11_0_g1710 , ( temp_output_11_0_g1710 * 0.3 ) , ( 1.0 - break21_g1718.y ));
-				float2 temp_output_1_0_g1713 = temp_output_9_0_g1710;
-				float2 temp_output_8_0_g1713 = temp_output_10_0_g1710;
-				float4 break10_g1716 = float4( 0.1,0.1,0.1,0.1 );
-				float2 appendResult11_g1716 = (float2(break10_g1716.x , break10_g1716.y));
-				float2 appendResult12_g1716 = (float2(break10_g1716.z , break10_g1716.w));
-				float2 break8_g1716 = saturate( ceil( ( ( temp_output_1_0_g1713 * float2( 2,2 ) ) - float2( 1,1 ) ) ) );
-				float2 lerpResult13_g1716 = lerp( appendResult11_g1716 , appendResult12_g1716 , break8_g1716.x);
-				float2 break14_g1716 = lerpResult13_g1716;
-				float lerpResult15_g1716 = lerp( break14_g1716.x , break14_g1716.y , break8_g1716.y);
-				float temp_output_50_0_g1713 = lerpResult15_g1716;
-				float2 temp_output_51_0_g1713 = ( ( ( abs( ( ( temp_output_1_0_g1713 * float2( 2,2 ) ) - float2( 1,1 ) ) ) - temp_output_8_0_g1713 ) * float2( 1,1 ) ) + temp_output_50_0_g1713 );
-				float2 break13_g1713 = temp_output_51_0_g1713;
-				float temp_output_52_0_g1713 = ( ( length( max( temp_output_51_0_g1713 , float2( 0,0 ) ) ) + min( max( break13_g1713.x , break13_g1713.y ) , 0.0 ) ) - temp_output_50_0_g1713 );
-				float2 break41_g1713 = temp_output_8_0_g1713;
-				float temp_output_30_0_g1713 = 0.03;
-				float temp_output_27_0_g1713 = ( abs( temp_output_52_0_g1713 ) - ( break41_g1713.x * temp_output_30_0_g1713 ) );
-				float temp_output_5_0_g1712 = ( 0.0 - temp_output_27_0_g1713 );
-				float2 appendResult9_g1712 = (float2(ddx( temp_output_5_0_g1712 ) , ddy( temp_output_5_0_g1712 )));
-				float temp_output_8_0_g1710 = ( 1.0 - saturate( ( 0.5 - ( temp_output_5_0_g1712 / length( appendResult9_g1712 ) ) ) ) );
-				float4 lerpResult27_g1710 = lerp( lerpResult15_g1710 , float4( 0.3,0.2375,0.15,0 ) , temp_output_8_0_g1710);
-				float temp_output_5_0_g1711 = ( 0.0 - temp_output_52_0_g1713 );
-				float2 appendResult9_g1711 = (float2(ddx( temp_output_5_0_g1711 ) , ddy( temp_output_5_0_g1711 )));
-				float temp_output_29_0_g1710 = saturate( ( ( 1.0 - saturate( ( 0.5 - ( temp_output_5_0_g1711 / length( appendResult9_g1711 ) ) ) ) ) + temp_output_8_0_g1710 ) );
-				float4 lerpResult38_g1710 = lerp( float4( 0,0,0,0 ) , lerpResult27_g1710 , temp_output_29_0_g1710);
+				float temp_output_3_0_g5 = 1.0;
+				float temp_output_5_0_g3 = frac( ( _TimeParameters.x * _Speed ) );
+				float2 appendResult10_g1 = (float2(temp_output_5_0_g3 , 0.0));
+				float2 break4_g4 = appendResult10_g1;
+				float2 appendResult6_g4 = (float2(-break4_g4.x , break4_g4.y));
+				float2 texCoord1_g1 = IN.ase_texcoord4.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 temp_output_2_0_g2 = ( texCoord1_g1 * float2( 0.25,0.25 ) );
+				float2 temp_cast_0 = (_Tilt).xx;
+				float2 temp_output_3_0_g2 = temp_cast_0;
+				float2 temp_output_7_0_g4 = ( appendResult6_g4 + ( ( temp_output_2_0_g2 + (( temp_output_2_0_g2 * (temp_output_3_0_g2).yx )).yx ) - ( temp_output_3_0_g2 / float2( 2,2 ) ) ) );
+				float2 temp_output_4_0_g5 = ( temp_output_7_0_g4 * 1.0 );
+				float2 temp_output_6_0_g5 = ( temp_output_4_0_g5 - floor( temp_output_4_0_g5 ) );
+				float2 temp_output_9_0_g5 = ( min( temp_output_6_0_g5 , ( 1.0 - temp_output_6_0_g5 ) ) * float2( 2,2 ) );
+				float temp_output_820_0 = saturate( (( (( temp_output_3_0_g5 * temp_output_9_0_g5 )).x - _SheenGap )*_Contrast + 0.0) );
+				float3 temp_cast_1 = (temp_output_820_0).xxx;
 				
-				float2 appendResult809 = (float2((0.0 + (_ShadowOffsetX - 0.0) * (0.2 - 0.0) / (1.0 - 0.0)) , (0.0 + (_ShadowOffsetY - 0.0) * (0.2 - 0.0) / (1.0 - 0.0))));
-				float2 break4_g1721 = appendResult809;
-				float2 appendResult6_g1721 = (float2(-break4_g1721.x , break4_g1721.y));
-				float2 temp_output_7_0_g1721 = ( appendResult6_g1721 + temp_output_9_0_g1710 );
-				float2 temp_output_1_0_g1722 = temp_output_7_0_g1721;
-				float2 temp_output_8_0_g1722 = temp_output_10_0_g1710;
-				float2 break4_g1726 = float2( 1,1 );
-				float2 appendResult7_g1726 = (float2(( break4_g1726.x / break4_g1726.y ) , 1.0));
-				float2 appendResult8_g1726 = (float2(1.0 , ( break4_g1726.y / break4_g1726.x )));
-				float4 break10_g1725 = float4( 0.1,0.1,0.1,0.1 );
-				float2 appendResult11_g1725 = (float2(break10_g1725.x , break10_g1725.y));
-				float2 appendResult12_g1725 = (float2(break10_g1725.z , break10_g1725.w));
-				float2 break8_g1725 = saturate( ceil( ( ( temp_output_1_0_g1722 * float2( 2,2 ) ) - float2( 1,1 ) ) ) );
-				float2 lerpResult13_g1725 = lerp( appendResult11_g1725 , appendResult12_g1725 , break8_g1725.x);
-				float2 break14_g1725 = lerpResult13_g1725;
-				float lerpResult15_g1725 = lerp( break14_g1725.x , break14_g1725.y , break8_g1725.y);
-				float temp_output_50_0_g1722 = lerpResult15_g1725;
-				float2 temp_output_51_0_g1722 = ( ( ( abs( ( ( temp_output_1_0_g1722 * float2( 2,2 ) ) - float2( 1,1 ) ) ) - temp_output_8_0_g1722 ) * max( appendResult7_g1726 , appendResult8_g1726 ) ) + temp_output_50_0_g1722 );
-				float2 break13_g1722 = temp_output_51_0_g1722;
-				float temp_output_52_0_g1722 = ( ( length( max( temp_output_51_0_g1722 , float2( 0,0 ) ) ) + min( max( break13_g1722.x , break13_g1722.y ) , 0.0 ) ) - temp_output_50_0_g1722 );
-				float temp_output_1_0_g1723 = 0.0;
+				float3 temp_cast_2 = (temp_output_820_0).xxx;
 				
 
-				float3 BaseColor = lerpResult38_g1710.rgb;
-				float3 Emission = 0;
-				float Alpha = max( temp_output_29_0_g1710 , ( saturate( -( ( temp_output_52_0_g1722 - temp_output_1_0_g1723 ) / ( (0.0 + (_ShadowSmooth - 0.0) * (0.4 - 0.0) / (1.0 - 0.0)) - temp_output_1_0_g1723 ) ) ) * _ShadowStrength ) );
+				float3 BaseColor = temp_cast_1;
+				float3 Emission = temp_cast_2;
+				float Alpha = 1;
 				float AlphaClipThreshold = 0.5;
 
 				#ifdef _ALPHATEST_ON
@@ -2015,6 +1827,7 @@ Shader "BUDU Shaders/Tests/TestShader"
 			#define ASE_FOG 1
 			#define _ASE_LIGHTING_SIMPLE
 			#define _SURFACE_TYPE_TRANSPARENT 1
+			#define _EMISSION
 			#define ASE_SRP_VERSION 140010
 
 
@@ -2072,10 +1885,10 @@ Shader "BUDU Shaders/Tests/TestShader"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float _ShadowOffsetX;
-			float _ShadowOffsetY;
-			float _ShadowSmooth;
-			float _ShadowStrength;
+			float _Speed;
+			float _Tilt;
+			float _SheenGap;
+			float _Contrast;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
 			#endif
@@ -2251,74 +2064,25 @@ Shader "BUDU Shaders/Tests/TestShader"
 					#endif
 				#endif
 
-				float4 temp_output_11_0_g1710 = float4( 0.6,0.55,0.48,0 );
-				float2 temp_output_10_0_g1710 = float2( 0.8,0.4 );
-				#if ( SHADER_TARGET >= 50 )
-				float2 recip11_g1719 = rcp( max( temp_output_10_0_g1710 , float2( 0.001,0.001 ) ) );
-				#else
-				float2 recip11_g1719 = 1.0 / max( temp_output_10_0_g1710 , float2( 0.001,0.001 ) );
-				#endif
-				float2 texCoord22_g1710 = IN.ase_texcoord2.xy * float2( 1,1 ) + float2( 0,0 );
-				float2 temp_output_9_0_g1710 = texCoord22_g1710;
-				float2 temp_output_12_0_g1719 = float2( 0.5,0.5 );
-				float temp_output_13_0_g1718 = 1.0;
-				float temp_output_14_0_g1718 = 1.0;
-				float2 appendResult24_g1718 = (float2(( temp_output_13_0_g1718 / 2.0 ) , ( temp_output_14_0_g1718 / 2.0 )));
-				float cos20_g1718 = cos( radians( 0.0 ) );
-				float sin20_g1718 = sin( radians( 0.0 ) );
-				float2 rotator20_g1718 = mul( ( ( recip11_g1719 * ( temp_output_9_0_g1710 - temp_output_12_0_g1719 ) ) + temp_output_12_0_g1719 ) - appendResult24_g1718 , float2x2( cos20_g1718 , -sin20_g1718 , sin20_g1718 , cos20_g1718 )) + appendResult24_g1718;
-				float2 break21_g1718 = rotator20_g1718;
-				float4 lerpResult15_g1710 = lerp( temp_output_11_0_g1710 , ( temp_output_11_0_g1710 * 0.3 ) , ( 1.0 - break21_g1718.y ));
-				float2 temp_output_1_0_g1713 = temp_output_9_0_g1710;
-				float2 temp_output_8_0_g1713 = temp_output_10_0_g1710;
-				float4 break10_g1716 = float4( 0.1,0.1,0.1,0.1 );
-				float2 appendResult11_g1716 = (float2(break10_g1716.x , break10_g1716.y));
-				float2 appendResult12_g1716 = (float2(break10_g1716.z , break10_g1716.w));
-				float2 break8_g1716 = saturate( ceil( ( ( temp_output_1_0_g1713 * float2( 2,2 ) ) - float2( 1,1 ) ) ) );
-				float2 lerpResult13_g1716 = lerp( appendResult11_g1716 , appendResult12_g1716 , break8_g1716.x);
-				float2 break14_g1716 = lerpResult13_g1716;
-				float lerpResult15_g1716 = lerp( break14_g1716.x , break14_g1716.y , break8_g1716.y);
-				float temp_output_50_0_g1713 = lerpResult15_g1716;
-				float2 temp_output_51_0_g1713 = ( ( ( abs( ( ( temp_output_1_0_g1713 * float2( 2,2 ) ) - float2( 1,1 ) ) ) - temp_output_8_0_g1713 ) * float2( 1,1 ) ) + temp_output_50_0_g1713 );
-				float2 break13_g1713 = temp_output_51_0_g1713;
-				float temp_output_52_0_g1713 = ( ( length( max( temp_output_51_0_g1713 , float2( 0,0 ) ) ) + min( max( break13_g1713.x , break13_g1713.y ) , 0.0 ) ) - temp_output_50_0_g1713 );
-				float2 break41_g1713 = temp_output_8_0_g1713;
-				float temp_output_30_0_g1713 = 0.03;
-				float temp_output_27_0_g1713 = ( abs( temp_output_52_0_g1713 ) - ( break41_g1713.x * temp_output_30_0_g1713 ) );
-				float temp_output_5_0_g1712 = ( 0.0 - temp_output_27_0_g1713 );
-				float2 appendResult9_g1712 = (float2(ddx( temp_output_5_0_g1712 ) , ddy( temp_output_5_0_g1712 )));
-				float temp_output_8_0_g1710 = ( 1.0 - saturate( ( 0.5 - ( temp_output_5_0_g1712 / length( appendResult9_g1712 ) ) ) ) );
-				float4 lerpResult27_g1710 = lerp( lerpResult15_g1710 , float4( 0.3,0.2375,0.15,0 ) , temp_output_8_0_g1710);
-				float temp_output_5_0_g1711 = ( 0.0 - temp_output_52_0_g1713 );
-				float2 appendResult9_g1711 = (float2(ddx( temp_output_5_0_g1711 ) , ddy( temp_output_5_0_g1711 )));
-				float temp_output_29_0_g1710 = saturate( ( ( 1.0 - saturate( ( 0.5 - ( temp_output_5_0_g1711 / length( appendResult9_g1711 ) ) ) ) ) + temp_output_8_0_g1710 ) );
-				float4 lerpResult38_g1710 = lerp( float4( 0,0,0,0 ) , lerpResult27_g1710 , temp_output_29_0_g1710);
-				
-				float2 appendResult809 = (float2((0.0 + (_ShadowOffsetX - 0.0) * (0.2 - 0.0) / (1.0 - 0.0)) , (0.0 + (_ShadowOffsetY - 0.0) * (0.2 - 0.0) / (1.0 - 0.0))));
-				float2 break4_g1721 = appendResult809;
-				float2 appendResult6_g1721 = (float2(-break4_g1721.x , break4_g1721.y));
-				float2 temp_output_7_0_g1721 = ( appendResult6_g1721 + temp_output_9_0_g1710 );
-				float2 temp_output_1_0_g1722 = temp_output_7_0_g1721;
-				float2 temp_output_8_0_g1722 = temp_output_10_0_g1710;
-				float2 break4_g1726 = float2( 1,1 );
-				float2 appendResult7_g1726 = (float2(( break4_g1726.x / break4_g1726.y ) , 1.0));
-				float2 appendResult8_g1726 = (float2(1.0 , ( break4_g1726.y / break4_g1726.x )));
-				float4 break10_g1725 = float4( 0.1,0.1,0.1,0.1 );
-				float2 appendResult11_g1725 = (float2(break10_g1725.x , break10_g1725.y));
-				float2 appendResult12_g1725 = (float2(break10_g1725.z , break10_g1725.w));
-				float2 break8_g1725 = saturate( ceil( ( ( temp_output_1_0_g1722 * float2( 2,2 ) ) - float2( 1,1 ) ) ) );
-				float2 lerpResult13_g1725 = lerp( appendResult11_g1725 , appendResult12_g1725 , break8_g1725.x);
-				float2 break14_g1725 = lerpResult13_g1725;
-				float lerpResult15_g1725 = lerp( break14_g1725.x , break14_g1725.y , break8_g1725.y);
-				float temp_output_50_0_g1722 = lerpResult15_g1725;
-				float2 temp_output_51_0_g1722 = ( ( ( abs( ( ( temp_output_1_0_g1722 * float2( 2,2 ) ) - float2( 1,1 ) ) ) - temp_output_8_0_g1722 ) * max( appendResult7_g1726 , appendResult8_g1726 ) ) + temp_output_50_0_g1722 );
-				float2 break13_g1722 = temp_output_51_0_g1722;
-				float temp_output_52_0_g1722 = ( ( length( max( temp_output_51_0_g1722 , float2( 0,0 ) ) ) + min( max( break13_g1722.x , break13_g1722.y ) , 0.0 ) ) - temp_output_50_0_g1722 );
-				float temp_output_1_0_g1723 = 0.0;
+				float temp_output_3_0_g5 = 1.0;
+				float temp_output_5_0_g3 = frac( ( _TimeParameters.x * _Speed ) );
+				float2 appendResult10_g1 = (float2(temp_output_5_0_g3 , 0.0));
+				float2 break4_g4 = appendResult10_g1;
+				float2 appendResult6_g4 = (float2(-break4_g4.x , break4_g4.y));
+				float2 texCoord1_g1 = IN.ase_texcoord2.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 temp_output_2_0_g2 = ( texCoord1_g1 * float2( 0.25,0.25 ) );
+				float2 temp_cast_0 = (_Tilt).xx;
+				float2 temp_output_3_0_g2 = temp_cast_0;
+				float2 temp_output_7_0_g4 = ( appendResult6_g4 + ( ( temp_output_2_0_g2 + (( temp_output_2_0_g2 * (temp_output_3_0_g2).yx )).yx ) - ( temp_output_3_0_g2 / float2( 2,2 ) ) ) );
+				float2 temp_output_4_0_g5 = ( temp_output_7_0_g4 * 1.0 );
+				float2 temp_output_6_0_g5 = ( temp_output_4_0_g5 - floor( temp_output_4_0_g5 ) );
+				float2 temp_output_9_0_g5 = ( min( temp_output_6_0_g5 , ( 1.0 - temp_output_6_0_g5 ) ) * float2( 2,2 ) );
+				float temp_output_820_0 = saturate( (( (( temp_output_3_0_g5 * temp_output_9_0_g5 )).x - _SheenGap )*_Contrast + 0.0) );
+				float3 temp_cast_1 = (temp_output_820_0).xxx;
 				
 
-				float3 BaseColor = lerpResult38_g1710.rgb;
-				float Alpha = max( temp_output_29_0_g1710 , ( saturate( -( ( temp_output_52_0_g1722 - temp_output_1_0_g1723 ) / ( (0.0 + (_ShadowSmooth - 0.0) * (0.4 - 0.0) / (1.0 - 0.0)) - temp_output_1_0_g1723 ) ) ) * _ShadowStrength ) );
+				float3 BaseColor = temp_cast_1;
+				float Alpha = 1;
 				float AlphaClipThreshold = 0.5;
 
 				half4 color = half4(BaseColor, Alpha );
@@ -2357,6 +2121,7 @@ Shader "BUDU Shaders/Tests/TestShader"
 			#define ASE_FOG 1
 			#define _ASE_LIGHTING_SIMPLE
 			#define _SURFACE_TYPE_TRANSPARENT 1
+			#define _EMISSION
 			#define ASE_SRP_VERSION 140010
 
 
@@ -2425,7 +2190,7 @@ Shader "BUDU Shaders/Tests/TestShader"
 				float4 positionOS : POSITION;
 				float3 normalOS : NORMAL;
 				float4 tangentOS : TANGENT;
-				float4 ase_texcoord : TEXCOORD0;
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -2441,16 +2206,16 @@ Shader "BUDU Shaders/Tests/TestShader"
 				#if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR) && defined(ASE_NEEDS_FRAG_SHADOWCOORDS)
 					float4 shadowCoord : TEXCOORD4;
 				#endif
-				float4 ase_texcoord5 : TEXCOORD5;
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float _ShadowOffsetX;
-			float _ShadowOffsetY;
-			float _ShadowSmooth;
-			float _ShadowStrength;
+			float _Speed;
+			float _Tilt;
+			float _SheenGap;
+			float _Contrast;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
 			#endif
@@ -2491,10 +2256,7 @@ Shader "BUDU Shaders/Tests/TestShader"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
-				o.ase_texcoord5.xy = v.ase_texcoord.xy;
 				
-				//setting value to unused interpolator channels and avoid initialization warnings
-				o.ase_texcoord5.zw = 0;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.positionOS.xyz;
 				#else
@@ -2539,8 +2301,7 @@ Shader "BUDU Shaders/Tests/TestShader"
 				float4 vertex : INTERNALTESSPOS;
 				float3 normalOS : NORMAL;
 				float4 tangentOS : TANGENT;
-				float4 ase_texcoord : TEXCOORD0;
-
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -2558,7 +2319,7 @@ Shader "BUDU Shaders/Tests/TestShader"
 				o.vertex = v.positionOS;
 				o.normalOS = v.normalOS;
 				o.tangentOS = v.tangentOS;
-				o.ase_texcoord = v.ase_texcoord;
+				
 				return o;
 			}
 
@@ -2598,7 +2359,7 @@ Shader "BUDU Shaders/Tests/TestShader"
 				o.positionOS = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
 				o.tangentOS = patch[0].tangentOS * bary.x + patch[1].tangentOS * bary.y + patch[2].tangentOS * bary.z;
-				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
+				
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -2648,56 +2409,10 @@ Shader "BUDU Shaders/Tests/TestShader"
 					#endif
 				#endif
 
-				float2 texCoord22_g1710 = IN.ase_texcoord5.xy * float2( 1,1 ) + float2( 0,0 );
-				float2 temp_output_9_0_g1710 = texCoord22_g1710;
-				float2 temp_output_1_0_g1713 = temp_output_9_0_g1710;
-				float2 temp_output_10_0_g1710 = float2( 0.8,0.4 );
-				float2 temp_output_8_0_g1713 = temp_output_10_0_g1710;
-				float4 break10_g1716 = float4( 0.1,0.1,0.1,0.1 );
-				float2 appendResult11_g1716 = (float2(break10_g1716.x , break10_g1716.y));
-				float2 appendResult12_g1716 = (float2(break10_g1716.z , break10_g1716.w));
-				float2 break8_g1716 = saturate( ceil( ( ( temp_output_1_0_g1713 * float2( 2,2 ) ) - float2( 1,1 ) ) ) );
-				float2 lerpResult13_g1716 = lerp( appendResult11_g1716 , appendResult12_g1716 , break8_g1716.x);
-				float2 break14_g1716 = lerpResult13_g1716;
-				float lerpResult15_g1716 = lerp( break14_g1716.x , break14_g1716.y , break8_g1716.y);
-				float temp_output_50_0_g1713 = lerpResult15_g1716;
-				float2 temp_output_51_0_g1713 = ( ( ( abs( ( ( temp_output_1_0_g1713 * float2( 2,2 ) ) - float2( 1,1 ) ) ) - temp_output_8_0_g1713 ) * float2( 1,1 ) ) + temp_output_50_0_g1713 );
-				float2 break13_g1713 = temp_output_51_0_g1713;
-				float temp_output_52_0_g1713 = ( ( length( max( temp_output_51_0_g1713 , float2( 0,0 ) ) ) + min( max( break13_g1713.x , break13_g1713.y ) , 0.0 ) ) - temp_output_50_0_g1713 );
-				float temp_output_5_0_g1711 = ( 0.0 - temp_output_52_0_g1713 );
-				float2 appendResult9_g1711 = (float2(ddx( temp_output_5_0_g1711 ) , ddy( temp_output_5_0_g1711 )));
-				float2 break41_g1713 = temp_output_8_0_g1713;
-				float temp_output_30_0_g1713 = 0.03;
-				float temp_output_27_0_g1713 = ( abs( temp_output_52_0_g1713 ) - ( break41_g1713.x * temp_output_30_0_g1713 ) );
-				float temp_output_5_0_g1712 = ( 0.0 - temp_output_27_0_g1713 );
-				float2 appendResult9_g1712 = (float2(ddx( temp_output_5_0_g1712 ) , ddy( temp_output_5_0_g1712 )));
-				float temp_output_8_0_g1710 = ( 1.0 - saturate( ( 0.5 - ( temp_output_5_0_g1712 / length( appendResult9_g1712 ) ) ) ) );
-				float temp_output_29_0_g1710 = saturate( ( ( 1.0 - saturate( ( 0.5 - ( temp_output_5_0_g1711 / length( appendResult9_g1711 ) ) ) ) ) + temp_output_8_0_g1710 ) );
-				float2 appendResult809 = (float2((0.0 + (_ShadowOffsetX - 0.0) * (0.2 - 0.0) / (1.0 - 0.0)) , (0.0 + (_ShadowOffsetY - 0.0) * (0.2 - 0.0) / (1.0 - 0.0))));
-				float2 break4_g1721 = appendResult809;
-				float2 appendResult6_g1721 = (float2(-break4_g1721.x , break4_g1721.y));
-				float2 temp_output_7_0_g1721 = ( appendResult6_g1721 + temp_output_9_0_g1710 );
-				float2 temp_output_1_0_g1722 = temp_output_7_0_g1721;
-				float2 temp_output_8_0_g1722 = temp_output_10_0_g1710;
-				float2 break4_g1726 = float2( 1,1 );
-				float2 appendResult7_g1726 = (float2(( break4_g1726.x / break4_g1726.y ) , 1.0));
-				float2 appendResult8_g1726 = (float2(1.0 , ( break4_g1726.y / break4_g1726.x )));
-				float4 break10_g1725 = float4( 0.1,0.1,0.1,0.1 );
-				float2 appendResult11_g1725 = (float2(break10_g1725.x , break10_g1725.y));
-				float2 appendResult12_g1725 = (float2(break10_g1725.z , break10_g1725.w));
-				float2 break8_g1725 = saturate( ceil( ( ( temp_output_1_0_g1722 * float2( 2,2 ) ) - float2( 1,1 ) ) ) );
-				float2 lerpResult13_g1725 = lerp( appendResult11_g1725 , appendResult12_g1725 , break8_g1725.x);
-				float2 break14_g1725 = lerpResult13_g1725;
-				float lerpResult15_g1725 = lerp( break14_g1725.x , break14_g1725.y , break8_g1725.y);
-				float temp_output_50_0_g1722 = lerpResult15_g1725;
-				float2 temp_output_51_0_g1722 = ( ( ( abs( ( ( temp_output_1_0_g1722 * float2( 2,2 ) ) - float2( 1,1 ) ) ) - temp_output_8_0_g1722 ) * max( appendResult7_g1726 , appendResult8_g1726 ) ) + temp_output_50_0_g1722 );
-				float2 break13_g1722 = temp_output_51_0_g1722;
-				float temp_output_52_0_g1722 = ( ( length( max( temp_output_51_0_g1722 , float2( 0,0 ) ) ) + min( max( break13_g1722.x , break13_g1722.y ) , 0.0 ) ) - temp_output_50_0_g1722 );
-				float temp_output_1_0_g1723 = 0.0;
 				
 
 				float3 Normal = float3(0, 0, 1);
-				float Alpha = max( temp_output_29_0_g1710 , ( saturate( -( ( temp_output_52_0_g1722 - temp_output_1_0_g1723 ) / ( (0.0 + (_ShadowSmooth - 0.0) * (0.4 - 0.0) / (1.0 - 0.0)) - temp_output_1_0_g1723 ) ) ) * _ShadowStrength ) );
+				float Alpha = 1;
 				float AlphaClipThreshold = 0.5;
 
 				#ifdef ASE_DEPTH_WRITE_ON
@@ -2776,6 +2491,7 @@ Shader "BUDU Shaders/Tests/TestShader"
 			#define ASE_FOG 1
 			#define _ASE_LIGHTING_SIMPLE
 			#define _SURFACE_TYPE_TRANSPARENT 1
+			#define _EMISSION
 			#define ASE_SRP_VERSION 140010
 
 
@@ -2899,10 +2615,10 @@ Shader "BUDU Shaders/Tests/TestShader"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float _ShadowOffsetX;
-			float _ShadowOffsetY;
-			float _ShadowSmooth;
-			float _ShadowStrength;
+			float _Speed;
+			float _Tilt;
+			float _SheenGap;
+			float _Contrast;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
 			#endif
@@ -3137,80 +2853,35 @@ Shader "BUDU Shaders/Tests/TestShader"
 
 				WorldViewDirection = SafeNormalize( WorldViewDirection );
 
-				float4 temp_output_11_0_g1710 = float4( 0.6,0.55,0.48,0 );
-				float2 temp_output_10_0_g1710 = float2( 0.8,0.4 );
-				#if ( SHADER_TARGET >= 50 )
-				float2 recip11_g1719 = rcp( max( temp_output_10_0_g1710 , float2( 0.001,0.001 ) ) );
-				#else
-				float2 recip11_g1719 = 1.0 / max( temp_output_10_0_g1710 , float2( 0.001,0.001 ) );
-				#endif
-				float2 texCoord22_g1710 = IN.ase_texcoord8.xy * float2( 1,1 ) + float2( 0,0 );
-				float2 temp_output_9_0_g1710 = texCoord22_g1710;
-				float2 temp_output_12_0_g1719 = float2( 0.5,0.5 );
-				float temp_output_13_0_g1718 = 1.0;
-				float temp_output_14_0_g1718 = 1.0;
-				float2 appendResult24_g1718 = (float2(( temp_output_13_0_g1718 / 2.0 ) , ( temp_output_14_0_g1718 / 2.0 )));
-				float cos20_g1718 = cos( radians( 0.0 ) );
-				float sin20_g1718 = sin( radians( 0.0 ) );
-				float2 rotator20_g1718 = mul( ( ( recip11_g1719 * ( temp_output_9_0_g1710 - temp_output_12_0_g1719 ) ) + temp_output_12_0_g1719 ) - appendResult24_g1718 , float2x2( cos20_g1718 , -sin20_g1718 , sin20_g1718 , cos20_g1718 )) + appendResult24_g1718;
-				float2 break21_g1718 = rotator20_g1718;
-				float4 lerpResult15_g1710 = lerp( temp_output_11_0_g1710 , ( temp_output_11_0_g1710 * 0.3 ) , ( 1.0 - break21_g1718.y ));
-				float2 temp_output_1_0_g1713 = temp_output_9_0_g1710;
-				float2 temp_output_8_0_g1713 = temp_output_10_0_g1710;
-				float4 break10_g1716 = float4( 0.1,0.1,0.1,0.1 );
-				float2 appendResult11_g1716 = (float2(break10_g1716.x , break10_g1716.y));
-				float2 appendResult12_g1716 = (float2(break10_g1716.z , break10_g1716.w));
-				float2 break8_g1716 = saturate( ceil( ( ( temp_output_1_0_g1713 * float2( 2,2 ) ) - float2( 1,1 ) ) ) );
-				float2 lerpResult13_g1716 = lerp( appendResult11_g1716 , appendResult12_g1716 , break8_g1716.x);
-				float2 break14_g1716 = lerpResult13_g1716;
-				float lerpResult15_g1716 = lerp( break14_g1716.x , break14_g1716.y , break8_g1716.y);
-				float temp_output_50_0_g1713 = lerpResult15_g1716;
-				float2 temp_output_51_0_g1713 = ( ( ( abs( ( ( temp_output_1_0_g1713 * float2( 2,2 ) ) - float2( 1,1 ) ) ) - temp_output_8_0_g1713 ) * float2( 1,1 ) ) + temp_output_50_0_g1713 );
-				float2 break13_g1713 = temp_output_51_0_g1713;
-				float temp_output_52_0_g1713 = ( ( length( max( temp_output_51_0_g1713 , float2( 0,0 ) ) ) + min( max( break13_g1713.x , break13_g1713.y ) , 0.0 ) ) - temp_output_50_0_g1713 );
-				float2 break41_g1713 = temp_output_8_0_g1713;
-				float temp_output_30_0_g1713 = 0.03;
-				float temp_output_27_0_g1713 = ( abs( temp_output_52_0_g1713 ) - ( break41_g1713.x * temp_output_30_0_g1713 ) );
-				float temp_output_5_0_g1712 = ( 0.0 - temp_output_27_0_g1713 );
-				float2 appendResult9_g1712 = (float2(ddx( temp_output_5_0_g1712 ) , ddy( temp_output_5_0_g1712 )));
-				float temp_output_8_0_g1710 = ( 1.0 - saturate( ( 0.5 - ( temp_output_5_0_g1712 / length( appendResult9_g1712 ) ) ) ) );
-				float4 lerpResult27_g1710 = lerp( lerpResult15_g1710 , float4( 0.3,0.2375,0.15,0 ) , temp_output_8_0_g1710);
-				float temp_output_5_0_g1711 = ( 0.0 - temp_output_52_0_g1713 );
-				float2 appendResult9_g1711 = (float2(ddx( temp_output_5_0_g1711 ) , ddy( temp_output_5_0_g1711 )));
-				float temp_output_29_0_g1710 = saturate( ( ( 1.0 - saturate( ( 0.5 - ( temp_output_5_0_g1711 / length( appendResult9_g1711 ) ) ) ) ) + temp_output_8_0_g1710 ) );
-				float4 lerpResult38_g1710 = lerp( float4( 0,0,0,0 ) , lerpResult27_g1710 , temp_output_29_0_g1710);
+				float temp_output_3_0_g5 = 1.0;
+				float temp_output_5_0_g3 = frac( ( _TimeParameters.x * _Speed ) );
+				float2 appendResult10_g1 = (float2(temp_output_5_0_g3 , 0.0));
+				float2 break4_g4 = appendResult10_g1;
+				float2 appendResult6_g4 = (float2(-break4_g4.x , break4_g4.y));
+				float2 texCoord1_g1 = IN.ase_texcoord8.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 temp_output_2_0_g2 = ( texCoord1_g1 * float2( 0.25,0.25 ) );
+				float2 temp_cast_0 = (_Tilt).xx;
+				float2 temp_output_3_0_g2 = temp_cast_0;
+				float2 temp_output_7_0_g4 = ( appendResult6_g4 + ( ( temp_output_2_0_g2 + (( temp_output_2_0_g2 * (temp_output_3_0_g2).yx )).yx ) - ( temp_output_3_0_g2 / float2( 2,2 ) ) ) );
+				float2 temp_output_4_0_g5 = ( temp_output_7_0_g4 * 1.0 );
+				float2 temp_output_6_0_g5 = ( temp_output_4_0_g5 - floor( temp_output_4_0_g5 ) );
+				float2 temp_output_9_0_g5 = ( min( temp_output_6_0_g5 , ( 1.0 - temp_output_6_0_g5 ) ) * float2( 2,2 ) );
+				float temp_output_820_0 = saturate( (( (( temp_output_3_0_g5 * temp_output_9_0_g5 )).x - _SheenGap )*_Contrast + 0.0) );
+				float3 temp_cast_1 = (temp_output_820_0).xxx;
 				
-				float2 appendResult809 = (float2((0.0 + (_ShadowOffsetX - 0.0) * (0.2 - 0.0) / (1.0 - 0.0)) , (0.0 + (_ShadowOffsetY - 0.0) * (0.2 - 0.0) / (1.0 - 0.0))));
-				float2 break4_g1721 = appendResult809;
-				float2 appendResult6_g1721 = (float2(-break4_g1721.x , break4_g1721.y));
-				float2 temp_output_7_0_g1721 = ( appendResult6_g1721 + temp_output_9_0_g1710 );
-				float2 temp_output_1_0_g1722 = temp_output_7_0_g1721;
-				float2 temp_output_8_0_g1722 = temp_output_10_0_g1710;
-				float2 break4_g1726 = float2( 1,1 );
-				float2 appendResult7_g1726 = (float2(( break4_g1726.x / break4_g1726.y ) , 1.0));
-				float2 appendResult8_g1726 = (float2(1.0 , ( break4_g1726.y / break4_g1726.x )));
-				float4 break10_g1725 = float4( 0.1,0.1,0.1,0.1 );
-				float2 appendResult11_g1725 = (float2(break10_g1725.x , break10_g1725.y));
-				float2 appendResult12_g1725 = (float2(break10_g1725.z , break10_g1725.w));
-				float2 break8_g1725 = saturate( ceil( ( ( temp_output_1_0_g1722 * float2( 2,2 ) ) - float2( 1,1 ) ) ) );
-				float2 lerpResult13_g1725 = lerp( appendResult11_g1725 , appendResult12_g1725 , break8_g1725.x);
-				float2 break14_g1725 = lerpResult13_g1725;
-				float lerpResult15_g1725 = lerp( break14_g1725.x , break14_g1725.y , break8_g1725.y);
-				float temp_output_50_0_g1722 = lerpResult15_g1725;
-				float2 temp_output_51_0_g1722 = ( ( ( abs( ( ( temp_output_1_0_g1722 * float2( 2,2 ) ) - float2( 1,1 ) ) ) - temp_output_8_0_g1722 ) * max( appendResult7_g1726 , appendResult8_g1726 ) ) + temp_output_50_0_g1722 );
-				float2 break13_g1722 = temp_output_51_0_g1722;
-				float temp_output_52_0_g1722 = ( ( length( max( temp_output_51_0_g1722 , float2( 0,0 ) ) ) + min( max( break13_g1722.x , break13_g1722.y ) , 0.0 ) ) - temp_output_50_0_g1722 );
-				float temp_output_1_0_g1723 = 0.0;
+				float3 temp_cast_2 = (temp_output_820_0).xxx;
+				
+				float3 temp_cast_3 = (0.0).xxx;
 				
 
-				float3 BaseColor = lerpResult38_g1710.rgb;
+				float3 BaseColor = temp_cast_1;
 				float3 Normal = float3(0, 0, 1);
-				float3 Emission = 0;
-				float3 Specular = 0.5;
+				float3 Emission = temp_cast_2;
+				float3 Specular = temp_cast_3;
 				float Metallic = 0;
-				float Smoothness = 0.5;
+				float Smoothness = 0.0;
 				float Occlusion = 1;
-				float Alpha = max( temp_output_29_0_g1710 , ( saturate( -( ( temp_output_52_0_g1722 - temp_output_1_0_g1723 ) / ( (0.0 + (_ShadowSmooth - 0.0) * (0.4 - 0.0) / (1.0 - 0.0)) - temp_output_1_0_g1723 ) ) ) * _ShadowStrength ) );
+				float Alpha = 1;
 				float AlphaClipThreshold = 0.5;
 				float AlphaClipThresholdShadow = 0.5;
 				float3 BakedGI = 0;
@@ -3332,6 +3003,7 @@ Shader "BUDU Shaders/Tests/TestShader"
 			#define ASE_FOG 1
 			#define _ASE_LIGHTING_SIMPLE
 			#define _SURFACE_TYPE_TRANSPARENT 1
+			#define _EMISSION
 			#define ASE_SRP_VERSION 140010
 
 
@@ -3383,23 +3055,23 @@ Shader "BUDU Shaders/Tests/TestShader"
 			{
 				float4 positionOS : POSITION;
 				float3 normalOS : NORMAL;
-				float4 ase_texcoord : TEXCOORD0;
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
 			struct VertexOutput
 			{
 				float4 positionCS : SV_POSITION;
-				float4 ase_texcoord : TEXCOORD0;
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float _ShadowOffsetX;
-			float _ShadowOffsetY;
-			float _ShadowSmooth;
-			float _ShadowStrength;
+			float _Speed;
+			float _Tilt;
+			float _SheenGap;
+			float _Contrast;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
 			#endif
@@ -3448,10 +3120,7 @@ Shader "BUDU Shaders/Tests/TestShader"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
-				o.ase_texcoord.xy = v.ase_texcoord.xy;
 				
-				//setting value to unused interpolator channels and avoid initialization warnings
-				o.ase_texcoord.zw = 0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.positionOS.xyz;
@@ -3481,8 +3150,7 @@ Shader "BUDU Shaders/Tests/TestShader"
 			{
 				float4 vertex : INTERNALTESSPOS;
 				float3 normalOS : NORMAL;
-				float4 ase_texcoord : TEXCOORD0;
-
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -3499,7 +3167,7 @@ Shader "BUDU Shaders/Tests/TestShader"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				o.vertex = v.positionOS;
 				o.normalOS = v.normalOS;
-				o.ase_texcoord = v.ase_texcoord;
+				
 				return o;
 			}
 
@@ -3538,7 +3206,7 @@ Shader "BUDU Shaders/Tests/TestShader"
 				VertexInput o = (VertexInput) 0;
 				o.positionOS = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
-				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
+				
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -3560,55 +3228,9 @@ Shader "BUDU Shaders/Tests/TestShader"
 			{
 				SurfaceDescription surfaceDescription = (SurfaceDescription)0;
 
-				float2 texCoord22_g1710 = IN.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
-				float2 temp_output_9_0_g1710 = texCoord22_g1710;
-				float2 temp_output_1_0_g1713 = temp_output_9_0_g1710;
-				float2 temp_output_10_0_g1710 = float2( 0.8,0.4 );
-				float2 temp_output_8_0_g1713 = temp_output_10_0_g1710;
-				float4 break10_g1716 = float4( 0.1,0.1,0.1,0.1 );
-				float2 appendResult11_g1716 = (float2(break10_g1716.x , break10_g1716.y));
-				float2 appendResult12_g1716 = (float2(break10_g1716.z , break10_g1716.w));
-				float2 break8_g1716 = saturate( ceil( ( ( temp_output_1_0_g1713 * float2( 2,2 ) ) - float2( 1,1 ) ) ) );
-				float2 lerpResult13_g1716 = lerp( appendResult11_g1716 , appendResult12_g1716 , break8_g1716.x);
-				float2 break14_g1716 = lerpResult13_g1716;
-				float lerpResult15_g1716 = lerp( break14_g1716.x , break14_g1716.y , break8_g1716.y);
-				float temp_output_50_0_g1713 = lerpResult15_g1716;
-				float2 temp_output_51_0_g1713 = ( ( ( abs( ( ( temp_output_1_0_g1713 * float2( 2,2 ) ) - float2( 1,1 ) ) ) - temp_output_8_0_g1713 ) * float2( 1,1 ) ) + temp_output_50_0_g1713 );
-				float2 break13_g1713 = temp_output_51_0_g1713;
-				float temp_output_52_0_g1713 = ( ( length( max( temp_output_51_0_g1713 , float2( 0,0 ) ) ) + min( max( break13_g1713.x , break13_g1713.y ) , 0.0 ) ) - temp_output_50_0_g1713 );
-				float temp_output_5_0_g1711 = ( 0.0 - temp_output_52_0_g1713 );
-				float2 appendResult9_g1711 = (float2(ddx( temp_output_5_0_g1711 ) , ddy( temp_output_5_0_g1711 )));
-				float2 break41_g1713 = temp_output_8_0_g1713;
-				float temp_output_30_0_g1713 = 0.03;
-				float temp_output_27_0_g1713 = ( abs( temp_output_52_0_g1713 ) - ( break41_g1713.x * temp_output_30_0_g1713 ) );
-				float temp_output_5_0_g1712 = ( 0.0 - temp_output_27_0_g1713 );
-				float2 appendResult9_g1712 = (float2(ddx( temp_output_5_0_g1712 ) , ddy( temp_output_5_0_g1712 )));
-				float temp_output_8_0_g1710 = ( 1.0 - saturate( ( 0.5 - ( temp_output_5_0_g1712 / length( appendResult9_g1712 ) ) ) ) );
-				float temp_output_29_0_g1710 = saturate( ( ( 1.0 - saturate( ( 0.5 - ( temp_output_5_0_g1711 / length( appendResult9_g1711 ) ) ) ) ) + temp_output_8_0_g1710 ) );
-				float2 appendResult809 = (float2((0.0 + (_ShadowOffsetX - 0.0) * (0.2 - 0.0) / (1.0 - 0.0)) , (0.0 + (_ShadowOffsetY - 0.0) * (0.2 - 0.0) / (1.0 - 0.0))));
-				float2 break4_g1721 = appendResult809;
-				float2 appendResult6_g1721 = (float2(-break4_g1721.x , break4_g1721.y));
-				float2 temp_output_7_0_g1721 = ( appendResult6_g1721 + temp_output_9_0_g1710 );
-				float2 temp_output_1_0_g1722 = temp_output_7_0_g1721;
-				float2 temp_output_8_0_g1722 = temp_output_10_0_g1710;
-				float2 break4_g1726 = float2( 1,1 );
-				float2 appendResult7_g1726 = (float2(( break4_g1726.x / break4_g1726.y ) , 1.0));
-				float2 appendResult8_g1726 = (float2(1.0 , ( break4_g1726.y / break4_g1726.x )));
-				float4 break10_g1725 = float4( 0.1,0.1,0.1,0.1 );
-				float2 appendResult11_g1725 = (float2(break10_g1725.x , break10_g1725.y));
-				float2 appendResult12_g1725 = (float2(break10_g1725.z , break10_g1725.w));
-				float2 break8_g1725 = saturate( ceil( ( ( temp_output_1_0_g1722 * float2( 2,2 ) ) - float2( 1,1 ) ) ) );
-				float2 lerpResult13_g1725 = lerp( appendResult11_g1725 , appendResult12_g1725 , break8_g1725.x);
-				float2 break14_g1725 = lerpResult13_g1725;
-				float lerpResult15_g1725 = lerp( break14_g1725.x , break14_g1725.y , break8_g1725.y);
-				float temp_output_50_0_g1722 = lerpResult15_g1725;
-				float2 temp_output_51_0_g1722 = ( ( ( abs( ( ( temp_output_1_0_g1722 * float2( 2,2 ) ) - float2( 1,1 ) ) ) - temp_output_8_0_g1722 ) * max( appendResult7_g1726 , appendResult8_g1726 ) ) + temp_output_50_0_g1722 );
-				float2 break13_g1722 = temp_output_51_0_g1722;
-				float temp_output_52_0_g1722 = ( ( length( max( temp_output_51_0_g1722 , float2( 0,0 ) ) ) + min( max( break13_g1722.x , break13_g1722.y ) , 0.0 ) ) - temp_output_50_0_g1722 );
-				float temp_output_1_0_g1723 = 0.0;
 				
 
-				surfaceDescription.Alpha = max( temp_output_29_0_g1710 , ( saturate( -( ( temp_output_52_0_g1722 - temp_output_1_0_g1723 ) / ( (0.0 + (_ShadowSmooth - 0.0) * (0.4 - 0.0) / (1.0 - 0.0)) - temp_output_1_0_g1723 ) ) ) * _ShadowStrength ) );
+				surfaceDescription.Alpha = 1;
 				surfaceDescription.AlphaClipThreshold = 0.5;
 
 				#if _ALPHATEST_ON
@@ -3651,6 +3273,7 @@ Shader "BUDU Shaders/Tests/TestShader"
 			#define ASE_FOG 1
 			#define _ASE_LIGHTING_SIMPLE
 			#define _SURFACE_TYPE_TRANSPARENT 1
+			#define _EMISSION
 			#define ASE_SRP_VERSION 140010
 
 
@@ -3702,23 +3325,23 @@ Shader "BUDU Shaders/Tests/TestShader"
 			{
 				float4 positionOS : POSITION;
 				float3 normalOS : NORMAL;
-				float4 ase_texcoord : TEXCOORD0;
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
 			struct VertexOutput
 			{
 				float4 positionCS : SV_POSITION;
-				float4 ase_texcoord : TEXCOORD0;
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float _ShadowOffsetX;
-			float _ShadowOffsetY;
-			float _ShadowSmooth;
-			float _ShadowStrength;
+			float _Speed;
+			float _Tilt;
+			float _SheenGap;
+			float _Contrast;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
 			#endif
@@ -3767,10 +3390,7 @@ Shader "BUDU Shaders/Tests/TestShader"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
-				o.ase_texcoord.xy = v.ase_texcoord.xy;
 				
-				//setting value to unused interpolator channels and avoid initialization warnings
-				o.ase_texcoord.zw = 0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.positionOS.xyz;
@@ -3799,8 +3419,7 @@ Shader "BUDU Shaders/Tests/TestShader"
 			{
 				float4 vertex : INTERNALTESSPOS;
 				float3 normalOS : NORMAL;
-				float4 ase_texcoord : TEXCOORD0;
-
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -3817,7 +3436,7 @@ Shader "BUDU Shaders/Tests/TestShader"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				o.vertex = v.positionOS;
 				o.normalOS = v.normalOS;
-				o.ase_texcoord = v.ase_texcoord;
+				
 				return o;
 			}
 
@@ -3856,7 +3475,7 @@ Shader "BUDU Shaders/Tests/TestShader"
 				VertexInput o = (VertexInput) 0;
 				o.positionOS = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
-				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
+				
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -3878,55 +3497,9 @@ Shader "BUDU Shaders/Tests/TestShader"
 			{
 				SurfaceDescription surfaceDescription = (SurfaceDescription)0;
 
-				float2 texCoord22_g1710 = IN.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
-				float2 temp_output_9_0_g1710 = texCoord22_g1710;
-				float2 temp_output_1_0_g1713 = temp_output_9_0_g1710;
-				float2 temp_output_10_0_g1710 = float2( 0.8,0.4 );
-				float2 temp_output_8_0_g1713 = temp_output_10_0_g1710;
-				float4 break10_g1716 = float4( 0.1,0.1,0.1,0.1 );
-				float2 appendResult11_g1716 = (float2(break10_g1716.x , break10_g1716.y));
-				float2 appendResult12_g1716 = (float2(break10_g1716.z , break10_g1716.w));
-				float2 break8_g1716 = saturate( ceil( ( ( temp_output_1_0_g1713 * float2( 2,2 ) ) - float2( 1,1 ) ) ) );
-				float2 lerpResult13_g1716 = lerp( appendResult11_g1716 , appendResult12_g1716 , break8_g1716.x);
-				float2 break14_g1716 = lerpResult13_g1716;
-				float lerpResult15_g1716 = lerp( break14_g1716.x , break14_g1716.y , break8_g1716.y);
-				float temp_output_50_0_g1713 = lerpResult15_g1716;
-				float2 temp_output_51_0_g1713 = ( ( ( abs( ( ( temp_output_1_0_g1713 * float2( 2,2 ) ) - float2( 1,1 ) ) ) - temp_output_8_0_g1713 ) * float2( 1,1 ) ) + temp_output_50_0_g1713 );
-				float2 break13_g1713 = temp_output_51_0_g1713;
-				float temp_output_52_0_g1713 = ( ( length( max( temp_output_51_0_g1713 , float2( 0,0 ) ) ) + min( max( break13_g1713.x , break13_g1713.y ) , 0.0 ) ) - temp_output_50_0_g1713 );
-				float temp_output_5_0_g1711 = ( 0.0 - temp_output_52_0_g1713 );
-				float2 appendResult9_g1711 = (float2(ddx( temp_output_5_0_g1711 ) , ddy( temp_output_5_0_g1711 )));
-				float2 break41_g1713 = temp_output_8_0_g1713;
-				float temp_output_30_0_g1713 = 0.03;
-				float temp_output_27_0_g1713 = ( abs( temp_output_52_0_g1713 ) - ( break41_g1713.x * temp_output_30_0_g1713 ) );
-				float temp_output_5_0_g1712 = ( 0.0 - temp_output_27_0_g1713 );
-				float2 appendResult9_g1712 = (float2(ddx( temp_output_5_0_g1712 ) , ddy( temp_output_5_0_g1712 )));
-				float temp_output_8_0_g1710 = ( 1.0 - saturate( ( 0.5 - ( temp_output_5_0_g1712 / length( appendResult9_g1712 ) ) ) ) );
-				float temp_output_29_0_g1710 = saturate( ( ( 1.0 - saturate( ( 0.5 - ( temp_output_5_0_g1711 / length( appendResult9_g1711 ) ) ) ) ) + temp_output_8_0_g1710 ) );
-				float2 appendResult809 = (float2((0.0 + (_ShadowOffsetX - 0.0) * (0.2 - 0.0) / (1.0 - 0.0)) , (0.0 + (_ShadowOffsetY - 0.0) * (0.2 - 0.0) / (1.0 - 0.0))));
-				float2 break4_g1721 = appendResult809;
-				float2 appendResult6_g1721 = (float2(-break4_g1721.x , break4_g1721.y));
-				float2 temp_output_7_0_g1721 = ( appendResult6_g1721 + temp_output_9_0_g1710 );
-				float2 temp_output_1_0_g1722 = temp_output_7_0_g1721;
-				float2 temp_output_8_0_g1722 = temp_output_10_0_g1710;
-				float2 break4_g1726 = float2( 1,1 );
-				float2 appendResult7_g1726 = (float2(( break4_g1726.x / break4_g1726.y ) , 1.0));
-				float2 appendResult8_g1726 = (float2(1.0 , ( break4_g1726.y / break4_g1726.x )));
-				float4 break10_g1725 = float4( 0.1,0.1,0.1,0.1 );
-				float2 appendResult11_g1725 = (float2(break10_g1725.x , break10_g1725.y));
-				float2 appendResult12_g1725 = (float2(break10_g1725.z , break10_g1725.w));
-				float2 break8_g1725 = saturate( ceil( ( ( temp_output_1_0_g1722 * float2( 2,2 ) ) - float2( 1,1 ) ) ) );
-				float2 lerpResult13_g1725 = lerp( appendResult11_g1725 , appendResult12_g1725 , break8_g1725.x);
-				float2 break14_g1725 = lerpResult13_g1725;
-				float lerpResult15_g1725 = lerp( break14_g1725.x , break14_g1725.y , break8_g1725.y);
-				float temp_output_50_0_g1722 = lerpResult15_g1725;
-				float2 temp_output_51_0_g1722 = ( ( ( abs( ( ( temp_output_1_0_g1722 * float2( 2,2 ) ) - float2( 1,1 ) ) ) - temp_output_8_0_g1722 ) * max( appendResult7_g1726 , appendResult8_g1726 ) ) + temp_output_50_0_g1722 );
-				float2 break13_g1722 = temp_output_51_0_g1722;
-				float temp_output_52_0_g1722 = ( ( length( max( temp_output_51_0_g1722 , float2( 0,0 ) ) ) + min( max( break13_g1722.x , break13_g1722.y ) , 0.0 ) ) - temp_output_50_0_g1722 );
-				float temp_output_1_0_g1723 = 0.0;
 				
 
-				surfaceDescription.Alpha = max( temp_output_29_0_g1710 , ( saturate( -( ( temp_output_52_0_g1722 - temp_output_1_0_g1723 ) / ( (0.0 + (_ShadowSmooth - 0.0) * (0.4 - 0.0) / (1.0 - 0.0)) - temp_output_1_0_g1723 ) ) ) * _ShadowStrength ) );
+				surfaceDescription.Alpha = 1;
 				surfaceDescription.AlphaClipThreshold = 0.5;
 
 				#if _ALPHATEST_ON
@@ -3959,115 +3532,121 @@ Shader "BUDU Shaders/Tests/TestShader"
 	Fallback Off
 }
 /*ASEBEGIN
-Version=19601
-Node;AmplifyShaderEditor.RangedFloatNode;810;2064,-640;Inherit;False;Property;_ShadowOffsetX;ShadowOffsetX;40;0;Create;True;0;0;0;False;0;False;0.3;0;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;812;2048,-512;Inherit;False;Property;_ShadowOffsetY;ShadowOffsetY;41;0;Create;True;0;0;0;False;0;False;0.3;0;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;804;2032,-304;Inherit;False;Property;_ShadowSmooth;Shadow Smooth;39;0;Create;True;0;0;0;False;0;False;1;0;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.TFHCRemapNode;808;2448,-512;Inherit;False;5;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;0;False;4;FLOAT;0.2;False;1;FLOAT;0
-Node;AmplifyShaderEditor.TFHCRemapNode;807;2448,-688;Inherit;False;5;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;0;False;4;FLOAT;0.2;False;1;FLOAT;0
-Node;AmplifyShaderEditor.TFHCRemapNode;805;2336,-320;Inherit;False;5;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;0;False;4;FLOAT;0.4;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;799;2304,-400;Inherit;False;Property;_ShadowStrength;Shadow Strength;38;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.DynamicAppendNode;809;2689.09,-624.8123;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.RangedFloatNode;74;-1712,1312;Inherit;False;Property;_CutOff;CutOff;3;0;Create;True;0;0;0;False;0;False;0.1;0;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.TFHCRemapNode;397;-2416,1360;Inherit;False;5;0;FLOAT;0;False;1;FLOAT;-1;False;2;FLOAT;1;False;3;FLOAT;-0.5;False;4;FLOAT;0.5;False;1;FLOAT;0
-Node;AmplifyShaderEditor.TFHCRemapNode;396;-2416,1056;Inherit;False;5;0;FLOAT;0;False;1;FLOAT;-1;False;2;FLOAT;1;False;3;FLOAT;-0.5;False;4;FLOAT;0.5;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleAddOpNode;260;-2720,752;Inherit;False;2;2;0;FLOAT2;0,0;False;1;FLOAT;0;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.TextureCoordinatesNode;259;-3344,752;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.NoiseGeneratorNode;258;-3120,816;Inherit;True;Simplex2D;True;False;2;0;FLOAT2;0,0;False;1;FLOAT;2;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleDivideOpNode;261;-2880,832;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;20;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RegisterLocalVarNode;41;-352,-1312;Inherit;True;myVarName;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RegisterLocalVarNode;44;-352,-1536;Inherit;True;myVarName;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RegisterLocalVarNode;45;-352,-1088;Inherit;True;myVarName;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RegisterLocalVarNode;46;-352,-864;Inherit;True;myVarName;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.FunctionNode;425;-1440,-1008;Inherit;True;BUDUGradient;-1;;1126;2d14c185c5986ab47a083d1cbe05469e;2,9,0,10,0;6;28;FLOAT2;0,0;False;13;FLOAT;1;False;14;FLOAT;1;False;25;FLOAT;0;False;26;FLOAT;0;False;16;FLOAT;0;False;2;FLOAT;0;FLOAT;8
-Node;AmplifyShaderEditor.FunctionNode;437;-2640,1056;Inherit;True;BUDU Time;-1;;1156;b25cd924f0bb81b4db06265c2279f885;2,53,0,8,0;2;1;FLOAT;1;False;28;FLOAT;0;False;2;FLOAT;0;FLOAT;4
-Node;AmplifyShaderEditor.FunctionNode;438;-2640,1360;Inherit;True;BUDU Time;-1;;1157;b25cd924f0bb81b4db06265c2279f885;2,53,0,8,1;2;1;FLOAT;1;False;28;FLOAT;0;False;2;FLOAT;0;FLOAT;4
-Node;AmplifyShaderEditor.FunctionNode;484;112,-848;Inherit;False;BUDUCross;-1;;1232;274e2e1926001c2419799953834e1490;0;9;30;FLOAT;0;False;33;FLOAT2;1,1;False;20;FLOAT;1;False;21;FLOAT;1;False;19;FLOAT;-0.5;False;7;FLOAT;0;False;13;FLOAT;0.5;False;14;FLOAT;0.5;False;22;FLOAT;1;False;1;FLOAT;32
-Node;AmplifyShaderEditor.FunctionNode;486;112,-1456;Inherit;False;BUDURoundedChecker;-1;;1234;31acb25b173108041b3f66d50a4db13c;0;9;54;FLOAT2;1,1;False;46;FLOAT;0;False;47;FLOAT;1;False;48;FLOAT;1;False;40;FLOAT;0;False;28;FLOAT;0;False;34;FLOAT;0.5;False;35;FLOAT;0.5;False;49;FLOAT;1;False;1;FLOAT;52
-Node;AmplifyShaderEditor.SaturateNode;515;32,-256;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;251;-848,896;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleDivideOpNode;252;-816,1120;Inherit;True;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SaturateNode;255;-592,1104;Inherit;True;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SaturateNode;256;-592,864;Inherit;True;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SaturateNode;254;-1024,1200;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SaturateNode;253;-1024,1104;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;107;-848,-704;Inherit;False;Property;_FrequencyV;FrequencyV;8;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;106;-848,-784;Inherit;False;Property;_FrequencyU;FrequencyU;7;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;78;-816,-544;Inherit;False;Property;_OffsetV;OffsetV;5;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;76;-816,-624;Inherit;False;Property;_OffsetU;OffsetU;4;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;68;-848,-464;Inherit;False;Property;_AmplitudeU;AmplitudeU;1;0;Create;True;0;0;0;False;0;False;0.5;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;83;-848,-384;Inherit;False;Property;_AmplitudeV;AmplitudeV;2;0;Create;True;0;0;0;False;0;False;0.5;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;99;-816,-304;Inherit;False;Property;_Height;Height;9;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.FunctionNode;707;-79.54944,56.08649;Inherit;False;BUDULeaves;-1;;1443;e92500d52dc6135488ec7b3ed82edbb0;0;5;1;FLOAT;0;False;7;FLOAT2;1,1;False;8;FLOAT2;0,0;False;26;FLOAT;1.2;False;27;FLOAT;-0.8;False;1;FLOAT;22
-Node;AmplifyShaderEditor.RadiansOpNode;90;-688,-208;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;87;-848,-208;Inherit;False;Property;_Rotator;Rotator;6;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;459;-512,0;Inherit;False;Property;_TileY;Tile Y;12;0;Create;True;0;0;0;False;0;False;1;1;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.DynamicAppendNode;539;-352,112;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.RangedFloatNode;538;-512,160;Inherit;False;Property;_OffsetY;Offset Y;14;0;Create;True;0;0;0;False;0;False;0;1;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;537;-512,80;Inherit;False;Property;_OffsetX;Offset X;13;0;Create;True;0;0;0;False;0;False;0;1;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;458;-512,-80;Inherit;False;Property;_TileX;Tile X;11;0;Create;True;0;0;0;False;0;False;1;1;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.DynamicAppendNode;461;-352,-48;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.RangedFloatNode;709;-416,320;Inherit;False;Property;_Bias;Bias;22;0;Create;True;0;0;0;False;0;False;-0.8;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;708;-384,240;Inherit;False;Property;_Contrast;Contrast;21;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;22;-144,336;Inherit;False;Property;_Slider;Slider;0;0;Create;True;0;0;0;False;0;False;0.5996392;0;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.OneMinusNode;715;384,-96;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleAddOpNode;711;816,-304;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleSubtractOpNode;714;784,-208;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;716;768,-112;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SmoothstepOpNode;721;720,96;Inherit;True;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;2;False;1;FLOAT;0
-Node;AmplifyShaderEditor.LerpOp;727;1509.619,-545.6304;Inherit;False;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.RangedFloatNode;554;1440,-64;Inherit;False;Property;_strength;strength;20;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.FunctionNode;407;1728,-96;Inherit;False;Normal From Height;-1;;1444;1942fe2c5f1a1f94881a33d532e4afeb;0;2;20;FLOAT;0;False;110;FLOAT;5;False;2;FLOAT3;40;FLOAT3;0
-Node;AmplifyShaderEditor.ScaleAndOffsetNode;731;1168,-320;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;1;False;2;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.FunctionNode;730;1616,-256;Inherit;False;BUDUContrast;-1;;1445;bbef371528583124ab5d8e8ec0c6a0f1;0;2;1;COLOR;0,0,0,0;False;3;FLOAT;1;False;1;COLOR;0
-Node;AmplifyShaderEditor.SaturateNode;733;1376,-368;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.DynamicAppendNode;543;-272,688;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.RangedFloatNode;542;-432,736;Inherit;False;Property;_aTileY;aTile Y;17;0;Create;True;0;0;0;False;0;False;1;1;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;541;-432,656;Inherit;False;Property;_aTileX;aTile X;16;0;Create;True;0;0;0;False;0;False;1;1;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.DynamicAppendNode;544;-272,864;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.RangedFloatNode;545;-432,832;Inherit;False;Property;_aOffsetX;aOffset X;18;0;Create;True;0;0;0;False;0;False;0;1;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;546;-432,912;Inherit;False;Property;_aOffsetY;aOffset Y;19;0;Create;True;0;0;0;False;0;False;0;1;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RadiansOpNode;571;-352,576;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;572;-496,576;Inherit;False;Property;_aRotator;aRotator;15;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;547;176,512;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;734;336,496;Inherit;False;Property;_Scl;Scl;28;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;735;336,576;Inherit;False;Property;_Off;Off;29;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;719;973.2549,556.5867;Inherit;False;Property;_sMin;sMin;23;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;720;976,640;Inherit;False;Property;_sMax;sMax;24;0;Create;True;0;0;0;False;0;False;2;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;448;976,-352;Inherit;False;Property;_cScl;cScl;10;0;Create;True;0;0;0;False;0;False;2;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;732;976,-256;Inherit;False;Property;_cOff;cOff;27;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SmoothstepOpNode;718;1360,624;Inherit;True;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;2;False;1;FLOAT;0
-Node;AmplifyShaderEditor.DistanceOpNode;717;992,784;Inherit;True;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SmoothstepOpNode;722;720,352;Inherit;True;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;2;False;1;FLOAT;0
-Node;AmplifyShaderEditor.ScaleAndOffsetNode;713;480,336;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;0.5;False;2;FLOAT;-0.25;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SaturateNode;712;1008,16;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.ColorNode;724;1248,-608;Inherit;False;Property;_Color0;Color 0;25;0;Create;True;0;0;0;False;0;False;0.3598574,0.5974842,0,1;0.212534,1,0,1;True;True;0;6;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT3;5
-Node;AmplifyShaderEditor.ColorNode;728;1216,-816;Inherit;False;Property;_Color1;Color 1;26;0;Create;True;0;0;0;False;0;False;0.5597484,0.5597484,0.5597484,0;0.5597484,0.5597484,0.5597484,0;True;True;0;6;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT3;5
-Node;AmplifyShaderEditor.FunctionNode;749;-80,512;Inherit;True;BUDUTestSDF;-1;;1452;ae391470371cc2b4093f8e0a10263052;0;18;86;FLOAT2;1,1;False;194;FLOAT2;1,1;False;126;FLOAT2;1,1;False;170;FLOAT2;0,0;False;49;FLOAT;0;False;195;FLOAT;0;False;128;FLOAT;0;False;43;FLOAT;1;False;211;FLOAT;1;False;202;FLOAT;1;False;34;FLOAT;1;False;37;FLOAT;0;False;190;FLOAT;0;False;39;FLOAT;0;False;191;FLOAT;0;False;46;FLOAT;0.5;False;31;FLOAT;0.5;False;52;FLOAT;1;False;1;FLOAT;0
-Node;AmplifyShaderEditor.OneMinusNode;740;2832,-1072;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SmoothstepOpNode;737;2624,-1072;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;738;2304,-1248;Inherit;False;Property;_Crisp;Crisp;30;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;739;2304,-1152;Inherit;False;Property;_Thick;Thick;31;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.Vector2Node;744;2176,-1024;Inherit;False;Property;_Vector1;Vector 1;32;0;Create;True;0;0;0;False;0;False;0,0;0,0;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
-Node;AmplifyShaderEditor.Vector2Node;745;2176,-896;Inherit;False;Property;_Vector2;Vector 2;33;0;Create;True;0;0;0;False;0;False;0,0;0,0;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
-Node;AmplifyShaderEditor.RadiansOpNode;748;2224,-752;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.FunctionNode;750;2352,-960;Inherit;False;BUDULine;-1;;1453;d1aef71ba63e65341b9701da9a044211;0;5;3;FLOAT2;0.3,-0.3;False;4;FLOAT2;-0.3,0.3;False;23;FLOAT2;1,1;False;24;FLOAT2;0,0;False;18;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;746;2048,-768;Inherit;False;Property;_Float2;Float 2;35;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;752;1408,-1072;Inherit;False;Property;_Float3;Float 3;37;0;Create;True;0;0;0;False;0;False;0.5;0;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;761;1440,-880;Inherit;False;Property;_Float5;Float 5;36;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;760;1440,-976;Inherit;False;Property;_Float4;Float 4;34;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.FunctionNode;771;1696,-1072;Inherit;False;BUDUBOX;-1;;1495;d640097a3a20a224c994c558257efa7f;0;3;41;FLOAT;0.5;False;45;FLOAT;0;False;44;FLOAT;0.01;False;1;FLOAT;0
-Node;AmplifyShaderEditor.FunctionNode;776;-1328,944;Inherit;True;BUDUAA;-1;;1501;0f4c03800ebe643409c5ddf07f7a9926;0;2;17;FLOAT;0.5;False;14;FLOAT;0.5;False;1;FLOAT;0
-Node;AmplifyShaderEditor.FunctionNode;777;112,256;Inherit;True;BUDUAA;-1;;1502;0f4c03800ebe643409c5ddf07f7a9926;0;2;17;FLOAT;0.5;False;14;FLOAT;0.5;False;1;FLOAT;0
-Node;AmplifyShaderEditor.FunctionNode;786;-2064,1360;Inherit;False;BUDUCircle;-1;;1541;31bf05b03be1042489223cb6b216f175;1,31,0;10;9;FLOAT2;0,0;False;17;FLOAT;0.5;False;50;FLOAT2;1,1;False;46;FLOAT;0;False;47;FLOAT;0;False;25;FLOAT;0;False;27;FLOAT;0.01;False;29;FLOAT;0.1;False;41;FLOAT;0;False;40;FLOAT;0.01;False;4;FLOAT;18;FLOAT;45;FLOAT;0;FLOAT;39
-Node;AmplifyShaderEditor.FunctionNode;787;-2064,1056;Inherit;False;BUDUCircle;-1;;1544;31bf05b03be1042489223cb6b216f175;1,31,0;10;9;FLOAT2;0,0;False;17;FLOAT;0.5;False;50;FLOAT2;1,1;False;46;FLOAT;0;False;47;FLOAT;0;False;25;FLOAT;0;False;27;FLOAT;0.01;False;29;FLOAT;0.1;False;41;FLOAT;0;False;40;FLOAT;0.01;False;4;FLOAT;18;FLOAT;45;FLOAT;0;FLOAT;39
-Node;AmplifyShaderEditor.FunctionNode;788;-1008,-1360;Inherit;True;BUDUCircle;-1;;1547;31bf05b03be1042489223cb6b216f175;1,31,1;10;9;FLOAT2;0,0;False;17;FLOAT;0.5;False;50;FLOAT2;1,1;False;46;FLOAT;0;False;47;FLOAT;0;False;25;FLOAT;0;False;27;FLOAT;0.01;False;29;FLOAT;0.1;False;41;FLOAT;0;False;40;FLOAT;0.01;False;4;FLOAT;18;FLOAT;45;FLOAT;0;FLOAT;39
-Node;AmplifyShaderEditor.FunctionNode;789;-1696,1056;Inherit;True;BSDF-Union;-1;;1550;230098e9fc0118f42aab345a1e4768a3;0;3;2;FLOAT;0;False;3;FLOAT;0;False;4;FLOAT;0.2;False;2;FLOAT;0;FLOAT;1
-Node;AmplifyShaderEditor.FunctionNode;790;-1696,800;Inherit;True;BSDF-CombineTest;-1;;1557;2e70ed62b9808c9439a938d9567a3203;0;3;2;FLOAT;0;False;3;FLOAT;0;False;4;FLOAT;0.2;False;2;FLOAT;69;FLOAT;1
-Node;AmplifyShaderEditor.NegateNode;793;2880,-928;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.FunctionNode;792;3056,-1056;Inherit;True;BUDURectangle;-1;;1569;c73ec3fd605af0642a0c39fdfd8c4b9c;4,37,0,32,0,58,0,54,1;10;1;FLOAT2;0,0;False;8;FLOAT2;0.8,0.5;False;3;FLOAT2;1,1;False;23;FLOAT;0;False;22;FLOAT;0.01;False;49;FLOAT4;0,0,0,0;False;30;FLOAT;0.1;False;45;FLOAT;0;False;44;FLOAT;0.01;False;53;FLOAT2;1,1;False;4;FLOAT;18;FLOAT;20;FLOAT;21;FLOAT;19
-Node;AmplifyShaderEditor.FunctionNode;813;2688,-448;Inherit;False;SimpleButton;-1;;1710;a19767e6de1e752468c32bf3ac70b057;4,24,0,39,0,42,0,45,1;8;49;FLOAT2;0.03,0.03;False;48;FLOAT;0.5;False;9;FLOAT2;0,0;False;10;FLOAT2;0.8,0.4;False;50;FLOAT;0.2;False;11;COLOR;0.6,0.55,0.48,0;False;12;COLOR;0,0,0,0;False;13;COLOR;0.3,0.2375,0.15,0;False;2;FLOAT;1;COLOR;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;1;-480,-688;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;19;New Amplify Shader;dcf3e680117c48a4cb69c2c58c49ec28;True;ExtraPrePass;0;0;ExtraPrePass;5;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;True;1;1;False;;0;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;0;False;False;0;;0;0;Standard;0;False;0
+Version=19602
+Node;AmplifyShaderEditor.RangedFloatNode;810;-928,-1264;Inherit;False;Property;_ShadowOffsetX;ShadowOffsetX;40;0;Create;True;0;0;0;False;0;False;0.3;0;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;812;-944,-1136;Inherit;False;Property;_ShadowOffsetY;ShadowOffsetY;41;0;Create;True;0;0;0;False;0;False;0.3;0;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;804;-960,-928;Inherit;False;Property;_ShadowSmooth;Shadow Smooth;39;0;Create;True;0;0;0;False;0;False;1;0;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.TFHCRemapNode;808;-544,-1136;Inherit;False;5;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;0;False;4;FLOAT;0.2;False;1;FLOAT;0
+Node;AmplifyShaderEditor.TFHCRemapNode;807;-544,-1312;Inherit;False;5;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;0;False;4;FLOAT;0.2;False;1;FLOAT;0
+Node;AmplifyShaderEditor.TFHCRemapNode;805;-656,-944;Inherit;False;5;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;0;False;4;FLOAT;0.4;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;799;-688,-1024;Inherit;False;Property;_ShadowStrength;Shadow Strength;38;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.DynamicAppendNode;809;-304,-1248;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.RangedFloatNode;74;-4704,688;Inherit;False;Property;_CutOff;CutOff;3;0;Create;True;0;0;0;False;0;False;0.1;0;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.TFHCRemapNode;397;-5408,736;Inherit;False;5;0;FLOAT;0;False;1;FLOAT;-1;False;2;FLOAT;1;False;3;FLOAT;-0.5;False;4;FLOAT;0.5;False;1;FLOAT;0
+Node;AmplifyShaderEditor.TFHCRemapNode;396;-5408,432;Inherit;False;5;0;FLOAT;0;False;1;FLOAT;-1;False;2;FLOAT;1;False;3;FLOAT;-0.5;False;4;FLOAT;0.5;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleAddOpNode;260;-5712,128;Inherit;False;2;2;0;FLOAT2;0,0;False;1;FLOAT;0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.TextureCoordinatesNode;259;-6336,128;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.NoiseGeneratorNode;258;-6112,192;Inherit;True;Simplex2D;True;False;2;0;FLOAT2;0,0;False;1;FLOAT;2;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleDivideOpNode;261;-5872,208;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;20;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;41;-3344,-1936;Inherit;True;myVarName;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;44;-3344,-2160;Inherit;True;myVarName;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;45;-3344,-1712;Inherit;True;myVarName;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;46;-3344,-1488;Inherit;True;myVarName;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.FunctionNode;425;-4432,-1632;Inherit;True;BUDUGradient;-1;;1126;2d14c185c5986ab47a083d1cbe05469e;2,9,0,10,0;6;28;FLOAT2;0,0;False;13;FLOAT;1;False;14;FLOAT;1;False;25;FLOAT;0;False;26;FLOAT;0;False;16;FLOAT;0;False;2;FLOAT;0;FLOAT;8
+Node;AmplifyShaderEditor.FunctionNode;437;-5632,432;Inherit;True;BUDU Time;-1;;1156;b25cd924f0bb81b4db06265c2279f885;2,53,0,8,0;2;1;FLOAT;1;False;28;FLOAT;0;False;2;FLOAT;0;FLOAT;4
+Node;AmplifyShaderEditor.FunctionNode;438;-5632,736;Inherit;True;BUDU Time;-1;;1157;b25cd924f0bb81b4db06265c2279f885;2,53,0,8,1;2;1;FLOAT;1;False;28;FLOAT;0;False;2;FLOAT;0;FLOAT;4
+Node;AmplifyShaderEditor.FunctionNode;484;-2880,-1472;Inherit;False;BUDUCross;-1;;1232;274e2e1926001c2419799953834e1490;0;9;30;FLOAT;0;False;33;FLOAT2;1,1;False;20;FLOAT;1;False;21;FLOAT;1;False;19;FLOAT;-0.5;False;7;FLOAT;0;False;13;FLOAT;0.5;False;14;FLOAT;0.5;False;22;FLOAT;1;False;1;FLOAT;32
+Node;AmplifyShaderEditor.FunctionNode;486;-2880,-2080;Inherit;False;BUDURoundedChecker;-1;;1234;31acb25b173108041b3f66d50a4db13c;0;9;54;FLOAT2;1,1;False;46;FLOAT;0;False;47;FLOAT;1;False;48;FLOAT;1;False;40;FLOAT;0;False;28;FLOAT;0;False;34;FLOAT;0.5;False;35;FLOAT;0.5;False;49;FLOAT;1;False;1;FLOAT;52
+Node;AmplifyShaderEditor.SaturateNode;515;-2960,-880;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;251;-3840,272;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleDivideOpNode;252;-3808,496;Inherit;True;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SaturateNode;255;-3584,480;Inherit;True;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SaturateNode;256;-3584,240;Inherit;True;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SaturateNode;254;-4016,576;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SaturateNode;253;-4016,480;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;107;-3840,-1328;Inherit;False;Property;_FrequencyV;FrequencyV;8;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;106;-3840,-1408;Inherit;False;Property;_FrequencyU;FrequencyU;7;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;78;-3808,-1168;Inherit;False;Property;_OffsetV;OffsetV;5;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;76;-3808,-1248;Inherit;False;Property;_OffsetU;OffsetU;4;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;68;-3840,-1088;Inherit;False;Property;_AmplitudeU;AmplitudeU;1;0;Create;True;0;0;0;False;0;False;0.5;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;83;-3840,-1008;Inherit;False;Property;_AmplitudeV;AmplitudeV;2;0;Create;True;0;0;0;False;0;False;0.5;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;99;-3808,-928;Inherit;False;Property;_Height;Height;9;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.FunctionNode;707;-3072,-560;Inherit;False;BUDULeaves;-1;;1443;e92500d52dc6135488ec7b3ed82edbb0;0;5;1;FLOAT;0;False;7;FLOAT2;1,1;False;8;FLOAT2;0,0;False;26;FLOAT;1.2;False;27;FLOAT;-0.8;False;1;FLOAT;22
+Node;AmplifyShaderEditor.RadiansOpNode;90;-3680,-832;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;87;-3840,-832;Inherit;False;Property;_Rotator;Rotator;6;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;459;-3504,-624;Inherit;False;Property;_TileY;Tile Y;12;0;Create;True;0;0;0;False;0;False;1;1;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.DynamicAppendNode;539;-3344,-512;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.RangedFloatNode;538;-3504,-464;Inherit;False;Property;_OffsetY;Offset Y;14;0;Create;True;0;0;0;False;0;False;0;1;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;537;-3504,-544;Inherit;False;Property;_OffsetX;Offset X;13;0;Create;True;0;0;0;False;0;False;0;1;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;458;-3504,-704;Inherit;False;Property;_TileX;Tile X;11;0;Create;True;0;0;0;False;0;False;1;1;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.DynamicAppendNode;461;-3344,-672;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.RangedFloatNode;709;-3408,-304;Inherit;False;Property;_Bias;Bias;22;0;Create;True;0;0;0;False;0;False;-0.8;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;708;-3376,-384;Inherit;False;Property;_ContrastEEE;ContrastEEE;21;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;22;-3136,-288;Inherit;False;Property;_Slider;Slider;0;0;Create;True;0;0;0;False;0;False;0.5996392;0;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.OneMinusNode;715;-2608,-720;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleAddOpNode;711;-2176,-928;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleSubtractOpNode;714;-2208,-832;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;716;-2224,-736;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SmoothstepOpNode;721;-2272,-528;Inherit;True;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;2;False;1;FLOAT;0
+Node;AmplifyShaderEditor.LerpOp;727;-1488,-1168;Inherit;False;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.RangedFloatNode;554;-1552,-688;Inherit;False;Property;_strength;strength;20;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.FunctionNode;407;-1264,-720;Inherit;False;Normal From Height;-1;;1444;1942fe2c5f1a1f94881a33d532e4afeb;0;2;20;FLOAT;0;False;110;FLOAT;5;False;2;FLOAT3;40;FLOAT3;0
+Node;AmplifyShaderEditor.ScaleAndOffsetNode;731;-1824,-944;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;1;False;2;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.FunctionNode;730;-1376,-880;Inherit;False;BUDUContrast;-1;;1445;bbef371528583124ab5d8e8ec0c6a0f1;0;2;1;COLOR;0,0,0,0;False;3;FLOAT;1;False;1;COLOR;0
+Node;AmplifyShaderEditor.SaturateNode;733;-1616,-992;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.DynamicAppendNode;543;-3264,64;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.RangedFloatNode;542;-3424,112;Inherit;False;Property;_aTileY;aTile Y;17;0;Create;True;0;0;0;False;0;False;1;1;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;541;-3424,32;Inherit;False;Property;_aTileX;aTile X;16;0;Create;True;0;0;0;False;0;False;1;1;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.DynamicAppendNode;544;-3264,240;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.RangedFloatNode;545;-3424,208;Inherit;False;Property;_aOffsetX;aOffset X;18;0;Create;True;0;0;0;False;0;False;0;1;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;546;-3424,288;Inherit;False;Property;_aOffsetY;aOffset Y;19;0;Create;True;0;0;0;False;0;False;0;1;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RadiansOpNode;571;-3344,-48;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;572;-3488,-48;Inherit;False;Property;_aRotator;aRotator;15;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;547;-2816,-112;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;734;-2656,-128;Inherit;False;Property;_Scl;Scl;28;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;735;-2656,-48;Inherit;False;Property;_Off;Off;29;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;719;-2016,-64;Inherit;False;Property;_sMin;sMin;23;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;720;-2016,16;Inherit;False;Property;_sMax;sMax;24;0;Create;True;0;0;0;False;0;False;2;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;448;-2016,-976;Inherit;False;Property;_cScl;cScl;10;0;Create;True;0;0;0;False;0;False;2;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;732;-2016,-880;Inherit;False;Property;_cOff;cOff;27;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SmoothstepOpNode;718;-1632,0;Inherit;True;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;2;False;1;FLOAT;0
+Node;AmplifyShaderEditor.DistanceOpNode;717;-2000,160;Inherit;True;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SmoothstepOpNode;722;-2272,-272;Inherit;True;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;2;False;1;FLOAT;0
+Node;AmplifyShaderEditor.ScaleAndOffsetNode;713;-2512,-288;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;0.5;False;2;FLOAT;-0.25;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SaturateNode;712;-1984,-608;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.ColorNode;724;-1744,-1232;Inherit;False;Property;_Color0;Color 0;25;0;Create;True;0;0;0;False;0;False;0.3598574,0.5974842,0,1;0.212534,1,0,1;True;True;0;6;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT3;5
+Node;AmplifyShaderEditor.ColorNode;728;-1776,-1440;Inherit;False;Property;_Color1;Color 1;26;0;Create;True;0;0;0;False;0;False;0.5597484,0.5597484,0.5597484,0;0.5597484,0.5597484,0.5597484,0;True;True;0;6;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT3;5
+Node;AmplifyShaderEditor.FunctionNode;749;-3072,-112;Inherit;True;BUDUTestSDF;-1;;1452;ae391470371cc2b4093f8e0a10263052;0;18;86;FLOAT2;1,1;False;194;FLOAT2;1,1;False;126;FLOAT2;1,1;False;170;FLOAT2;0,0;False;49;FLOAT;0;False;195;FLOAT;0;False;128;FLOAT;0;False;43;FLOAT;1;False;211;FLOAT;1;False;202;FLOAT;1;False;34;FLOAT;1;False;37;FLOAT;0;False;190;FLOAT;0;False;39;FLOAT;0;False;191;FLOAT;0;False;46;FLOAT;0.5;False;31;FLOAT;0.5;False;52;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SmoothstepOpNode;737;-368,-1696;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;738;-688,-1872;Inherit;False;Property;_Crisp;Crisp;30;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;739;-688,-1776;Inherit;False;Property;_Thick;Thick;31;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.Vector2Node;744;-816,-1648;Inherit;False;Property;_Vector1;Vector 1;32;0;Create;True;0;0;0;False;0;False;0,0;0,0;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
+Node;AmplifyShaderEditor.Vector2Node;745;-816,-1520;Inherit;False;Property;_Vector2;Vector 2;33;0;Create;True;0;0;0;False;0;False;0,0;0,0;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
+Node;AmplifyShaderEditor.RadiansOpNode;748;-768,-1376;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.FunctionNode;750;-640,-1584;Inherit;False;BUDULine;-1;;1453;d1aef71ba63e65341b9701da9a044211;0;5;3;FLOAT2;0.3,-0.3;False;4;FLOAT2;-0.3,0.3;False;23;FLOAT2;1,1;False;24;FLOAT2;0,0;False;18;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;746;-944,-1392;Inherit;False;Property;_Float2;Float 2;35;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;752;-1584,-1696;Inherit;False;Property;_Float3;Float 3;37;0;Create;True;0;0;0;False;0;False;0.5;0;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;761;-1552,-1504;Inherit;False;Property;_Float5;Float 5;36;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;760;-1552,-1600;Inherit;False;Property;_Float4;Float 4;34;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.FunctionNode;771;-1296,-1696;Inherit;False;BUDUBOX;-1;;1495;d640097a3a20a224c994c558257efa7f;0;3;41;FLOAT;0.5;False;45;FLOAT;0;False;44;FLOAT;0.01;False;1;FLOAT;0
+Node;AmplifyShaderEditor.FunctionNode;776;-4320,320;Inherit;True;BUDUAA;-1;;1501;0f4c03800ebe643409c5ddf07f7a9926;0;2;17;FLOAT;0.5;False;14;FLOAT;0.5;False;1;FLOAT;0
+Node;AmplifyShaderEditor.FunctionNode;777;-2880,-368;Inherit;True;BUDUAA;-1;;1502;0f4c03800ebe643409c5ddf07f7a9926;0;2;17;FLOAT;0.5;False;14;FLOAT;0.5;False;1;FLOAT;0
+Node;AmplifyShaderEditor.FunctionNode;786;-5056,736;Inherit;False;BUDUCircle;-1;;1541;31bf05b03be1042489223cb6b216f175;1,31,0;10;9;FLOAT2;0,0;False;17;FLOAT;0.5;False;50;FLOAT2;1,1;False;46;FLOAT;0;False;47;FLOAT;0;False;25;FLOAT;0;False;27;FLOAT;0.01;False;29;FLOAT;0.1;False;41;FLOAT;0;False;40;FLOAT;0.01;False;4;FLOAT;18;FLOAT;45;FLOAT;0;FLOAT;39
+Node;AmplifyShaderEditor.FunctionNode;787;-5056,432;Inherit;False;BUDUCircle;-1;;1544;31bf05b03be1042489223cb6b216f175;1,31,0;10;9;FLOAT2;0,0;False;17;FLOAT;0.5;False;50;FLOAT2;1,1;False;46;FLOAT;0;False;47;FLOAT;0;False;25;FLOAT;0;False;27;FLOAT;0.01;False;29;FLOAT;0.1;False;41;FLOAT;0;False;40;FLOAT;0.01;False;4;FLOAT;18;FLOAT;45;FLOAT;0;FLOAT;39
+Node;AmplifyShaderEditor.FunctionNode;788;-4000,-1984;Inherit;True;BUDUCircle;-1;;1547;31bf05b03be1042489223cb6b216f175;1,31,1;10;9;FLOAT2;0,0;False;17;FLOAT;0.5;False;50;FLOAT2;1,1;False;46;FLOAT;0;False;47;FLOAT;0;False;25;FLOAT;0;False;27;FLOAT;0.01;False;29;FLOAT;0.1;False;41;FLOAT;0;False;40;FLOAT;0.01;False;4;FLOAT;18;FLOAT;45;FLOAT;0;FLOAT;39
+Node;AmplifyShaderEditor.FunctionNode;789;-4688,432;Inherit;True;BSDF-Union;-1;;1550;230098e9fc0118f42aab345a1e4768a3;0;3;2;FLOAT;0;False;3;FLOAT;0;False;4;FLOAT;0.2;False;2;FLOAT;0;FLOAT;1
+Node;AmplifyShaderEditor.FunctionNode;790;-4688,176;Inherit;True;BSDF-CombineTest;-1;;1557;2e70ed62b9808c9439a938d9567a3203;0;3;2;FLOAT;0;False;3;FLOAT;0;False;4;FLOAT;0.2;False;2;FLOAT;69;FLOAT;1
+Node;AmplifyShaderEditor.FunctionNode;792;-448,-2016;Inherit;True;BUDURectangle;-1;;1569;c73ec3fd605af0642a0c39fdfd8c4b9c;4,37,0,32,0,58,0,54,1;10;1;FLOAT2;0,0;False;8;FLOAT2;0.8,0.5;False;3;FLOAT2;1,1;False;23;FLOAT;0;False;22;FLOAT;0.01;False;49;FLOAT4;0,0,0,0;False;30;FLOAT;0.1;False;45;FLOAT;0;False;44;FLOAT;0.01;False;53;FLOAT2;1,1;False;4;FLOAT;18;FLOAT;20;FLOAT;21;FLOAT;19
+Node;AmplifyShaderEditor.OneMinusNode;740;-128,-1648;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.NegateNode;793;-80,-1504;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.FunctionNode;813;-48,-1136;Inherit;False;SimpleButton;-1;;1710;a19767e6de1e752468c32bf3ac70b057;4,24,0,39,0,42,0,45,1;8;49;FLOAT2;0.03,0.03;False;48;FLOAT;0.5;False;9;FLOAT2;0,0;False;10;FLOAT2;0.8,0.4;False;50;FLOAT;0.2;False;11;COLOR;0.6,0.55,0.48,0;False;12;COLOR;0,0,0,0;False;13;COLOR;0.3,0.2375,0.15,0;False;2;FLOAT;1;COLOR;0
+Node;AmplifyShaderEditor.RangedFloatNode;815;3184,-384;Inherit;False;Constant;_Float6;Float 6;42;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;818;2672,-208;Inherit;False;Property;_SheenGap;SheenGap;45;0;Create;True;0;0;0;False;0;False;0.9;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;816;2672,-288;Inherit;False;Property;_Tilt;Tilt;42;0;Create;True;0;0;0;False;0;False;0.5;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;819;2672,-384;Inherit;False;Property;_Speed;Speed;44;0;Create;True;0;0;0;False;0;False;0.5;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;821;2672,-128;Inherit;False;Property;_Contrast;Contrast;43;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.FunctionNode;820;2848,-480;Inherit;False;BUDU AnimatedSheen;-1;;1;9c4ebb87c90c0664a9d4a98b1fc50360;0;6;2;FLOAT2;0,0;False;3;FLOAT2;0.25,0.25;False;5;FLOAT;-0.5;False;4;FLOAT;0;False;15;FLOAT;0.5;False;18;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;1;-3472,-1312;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;19;New Amplify Shader;dcf3e680117c48a4cb69c2c58c49ec28;True;ExtraPrePass;0;0;ExtraPrePass;5;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;True;1;1;False;;0;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;0;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;3;96,-256;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;19;New Amplify Shader;dcf3e680117c48a4cb69c2c58c49ec28;True;ShadowCaster;0;2;ShadowCaster;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;True;1;LightMode=ShadowCaster;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;4;96,-256;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;19;New Amplify Shader;dcf3e680117c48a4cb69c2c58c49ec28;True;DepthOnly;0;3;DepthOnly;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;True;True;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;False;False;True;1;LightMode=DepthOnly;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;5;96,-256;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;19;New Amplify Shader;dcf3e680117c48a4cb69c2c58c49ec28;True;Meta;0;4;Meta;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Meta;False;False;0;;0;0;Standard;0;False;0
@@ -4076,7 +3655,7 @@ Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;7;96,-256;Float;False;False
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;8;96,-256;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;19;New Amplify Shader;dcf3e680117c48a4cb69c2c58c49ec28;True;GBuffer;0;7;GBuffer;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;True;1;5;False;;10;False;;1;1;False;;10;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;2;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalGBuffer;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;9;96,-256;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;19;New Amplify Shader;dcf3e680117c48a4cb69c2c58c49ec28;True;SceneSelectionPass;0;8;SceneSelectionPass;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=SceneSelectionPass;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;10;96,-256;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;19;New Amplify Shader;dcf3e680117c48a4cb69c2c58c49ec28;True;ScenePickingPass;0;9;ScenePickingPass;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Picking;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;2;3136,-448;Float;False;True;-1;2;UnityEditor.ShaderGraphLitGUI;0;19;BUDU Shaders/Tests/TestShader;dcf3e680117c48a4cb69c2c58c49ec28;True;Forward;0;1;Forward;21;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;2;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;UniversalMaterialType=SimpleLit;True;5;True;12;all;0;False;True;1;5;False;;10;False;;1;1;False;;10;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;2;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalForward;False;False;0;;0;0;Standard;42;Lighting Model;1;638551248128322597;Workflow;0;0;Surface;1;638575300254181364;  Refraction Model;0;0;  Blend;0;0;Two Sided;1;0;Fragment Normal Space,InvertActionOnDeselection;0;0;Forward Only;0;0;Transmission;0;0;  Transmission Shadow;0.5,True,_TransmissionShadow;0;Translucency;0;0;  Translucency Strength;1,True,_TRStrength;0;  Normal Distortion;0.5,True,_TRNormDist;0;  Scattering;2,True,_TRScattering;0;  Direct;0.9,True,_TRDirec;0;  Ambient;0.1,True,_TRAmbient;0;  Shadow;0.5,True,_TRShadow;0;Cast Shadows;1;0;  Use Shadow Threshold;0;0;Receive Shadows;1;0;Receive SSAO;1;0;GPU Instancing;1;0;LOD CrossFade;1;0;Built-in Fog;1;0;_FinalColorxAlpha;0;0;Meta Pass;1;0;Override Baked GI;0;0;Extra Pre Pass;0;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,;0;  Type;0;0;  Tess;16,False,;0;  Min;10,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Write Depth;0;0;  Early Z;0;0;Vertex Position,InvertActionOnDeselection;1;0;Debug Display;0;0;Clear Coat;0;0;0;10;False;True;True;True;True;True;True;True;True;True;False;;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;2;3392,-496;Float;False;True;-1;2;UnityEditor.ShaderGraphLitGUI;0;19;BUDU Shaders/Tests/TestShader;dcf3e680117c48a4cb69c2c58c49ec28;True;Forward;0;1;Forward;21;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;2;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;UniversalMaterialType=SimpleLit;True;5;True;12;all;0;False;True;1;5;False;;10;False;;1;1;False;;10;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;2;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalForward;False;False;0;;0;0;Standard;42;Lighting Model;1;638551248128322597;Workflow;0;0;Surface;1;638575300254181364;  Refraction Model;0;0;  Blend;0;0;Two Sided;1;0;Fragment Normal Space,InvertActionOnDeselection;0;0;Forward Only;0;0;Transmission;0;0;  Transmission Shadow;0.5,True,_TransmissionShadow;0;Translucency;0;0;  Translucency Strength;1,True,_TRStrength;0;  Normal Distortion;0.5,True,_TRNormDist;0;  Scattering;2,True,_TRScattering;0;  Direct;0.9,True,_TRDirec;0;  Ambient;0.1,True,_TRAmbient;0;  Shadow;0.5,True,_TRShadow;0;Cast Shadows;1;0;  Use Shadow Threshold;0;0;Receive Shadows;1;0;Receive SSAO;1;0;GPU Instancing;1;0;LOD CrossFade;1;0;Built-in Fog;1;0;_FinalColorxAlpha;0;0;Meta Pass;1;0;Override Baked GI;0;0;Extra Pre Pass;0;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,;0;  Type;0;0;  Tess;16,False,;0;  Min;10,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Write Depth;0;0;  Early Z;0;0;Vertex Position,InvertActionOnDeselection;1;0;Debug Display;0;0;Clear Coat;0;0;0;10;False;True;True;True;True;True;True;True;True;True;False;;False;0
 WireConnection;808;0;812;0
 WireConnection;807;0;810;0
 WireConnection;805;0;804;0
@@ -4164,7 +3743,6 @@ WireConnection;712;0;721;0
 WireConnection;749;126;543;0
 WireConnection;749;170;544;0
 WireConnection;749;128;571;0
-WireConnection;740;0;737;0
 WireConnection;737;0;750;0
 WireConnection;737;1;738;0
 WireConnection;737;2;739;0
@@ -4189,10 +3767,17 @@ WireConnection;789;2;787;39
 WireConnection;789;3;786;39
 WireConnection;790;2;787;39
 WireConnection;790;3;786;39
+WireConnection;740;0;737;0
 WireConnection;813;49;809;0
 WireConnection;813;48;799;0
 WireConnection;813;50;805;0
-WireConnection;2;0;813;0
-WireConnection;2;6;813;1
+WireConnection;820;5;819;0
+WireConnection;820;4;816;0
+WireConnection;820;15;818;0
+WireConnection;820;18;821;0
+WireConnection;2;0;820;0
+WireConnection;2;2;820;0
+WireConnection;2;9;815;0
+WireConnection;2;4;815;0
 ASEEND*/
-//CHKSM=78FF3E7B35962F0921042653E3A8672881990C35
+//CHKSM=D709FE397C815A5EDD4E4556FD9D229294E69B93

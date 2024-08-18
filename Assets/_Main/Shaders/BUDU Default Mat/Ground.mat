@@ -107,6 +107,14 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _TranslucencyMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TransmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _texcoord:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -142,6 +150,8 @@ Material:
     - _CMXPos: 0
     - _CMYPos: 0
     - _CMZPos: 0
+    - _CheckBase: 1
+    - _CheckDef: 0
     - _ClearCoat: 0
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
@@ -228,15 +238,36 @@ Material:
     - _Surface: 0
     - _TileX: 0
     - _TileY: 0
+    - _TransAmbient: 0.1
+    - _TransDirect: 0.9
+    - _TransNormal: 0.5
+    - _TransScattering: 2
+    - _TransShadow: 0.5
+    - _TransStrength: 1
+    - _TranslucencyInvert: 0
+    - _TranslucencySettings: 0
+    - _TranslucencyToggle: 0
+    - _TransmissInvert: 0
+    - _TransmissionShadow: 0.5
+    - _TransmissionToggle: 0
     - _TriplanarMap: 0
     - _TriplanarNMap: 0
+    - _TrnsAmbient: 0.1
+    - _TrnsDirect: 0.9
+    - _TrnsNormDistortion: 0.5
+    - _TrnsScattering: 2
+    - _TrnsShadow: 0.5
+    - _TrnsStrength: 1
+    - _TrnsmisShadow: 0.5
     - _WorkflowMode: 0
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 0.6039216, g: 0.6039216, b: 0.6039216, a: 1}
+    - _BaseColor: {r: 0.8490566, g: 0.8490566, b: 0.8490566, a: 1}
     - _Color: {r: 0.4809999, g: 0.4809999, b: 0.4809999, a: 1}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _ReflectColor: {r: 1, g: 1, b: 1, a: 1}
     - _RimLightColor: {r: 0, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _TranslucencyColor: {r: 1, g: 1, b: 1, a: 1}
+    - _TransmissionColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

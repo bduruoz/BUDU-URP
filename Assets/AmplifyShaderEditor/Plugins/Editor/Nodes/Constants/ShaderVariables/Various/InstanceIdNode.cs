@@ -17,6 +17,8 @@ namespace AmplifyShaderEditor
 			"#endif"
 		};
 
+		private const string InstanceIdRegistry = "uint {0} : SV_InstanceID;";
+
 		private const string TemplateSVInstanceIdVar = "instanceID";
 		private const string InstancingInnerVariable = "currInstanceId";
 		private bool m_useSVSemantic = false;
@@ -49,6 +51,12 @@ namespace AmplifyShaderEditor
 
 		public override string GenerateShaderForOutput( int outputId, ref MasterNodeDataCollector dataCollector, bool ignoreLocalvar )
 		{
+			if ( dataCollector.PortCategory == MasterNodePortCategory.Tessellation )
+			{
+				UIUtils.ShowMessage( UniqueId, m_nodeAttribs.Name + " does not work on Tessellation port" );
+				return m_outputPorts[ 0 ].ErrorValue;
+			}
+
 			if ( m_procedural )
 			{
 				if ( dataCollector.IsSRP && ( dataCollector.CurrentPassName.Contains( "Forward" ) || dataCollector.CurrentPassName.Contains( "GBuffer" ) ) )
@@ -63,15 +71,28 @@ namespace AmplifyShaderEditor
 				dataCollector.AddFunction( "ASEProceduralSetup()", "void ASEProceduralSetup() { }" );
 			}
 
-			if( dataCollector.IsTemplate )
+			if ( dataCollector.IsTemplate )
 			{
 				dataCollector.TemplateDataCollectorInstance.SetupInstancing();
-				if( m_useSVSemantic )
+				if ( m_useSVSemantic )
 				{
-					return dataCollector.TemplateDataCollectorInstance.GetSVInstanceId( ref dataCollector );
+					return dataCollector.TemplateDataCollectorInstance.GetInstanceId();
 				}
 			}
-
+			else
+			{
+				string name = TemplateHelperFunctions.SemanticsDefaultName[ TemplateSemantics.SV_InstanceID ];
+				if ( dataCollector.IsFragmentCategory )
+				{
+					GenerateValueInVertex( ref dataCollector, WirePortDataType.UINT, Constants.VertexShaderInputStr + "." + name, name, true );
+					return Constants.InputVarStr + "." + name;
+				}
+				else
+				{
+					return Constants.VertexShaderInputStr + "." + name;
+				}
+			}
+			
 			if( !dataCollector.HasLocalVariable( InstancingVariableAttrib[ 0 ] ) )
 			{
 				dataCollector.AddLocalVariable( UniqueId, InstancingVariableAttrib[ 0 ] ,true );
@@ -82,6 +103,17 @@ namespace AmplifyShaderEditor
 			return InstancingInnerVariable;
 		}
 
+		public override void PropagateNodeData( NodeData nodeData, ref MasterNodeDataCollector dataCollector )
+		{
+			if ( !dataCollector.IsTemplate )
+			{
+				string name = TemplateHelperFunctions.SemanticsDefaultName[ TemplateSemantics.SV_InstanceID ];
+				dataCollector.AddCustomAppData( string.Format( InstanceIdRegistry, name ) );
+			}
+
+			base.PropagateNodeData( nodeData, ref dataCollector );
+		}
+	
 		public override void ReadFromString( ref string[] nodeParams )
 		{
 			base.ReadFromString( ref nodeParams );

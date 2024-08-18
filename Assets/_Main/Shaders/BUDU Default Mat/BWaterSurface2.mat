@@ -29,43 +29,39 @@ Material:
   - _FLOWMAPTYPE_FLOWTEXTURE
   - _FOAMGRADETYPE_NORMAL
   - _FOAMINVERT_ON
-  - _FOAMTYPE_TEXTURE
+  - _FOAMTYPE_NONE
   - _FOGDEPTHGRADETYPE_GAMMA
   - _MASKGRADETYPE_GAMMA
   - _MASK_ON
   - _NOISEATYPE_VORONOICELL
   - _NOISEBTYPE_VORONOICELL
+  - _RECEIVESHADOWS_OFF
   - _RECEIVE_SHADOWS_OFF
   - _SELECTDEFORMTYPE_MULTIPLY
-  - _SELECTWAVETYPE_MULTIPLY
+  - _SELECTWAVETYPE_LAYERA
   - _SPECULARHIGHLIGHTS_OFF
   - _TXTGRADETYPE_GAMMA
   - _WAVEAGRADETYPE_LINEAR
-  - _WAVEATYPE_VORONOICAUSTIC
+  - _WAVEAINVERT_ON
+  - _WAVEATYPE_NONE
   - _WAVEBGRADETYPE_LINEAR
-  - _WAVEBTYPE_VORONOICAUSTIC
+  - _WAVEBTYPE_NONE
   m_InvalidKeywords:
   - _ALPHACHANNEL_LUMA
   - _CAUSTICSHORE_OCT_CAUSTIC1
   - _CELLSHORE_OCT_CELL1
   - _CMREFLECT_ON
   - _DFAGRADETYPE1_LINEAR
-  - _DISPLACEMENT_ON
   - _FOAMDEFORMTOGGLE_ON
   - _FOGTOGGLE
   - _FOGTOGGLE_KEY1
   - _LEAVESRIM_ON
   - _LEAVESSPECULAR_ON
-  - _MIDADEFORMTOGGLE_ON
-  - _MIDBDEFORMTOGGLE_ON
   - _MIDDLEFOAMTOGGLE_ON
   - _MIDFLOWMASK_ON
   - _NOISETYPEA_ON
   - _NOISETYPEB_ON
   - _RANDOMROTATE_ON
-  - _RECEIVESHADOWS_OFF
-  - _REFLECT_ON
-  - _REFRACTIONTOGGLE_ON
   - _SELECTTYPE_ADD
   - _SHOREFOAMTOGGLE_ON
   - _SHORETYPE_NONE
@@ -750,7 +746,7 @@ Material:
     - _FoamSpeedY: 0.1
     - _FoamTileX: 3
     - _FoamTileY: 3
-    - _FoamType: 4
+    - _FoamType: 0
     - _FoamVoronoiAngleSpeed: 1
     - _FoamVoronoiSmooth: 0
     - _FogDepthDistance: 3
@@ -825,8 +821,8 @@ Material:
     - _Metallic: 1
     - _MetallicInvert: 1
     - _MetallicToggle: 0
-    - _MidADeformToggle: 1
-    - _MidBDeformToggle: 1
+    - _MidADeformToggle: 0
+    - _MidBDeformToggle: 0
     - _MidDeformToggle: 0
     - _MidDeformToggle1: 0
     - _MidFlowMask: 1
@@ -935,7 +931,7 @@ Material:
     - _NormalScale: 0.3
     - _NormalScaleMultiplier: 1
     - _NormalStrength: 1
-    - _NormalToggle: 1
+    - _NormalToggle: 0
     - _NormalTxt: 1
     - _NrmAInt: 5
     - _NrmBInt: 5
@@ -975,6 +971,7 @@ Material:
     - _RandomSize: 5
     - _ReceiveShadow: 0
     - _ReceiveShadows: 0
+    - _ReceiveShadows1: 0
     - _RefAOIntensity: 0.2
     - _RefAffectAO: 0
     - _RefFNormalMulti: 0.1
@@ -995,7 +992,7 @@ Material:
     - _RefractSize: 0.127
     - _Refraction: 1
     - _RefractionInvert: 0
-    - _RefractionToggle: 1
+    - _RefractionToggle: 0
     - _RimCAtt: 0
     - _RimContour: 0
     - _RimContourIntensity: 1
@@ -1054,7 +1051,7 @@ Material:
     - _SecondColorTextureSwitch: 1
     - _SelectDeformType: 2
     - _SelectType: 3
-    - _SelectWaveType: 2
+    - _SelectWaveType: 0
     - _ShadeColorToggle: 0
     - _ShadeContrast: 1.8
     - _ShadeExtras: 0
@@ -1119,7 +1116,7 @@ Material:
     - _SpecMin: 0
     - _SpecToggle: 1
     - _SpecType: 0
-    - _Specular: 4.73
+    - _Specular: 1
     - _SpecularAmbient: 0
     - _SpecularExtras: 1
     - _SpecularHighlights: 0
@@ -1142,7 +1139,7 @@ Material:
     - _SurfaceFoilageIntensity: 0.616
     - _SurfaceIntensity: 1
     - _SurfaceSettings: 0
-    - _SurfaceToggle: 0
+    - _SurfaceToggle: 1
     - _TRAmbient: 0.185
     - _TRDirec: 0.33
     - _TRFRFold: 0
@@ -1264,7 +1261,7 @@ Material:
     - _WAVoronoiAngleSpeed: 2
     - _WAVoronoiSmooth: 0
     - _WBNoiseScale: 5
-    - _WBVoronoiAngleSpeed: -1
+    - _WBVoronoiAngleSpeed: 0
     - _WBVoronoiSmooth: 0
     - _WTypeAAnchorX: 0
     - _WTypeAAnchorY: 0
@@ -1293,15 +1290,15 @@ Material:
     - _WaveAExp: 1.41
     - _WaveAGradeType: 0
     - _WaveAIntensity: 1
-    - _WaveAInvert: 0
-    - _WaveAType: 2
+    - _WaveAInvert: 1
+    - _WaveAType: 0
     - _WaveBAmplitude: 4
     - _WaveBContrast: 1
     - _WaveBExp: 2.37
     - _WaveBGradeType: 0
     - _WaveBIntensity: 1
     - _WaveBInvert: 0
-    - _WaveBType: 2
+    - _WaveBType: 0
     - _WaveLength: 4
     - _WaveSpeedX: 0.1
     - _WaveSpeedY: 0.1
@@ -1324,11 +1321,11 @@ Material:
     - _fMaskFold: 0
     - _fTxtFold: 0
     - _flspeed: 0.1
-    - _foamFold: 0
+    - _foamFold: 1
     - _gfasg: 1
     - _lolo: 1
     - _noluyo: 1
-    - _otherFold: 0
+    - _otherFold: 1
     - _scale: 0.5
     - _scale1: 1
     - _scale2: 1

@@ -27,14 +27,15 @@ Material:
   m_ValidKeywords:
   - _AOTYPE_NORMAL
   - _BASEMAPTYPE_LINEAR
-  - _BLINNTYPE_LINEAR
   - _CURVTYPE_LINEAR
   - _SATINTYPE_GAMMA
+  - _SPECTYPE_LINEAR
   - _THICKNESSTYPE_GAMMA
   - _VELVETTYPE_NORMAL
   m_InvalidKeywords:
   - _AFFECTBASEAO_ON
   - _BLINNSPECSWITCH_ON
+  - _BLINNTYPE_LINEAR
   - _DEPTHGRADETYPE_LINEAR
   - _DETAIL_SCALED
   - _MIXTYPE_MULTIPLY
@@ -131,6 +132,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SpecularMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _TextureSample0:
         m_Texture: {fileID: 2800000, guid: c1e340b8879ef214f96fc518e96deedc, type: 3}
         m_Scale: {x: 6, y: 6}
@@ -165,6 +170,7 @@ Material:
     - _AOSwitch: 0
     - _AOType: 1
     - _AdditiveTransparency: 0.1
+    - _AffectAO_Spec: 0
     - _AffectBaseAO: 1
     - _AlphaClip: 0
     - _AlphaCoverage: 0
@@ -199,6 +205,8 @@ Material:
     - _CausticGradeScale: 1
     - _CausticNoiseOF: 0
     - _CausticNoiseSC: 1
+    - _CheckBase: 0
+    - _CheckDef: 0
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _ClipThreshold: 0
@@ -260,6 +268,7 @@ Material:
     - _SatinSwitch: 1
     - _SatinTransparency: 0
     - _SatinType: 2
+    - _SecSpecularIntensity: 1
     - _SecondColorTextureSwitch: 1
     - _ShadeColorToggle: 1
     - _ShadeContrast: 1.371
@@ -274,11 +283,21 @@ Material:
     - _Smoothness: 0.289
     - _SmoothnessSource: 0
     - _SmoothnessTextureChannel: 0
+    - _Softness: 0.001
     - _SpecExtras: 0
+    - _SpecMax: 1
+    - _SpecMin: 0
     - _SpecSource: 0
+    - _SpecType: 0
     - _SpecularExtras: 1
     - _SpecularHighlights: 1
+    - _SpecularIn: 0.2
     - _SpecularIntensity: 1.244
+    - _SpecularInvert: 0
+    - _SpecularNormalIntensity: 0.3
+    - _SpecularOut: 0.8
+    - _SpecularSaturation: 1
+    - _SpecularSwitch: 0
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0

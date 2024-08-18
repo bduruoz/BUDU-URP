@@ -26,7 +26,10 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords:
+  - _ADDITIVEGRADIENT_ON
   - _CUSTOMFOGCOLOR_ON
+  - _ENABLEHAZE_ON
+  - _GRADIENT_ON
   - _SUNDISK_HIGH_QUALITY
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -128,7 +131,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AdditiveGradient: 0
+    - _AdditiveGradient: 1
     - _AlphaClip: 0
     - _AlphaCutoff: 0.5
     - _AlphaToMask: 0
@@ -137,7 +140,7 @@ Material:
     - _BlendModePreserveSpecular: 1
     - _BlendSky: 0
     - _BumpScale: 1
-    - _CheckBase: 0
+    - _CheckBase: 1
     - _CheckDef: 0
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
@@ -151,35 +154,35 @@ Material:
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _EnableFog: 0
-    - _EnableHaze: 0
+    - _EnableHaze: 1
     - _EnablePosition: 0
     - _EnableRotation: 0
     - _EnableRotation1: 0
     - _EnvironmentReflections: 1
     - _Exposure: 1
-    - _Falloff: 3.7
+    - _Falloff: 1.98
     - _FogFill: 0.326
     - _FogHeight: 0.401
-    - _FogIntensity: 0.391
+    - _FogIntensity: 0.563
     - _FogPosition: 0.01
     - _FogSmoothness: 0.36
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _Gradient: 0
-    - _HazeFill: 0.196
-    - _HazeHeight: 0.476
-    - _HazeIntensity: 0.618
+    - _Gradient: 1
+    - _HazeFill: 0.068
+    - _HazeHeight: 0.201
+    - _HazeIntensity: 0.46
     - _HazePosition: 0
-    - _HazeSmoothness: 0.19
-    - _HorizonHeight: 0.737
+    - _HazeSmoothness: -0.58
+    - _HorizonHeight: 1
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _PositionX: 0
     - _PositionY: 0
     - _PositionZ: 0
-    - _Power: 1.9
+    - _Power: 1.32
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
@@ -197,18 +200,18 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 0.42751464, g: 0.5704164, b: 0.70440245, a: 1}
-    - _BottomColor: {r: 0.49803922, g: 0.2627451, b: 0.48853558, a: 1}
+    - _BaseColor: {r: 0.37136284, g: 0.4523009, b: 0.538, a: 1}
+    - _BottomColor: {r: 0, g: 0.2647059, b: 0.5294118, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FogColor: {r: 0.42951804, g: 0.40180722, b: 0.575, a: 1}
+    - _FogColor: {r: 0.4, g: 0.4882353, b: 0.5764706, a: 1}
     - _GroundColor: {r: 0.36899996, g: 0.34899998, b: 0.34099993, a: 1}
-    - _HazeColor: {r: 1, g: 0.5969346, b: 0, a: 1}
+    - _HazeColor: {r: 0.552, g: 0.3290353, b: 0, a: 1}
     - _SkyTint: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _Tex_HDR: {r: 0, g: 0, b: 0, a: 0}
     - _Tex_HDR1: {r: 0, g: 0, b: 0, a: 0}
     - _Tint: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
-    - _TopColor: {r: 0.23064744, g: 0.34409, b: 0.61635214, a: 1}
+    - _TopColor: {r: 0.28627452, g: 0.49607843, b: 0.7058824, a: 1}
   m_BuildTextureStacks: []

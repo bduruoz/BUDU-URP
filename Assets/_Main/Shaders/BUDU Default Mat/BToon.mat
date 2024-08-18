@@ -42,8 +42,8 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BlueNoiseTexture:
-        m_Texture: {fileID: 2800000, guid: c2f47cdce04e32940954e88e1dffa3be, type: 3}
-        m_Scale: {x: 40, y: 2}
+        m_Texture: {fileID: 2800000, guid: e53f26135b659a242b30bbe703abcfe8, type: 3}
+        m_Scale: {x: 20, y: 20}
         m_Offset: {x: 0, y: 0}
     - _LeavesSpecTexture:
         m_Texture: {fileID: 0}
@@ -70,7 +70,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _RampTexture:
-        m_Texture: {fileID: 2800000, guid: 402ad2cdea3c2ee4588cda87db776c1b, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _texcoord:
@@ -115,7 +115,7 @@ Material:
     - _AmbientContrast1: 0.625
     - _BaseSettings: 0
     - _BlueNoise: 1
-    - _BlueNoiseIntensity: 0.389
+    - _BlueNoiseIntensity: 1
     - _BlueNoiseX: 5
     - _BlueNoiseY: 5
     - _CTime0: 0
@@ -128,11 +128,12 @@ Material:
     - _CTime7: 0
     - _CardRotate: 193
     - _CardSize: 1
+    - _CheckDef: 0
     - _ClipThreshold: 0.253
     - _ColoredAmbient: 0
-    - _ColoredAmbientToggle: 1
+    - _ColoredAmbientToggle: 0
     - _ColoredRampToggle: 0
-    - _CustomRamp: 0
+    - _CustomRamp: 1
     - _DistanceCutoff: 1.48
     - _DstBlend: 0
     - _EffectBlend: 1
@@ -144,7 +145,7 @@ Material:
     - _GradCLength: 2
     - _GradMode: 0
     - _IndirectLightIntensity: 0.2
-    - _IndirectLightToggle: 1
+    - _IndirectLightToggle: 0
     - _Inflate: 0
     - _LeavesRim: 1
     - _LeavesRimBias: 0
@@ -157,7 +158,7 @@ Material:
     - _LightAffectIntensity: 1
     - _LightAffectToggle: 1
     - _LightShade: 1
-    - _Normal: 1
+    - _Normal: 0
     - _NormalScale: -0.75
     - _NormalScale1: 0.059
     - _Outline: 0
@@ -166,9 +167,9 @@ Material:
     - _OutlineWidth: 0.0175
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Ramp: 1
-    - _RampControl: 0.716
-    - _RampOffset: 0.612
+    - _Ramp: 0
+    - _RampControl: 0.75
+    - _RampOffset: 0.25
     - _RandomRotate: 1
     - _ReceiveShadows: 1
     - _RimSwitch: 0
@@ -177,11 +178,11 @@ Material:
     - _SrcBlend: 1
     - _SurfaceFoilage: 1
     - _SurfaceFoilageIntensity: 0.652
-    - _TSpec: 1
+    - _TSpec: 0
     - _TextureRotate: 134
     - _TextureWrapMode: 0
     - _ToggleSwitch0: 0
-    - _ToonContour: 1
+    - _ToonContour: 0
     - _ToonContourLightAttenuation: 0
     - _ToonContourOffset: 0.454
     - _ToonContourScale: 0.16
@@ -189,11 +190,11 @@ Material:
     - _ToonRimLightAttenuation: 0
     - _ToonRimOffset: 0.353
     - _ToonRimScale: 0.062
-    - _ToonSpec: 1
-    - _ToonSpecArea: 4.97
-    - _ToonSpecIntensity: 0.624
-    - _ToonSpecMax: 0.543
-    - _ToonSpecMin: 0.197
+    - _ToonSpec: 0
+    - _ToonSpecArea: 0.5
+    - _ToonSpecIntensity: 0.476
+    - _ToonSpecMax: 0.5
+    - _ToonSpecMin: 0.25
     - _WNoiseAX: 2
     - _WNoiseAY: 4
     - _WNoiseBX: 2
@@ -207,8 +208,8 @@ Material:
     m_Colors:
     - _AmbientColor: {r: 0.401, g: 0.174034, b: 0.174034, a: 1}
     - _BaseColor: {r: 0.5031446, g: 0.40094522, b: 0.33068308, a: 1}
-    - _CKey0: {r: 0.9977327, g: 0.021568596, b: 0, a: 1}
-    - _CKey1: {r: 0.89487934, g: 1, b: 0, a: 1}
+    - _CKey0: {r: 0, g: 0, b: 0, a: 1}
+    - _CKey1: {r: 1, g: 1, b: 1, a: 1}
     - _CKey2: {r: 0.3549087, g: 0.3549087, b: 0.3549087, a: 1}
     - _CKey3: {r: 0.5733141, g: 0.5733141, b: 0.5733141, a: 1}
     - _CKey4: {r: 0.7610062, g: 0.7610062, b: 0.7610062, a: 1}

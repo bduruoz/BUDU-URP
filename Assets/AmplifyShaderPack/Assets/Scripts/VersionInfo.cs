@@ -10,7 +10,7 @@ namespace AmplifyShaderPack
 	{
 		public const byte Major = 2;
 		public const byte Minor = 3;
-		public const byte Release = 0;
+		public const byte Release = 2;
 		public static byte Revision = 0;
 
 		public static string StaticToString()

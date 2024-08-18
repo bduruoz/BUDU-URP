@@ -2,7 +2,6 @@
 using UnityEditor;
 using System;
 using budu;
-using AmplifyShaderEditor;
 
 public class BWaterToonEditor : ShaderGUI
 {

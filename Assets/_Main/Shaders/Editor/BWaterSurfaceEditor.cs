@@ -561,10 +561,12 @@ public class BWaterSurfaceEditor : ShaderGUI
             MaterialProperty spec = ShaderGUI.FindProperty("_Specular", properties);
             MaterialProperty specCol = ShaderGUI.FindProperty("_SpecularColor", properties);
             MaterialProperty smoothness = ShaderGUI.FindProperty("_Smoothness", properties);
+            MaterialProperty receiveShadows = ShaderGUI.FindProperty("_ReceiveShadows",properties);
             //MaterialProperty clipThreshold = ShaderGUI.FindProperty("_ClipThreshold", properties);
             materialEditor.ShaderProperty(specCol, "Specular Color");
             materialEditor.ShaderProperty(spec, "Specular");
             materialEditor.ShaderProperty(smoothness, "Smoothness");
+            materialEditor.ShaderProperty(receiveShadows, "Receive Shadows");
             //materialEditor.ShaderProperty(clipThreshold, "Clip Threshold");
             EditorGUI.indentLevel--;
         }

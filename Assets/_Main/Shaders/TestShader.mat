@@ -8,17 +8,19 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: TestShader
-  m_Shader: {fileID: 4800000, guid: 744c6e5926306094bb30ea5d52901bb3, type: 3}
+  m_Shader: {fileID: 4800000, guid: 69da7182fa2b50e4a8510f4d3ede668f, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _ENVIRONMENTREFLECTIONS_OFF
+  - _RECEIVE_SHADOWS_OFF
+  - _SPECULARHIGHLIGHTS_OFF
   m_InvalidKeywords:
   - _RECEIVESHADOWS_OFF
-  - _RECEIVE_SHADOWS_OFF
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3001
+  m_CustomRenderQueue: -1
   stringTagMap:
     QUEUE: Geometry
   disabledShaderPasses: []
@@ -457,6 +459,7 @@ Material:
     - _ColoredAmbientToggle: 0
     - _Compress: 1
     - _CompressRes: 0.1
+    - _Contrast: 2
     - _CubeMapExtras: 1
     - _CubeMapRotate: 190
     - _CullMode: 0
@@ -648,10 +651,11 @@ Material:
     - _FlakesType: 0
     - _Floa555: 2
     - _Float0: 1
-    - _Float1: 1
-    - _Float2: 0.1
-    - _Float3: 1
+    - _Float1: -0.17
+    - _Float2: -0.16
+    - _Float3: -0.1
     - _Float4: 1
+    - _Float6: -0.33
     - _FlowDepthContrast: 1.06
     - _FlowMapContrast: 2.03
     - _FlowMapContrast1: 1
@@ -910,7 +914,7 @@ Material:
     - _PerBTileY: 1
     - _Power: 1
     - _QueueControl: 0
-    - _QueueOffset: 1
+    - _QueueOffset: 0
     - _RIFineTune: 0
     - _RIFold: 0
     - _Ramp: 0
@@ -1013,6 +1017,7 @@ Material:
     - _ShadowSmooth: 1
     - _ShadowStrength: 1
     - _ShadowThreshold: 0.05
+    - _SheenGap: 0.9
     - _ShoreAnchorX: 0
     - _ShoreAnchorY: 0
     - _ShoreBumpIntensity: 0.1
@@ -1076,7 +1081,7 @@ Material:
     - _SpecularOut: 0.9
     - _SpecularSaturation: 1
     - _SpecularSwitch: 0
-    - _Speed: 1
+    - _Speed: 0.5
     - _Speed1: 1
     - _SpeedTypeAX: 1
     - _SpeedTypeAY: 1
@@ -1124,6 +1129,7 @@ Material:
     - _TileTypeBY: 4
     - _TileX: 3
     - _TileY: 3
+    - _Tilt: -0.5
     - _ToggleSwitch0: 0
     - _ToggleSwitch1: 1
     - _ToonContour: 0
@@ -1281,6 +1287,7 @@ Material:
     - _strx: -1
     - _stry: 1
     - _tiling: 2
+    - _tilt: -0.5
     - _wAFold: 1
     - _wBFold: 1
     m_Colors:
@@ -1297,7 +1304,7 @@ Material:
     - _CKey5: {r: 0, g: 0, b: 0, a: 1}
     - _CKey6: {r: 0, g: 0, b: 0, a: 1}
     - _CKey7: {r: 0, g: 0, b: 0, a: 1}
-    - _Color0: {r: 1, g: 1, b: 1, a: 0}
+    - _Color0: {r: 0, g: 0, b: 0, a: 0}
     - _CurvatureColor: {r: 1, g: 1, b: 1, a: 1}
     - _DepthColor: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}

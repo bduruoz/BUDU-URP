@@ -3,7 +3,6 @@ using UnityEditor;
 using System;
 using System.Collections.Generic;
 using budu;
-using static PlasticPipe.PlasticProtocol.Messages.Serialization.ItemHandlerMessagesSerialization;
 
 public class BToonEditor : ShaderGUI
 {
