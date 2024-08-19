@@ -1,0 +1,264 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: BVolumetricCloud
+  m_Shader: {fileID: 4800000, guid: 322af36faccadc24ab50ce70e6c8c8fb, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - _DEFORMNOISETYPE_TEXTURE
+  - _DETAILBLENDMETHOD_MULTI
+  - _DETTXTGRADETYPE_LINEAR
+  - _GRADETYPE_GAMMA
+  - _NOISEBLENDTYPE_NORMAL
+  - _NOISETYPE_TEXTURE
+  - _TYPEA_TRISPHERE
+  - _TYPEB_TRISPHERE
+  m_InvalidKeywords:
+  - _DETAILTEXTUREGRADETYPE_LINEAR
+  - _INVERTDEFORM_ON
+  - _KEYWORD0_TRISPHERE
+  - _KEYWORD1_TRISPHERE
+  - _NOISEBLENDTYPE_ADD
+  - _WINDTOGGLE_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 1
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: 3000
+  stringTagMap:
+    QUEUE: Geometry
+    RenderType: Opaque
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _DeformNoiseTexture:
+        m_Texture: {fileID: 2800000, guid: 345500013d9bcf640bf4f4f7b586667c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailTextureA:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailTextureB:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture0:
+        m_Texture: {fileID: 11700000, guid: 8be457f3142a12e4b891ac91a184f7f4, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture3:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture4:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _VolumetricTexture:
+        m_Texture: {fileID: 11700000, guid: e4bf738a8382ee84ca5e14134dc8df81, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Voume:
+        m_Texture: {fileID: 11700000, guid: 2270b0ce30cb6d24a8f232b5719e31bb, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _WindNoiseTexture:
+        m_Texture: {fileID: 2800000, guid: c662692ad44de0b45ba4f81297e97381, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _WindNoiseTexture1:
+        m_Texture: {fileID: 2800000, guid: 6309451e5d8b51d48869042d1c7a48b8, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AffectAmbientColor: 0
+    - _AffectLightColor: 0
+    - _AffectWind: 0.01
+    - _Aloo: -5
+    - _AlphaClip: 0
+    - _AlphaClipThreshold: 0
+    - _AlphaCutoff: 0.5
+    - _AlphaIntensity: 1
+    - _AmbientDetails: 0
+    - _AmbientTextureIntensity: 0.9439711
+    - _Angle: 1
+    - _BTextureSpeedX: 1
+    - _BTextureSpeedY: 1
+    - _BTextureSpeedZ: 1
+    - _BTilesX: 1
+    - _BTilesY: 1
+    - _BackContrast: 1
+    - _BackExponent: 1
+    - _BaseSettings: 1
+    - _Bias: 0
+    - _CheckCloud: 0
+    - _CheckDef: 0
+    - _CheckNode: 0
+    - _ClipThreshold: 0.505
+    - _Contrast: 1
+    - _Coverage: 0
+    - _DarknessThreshold: 0
+    - _DarknessTresholkd: -0.137
+    - _Deform: 0
+    - _DeformIntensity: 0.03
+    - _DeformNoiseScale: 4
+    - _DeformNoiseType: 2
+    - _DeformOffsetX: 0
+    - _DeformOffsetY: 0
+    - _DeformOverallSpeed: -0.1
+    - _DeformPivotX: 0
+    - _DeformPivotY: 0
+    - _DeformRotate: 0
+    - _DeformRotateSpeed: 0
+    - _DeformSpeedX: 0.03
+    - _DeformSpeedY: 0
+    - _DeformTileX: 1
+    - _DeformTileY: 1
+    - _DeformVorAngle: 1
+    - _DeformVorSmooth: 0.462
+    - _DensityScale: 1
+    - _DetTXTGradeType: 0
+    - _DetailBlendMethod: 0
+    - _DetailTextureGradeType: 0
+    - _DstBlend: 0
+    - _EnvironmentReflections: 1
+    - _Exponential: 1
+    - _Floa1: 0.88
+    - _Float0: 0.49
+    - _Float2: 0.1
+    - _Float4: 2
+    - _GradeType: 2
+    - _InvertDeform: 1
+    - _InvertNoise: 0
+    - _Keyword0: 0
+    - _Keyword1: 0
+    - _LerpCoef: 0.5
+    - _LightAbsorb: 1.92
+    - _LightAreaDetails: 0
+    - _LightAreaIntensity: 1
+    - _LightAreaOffset: 0
+    - _LightSteSize: 0.09
+    - _LightStepSize: 0.1
+    - _NoiseBlendType: 0
+    - _NoiseIntensity: 1
+    - _NoiseIntensity1: 1
+    - _NoiseScale: 4
+    - _NoiseTextureIntensity: 1
+    - _NoiseType: 2
+    - _NumLightSteps: 1
+    - _NumSteps: 25.38
+    - _NumberOfLightSteps: 4
+    - _NumberOfSteps: 64
+    - _Offset: 0.76
+    - _Opacity: 1
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _ReceiveShadows: 1
+    - _Saturation: 0.5
+    - _ShadowClip: 0
+    - _ShadowClipThreshold: 0.05
+    - _SmoothMax: 1
+    - _SmoothMin: 0
+    - _SmoothVor: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _StepNumber: 16
+    - _StepSize: 0.03
+    - _StepsNumber: 16
+    - _SurfaceTextureIntensity: 1
+    - _TAFallof: 0.1
+    - _TAFalloff: 0.1
+    - _TAPivotX: 0
+    - _TAPivotY: 0
+    - _TBFallof: 0.1
+    - _TBFalloff: 0.1
+    - _TBPivotX: 0
+    - _TBPivotY: 0
+    - _TBTileX: 1
+    - _TBTileY: 1
+    - _TextureAOverallSpeed: 0
+    - _TextureAPivotX: 0
+    - _TextureAPivotY: 0
+    - _TextureARotate: 0
+    - _TextureARotateSpeed: 0
+    - _TextureASpeedX: 1
+    - _TextureASpeedY: 1
+    - _TextureASpeedZ: 1
+    - _TextureATileX: 1
+    - _TextureATileY: 1
+    - _TextureATilesX: 1
+    - _TextureATilesY: 1
+    - _TextureBOverallSpeed: 0
+    - _TextureBPivotX: 0
+    - _TextureBPivotY: 0
+    - _TextureBRotate: 0
+    - _TextureBRotateSpeed: 0
+    - _TextureBSpeedX: 1
+    - _TextureBSpeedY: 1
+    - _TextureBSpeedZ: 1
+    - _TextureBTileX: 1
+    - _TextureBTileY: 1
+    - _TextureSpeedX: 1
+    - _TextureSpeedY: 1
+    - _TextureSpeedZ: 1
+    - _TilesX: 1
+    - _TilesY: 1
+    - _Transmittance: 0.5
+    - _TypeA: 0
+    - _TypeB: 0
+    - _Wind: 0
+    - _WindOffsetX: 0
+    - _WindOffsetY: 0
+    - _WindOverallSpeed: 0
+    - _WindPivotX: 1
+    - _WindPivotY: 1
+    - _WindRotate: 0
+    - _WindRotateSpeed: 3
+    - _WindSpeedX: 0.03
+    - _WindSpeedY: 0
+    - _WindTileX: 2
+    - _WindTileY: 2
+    - _WindToggle: 1
+    - _ZWrite: 1
+    - _cameraRayFold: 1
+    - _checkCloud: 1
+    - _checkDetail: 1
+    - _checkLight: 1
+    - _checkWind: 1
+    - _cloudFold: 1
+    - _lightRayFold: 1
+    - _nodeFold: 0
+    m_Colors:
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Color0: {r: 0.17899999, g: 0.17899999, b: 0.17899999, a: 0}
+    - _Color1: {r: 1, g: 1, b: 1, a: 0}
+    - _DetailColor: {r: 1, g: 1, b: 1, a: 0}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _LightingSOP: {r: 1.28, g: -0.48, b: 1, a: 0}
+    - _Offset: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
+    - _ShadeColor: {r: 0.027299993, g: 0.04959435, b: 0.175, a: 1}
+    - _ShadowColor: {r: 0.17, g: 0.17, b: 0.17, a: 1}
+    - _Vector0: {r: 0.5, g: 0.5, b: 0.5, a: 0}
+  m_BuildTextureStacks: []

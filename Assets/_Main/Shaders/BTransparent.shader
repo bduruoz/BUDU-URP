@@ -1,4 +1,4 @@
-// Made with Amplify Shader Editor v1.9.6
+// Made with Amplify Shader Editor v1.9.6.3
 // Available at the Unity Asset Store - http://u3d.as/y3X 
 Shader "BUDU Shaders/BTransparent"
 {
@@ -96,6 +96,7 @@ Shader "BUDU Shaders/BTransparent"
 		_ThickFold("ThickFold", Int) = 0
 		_RIFold("RIFold", Int) = 0
 		_RIFineTune("RIFineTune", Int) = 0
+		_checkDef("checkDef", Int) = 0
 		_TRFineTune("TRFineTune", Int) = 0
 		[Toggle]_RefrControl("RefrControl", Float) = 0
 		[Toggle]_SSBluricTransparent("SS Bluric Transparent", Float) = 0
@@ -430,35 +431,35 @@ Shader "BUDU Shaders/BTransparent"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _DepthColor;
 			float4 _TransparencyColor;
-			float4 _RimContourColor;
 			float4 _ReflectColor;
-			float4 _RefractColor;
-			float4 _CurvatureTexture_ST;
+			float4 _NormalMap_ST;
+			float4 _RimContourColor;
 			float4 _BaseMap_ST;
 			float4 _BaseColor;
-			float4 _NormalMap_ST;
-			float4 _SpecColor;
-			float4 _DepthColor;
+			float4 _CurvatureTexture_ST;
+			float4 _RefractColor;
 			float4 _ThicknessMap_ST;
+			float4 _SpecColor;
 			float3 _ThicknessColor;
-			float _TransparentFresnelPower;
+			float _TransparentFresnelScale;
 			float _RimContourScale;
 			float _RimContourOffset;
-			int _DepthToggle;
+			float _TransparentFresnel;
 			float _RimCAtt;
 			float _RimContour;
 			float _TransScale;
+			float _TransparentFresnelPower;
 			float _TROffset;
-			float _RimContourIntensity;
 			float _TRScale;
+			int _DepthToggle;
 			float _TransparentFresnelInvert;
 			float _TransparentFresnelBias;
-			float _TransparentFresnelScale;
 			float _TransOffset;
-			float _Reflect;
+			float _RimContourIntensity;
 			float _CMXPos;
-			float _CubeMapRotate;
+			float _ReflectionStrength;
 			float _SpecularSaturation;
 			float _SpecularAmbient;
 			float _Softness;
@@ -467,7 +468,7 @@ Shader "BUDU Shaders/BTransparent"
 			float _Glossy;
 			float _SpecularSwitch;
 			float _CurvatureScale;
-			float _ReflectionStrength;
+			float _Reflect;
 			float _ReflectionCurvature;
 			int _RefFresnelSwitch;
 			float _RefFresnelPower;
@@ -476,12 +477,11 @@ Shader "BUDU Shaders/BTransparent"
 			float _RefFresnelInvert;
 			float _CMZPos;
 			float _CMYPos;
-			float _TransparentFresnel;
+			float _CubeMapRotate;
 			float _ReflectionMultiplier;
+			float _DepthOffset;
 			int _RIFineTune;
-			float _Depth;
-			float _DepthScale;
-			float _SSAnchorX;
+			float _DepthContrast;
 			float _SSOffY;
 			float _SSOffX;
 			float _SSSize;
@@ -489,9 +489,10 @@ Shader "BUDU Shaders/BTransparent"
 			float _SSTileX;
 			float _ScreenSpace;
 			float _NormalScale;
-			float _SSAnchorY;
 			float _Normal;
-			float _SurfaceSettings;
+			float _SSAnchorX;
+			float _SSBluricTransparent;
+			int _checkDef;
 			int _RIFold;
 			int _DPFold;
 			int _CurvFold;
@@ -499,11 +500,11 @@ Shader "BUDU Shaders/BTransparent"
 			int _TRFRFold;
 			int _TransparentToggle;
 			int _TRFineTune;
-			float _SSBluricTransparent;
-			float _DepthOffset;
+			float _SurfaceSettings;
+			float _SSAnchorY;
 			float _PatternRotator;
-			float _Refraction;
-			float _DepthContrast;
+			float _PatternHeight;
+			float _Depth;
 			float _SpecularIntensity;
 			float _ThicknessIntensity;
 			float _ThickOffset;
@@ -511,8 +512,8 @@ Shader "BUDU Shaders/BTransparent"
 			float _ThichnessInvert;
 			float _Thickness;
 			float _TransparentIntensity;
-			float _PatternHeight;
 			float _NewMax;
+			float _NewMin;
 			float _OldMax;
 			float _OldMin;
 			float _FresnelPower;
@@ -521,7 +522,8 @@ Shader "BUDU Shaders/BTransparent"
 			float _RefractionInvert;
 			float _RefrControl;
 			float _ScreenContrast;
-			float _NewMin;
+			float _Refraction;
+			float _DepthScale;
 			float _Smoothness;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -1244,35 +1246,35 @@ Shader "BUDU Shaders/BTransparent"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _DepthColor;
 			float4 _TransparencyColor;
-			float4 _RimContourColor;
 			float4 _ReflectColor;
-			float4 _RefractColor;
-			float4 _CurvatureTexture_ST;
+			float4 _NormalMap_ST;
+			float4 _RimContourColor;
 			float4 _BaseMap_ST;
 			float4 _BaseColor;
-			float4 _NormalMap_ST;
-			float4 _SpecColor;
-			float4 _DepthColor;
+			float4 _CurvatureTexture_ST;
+			float4 _RefractColor;
 			float4 _ThicknessMap_ST;
+			float4 _SpecColor;
 			float3 _ThicknessColor;
-			float _TransparentFresnelPower;
+			float _TransparentFresnelScale;
 			float _RimContourScale;
 			float _RimContourOffset;
-			int _DepthToggle;
+			float _TransparentFresnel;
 			float _RimCAtt;
 			float _RimContour;
 			float _TransScale;
+			float _TransparentFresnelPower;
 			float _TROffset;
-			float _RimContourIntensity;
 			float _TRScale;
+			int _DepthToggle;
 			float _TransparentFresnelInvert;
 			float _TransparentFresnelBias;
-			float _TransparentFresnelScale;
 			float _TransOffset;
-			float _Reflect;
+			float _RimContourIntensity;
 			float _CMXPos;
-			float _CubeMapRotate;
+			float _ReflectionStrength;
 			float _SpecularSaturation;
 			float _SpecularAmbient;
 			float _Softness;
@@ -1281,7 +1283,7 @@ Shader "BUDU Shaders/BTransparent"
 			float _Glossy;
 			float _SpecularSwitch;
 			float _CurvatureScale;
-			float _ReflectionStrength;
+			float _Reflect;
 			float _ReflectionCurvature;
 			int _RefFresnelSwitch;
 			float _RefFresnelPower;
@@ -1290,12 +1292,11 @@ Shader "BUDU Shaders/BTransparent"
 			float _RefFresnelInvert;
 			float _CMZPos;
 			float _CMYPos;
-			float _TransparentFresnel;
+			float _CubeMapRotate;
 			float _ReflectionMultiplier;
+			float _DepthOffset;
 			int _RIFineTune;
-			float _Depth;
-			float _DepthScale;
-			float _SSAnchorX;
+			float _DepthContrast;
 			float _SSOffY;
 			float _SSOffX;
 			float _SSSize;
@@ -1303,9 +1304,10 @@ Shader "BUDU Shaders/BTransparent"
 			float _SSTileX;
 			float _ScreenSpace;
 			float _NormalScale;
-			float _SSAnchorY;
 			float _Normal;
-			float _SurfaceSettings;
+			float _SSAnchorX;
+			float _SSBluricTransparent;
+			int _checkDef;
 			int _RIFold;
 			int _DPFold;
 			int _CurvFold;
@@ -1313,11 +1315,11 @@ Shader "BUDU Shaders/BTransparent"
 			int _TRFRFold;
 			int _TransparentToggle;
 			int _TRFineTune;
-			float _SSBluricTransparent;
-			float _DepthOffset;
+			float _SurfaceSettings;
+			float _SSAnchorY;
 			float _PatternRotator;
-			float _Refraction;
-			float _DepthContrast;
+			float _PatternHeight;
+			float _Depth;
 			float _SpecularIntensity;
 			float _ThicknessIntensity;
 			float _ThickOffset;
@@ -1325,8 +1327,8 @@ Shader "BUDU Shaders/BTransparent"
 			float _ThichnessInvert;
 			float _Thickness;
 			float _TransparentIntensity;
-			float _PatternHeight;
 			float _NewMax;
+			float _NewMin;
 			float _OldMax;
 			float _OldMin;
 			float _FresnelPower;
@@ -1335,7 +1337,8 @@ Shader "BUDU Shaders/BTransparent"
 			float _RefractionInvert;
 			float _RefrControl;
 			float _ScreenContrast;
-			float _NewMin;
+			float _Refraction;
+			float _DepthScale;
 			float _Smoothness;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -1668,35 +1671,35 @@ Shader "BUDU Shaders/BTransparent"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _DepthColor;
 			float4 _TransparencyColor;
-			float4 _RimContourColor;
 			float4 _ReflectColor;
-			float4 _RefractColor;
-			float4 _CurvatureTexture_ST;
+			float4 _NormalMap_ST;
+			float4 _RimContourColor;
 			float4 _BaseMap_ST;
 			float4 _BaseColor;
-			float4 _NormalMap_ST;
-			float4 _SpecColor;
-			float4 _DepthColor;
+			float4 _CurvatureTexture_ST;
+			float4 _RefractColor;
 			float4 _ThicknessMap_ST;
+			float4 _SpecColor;
 			float3 _ThicknessColor;
-			float _TransparentFresnelPower;
+			float _TransparentFresnelScale;
 			float _RimContourScale;
 			float _RimContourOffset;
-			int _DepthToggle;
+			float _TransparentFresnel;
 			float _RimCAtt;
 			float _RimContour;
 			float _TransScale;
+			float _TransparentFresnelPower;
 			float _TROffset;
-			float _RimContourIntensity;
 			float _TRScale;
+			int _DepthToggle;
 			float _TransparentFresnelInvert;
 			float _TransparentFresnelBias;
-			float _TransparentFresnelScale;
 			float _TransOffset;
-			float _Reflect;
+			float _RimContourIntensity;
 			float _CMXPos;
-			float _CubeMapRotate;
+			float _ReflectionStrength;
 			float _SpecularSaturation;
 			float _SpecularAmbient;
 			float _Softness;
@@ -1705,7 +1708,7 @@ Shader "BUDU Shaders/BTransparent"
 			float _Glossy;
 			float _SpecularSwitch;
 			float _CurvatureScale;
-			float _ReflectionStrength;
+			float _Reflect;
 			float _ReflectionCurvature;
 			int _RefFresnelSwitch;
 			float _RefFresnelPower;
@@ -1714,12 +1717,11 @@ Shader "BUDU Shaders/BTransparent"
 			float _RefFresnelInvert;
 			float _CMZPos;
 			float _CMYPos;
-			float _TransparentFresnel;
+			float _CubeMapRotate;
 			float _ReflectionMultiplier;
+			float _DepthOffset;
 			int _RIFineTune;
-			float _Depth;
-			float _DepthScale;
-			float _SSAnchorX;
+			float _DepthContrast;
 			float _SSOffY;
 			float _SSOffX;
 			float _SSSize;
@@ -1727,9 +1729,10 @@ Shader "BUDU Shaders/BTransparent"
 			float _SSTileX;
 			float _ScreenSpace;
 			float _NormalScale;
-			float _SSAnchorY;
 			float _Normal;
-			float _SurfaceSettings;
+			float _SSAnchorX;
+			float _SSBluricTransparent;
+			int _checkDef;
 			int _RIFold;
 			int _DPFold;
 			int _CurvFold;
@@ -1737,11 +1740,11 @@ Shader "BUDU Shaders/BTransparent"
 			int _TRFRFold;
 			int _TransparentToggle;
 			int _TRFineTune;
-			float _SSBluricTransparent;
-			float _DepthOffset;
+			float _SurfaceSettings;
+			float _SSAnchorY;
 			float _PatternRotator;
-			float _Refraction;
-			float _DepthContrast;
+			float _PatternHeight;
+			float _Depth;
 			float _SpecularIntensity;
 			float _ThicknessIntensity;
 			float _ThickOffset;
@@ -1749,8 +1752,8 @@ Shader "BUDU Shaders/BTransparent"
 			float _ThichnessInvert;
 			float _Thickness;
 			float _TransparentIntensity;
-			float _PatternHeight;
 			float _NewMax;
+			float _NewMin;
 			float _OldMax;
 			float _OldMin;
 			float _FresnelPower;
@@ -1759,7 +1762,8 @@ Shader "BUDU Shaders/BTransparent"
 			float _RefractionInvert;
 			float _RefrControl;
 			float _ScreenContrast;
-			float _NewMin;
+			float _Refraction;
+			float _DepthScale;
 			float _Smoothness;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -2056,35 +2060,35 @@ Shader "BUDU Shaders/BTransparent"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _DepthColor;
 			float4 _TransparencyColor;
-			float4 _RimContourColor;
 			float4 _ReflectColor;
-			float4 _RefractColor;
-			float4 _CurvatureTexture_ST;
+			float4 _NormalMap_ST;
+			float4 _RimContourColor;
 			float4 _BaseMap_ST;
 			float4 _BaseColor;
-			float4 _NormalMap_ST;
-			float4 _SpecColor;
-			float4 _DepthColor;
+			float4 _CurvatureTexture_ST;
+			float4 _RefractColor;
 			float4 _ThicknessMap_ST;
+			float4 _SpecColor;
 			float3 _ThicknessColor;
-			float _TransparentFresnelPower;
+			float _TransparentFresnelScale;
 			float _RimContourScale;
 			float _RimContourOffset;
-			int _DepthToggle;
+			float _TransparentFresnel;
 			float _RimCAtt;
 			float _RimContour;
 			float _TransScale;
+			float _TransparentFresnelPower;
 			float _TROffset;
-			float _RimContourIntensity;
 			float _TRScale;
+			int _DepthToggle;
 			float _TransparentFresnelInvert;
 			float _TransparentFresnelBias;
-			float _TransparentFresnelScale;
 			float _TransOffset;
-			float _Reflect;
+			float _RimContourIntensity;
 			float _CMXPos;
-			float _CubeMapRotate;
+			float _ReflectionStrength;
 			float _SpecularSaturation;
 			float _SpecularAmbient;
 			float _Softness;
@@ -2093,7 +2097,7 @@ Shader "BUDU Shaders/BTransparent"
 			float _Glossy;
 			float _SpecularSwitch;
 			float _CurvatureScale;
-			float _ReflectionStrength;
+			float _Reflect;
 			float _ReflectionCurvature;
 			int _RefFresnelSwitch;
 			float _RefFresnelPower;
@@ -2102,12 +2106,11 @@ Shader "BUDU Shaders/BTransparent"
 			float _RefFresnelInvert;
 			float _CMZPos;
 			float _CMYPos;
-			float _TransparentFresnel;
+			float _CubeMapRotate;
 			float _ReflectionMultiplier;
+			float _DepthOffset;
 			int _RIFineTune;
-			float _Depth;
-			float _DepthScale;
-			float _SSAnchorX;
+			float _DepthContrast;
 			float _SSOffY;
 			float _SSOffX;
 			float _SSSize;
@@ -2115,9 +2118,10 @@ Shader "BUDU Shaders/BTransparent"
 			float _SSTileX;
 			float _ScreenSpace;
 			float _NormalScale;
-			float _SSAnchorY;
 			float _Normal;
-			float _SurfaceSettings;
+			float _SSAnchorX;
+			float _SSBluricTransparent;
+			int _checkDef;
 			int _RIFold;
 			int _DPFold;
 			int _CurvFold;
@@ -2125,11 +2129,11 @@ Shader "BUDU Shaders/BTransparent"
 			int _TRFRFold;
 			int _TransparentToggle;
 			int _TRFineTune;
-			float _SSBluricTransparent;
-			float _DepthOffset;
+			float _SurfaceSettings;
+			float _SSAnchorY;
 			float _PatternRotator;
-			float _Refraction;
-			float _DepthContrast;
+			float _PatternHeight;
+			float _Depth;
 			float _SpecularIntensity;
 			float _ThicknessIntensity;
 			float _ThickOffset;
@@ -2137,8 +2141,8 @@ Shader "BUDU Shaders/BTransparent"
 			float _ThichnessInvert;
 			float _Thickness;
 			float _TransparentIntensity;
-			float _PatternHeight;
 			float _NewMax;
+			float _NewMin;
 			float _OldMax;
 			float _OldMin;
 			float _FresnelPower;
@@ -2147,7 +2151,8 @@ Shader "BUDU Shaders/BTransparent"
 			float _RefractionInvert;
 			float _RefrControl;
 			float _ScreenContrast;
-			float _NewMin;
+			float _Refraction;
+			float _DepthScale;
 			float _Smoothness;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -2587,35 +2592,35 @@ Shader "BUDU Shaders/BTransparent"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _DepthColor;
 			float4 _TransparencyColor;
-			float4 _RimContourColor;
 			float4 _ReflectColor;
-			float4 _RefractColor;
-			float4 _CurvatureTexture_ST;
+			float4 _NormalMap_ST;
+			float4 _RimContourColor;
 			float4 _BaseMap_ST;
 			float4 _BaseColor;
-			float4 _NormalMap_ST;
-			float4 _SpecColor;
-			float4 _DepthColor;
+			float4 _CurvatureTexture_ST;
+			float4 _RefractColor;
 			float4 _ThicknessMap_ST;
+			float4 _SpecColor;
 			float3 _ThicknessColor;
-			float _TransparentFresnelPower;
+			float _TransparentFresnelScale;
 			float _RimContourScale;
 			float _RimContourOffset;
-			int _DepthToggle;
+			float _TransparentFresnel;
 			float _RimCAtt;
 			float _RimContour;
 			float _TransScale;
+			float _TransparentFresnelPower;
 			float _TROffset;
-			float _RimContourIntensity;
 			float _TRScale;
+			int _DepthToggle;
 			float _TransparentFresnelInvert;
 			float _TransparentFresnelBias;
-			float _TransparentFresnelScale;
 			float _TransOffset;
-			float _Reflect;
+			float _RimContourIntensity;
 			float _CMXPos;
-			float _CubeMapRotate;
+			float _ReflectionStrength;
 			float _SpecularSaturation;
 			float _SpecularAmbient;
 			float _Softness;
@@ -2624,7 +2629,7 @@ Shader "BUDU Shaders/BTransparent"
 			float _Glossy;
 			float _SpecularSwitch;
 			float _CurvatureScale;
-			float _ReflectionStrength;
+			float _Reflect;
 			float _ReflectionCurvature;
 			int _RefFresnelSwitch;
 			float _RefFresnelPower;
@@ -2633,12 +2638,11 @@ Shader "BUDU Shaders/BTransparent"
 			float _RefFresnelInvert;
 			float _CMZPos;
 			float _CMYPos;
-			float _TransparentFresnel;
+			float _CubeMapRotate;
 			float _ReflectionMultiplier;
+			float _DepthOffset;
 			int _RIFineTune;
-			float _Depth;
-			float _DepthScale;
-			float _SSAnchorX;
+			float _DepthContrast;
 			float _SSOffY;
 			float _SSOffX;
 			float _SSSize;
@@ -2646,9 +2650,10 @@ Shader "BUDU Shaders/BTransparent"
 			float _SSTileX;
 			float _ScreenSpace;
 			float _NormalScale;
-			float _SSAnchorY;
 			float _Normal;
-			float _SurfaceSettings;
+			float _SSAnchorX;
+			float _SSBluricTransparent;
+			int _checkDef;
 			int _RIFold;
 			int _DPFold;
 			int _CurvFold;
@@ -2656,11 +2661,11 @@ Shader "BUDU Shaders/BTransparent"
 			int _TRFRFold;
 			int _TransparentToggle;
 			int _TRFineTune;
-			float _SSBluricTransparent;
-			float _DepthOffset;
+			float _SurfaceSettings;
+			float _SSAnchorY;
 			float _PatternRotator;
-			float _Refraction;
-			float _DepthContrast;
+			float _PatternHeight;
+			float _Depth;
 			float _SpecularIntensity;
 			float _ThicknessIntensity;
 			float _ThickOffset;
@@ -2668,8 +2673,8 @@ Shader "BUDU Shaders/BTransparent"
 			float _ThichnessInvert;
 			float _Thickness;
 			float _TransparentIntensity;
-			float _PatternHeight;
 			float _NewMax;
+			float _NewMin;
 			float _OldMax;
 			float _OldMin;
 			float _FresnelPower;
@@ -2678,7 +2683,8 @@ Shader "BUDU Shaders/BTransparent"
 			float _RefractionInvert;
 			float _RefrControl;
 			float _ScreenContrast;
-			float _NewMin;
+			float _Refraction;
+			float _DepthScale;
 			float _Smoothness;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -2995,35 +3001,35 @@ Shader "BUDU Shaders/BTransparent"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _DepthColor;
 			float4 _TransparencyColor;
-			float4 _RimContourColor;
 			float4 _ReflectColor;
-			float4 _RefractColor;
-			float4 _CurvatureTexture_ST;
+			float4 _NormalMap_ST;
+			float4 _RimContourColor;
 			float4 _BaseMap_ST;
 			float4 _BaseColor;
-			float4 _NormalMap_ST;
-			float4 _SpecColor;
-			float4 _DepthColor;
+			float4 _CurvatureTexture_ST;
+			float4 _RefractColor;
 			float4 _ThicknessMap_ST;
+			float4 _SpecColor;
 			float3 _ThicknessColor;
-			float _TransparentFresnelPower;
+			float _TransparentFresnelScale;
 			float _RimContourScale;
 			float _RimContourOffset;
-			int _DepthToggle;
+			float _TransparentFresnel;
 			float _RimCAtt;
 			float _RimContour;
 			float _TransScale;
+			float _TransparentFresnelPower;
 			float _TROffset;
-			float _RimContourIntensity;
 			float _TRScale;
+			int _DepthToggle;
 			float _TransparentFresnelInvert;
 			float _TransparentFresnelBias;
-			float _TransparentFresnelScale;
 			float _TransOffset;
-			float _Reflect;
+			float _RimContourIntensity;
 			float _CMXPos;
-			float _CubeMapRotate;
+			float _ReflectionStrength;
 			float _SpecularSaturation;
 			float _SpecularAmbient;
 			float _Softness;
@@ -3032,7 +3038,7 @@ Shader "BUDU Shaders/BTransparent"
 			float _Glossy;
 			float _SpecularSwitch;
 			float _CurvatureScale;
-			float _ReflectionStrength;
+			float _Reflect;
 			float _ReflectionCurvature;
 			int _RefFresnelSwitch;
 			float _RefFresnelPower;
@@ -3041,12 +3047,11 @@ Shader "BUDU Shaders/BTransparent"
 			float _RefFresnelInvert;
 			float _CMZPos;
 			float _CMYPos;
-			float _TransparentFresnel;
+			float _CubeMapRotate;
 			float _ReflectionMultiplier;
+			float _DepthOffset;
 			int _RIFineTune;
-			float _Depth;
-			float _DepthScale;
-			float _SSAnchorX;
+			float _DepthContrast;
 			float _SSOffY;
 			float _SSOffX;
 			float _SSSize;
@@ -3054,9 +3059,10 @@ Shader "BUDU Shaders/BTransparent"
 			float _SSTileX;
 			float _ScreenSpace;
 			float _NormalScale;
-			float _SSAnchorY;
 			float _Normal;
-			float _SurfaceSettings;
+			float _SSAnchorX;
+			float _SSBluricTransparent;
+			int _checkDef;
 			int _RIFold;
 			int _DPFold;
 			int _CurvFold;
@@ -3064,11 +3070,11 @@ Shader "BUDU Shaders/BTransparent"
 			int _TRFRFold;
 			int _TransparentToggle;
 			int _TRFineTune;
-			float _SSBluricTransparent;
-			float _DepthOffset;
+			float _SurfaceSettings;
+			float _SSAnchorY;
 			float _PatternRotator;
-			float _Refraction;
-			float _DepthContrast;
+			float _PatternHeight;
+			float _Depth;
 			float _SpecularIntensity;
 			float _ThicknessIntensity;
 			float _ThickOffset;
@@ -3076,8 +3082,8 @@ Shader "BUDU Shaders/BTransparent"
 			float _ThichnessInvert;
 			float _Thickness;
 			float _TransparentIntensity;
-			float _PatternHeight;
 			float _NewMax;
+			float _NewMin;
 			float _OldMax;
 			float _OldMin;
 			float _FresnelPower;
@@ -3086,7 +3092,8 @@ Shader "BUDU Shaders/BTransparent"
 			float _RefractionInvert;
 			float _RefrControl;
 			float _ScreenContrast;
-			float _NewMin;
+			float _Refraction;
+			float _DepthScale;
 			float _Smoothness;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -3527,35 +3534,35 @@ Shader "BUDU Shaders/BTransparent"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _DepthColor;
 			float4 _TransparencyColor;
-			float4 _RimContourColor;
 			float4 _ReflectColor;
-			float4 _RefractColor;
-			float4 _CurvatureTexture_ST;
+			float4 _NormalMap_ST;
+			float4 _RimContourColor;
 			float4 _BaseMap_ST;
 			float4 _BaseColor;
-			float4 _NormalMap_ST;
-			float4 _SpecColor;
-			float4 _DepthColor;
+			float4 _CurvatureTexture_ST;
+			float4 _RefractColor;
 			float4 _ThicknessMap_ST;
+			float4 _SpecColor;
 			float3 _ThicknessColor;
-			float _TransparentFresnelPower;
+			float _TransparentFresnelScale;
 			float _RimContourScale;
 			float _RimContourOffset;
-			int _DepthToggle;
+			float _TransparentFresnel;
 			float _RimCAtt;
 			float _RimContour;
 			float _TransScale;
+			float _TransparentFresnelPower;
 			float _TROffset;
-			float _RimContourIntensity;
 			float _TRScale;
+			int _DepthToggle;
 			float _TransparentFresnelInvert;
 			float _TransparentFresnelBias;
-			float _TransparentFresnelScale;
 			float _TransOffset;
-			float _Reflect;
+			float _RimContourIntensity;
 			float _CMXPos;
-			float _CubeMapRotate;
+			float _ReflectionStrength;
 			float _SpecularSaturation;
 			float _SpecularAmbient;
 			float _Softness;
@@ -3564,7 +3571,7 @@ Shader "BUDU Shaders/BTransparent"
 			float _Glossy;
 			float _SpecularSwitch;
 			float _CurvatureScale;
-			float _ReflectionStrength;
+			float _Reflect;
 			float _ReflectionCurvature;
 			int _RefFresnelSwitch;
 			float _RefFresnelPower;
@@ -3573,12 +3580,11 @@ Shader "BUDU Shaders/BTransparent"
 			float _RefFresnelInvert;
 			float _CMZPos;
 			float _CMYPos;
-			float _TransparentFresnel;
+			float _CubeMapRotate;
 			float _ReflectionMultiplier;
+			float _DepthOffset;
 			int _RIFineTune;
-			float _Depth;
-			float _DepthScale;
-			float _SSAnchorX;
+			float _DepthContrast;
 			float _SSOffY;
 			float _SSOffX;
 			float _SSSize;
@@ -3586,9 +3592,10 @@ Shader "BUDU Shaders/BTransparent"
 			float _SSTileX;
 			float _ScreenSpace;
 			float _NormalScale;
-			float _SSAnchorY;
 			float _Normal;
-			float _SurfaceSettings;
+			float _SSAnchorX;
+			float _SSBluricTransparent;
+			int _checkDef;
 			int _RIFold;
 			int _DPFold;
 			int _CurvFold;
@@ -3596,11 +3603,11 @@ Shader "BUDU Shaders/BTransparent"
 			int _TRFRFold;
 			int _TransparentToggle;
 			int _TRFineTune;
-			float _SSBluricTransparent;
-			float _DepthOffset;
+			float _SurfaceSettings;
+			float _SSAnchorY;
 			float _PatternRotator;
-			float _Refraction;
-			float _DepthContrast;
+			float _PatternHeight;
+			float _Depth;
 			float _SpecularIntensity;
 			float _ThicknessIntensity;
 			float _ThickOffset;
@@ -3608,8 +3615,8 @@ Shader "BUDU Shaders/BTransparent"
 			float _ThichnessInvert;
 			float _Thickness;
 			float _TransparentIntensity;
-			float _PatternHeight;
 			float _NewMax;
+			float _NewMin;
 			float _OldMax;
 			float _OldMin;
 			float _FresnelPower;
@@ -3618,7 +3625,8 @@ Shader "BUDU Shaders/BTransparent"
 			float _RefractionInvert;
 			float _RefrControl;
 			float _ScreenContrast;
-			float _NewMin;
+			float _Refraction;
+			float _DepthScale;
 			float _Smoothness;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -4183,35 +4191,35 @@ Shader "BUDU Shaders/BTransparent"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _DepthColor;
 			float4 _TransparencyColor;
-			float4 _RimContourColor;
 			float4 _ReflectColor;
-			float4 _RefractColor;
-			float4 _CurvatureTexture_ST;
+			float4 _NormalMap_ST;
+			float4 _RimContourColor;
 			float4 _BaseMap_ST;
 			float4 _BaseColor;
-			float4 _NormalMap_ST;
-			float4 _SpecColor;
-			float4 _DepthColor;
+			float4 _CurvatureTexture_ST;
+			float4 _RefractColor;
 			float4 _ThicknessMap_ST;
+			float4 _SpecColor;
 			float3 _ThicknessColor;
-			float _TransparentFresnelPower;
+			float _TransparentFresnelScale;
 			float _RimContourScale;
 			float _RimContourOffset;
-			int _DepthToggle;
+			float _TransparentFresnel;
 			float _RimCAtt;
 			float _RimContour;
 			float _TransScale;
+			float _TransparentFresnelPower;
 			float _TROffset;
-			float _RimContourIntensity;
 			float _TRScale;
+			int _DepthToggle;
 			float _TransparentFresnelInvert;
 			float _TransparentFresnelBias;
-			float _TransparentFresnelScale;
 			float _TransOffset;
-			float _Reflect;
+			float _RimContourIntensity;
 			float _CMXPos;
-			float _CubeMapRotate;
+			float _ReflectionStrength;
 			float _SpecularSaturation;
 			float _SpecularAmbient;
 			float _Softness;
@@ -4220,7 +4228,7 @@ Shader "BUDU Shaders/BTransparent"
 			float _Glossy;
 			float _SpecularSwitch;
 			float _CurvatureScale;
-			float _ReflectionStrength;
+			float _Reflect;
 			float _ReflectionCurvature;
 			int _RefFresnelSwitch;
 			float _RefFresnelPower;
@@ -4229,12 +4237,11 @@ Shader "BUDU Shaders/BTransparent"
 			float _RefFresnelInvert;
 			float _CMZPos;
 			float _CMYPos;
-			float _TransparentFresnel;
+			float _CubeMapRotate;
 			float _ReflectionMultiplier;
+			float _DepthOffset;
 			int _RIFineTune;
-			float _Depth;
-			float _DepthScale;
-			float _SSAnchorX;
+			float _DepthContrast;
 			float _SSOffY;
 			float _SSOffX;
 			float _SSSize;
@@ -4242,9 +4249,10 @@ Shader "BUDU Shaders/BTransparent"
 			float _SSTileX;
 			float _ScreenSpace;
 			float _NormalScale;
-			float _SSAnchorY;
 			float _Normal;
-			float _SurfaceSettings;
+			float _SSAnchorX;
+			float _SSBluricTransparent;
+			int _checkDef;
 			int _RIFold;
 			int _DPFold;
 			int _CurvFold;
@@ -4252,11 +4260,11 @@ Shader "BUDU Shaders/BTransparent"
 			int _TRFRFold;
 			int _TransparentToggle;
 			int _TRFineTune;
-			float _SSBluricTransparent;
-			float _DepthOffset;
+			float _SurfaceSettings;
+			float _SSAnchorY;
 			float _PatternRotator;
-			float _Refraction;
-			float _DepthContrast;
+			float _PatternHeight;
+			float _Depth;
 			float _SpecularIntensity;
 			float _ThicknessIntensity;
 			float _ThickOffset;
@@ -4264,8 +4272,8 @@ Shader "BUDU Shaders/BTransparent"
 			float _ThichnessInvert;
 			float _Thickness;
 			float _TransparentIntensity;
-			float _PatternHeight;
 			float _NewMax;
+			float _NewMin;
 			float _OldMax;
 			float _OldMin;
 			float _FresnelPower;
@@ -4274,7 +4282,8 @@ Shader "BUDU Shaders/BTransparent"
 			float _RefractionInvert;
 			float _RefrControl;
 			float _ScreenContrast;
-			float _NewMin;
+			float _Refraction;
+			float _DepthScale;
 			float _Smoothness;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -4543,35 +4552,35 @@ Shader "BUDU Shaders/BTransparent"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _DepthColor;
 			float4 _TransparencyColor;
-			float4 _RimContourColor;
 			float4 _ReflectColor;
-			float4 _RefractColor;
-			float4 _CurvatureTexture_ST;
+			float4 _NormalMap_ST;
+			float4 _RimContourColor;
 			float4 _BaseMap_ST;
 			float4 _BaseColor;
-			float4 _NormalMap_ST;
-			float4 _SpecColor;
-			float4 _DepthColor;
+			float4 _CurvatureTexture_ST;
+			float4 _RefractColor;
 			float4 _ThicknessMap_ST;
+			float4 _SpecColor;
 			float3 _ThicknessColor;
-			float _TransparentFresnelPower;
+			float _TransparentFresnelScale;
 			float _RimContourScale;
 			float _RimContourOffset;
-			int _DepthToggle;
+			float _TransparentFresnel;
 			float _RimCAtt;
 			float _RimContour;
 			float _TransScale;
+			float _TransparentFresnelPower;
 			float _TROffset;
-			float _RimContourIntensity;
 			float _TRScale;
+			int _DepthToggle;
 			float _TransparentFresnelInvert;
 			float _TransparentFresnelBias;
-			float _TransparentFresnelScale;
 			float _TransOffset;
-			float _Reflect;
+			float _RimContourIntensity;
 			float _CMXPos;
-			float _CubeMapRotate;
+			float _ReflectionStrength;
 			float _SpecularSaturation;
 			float _SpecularAmbient;
 			float _Softness;
@@ -4580,7 +4589,7 @@ Shader "BUDU Shaders/BTransparent"
 			float _Glossy;
 			float _SpecularSwitch;
 			float _CurvatureScale;
-			float _ReflectionStrength;
+			float _Reflect;
 			float _ReflectionCurvature;
 			int _RefFresnelSwitch;
 			float _RefFresnelPower;
@@ -4589,12 +4598,11 @@ Shader "BUDU Shaders/BTransparent"
 			float _RefFresnelInvert;
 			float _CMZPos;
 			float _CMYPos;
-			float _TransparentFresnel;
+			float _CubeMapRotate;
 			float _ReflectionMultiplier;
+			float _DepthOffset;
 			int _RIFineTune;
-			float _Depth;
-			float _DepthScale;
-			float _SSAnchorX;
+			float _DepthContrast;
 			float _SSOffY;
 			float _SSOffX;
 			float _SSSize;
@@ -4602,9 +4610,10 @@ Shader "BUDU Shaders/BTransparent"
 			float _SSTileX;
 			float _ScreenSpace;
 			float _NormalScale;
-			float _SSAnchorY;
 			float _Normal;
-			float _SurfaceSettings;
+			float _SSAnchorX;
+			float _SSBluricTransparent;
+			int _checkDef;
 			int _RIFold;
 			int _DPFold;
 			int _CurvFold;
@@ -4612,11 +4621,11 @@ Shader "BUDU Shaders/BTransparent"
 			int _TRFRFold;
 			int _TransparentToggle;
 			int _TRFineTune;
-			float _SSBluricTransparent;
-			float _DepthOffset;
+			float _SurfaceSettings;
+			float _SSAnchorY;
 			float _PatternRotator;
-			float _Refraction;
-			float _DepthContrast;
+			float _PatternHeight;
+			float _Depth;
 			float _SpecularIntensity;
 			float _ThicknessIntensity;
 			float _ThickOffset;
@@ -4624,8 +4633,8 @@ Shader "BUDU Shaders/BTransparent"
 			float _ThichnessInvert;
 			float _Thickness;
 			float _TransparentIntensity;
-			float _PatternHeight;
 			float _NewMax;
+			float _NewMin;
 			float _OldMax;
 			float _OldMin;
 			float _FresnelPower;
@@ -4634,7 +4643,8 @@ Shader "BUDU Shaders/BTransparent"
 			float _RefractionInvert;
 			float _RefrControl;
 			float _ScreenContrast;
-			float _NewMin;
+			float _Refraction;
+			float _DepthScale;
 			float _Smoothness;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -4826,13 +4836,13 @@ Shader "BUDU Shaders/BTransparent"
 	Fallback Off
 }
 /*ASEBEGIN
-Version=19600
+Version=19603
 Node;AmplifyShaderEditor.CommentaryNode;632;-3136,-2704;Inherit;False;1688.441;645.2385;Final Emission Compositing;15;563;534;382;631;381;296;472;466;295;627;582;297;285;463;585;;0,0,0,1;0;0
 Node;AmplifyShaderEditor.CommentaryNode;629;-5216,-3344;Inherit;False;1900.888;608.8458;Reflect Curvature Settings;13;630;551;480;412;547;554;553;556;487;541;555;485;188;;1,0.5333334,0,1;0;0
 Node;AmplifyShaderEditor.CommentaryNode;625;-5344,-2704;Inherit;False;2170.466;630.6934;Depth And Transparent Settings;24;626;356;395;292;345;391;636;332;343;357;355;286;390;387;352;344;351;388;329;271;290;392;638;683;;1,1,1,1;0;0
 Node;AmplifyShaderEditor.CommentaryNode;583;-7584,-3728;Inherit;False;2339.747;792.5537;Refraction Settings;27;249;225;254;215;661;652;281;282;284;283;532;280;166;654;454;423;584;301;644;302;422;424;426;425;223;273;389;;0,0.4211543,1,1;0;0
 Node;AmplifyShaderEditor.CommentaryNode;574;-5216,-3792;Inherit;False;1432;424;Thickness Settings;9;533;572;573;569;567;566;459;575;576;;1,0.5333334,0,1;0;0
-Node;AmplifyShaderEditor.CommentaryNode;121;-2160,-2016;Inherit;False;707.1488;633.9546;Local Vars;16;640;639;675;691;637;635;681;679;117;118;662;116;119;643;120;115;;1,1,1,1;0;0
+Node;AmplifyShaderEditor.CommentaryNode;121;-2160,-2016;Inherit;False;707.1488;633.9546;Local Vars;17;640;639;675;691;637;635;681;679;117;118;662;116;119;643;120;115;729;;1,1,1,1;0;0
 Node;AmplifyShaderEditor.CommentaryNode;38;-7584,-1216;Inherit;False;1794.864;776.4122;Fresnel Settings;14;242;46;39;51;50;48;529;44;45;228;43;42;41;40;;0,0.9833336,1,1;0;0
 Node;AmplifyShaderEditor.CommentaryNode;20;-7584,-1616;Inherit;False;663.1602;341.7755;Normal Light Direction;4;33;30;32;31;;0.4402515,0.4635113,1,1;0;0
 Node;AmplifyShaderEditor.CommentaryNode;21;-7584,-2032;Inherit;False;1755.914;375.5025;Normals;10;24;23;29;663;508;507;27;25;28;26;;0.4402515,0.4635113,1,1;0;0
@@ -4979,10 +4989,9 @@ Node;AmplifyShaderEditor.RegisterLocalVarNode;447;-2640,-176;Inherit;True;Specul
 Node;AmplifyShaderEditor.RangedFloatNode;432;-4736,-176;Inherit;False;Property;_Glossy;Glossy;31;0;Create;True;0;0;0;False;0;False;1;25;0;100;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;295;-2464,-2304;Inherit;False;Property;_TransScale;TransScale;25;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.ToggleSwitchNode;572;-4448,-3584;Inherit;False;Property;_ThichnessInvert;Thichness Invert;77;0;Create;True;0;0;0;False;0;False;0;True;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.IntNode;643;-1664,-1968;Inherit;False;Property;_RIFineTune;RIFineTune;89;0;Create;True;0;0;0;True;0;False;0;0;True;0;1;INT;0
 Node;AmplifyShaderEditor.RangedFloatNode;119;-2112,-1872;Inherit;False;Constant;_Zero1;[Zero];19;1;[HideInInspector];Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RegisterLocalVarNode;116;-1904,-1872;Inherit;False;Zero;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.IntNode;662;-1664,-1872;Inherit;False;Property;_TRFineTune;TRFineTune;90;0;Create;True;0;0;0;True;0;False;0;0;True;0;1;INT;0
+Node;AmplifyShaderEditor.IntNode;662;-1664,-1872;Inherit;False;Property;_TRFineTune;TRFineTune;91;0;Create;True;0;0;0;True;0;False;0;0;True;0;1;INT;0
 Node;AmplifyShaderEditor.RangedFloatNode;118;-2112,-1776;Inherit;False;Constant;_Gray;[Gray];19;1;[HideInInspector];Create;True;0;0;0;False;0;False;0.5;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RegisterLocalVarNode;117;-1904,-1776;Inherit;False;Gray;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.IntNode;679;-2112,-1680;Inherit;False;Property;_DepthToggle;DepthToggle;81;0;Create;True;0;0;0;True;0;False;0;0;True;0;1;INT;0
@@ -5005,7 +5014,7 @@ Node;AmplifyShaderEditor.RegisterLocalVarNode;367;-5296,-208;Inherit;False;Toon 
 Node;AmplifyShaderEditor.RegisterLocalVarNode;368;-5312,-368;Inherit;False;Toon Rim Alpha;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.OneMinusNode;369;-5504,-368;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.GetLocalVarNode;694;-5712,-80;Inherit;False;116;Zero;1;0;OBJECT;;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;695;-5872,0;Inherit;False;Property;_RimContourIntensity;Rim Contour Intensity;94;0;Create;True;0;0;0;False;0;False;1;1;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;695;-5872,0;Inherit;False;Property;_RimContourIntensity;Rim Contour Intensity;95;0;Create;True;0;0;0;False;0;False;1;1;0;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;273;-6672,-3312;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT4;0,0,0,0;False;1;FLOAT4;0
 Node;AmplifyShaderEditor.ScreenColorNode;223;-6528,-3312;Inherit;False;Global;_GrabScreen0;Grab Screen 0;11;0;Create;True;0;0;0;False;0;False;Object;-1;False;False;False;False;2;0;FLOAT2;0,0;False;1;FLOAT;0;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SimpleAddOpNode;425;-6416,-3552;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
@@ -5022,7 +5031,7 @@ Node;AmplifyShaderEditor.TFHCRemapNode;280;-7216,-3520;Inherit;True;5;0;FLOAT;0;
 Node;AmplifyShaderEditor.RangedFloatNode;283;-7392,-3536;Inherit;False;Property;_OldMin;Old Min;13;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;284;-7392,-3456;Inherit;False;Property;_OldMax;Old Max;15;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;281;-7392,-3296;Inherit;False;Property;_NewMax;New Max;19;0;Create;True;0;0;0;False;0;False;1.2;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.ToggleSwitchNode;652;-6928,-3408;Inherit;False;Property;_RefrControl;RefrControl;91;0;Create;True;0;0;0;False;0;False;0;True;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.ToggleSwitchNode;652;-6928,-3408;Inherit;False;Property;_RefrControl;RefrControl;92;0;Create;True;0;0;0;False;0;False;0;True;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.GetLocalVarNode;661;-7136,-3296;Inherit;False;115;One;1;0;OBJECT;;False;1;FLOAT;0
 Node;AmplifyShaderEditor.GrabScreenPosition;215;-7344,-3200;Inherit;False;0;0;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SaturateNode;254;-7104,-3200;Inherit;False;1;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0
@@ -5088,7 +5097,7 @@ Node;AmplifyShaderEditor.ColorNode;442;-3376,-176;Inherit;False;Property;_SpecCo
 Node;AmplifyShaderEditor.LightColorNode;443;-3360,16;Inherit;False;0;3;COLOR;0;FLOAT3;1;FLOAT;2
 Node;AmplifyShaderEditor.RangedFloatNode;444;-3408,144;Inherit;False;Property;_SpecularIntensity;Specular Intensity;37;0;Create;True;0;0;0;False;0;False;1;0.4472353;0;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.GetLocalVarNode;448;-4960,-240;Inherit;True;24;NewObjectNormal;1;0;OBJECT;;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.ToggleSwitchNode;692;-5536,-208;Inherit;False;Property;_RimContour;Rim Contour;93;0;Create;True;0;0;0;False;0;False;0;True;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.ToggleSwitchNode;692;-5536,-208;Inherit;False;Property;_RimContour;Rim Contour;94;0;Create;True;0;0;0;False;0;False;0;True;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.GetLocalVarNode;378;-7328,-176;Inherit;False;37;NormalViewDirection;1;0;OBJECT;;False;1;FLOAT;0
 Node;AmplifyShaderEditor.WorldSpaceLightDirHlpNode;31;-7552,-1440;Inherit;False;False;1;0;FLOAT;0;False;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
 Node;AmplifyShaderEditor.GetLocalVarNode;32;-7488,-1552;Inherit;False;23;NewNormals;1;0;OBJECT;;False;1;FLOAT3;0
@@ -5102,7 +5111,7 @@ Node;AmplifyShaderEditor.SamplerNode;25;-7264,-1952;Inherit;True;Property;_Norma
 Node;AmplifyShaderEditor.ToggleSwitchNode;27;-6960,-1952;Inherit;False;Property;_Normal;Normal;1;0;Create;True;0;0;0;False;0;False;0;True;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.GetLocalVarNode;507;-6960,-1792;Inherit;False;727;BumpForSmooth;1;0;OBJECT;;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.BlendNormalsNode;508;-6736,-1872;Inherit;False;1;3;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.ToggleSwitchNode;663;-6512,-1952;Inherit;False;Property;_SSBluricTransparent;SS Bluric Transparent;92;0;Create;True;0;0;0;False;0;False;0;True;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.ToggleSwitchNode;663;-6512,-1952;Inherit;False;Property;_SSBluricTransparent;SS Bluric Transparent;93;0;Create;True;0;0;0;False;0;False;0;True;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.WorldNormalVector;29;-6240,-1952;Inherit;False;True;1;0;FLOAT3;0,0,0;False;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
 Node;AmplifyShaderEditor.RegisterLocalVarNode;23;-6048,-1952;Float;False;NewNormals;-1;True;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.RegisterLocalVarNode;24;-6048,-1856;Inherit;False;NewObjectNormal;-1;True;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
@@ -5121,6 +5130,8 @@ Node;AmplifyShaderEditor.GetLocalVarNode;562;-1152,-2608;Inherit;False;561;MainD
 Node;AmplifyShaderEditor.GetLocalVarNode;453;-1152,-2368;Inherit;False;447;Specular;1;0;OBJECT;;False;1;COLOR;0
 Node;AmplifyShaderEditor.RangedFloatNode;282;-7424,-3376;Inherit;False;Property;_NewMin;New Min;17;0;Create;True;0;0;0;False;0;False;0.95;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;718;-4384,-1712;Inherit;False;Property;_PatternRotator;PatternRotator;85;0;Create;True;0;0;0;True;0;False;0;0;-360;360;0;1;FLOAT;0
+Node;AmplifyShaderEditor.IntNode;643;-1664,-1968;Inherit;False;Property;_RIFineTune;RIFineTune;89;0;Create;True;0;0;0;True;0;False;0;0;True;0;1;INT;0
+Node;AmplifyShaderEditor.IntNode;729;-1648,-1696;Inherit;False;Property;_checkDef;checkDef;90;0;Create;True;0;0;0;True;0;False;0;0;True;0;1;INT;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;190;272,-560;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;12;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ShadowCaster;0;2;ShadowCaster;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;True;1;LightMode=ShadowCaster;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;191;272,-560;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;12;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;DepthOnly;0;3;DepthOnly;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;True;True;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;False;False;True;1;LightMode=DepthOnly;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;192;272,-560;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;12;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;Meta;0;4;Meta;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Meta;False;False;0;;0;0;Standard;0;False;0
@@ -5395,4 +5406,4 @@ WireConnection;189;2;564;0
 WireConnection;189;9;453;0
 WireConnection;189;4;456;0
 ASEEND*/
-//CHKSM=30BED9CC54946F4F9FE49F9022373FC26534D4E6
+//CHKSM=8F5BDDEE86EDB5C69773F932474A4CA81EA001B8

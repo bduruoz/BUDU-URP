@@ -609,7 +609,7 @@ public class BTransparentEditor: ShaderGUI
         tempVar = targetMat.GetInt("_SpecularSwitch");
         checkSpec = tempVar == 1 ? true : false;
 
-        tempVar = targetMat.GetInt("_CheckDef");
+        tempVar = targetMat.GetInt("_checkDef");
         checkDef= tempVar == 1 ? true : false;
 
         tempVar = targetMat.GetInt("_RimContour");

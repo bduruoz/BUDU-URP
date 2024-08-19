@@ -2,10 +2,12 @@
 using UnityEditor;
 using System;
 using budu;
+using TMPro;
+using Unity.VisualScripting;
 
 public class BVolumetricCloudEditor : ShaderGUI
 {
-    bool checkAlphaClip, checkDef, checkBaseGroup, checkCloud, checkWind, checkLight;
+    bool checkAlphaClip, checkDef, checkBaseGroup, checkCloud, checkWind, checkLight, checkDetail;
     bool alphaFold, alphaClipFold, aboutFold, cameraRayFold, lightRayFold;
     int tempVar, tempRQ;
     
@@ -318,6 +320,132 @@ public class BVolumetricCloudEditor : ShaderGUI
         EditorGUILayout.Space(1);
         #endregion
 
+        #region Detail Texture Settings
+
+        style.normal.background = MakeBackground(1, 1, bdColors.GrayP(18, 204));
+        style.fontSize = 16;
+        style.normal.textColor = bdColors.NexusOrange();
+
+        EditorGUILayout.BeginVertical(style);
+        checkDetail = EditorGUILayout.ToggleLeft("DETAIL TEXTURE SETTINGS", checkDetail, style);
+        targetMat.SetInt("_checkDetail", Convert.ToInt16(checkDetail));
+        EditorGUILayout.EndVertical();
+
+        style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
+        EditorGUILayout.BeginVertical(style);
+        if(checkDetail)
+        {
+            EditorGUI.indentLevel++;
+            EditorGUILayout.Space(2);
+
+            MaterialProperty lareadet = ShaderGUI.FindProperty("_LightAreaDetails", properties);
+            MaterialProperty aareadet = ShaderGUI.FindProperty("_AmbientDetails", properties);
+
+            materialEditor.ShaderProperty(lareadet, "Lighten Area Details");
+
+            if(lareadet.floatValue > 0.0f)
+            {
+                EditorGUI.indentLevel++;
+
+                MaterialProperty lareaInt = ShaderGUI.FindProperty("_SurfaceTextureIntensity", properties);
+                materialEditor.ShaderProperty(lareaInt, "Lighten Area Intensity");
+
+                EditorGUI.indentLevel--;
+            }
+
+            materialEditor.ShaderProperty(aareadet, "Darken Area Details");
+
+            if(aareadet.floatValue > 0.0f)
+            {
+                EditorGUI.indentLevel++;
+
+                MaterialProperty aareaInt = ShaderGUI.FindProperty("_AmbientTextureIntensity", properties);
+                materialEditor.ShaderProperty(aareaInt, "Darken Area Intensity");
+
+                EditorGUI.indentLevel--;
+            }
+
+            if(lareadet.floatValue > 0.0f || aareadet.floatValue > 0.0f)
+            {
+                MaterialProperty detailColor = ShaderGUI.FindProperty("_DetailColor", properties);
+                MaterialProperty detxtgrType = ShaderGUI.FindProperty("_DetTXTGradeType", properties);
+                MaterialProperty detailTXTA = ShaderGUI.FindProperty("_DetailTextureA", properties);
+                MaterialProperty detailTXTB = ShaderGUI.FindProperty("_DetailTextureB", properties);
+                MaterialProperty blendType = ShaderGUI.FindProperty("_DetailBlendMethod", properties);
+
+                MaterialProperty typeA = ShaderGUI.FindProperty("_TypeA", properties);
+                MaterialProperty typeB = ShaderGUI.FindProperty("_TypeB", properties);
+
+                MaterialProperty smmin = ShaderGUI.FindProperty("_SmoothMin", properties);
+                MaterialProperty smmax = ShaderGUI.FindProperty("_SmoothMax", properties);
+                MaterialProperty backCont = ShaderGUI.FindProperty("_BackContrast", properties);
+                MaterialProperty backExp = ShaderGUI.FindProperty("_BackExponent", properties);
+                MaterialProperty lerpCoef = ShaderGUI.FindProperty("_LerpCoef", properties);
+
+                materialEditor.ShaderProperty(detailColor, "Detail Texture Color");
+                materialEditor.ShaderProperty(blendType, "Detail Blend Method");
+
+                materialEditor.ShaderProperty(backCont, "Back Contrast");
+                materialEditor.ShaderProperty(backExp, "Back Exponential");
+                materialEditor.ShaderProperty(smmin, "Smooth Min");
+                materialEditor.ShaderProperty(smmax, "Smooth Max");
+
+                if((int)blendType.floatValue == 3)
+                {
+                    materialEditor.ShaderProperty(lerpCoef, "Texture Blend");
+                }
+
+                materialEditor.ShaderProperty(detxtgrType, "Detail Texture Grade Type");
+
+                materialEditor.ShaderProperty(typeA, "Texture A Type");
+
+                materialEditor.ShaderProperty(detailTXTA, "Detail Texture Type A");
+
+                if (typeA.floatValue !< 2)
+                {
+                    MaterialProperty falloffA = ShaderGUI.FindProperty("_TAFalloff", properties);
+                    materialEditor.ShaderProperty(falloffA, "Falloff");
+                }
+
+                style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(40));
+                EditorGUILayout.BeginVertical(style);
+                DetTxtASet(materialEditor, properties);
+                MaterialProperty zSpeedA = ShaderGUI.FindProperty("_TextureASpeedZ", properties);
+                materialEditor.ShaderProperty(zSpeedA, "Speed Z");
+                EditorGUILayout.EndVertical();
+                materialEditor.ShaderProperty(detailTXTB, "Detail Texture Type B");
+                materialEditor.ShaderProperty(typeB, "Texture B Type");
+
+                if(typeA.floatValue! < 2)
+                {
+                    MaterialProperty falloffB = ShaderGUI.FindProperty("_TBFalloff", properties);
+                    materialEditor.ShaderProperty(falloffB, "Falloff");
+                }
+
+                style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(40));
+                EditorGUILayout.BeginVertical(style);
+                DetTxtBSet(materialEditor, properties);
+                MaterialProperty zSpeedB = ShaderGUI.FindProperty("_TextureBSpeedZ", properties);
+                materialEditor.ShaderProperty(zSpeedB, "Speed Z");
+                EditorGUILayout.EndVertical();
+
+
+                MaterialProperty dTCont = ShaderGUI.FindProperty("_Contrast", properties);
+                MaterialProperty dTSat = ShaderGUI.FindProperty("_Saturation", properties);
+                MaterialProperty dTBias = ShaderGUI.FindProperty("_Bias", properties);
+
+                materialEditor.ShaderProperty(dTSat, "Saturation");
+                materialEditor.ShaderProperty(dTCont, "Contrast");
+                materialEditor.ShaderProperty(dTBias, "Bias");
+            }
+
+
+            EditorGUI.indentLevel--;
+        }
+        EditorGUILayout.EndVertical();
+        EditorGUILayout.Space(1);
+        #endregion
+
         #region Shader Defaults
         style.normal.background = MakeBackground(1, 1, bdColors.GrayP(18, 204));
         style.fontSize = 16;
@@ -367,6 +495,9 @@ public class BVolumetricCloudEditor : ShaderGUI
         tempVar = targetMat.GetInt("_BaseSettings");
         checkBaseGroup = tempVar == 1 ? true : false;
 
+        tempVar = targetMat.GetInt("_checkDetail");
+        checkDetail = tempVar == 1 ? true : false;
+
         tempVar = targetMat.GetInt("_checkCloud");
         checkCloud = tempVar == 1 ? true : false;
 
@@ -402,6 +533,42 @@ public class BVolumetricCloudEditor : ShaderGUI
         return result;
     }
 
+    private void DetTxtASet(MaterialEditor materialEditor, MaterialProperty[] properties)
+    {
+        BD_ScaleOffset_GUI DetTXTA = new BD_ScaleOffset_GUI();
+        DetTXTA.Tile.x = "_TextureATileX";
+        DetTXTA.Tile.y = "_TextureATileY";
+        DetTXTA.Offset.x = "";
+        DetTXTA.Offset.y = "";
+        DetTXTA.Speed.x = "_TextureASpeedX";
+        DetTXTA.Speed.y = "_TextureASpeedY";
+        DetTXTA.OverallSpeed = "_TextureAOverallSpeed";
+        DetTXTA.Rotate = "_TextureARotate";
+        DetTXTA.RotateSpeed = "_TextureARotateSpeed";
+        DetTXTA.Anchor.x = "_TextureAPivotX";
+        DetTXTA.Anchor.y = "_TextureAPivotY";
+        EditorGUILayout.LabelField("Detail Type A Settings");
+        BDShaderGUI.ScaleOffsetGUI(materialEditor, properties, DetTXTA);
+        EditorGUILayout.Space(2);
+    }
+    private void DetTxtBSet(MaterialEditor materialEditor, MaterialProperty[] properties)
+    {
+        BD_ScaleOffset_GUI DetTXTB = new BD_ScaleOffset_GUI();
+        DetTXTB.Tile.x = "_TextureBTileX";
+        DetTXTB.Tile.y = "_TextureBTileY";
+        DetTXTB.Offset.x = "";
+        DetTXTB.Offset.y = "";
+        DetTXTB.Speed.x = "_TextureBSpeedX";
+        DetTXTB.Speed.y = "_TextureBSpeedY";
+        DetTXTB.OverallSpeed = "_TextureBOverallSpeed";
+        DetTXTB.Rotate = "_TextureBRotate";
+        DetTXTB.RotateSpeed = "_TextureBRotateSpeed";
+        DetTXTB.Anchor.x = "_TextureBPivotX";
+        DetTXTB.Anchor.y = "_TextureBPivotY";
+        EditorGUILayout.LabelField("Detail Type B Settings");
+        BDShaderGUI.ScaleOffsetGUI(materialEditor, properties, DetTXTB);
+        EditorGUILayout.Space(2);
+    }
     private void NoiseTxtSet(MaterialEditor materialEditor, MaterialProperty[] properties)
     {
         BD_ScaleOffset_GUI NoiseTXT = new BD_ScaleOffset_GUI();

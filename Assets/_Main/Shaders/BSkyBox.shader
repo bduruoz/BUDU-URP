@@ -1,4 +1,4 @@
-// Made with Amplify Shader Editor v1.9.6
+// Made with Amplify Shader Editor v1.9.6.3
 // Available at the Unity Asset Store - http://u3d.as/y3X 
 Shader "BUDU Shaders/BSkybox"
 {
@@ -245,7 +245,7 @@ Shader "BUDU Shaders/BSkybox"
 	Fallback Off
 }
 /*ASEBEGIN
-Version=19600
+Version=19603
 Node;AmplifyShaderEditor.CommentaryNode;25;-5520,-768;Inherit;False;1146.89;300.717;Perspective|Orthographic;5;30;29;28;27;26;;1,0,1,1;0;0
 Node;AmplifyShaderEditor.OrthoParams;27;-5488,-656;Inherit;False;0;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SimpleDivideOpNode;26;-5232,-688;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
@@ -379,13 +379,13 @@ Node;AmplifyShaderEditor.LerpOp;78;-3136,-928;Inherit;False;3;0;COLOR;0,0,0,0;Fa
 Node;AmplifyShaderEditor.ToggleSwitchNode;113;-2976,-1008;Inherit;False;Property;_EnableFog;Enable Fog;0;0;Create;True;0;0;0;False;0;False;0;True;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.RegisterLocalVarNode;147;-2752,-1008;Inherit;False;Result;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.RangedFloatNode;62;-4288,-1088;Inherit;False;Constant;_GrayFifty;[GrayFifty];8;0;Create;True;0;0;0;False;0;False;0.5;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.GetLocalVarNode;148;-1824,-832;Inherit;True;147;Result;1;0;OBJECT;;False;1;COLOR;0
 Node;AmplifyShaderEditor.RegisterLocalVarNode;32;-4080,-1088;Inherit;False;Gray50;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.Vector4Node;128;-5280,352;Half;False;Property;_Tex_HDR;DecodeInstructions;20;1;[HideInInspector];Create;False;0;0;0;True;0;False;0,0,0,0;1,1,0,0;0;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.Vector4Node;129;-5056,352;Half;False;Property;_Tex_HDR1;DecodeInstructions;19;1;[HideInInspector];Create;False;0;0;0;True;0;False;0,0,0,0;1,1,0,0;0;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.StaticSwitch;23;-5952,-240;Float;False;Property;_EnableRotation;Enable Rotation;14;0;Create;True;0;0;0;False;0;False;0;0;0;True;;Toggle;2;Key0;Key1;Create;True;True;All;9;1;FLOAT3;0,0,0;False;0;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT3;0,0,0;False;4;FLOAT3;0,0,0;False;5;FLOAT3;0,0,0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.IntNode;177;-4272,-608;Inherit;False;Property;_CheckDef;CheckDef;40;1;[HideInInspector];Create;True;0;0;0;True;0;False;0;0;False;0;1;INT;0
 Node;AmplifyShaderEditor.IntNode;178;-4064,-608;Inherit;False;Property;_CheckBase;CheckBase;41;1;[HideInInspector];Create;True;0;0;0;True;0;False;0;0;False;0;1;INT;0
+Node;AmplifyShaderEditor.GetLocalVarNode;148;-1824,-832;Inherit;True;147;Result;1;0;OBJECT;;False;1;COLOR;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;176;-1584,-832;Float;False;True;-1;2;BSkyboxEditor;100;5;BUDU Shaders/BSkybox;0770190933193b94aaa3065e307002fa;True;Unlit;0;0;Unlit;2;False;True;0;1;False;;0;False;;0;1;False;;0;False;;True;0;False;;0;False;;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;1;RenderType=Opaque=RenderType;True;2;False;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;0;;0;0;Standard;1;Vertex Position,InvertActionOnDeselection;1;0;0;1;True;False;;False;0
 WireConnection;26;0;27;2
 WireConnection;26;1;27;1
@@ -519,4 +519,4 @@ WireConnection;23;1;16;0
 WireConnection;23;0;18;0
 WireConnection;176;0;148;0
 ASEEND*/
-//CHKSM=ADE59D10669045F47F0AFCB415FBC8BE38EF1D01
+//CHKSM=774444348C510A2F9AF188454BF8BDC2044CBA59

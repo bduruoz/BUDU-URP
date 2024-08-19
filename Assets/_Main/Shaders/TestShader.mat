@@ -1,5 +1,18 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-4712814799359118477
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 7
 --- !u!21 &2100000
 Material:
   serializedVersion: 8
@@ -8,21 +21,20 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: TestShader
-  m_Shader: {fileID: 4800000, guid: 69da7182fa2b50e4a8510f4d3ede668f, type: 3}
+  m_Shader: {fileID: 4800000, guid: 8d2bb70cbf9db8d4da26e15b26e74248, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _ENVIRONMENTREFLECTIONS_OFF
   - _RECEIVE_SHADOWS_OFF
-  - _SPECULARHIGHLIGHTS_OFF
-  m_InvalidKeywords:
-  - _RECEIVESHADOWS_OFF
+  - _SPECULAR_COLOR
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap:
     QUEUE: Geometry
+    RenderType: Opaque
   disabledShaderPasses: []
   m_LockedProperties: _ShoreCTileX _TRDirec _TranslucentColor
   m_SavedProperties:
@@ -37,8 +49,8 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 20, y: 20}
+        m_Texture: {fileID: 2800000, guid: 8cb3e59fc6243e44aaa02d24e9cec222, type: 3}
+        m_Scale: {x: 3, y: 3}
         m_Offset: {x: 0, y: 0}
     - _BlueNoiseTexture:
         m_Texture: {fileID: 2800000, guid: ce721e2d7b397144b890340a9decde3f, type: 3}
@@ -46,6 +58,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _BluricRefractionPattern:
         m_Texture: {fileID: 2800000, guid: f1c6b2ef2ce80ac4c871600c83b25cab, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BumpMap:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BurnMask:
@@ -96,6 +112,18 @@ Material:
         m_Texture: {fileID: 2800000, guid: ce0a4d16bf4b29a4d9188f2231b99fbd, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _EmissionMap:
         m_Texture: {fileID: 2800000, guid: 4d9c650405d942b49a9676c96eb486e8, type: 3}
         m_Scale: {x: 20, y: 20}
@@ -133,8 +161,8 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
+        m_Texture: {fileID: 2800000, guid: 8cb3e59fc6243e44aaa02d24e9cec222, type: 3}
+        m_Scale: {x: 3, y: 3}
         m_Offset: {x: 0, y: 0}
     - _MaskMap:
         m_Texture: {fileID: 2800000, guid: 8cf783ef2e210d94fb2d234801d68e11, type: 3}
@@ -142,6 +170,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _MaskMap1:
         m_Texture: {fileID: 2800000, guid: 8cf783ef2e210d94fb2d234801d68e11, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicMap:
@@ -192,6 +224,14 @@ Material:
         m_Texture: {fileID: 2800000, guid: 988573db1268c324bbcd20f5d12fc93d, type: 3}
         m_Scale: {x: 20, y: 20}
         m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Pattern10:
         m_Texture: {fileID: 2800000, guid: b9e2c74514d1bb4488d9af4b5a8bc0ef, type: 3}
         m_Scale: {x: 10, y: 10}
@@ -223,6 +263,10 @@ Material:
     - _ShoreTexture:
         m_Texture: {fileID: 2800000, guid: 136144d880a69254ea8b2d639e2fe9c5, type: 3}
         m_Scale: {x: 5, y: 10}
+        m_Offset: {x: 0, y: 0}
+    - _SpecGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecularMap:
         m_Texture: {fileID: 0}
@@ -377,6 +421,7 @@ Material:
     - _AlphaCutoff: 0.5
     - _AlphaInvert: 0
     - _AlphaSetting: 0
+    - _AlphaToMask: 0
     - _AmbientClampMax: 0.5
     - _AmbientClampMin: 0.5
     - _AmbientOcclusionIntensity: 1
@@ -402,6 +447,8 @@ Material:
     - _BaseSpecular: 0
     - _BaseSpecularSwitch: 0
     - _Bias: 0.29
+    - _Blend: 0
+    - _BlendModePreserveSpecular: 1
     - _BlendingOp: 0
     - _BlinnOffset: 0
     - _BlinnScale: 1.4
@@ -412,6 +459,7 @@ Material:
     - _BlueNoiseIntensity: 0.5
     - _BodyFNormalMulti: 0.1
     - _Brightness: 1
+    - _BumpScale: 1
     - _CMReflect: 1
     - _CMXPos: 0.15
     - _CMYPos: -0.38
@@ -462,6 +510,7 @@ Material:
     - _Contrast: 2
     - _CubeMapExtras: 1
     - _CubeMapRotate: 190
+    - _Cull: 2
     - _CullMode: 0
     - _CullOp: 0
     - _CurvFold: 0
@@ -475,6 +524,7 @@ Material:
     - _CustomNoiseTypeA: 0
     - _CustomNoiseTypeB: 0
     - _CustomRamp: 0
+    - _Cutoff: 0.5
     - _DFAAmplitude: 1
     - _DFAAmplitude1: 1
     - _DFABias: 1.52
@@ -604,11 +654,13 @@ Material:
     - _DepthSetting: 0
     - _DepthSize: 1
     - _DepthToggle: 0
+    - _DetailNormalMapScale: 1
     - _DfNoiseAInvert: 0
     - _DfNoiseAInvert1: 0
     - _DfNoiseBInvert: 0
     - _Displacement: 1
     - _DstBlend: 0
+    - _DstBlendAlpha: 0
     - _EdgeWaveExponential: 20
     - _EdgeWaveMultiplier: 1
     - _EffectBlend: 0.613
@@ -718,7 +770,11 @@ Material:
     - _FresnelType: 0
     - _Gain: 1
     - _GainRes: 135.7
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossinessSource: 0
     - _Glossy: 1
+    - _GlossyReflections: 1
     - _GradALength: 0
     - _GradCLength: 0
     - _GradMode: 0
@@ -789,6 +845,7 @@ Material:
     - _MiddleWaveIntensity: 1
     - _MirrorRefIntensity: 0.144
     - _MirrorReflect: 0
+    - _Mode: 0
     - _NA_Intensity: 1
     - _NA_Intensity1: 1
     - _NB_Intensity: 1
@@ -888,6 +945,7 @@ Material:
     - _NormalTxt: 1
     - _NrmAInt: 5
     - _NrmBInt: 5
+    - _OcclusionStrength: 1
     - _Offset: 0
     - _OffsetB: 0.281
     - _OffsetB1: 0.5
@@ -899,6 +957,7 @@ Material:
     - _Opacity: 1
     - _OverForce: 0.2
     - _PaintMethod: 0
+    - _Parallax: 0.02
     - _PatternHeight: 0.2
     - _PatternMultiplier: 1
     - _PatternRotator: -117
@@ -1018,6 +1077,7 @@ Material:
     - _ShadowStrength: 1
     - _ShadowThreshold: 0.05
     - _SheenGap: 0.9
+    - _Shininess: 0
     - _ShoreAnchorX: 0
     - _ShoreAnchorY: 0
     - _ShoreBumpIntensity: 0.1
@@ -1063,10 +1123,13 @@ Material:
     - _Size: 0.43
     - _Smoothness: 1
     - _SmoothnessInvert: 0
+    - _SmoothnessSource: 0
+    - _SmoothnessTextureChannel: 0
     - _SmoothnessToggle: 0
     - _Softness: 3
     - _SpecMax: 1
     - _SpecMin: 0
+    - _SpecSource: 0
     - _SpecToggle: 1
     - _SpecType: 0
     - _Specular: 4.73
@@ -1088,6 +1151,8 @@ Material:
     - _SpeedTypeBX: 1
     - _SpeedTypeBY: 1
     - _SrcBlend: 1
+    - _SrcBlendAlpha: 1
+    - _Surface: 0
     - _SurfaceFoilage: 1
     - _SurfaceFoilageIntensity: 0.616
     - _SurfaceIntensity: 1
@@ -1187,6 +1252,7 @@ Material:
     - _TypeANeg: 0
     - _TypeBIntensity: 1
     - _TypeBNeg: 0
+    - _UVSec: 0
     - _VT_Intensity: 1
     - _VelvetBias: 0
     - _VelvetIntensity: 1
@@ -1293,7 +1359,7 @@ Material:
     m_Colors:
     - _AOColor: {r: 0, g: 0, b: 0, a: 1}
     - _AmbientColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-    - _BaseColor: {r: 0, g: 0, b: 0, a: 1}
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _BaseSpecularColor: {r: 1, g: 1, b: 1, a: 1}
     - _BlinnSpecColor: {r: 1, g: 1, b: 1, a: 1}
     - _CKey0: {r: 0, g: 0, b: 0, a: 1}
@@ -1304,6 +1370,7 @@ Material:
     - _CKey5: {r: 0, g: 0, b: 0, a: 1}
     - _CKey6: {r: 0, g: 0, b: 0, a: 1}
     - _CKey7: {r: 0, g: 0, b: 0, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Color0: {r: 0, g: 0, b: 0, a: 0}
     - _CurvatureColor: {r: 1, g: 1, b: 1, a: 1}
     - _DepthColor: {r: 1, g: 1, b: 1, a: 0}

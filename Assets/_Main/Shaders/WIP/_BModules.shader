@@ -437,9 +437,9 @@ Shader "BUDU Shaders/Modules/BModules"
 			float _AnchorX;
 			float _AnchorY;
 			float _Rotate;
+			int _GradMode;
 			float _CheckNode;
 			float _nodeFold;
-			int _GradMode;
 			float _SatinContrast;
 			float _Normal;
 			float _NormalScale1;
@@ -1233,9 +1233,9 @@ Shader "BUDU Shaders/Modules/BModules"
 			float _AnchorX;
 			float _AnchorY;
 			float _Rotate;
+			int _GradMode;
 			float _CheckNode;
 			float _nodeFold;
-			int _GradMode;
 			float _SatinContrast;
 			float _Normal;
 			float _NormalScale1;
@@ -1743,9 +1743,9 @@ Shader "BUDU Shaders/Modules/BModules"
 			float _AnchorX;
 			float _AnchorY;
 			float _Rotate;
+			int _GradMode;
 			float _CheckNode;
 			float _nodeFold;
-			int _GradMode;
 			float _SatinContrast;
 			float _Normal;
 			float _NormalScale1;
@@ -2214,9 +2214,9 @@ Shader "BUDU Shaders/Modules/BModules"
 			float _AnchorX;
 			float _AnchorY;
 			float _Rotate;
+			int _GradMode;
 			float _CheckNode;
 			float _nodeFold;
-			int _GradMode;
 			float _SatinContrast;
 			float _Normal;
 			float _NormalScale1;
@@ -2733,9 +2733,9 @@ Shader "BUDU Shaders/Modules/BModules"
 			float _AnchorX;
 			float _AnchorY;
 			float _Rotate;
+			int _GradMode;
 			float _CheckNode;
 			float _nodeFold;
-			int _GradMode;
 			float _SatinContrast;
 			float _Normal;
 			float _NormalScale1;
@@ -3218,9 +3218,9 @@ Shader "BUDU Shaders/Modules/BModules"
 			float _AnchorX;
 			float _AnchorY;
 			float _Rotate;
+			int _GradMode;
 			float _CheckNode;
 			float _nodeFold;
-			int _GradMode;
 			float _SatinContrast;
 			float _Normal;
 			float _NormalScale1;
@@ -3727,9 +3727,9 @@ Shader "BUDU Shaders/Modules/BModules"
 			float _AnchorX;
 			float _AnchorY;
 			float _Rotate;
+			int _GradMode;
 			float _CheckNode;
 			float _nodeFold;
-			int _GradMode;
 			float _SatinContrast;
 			float _Normal;
 			float _NormalScale1;
@@ -4173,9 +4173,9 @@ Shader "BUDU Shaders/Modules/BModules"
 			float _AnchorX;
 			float _AnchorY;
 			float _Rotate;
+			int _GradMode;
 			float _CheckNode;
 			float _nodeFold;
-			int _GradMode;
 			float _SatinContrast;
 			float _Normal;
 			float _NormalScale1;
@@ -6519,4 +6519,4 @@ WireConnection;1811;0;2017;0
 WireConnection;1811;2;1882;0
 WireConnection;1811;9;2018;0
 ASEEND*/
-//CHKSM=5B1D42F60FB1E85B18CC4F305E940174DF452CEF
+//CHKSM=8A1DAF4A1998465EE82EA8F4234B311352FC958E
