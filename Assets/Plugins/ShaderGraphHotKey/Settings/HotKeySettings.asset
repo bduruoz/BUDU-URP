@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce46b99269010f7429d4ea37e911095b, type: 3}
+  m_Name: HotKeySettings
+  m_EditorClassIdentifier: 
+  cashNodes:
+  - nodeName: IntegerNode
+    nodePath: 48
+  - nodeName: Vector1Node
+    nodePath: 49
+  - nodeName: Vector2Node
+    nodePath: 50
+  - nodeName: Vector3Node
+    nodePath: 51
+  - nodeName: Vector4Node
+    nodePath: 52
+  - nodeName: ColorNode
+    nodePath: 53
+  - nodeName: SampleTexture2DNode
+    nodePath: 116
+  - nodeName: UVNode
+    nodePath: 117
+  - nodeName: AddNode
+    nodePath: 118
+  - nodeName: SubtractNode
+    nodePath: 115
+  - nodeName: MultiplyNode
+    nodePath: 109
+  - nodeName: DivideNode
+    nodePath: 100
+  - nodeName: OneMinusNode
+    nodePath: 111
+  - nodeName: PowerNode
+    nodePath: 101
+  - nodeName: LerpNode
+    nodePath: 108
+  - nodeName: SplitNode
+    nodePath: 98
+  - nodeName: SwizzleNode
+    nodePath: 122
+  - nodeName: NormalizeNode
+    nodePath: 110
+  - nodeName: DotProductNode
+    nodePath: 46
+  - nodeName: Register Variable
+    nodePath: 114
+  - nodeName: Get Variable
+    nodePath: 103
+  change: 0

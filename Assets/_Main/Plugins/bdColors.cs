@@ -35,7 +35,10 @@ namespace budu
         {
             return new Color32(204,25,0, alpha);
         }
-
+        public static Color NexusBlue (byte alpha = 255)
+        {
+            return new Color32(0, 30, 100, alpha);
+        }
 
         #region Grays
         public static Color Gray10(byte alpha = 255)

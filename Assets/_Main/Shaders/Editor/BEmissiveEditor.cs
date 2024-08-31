@@ -2,17 +2,22 @@
 using UnityEditor;
 using System;
 using budu;
+using UnityEditor.Rendering;
+using UnityEngine.Rendering;
 
 public class BEmissiveEditor : ShaderGUI
 {
-    bool checkAlphaClip, checkTransparent, checkFresnel, checkFresnelInvert, checkBaseGroup, checkDef;
+    bool checkBase, checkDef, checkAlphaClip;
+    bool checkTransparent, checkFresnel, checkFresnelInvert;
     bool alphaFold, alphaClipFold, fresnelFold, aboutFold;
+    int surfType;
     int tempVar, tempRQ;
     
     public override void OnGUI(MaterialEditor materialEditor, MaterialProperty[] properties)
     {
         Material targetMat = materialEditor.target as Material;
-        loadMaterialVariables(targetMat);
+        LoadMaterialVariables(targetMat);
+        SurfaceControls(targetMat, surfType);
 
         GUIStyle style = new GUIStyle();
 
@@ -39,29 +44,28 @@ public class BEmissiveEditor : ShaderGUI
         style.normal.textColor = bdColors.NexusOrange();
 
         EditorGUILayout.BeginVertical(style);
-        checkBaseGroup = EditorGUILayout.ToggleLeft("BASE SETTINGS",checkBaseGroup,style);
-        targetMat.SetInt("_BaseSettings", Convert.ToInt16(checkBaseGroup));
+        checkBase = EditorGUILayout.ToggleLeft("BASE SETTINGS",checkBase,style);
+        targetMat.SetInt("_BaseSettings", Convert.ToInt16(checkBase));
         EditorGUILayout.EndVertical();
 
         style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
         EditorGUILayout.BeginVertical(style);
-        if(checkBaseGroup)
+        if(checkBase)
         {
-            style.normal.background = MakeBackground(1, 1, bdColors.Gray60(76));
+            EditorGUI.indentLevel++;
+            EditorGUILayout.Space(2);
+            //style.normal.background = MakeBackground(1, 1, bdColors.Gray60(76));
 
             MaterialProperty bc = ShaderGUI.FindProperty("_BaseColor", properties);
             MaterialProperty bt = ShaderGUI.FindProperty("_BaseMap", properties);
             MaterialProperty baseInt = ShaderGUI.FindProperty("_Intensity",properties);
+            MaterialProperty mapInv = ShaderGUI.FindProperty("_MapInvert", properties);
 
-            EditorGUILayout.BeginVertical();
-            {
-                EditorGUI.indentLevel++;
-                materialEditor.ShaderProperty(baseInt, "Base Intensity");
-                materialEditor.ColorProperty(bc, "Base Color");
-                materialEditor.TextureProperty(bt, "Base Map");
-                EditorGUI.indentLevel--;
-            }
-            EditorGUILayout.EndVertical();
+            materialEditor.ShaderProperty(baseInt, "Emission Intensity");
+            materialEditor.ColorProperty(bc, "Emission Color");
+            materialEditor.TextureProperty(bt, "Emission Map");
+            materialEditor.ShaderProperty(mapInv, "Invert Texture");
+            EditorGUI.indentLevel--;
         }
         EditorGUILayout.EndVertical();
         EditorGUILayout.Space(1);
@@ -73,45 +77,55 @@ public class BEmissiveEditor : ShaderGUI
         style.normal.textColor = bdColors.NexusOrange();
         EditorGUILayout.BeginVertical(style);
         checkTransparent = EditorGUILayout.ToggleLeft("TRANSPARENT", checkTransparent, style);
-        targetMat.SetInt("_Transparent",Convert.ToInt16(checkTransparent));
+        targetMat.SetFloat("_TransparentTog", Convert.ToInt16(checkTransparent));
         EditorGUILayout.EndVertical();
 
         style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
         EditorGUILayout.BeginVertical(style);
+        //int st;
         if(checkTransparent)
         {
-            EditorGUI.indentLevel++;
-            MaterialProperty alpChan = ShaderGUI.FindProperty("_AlphaChannel", properties);
-            MaterialProperty alpCont = ShaderGUI.FindProperty("_AlphaContrast", properties);
-            MaterialProperty alpInvert = ShaderGUI.FindProperty("_AlphaInvert", properties);
-            materialEditor.ShaderProperty(alpChan, "Selected Channel");
-            materialEditor.ShaderProperty(alpCont, "Alpha Contrast");
-            materialEditor.ShaderProperty(alpInvert, "Alpha Invert");
-
-            checkAlphaClip = EditorGUILayout.Toggle("Alpha Clip", checkAlphaClip);
-            targetMat.SetInt("_AlphaClip", Convert.ToInt16(checkAlphaClip));
-            if(checkAlphaClip)
+            if(surfType < 1f)
             {
-                MaterialProperty act = ShaderGUI.FindProperty("_AlphaClipThreshold", properties);
-                materialEditor.RangeProperty(act, "Alpha Clip Threshold");
+                EditorGUI.indentLevel++;
+                EditorGUILayout.HelpBox("Surface Type is Opaque !", MessageType.Warning);
+                EditorGUI.indentLevel--;
             }
+            else
+            {
+                EditorGUI.indentLevel++;
+                MaterialProperty alpChan = ShaderGUI.FindProperty("_ALPHACHANNEL", properties);
+                MaterialProperty alpCont = ShaderGUI.FindProperty("_AlphaContrast", properties);
+                MaterialProperty alpInvert = ShaderGUI.FindProperty("_ALPHAINVERT", properties);
 
-            targetMat.SetInt("_SrcBlend", 5);   // Src Alpha
-            targetMat.SetInt("_DstBlend", 10);  // One Minus Src Alpha
-            targetMat.SetInt("_ZWrite", 1);
-            targetMat.SetOverrideTag("RenderType", "Transparent");
-            targetMat.SetOverrideTag("Queue", "Transparent");
-            targetMat.renderQueue = (int)UnityEngine.Rendering.RenderQueue.Transparent + tempRQ;
-            EditorGUI.indentLevel--;
+                materialEditor.ShaderProperty(alpChan, "Selected Channel");
+                materialEditor.ShaderProperty(alpCont, "Alpha Contrast");
+                materialEditor.ShaderProperty(alpInvert, "Alpha Invert");
+
+                checkAlphaClip = EditorGUILayout.Toggle("Alpha Clip", checkAlphaClip);
+
+                targetMat.SetInt("_Alpha_Clip", Convert.ToInt16(checkAlphaClip));
+                targetMat.SetInt("_AlphaClip", Convert.ToInt16(checkAlphaClip));
+
+                if(checkAlphaClip)
+                {
+                    MaterialProperty act = ShaderGUI.FindProperty("_AlphaClipThreshold", properties);
+                    materialEditor.RangeProperty(act, "Alpha Clip Threshold");
+
+                    targetMat.EnableKeyword("_ALPHATEST_ON");
+
+                }
+                else
+                {
+                    targetMat.DisableKeyword("_ALPHATEST_ON");
+                }
+
+                EditorGUI.indentLevel--;
+            }
         }
         else
         {
-            targetMat.SetInt("_SrcBlend", 1); // One
-            targetMat.SetInt("_DstBlend", 0); // Zero
-            targetMat.SetInt("_ZWrite", 1);
-            targetMat.SetOverrideTag("RenderType", "Opaque");
-            targetMat.SetOverrideTag("Queue", "Geometry");
-            targetMat.renderQueue = (int)(UnityEngine.Rendering.RenderQueue.Geometry);
+            // Transparaan kapalı
         }
         EditorGUILayout.EndVertical();
         EditorGUILayout.Space(1);
@@ -124,7 +138,7 @@ public class BEmissiveEditor : ShaderGUI
         
         EditorGUILayout.BeginVertical(style);
         checkFresnel = EditorGUILayout.ToggleLeft("FRESNEL", checkFresnel, style);
-        targetMat.SetInt("_FSwitch",Convert.ToInt16(checkFresnel));
+        targetMat.SetInt("_Fresnel", Convert.ToInt16(checkFresnel));
         EditorGUILayout.EndVertical();
 
         style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
@@ -132,8 +146,6 @@ public class BEmissiveEditor : ShaderGUI
         if(checkFresnel)
         {
             EditorGUI.indentLevel++;
-            MaterialProperty fsw = ShaderGUI.FindProperty("_FSwitch",properties);
-
             checkFresnelInvert = EditorGUILayout.Toggle("Fresnel Invert", checkFresnelInvert);
             targetMat.SetInt("_FresnelInvert", Convert.ToInt16(checkFresnelInvert));
 
@@ -151,6 +163,7 @@ public class BEmissiveEditor : ShaderGUI
         #endregion
 
         #region Shader Defaults
+        EditorGUILayout.Space(2);
         style.normal.background = MakeBackground(1, 1, bdColors.GrayP(18, 204));
         style.fontSize = 16;
         style.normal.textColor = bdColors.NexusOrange();
@@ -164,8 +177,107 @@ public class BEmissiveEditor : ShaderGUI
         {
             EditorGUI.indentLevel++;
             EditorGUILayout.Space(2);
-            MaterialProperty cullm = ShaderGUI.FindProperty("_CullMode", properties);
-            materialEditor.ShaderProperty(cullm, "Cull Mode");
+
+            #region Surface Type
+            MaterialProperty surfaceType = ShaderGUI.FindProperty("_Surface", properties);
+            string[] srType = { "Opaque", "Transparent" };
+            materialEditor.PopupShaderProperty(surfaceType, new GUIContent("Surface Type"), srType);
+
+            if(surfaceType.floatValue > 0f)
+            {
+                #region Blend Type
+                MaterialProperty blType = ShaderGUI.FindProperty("_Blend", properties);
+                MaterialProperty srcBlend = ShaderGUI.FindProperty("_SrcBlend", properties);
+                MaterialProperty dstBlend = ShaderGUI.FindProperty("_DstBlend", properties);
+
+                string[] blendtype = { "Alpha", "Premultiply", "Additive", "Multiply" };
+                materialEditor.PopupShaderProperty(blType, new GUIContent("Blend Type"), blendtype);
+                switch((int)blType.floatValue)
+                {
+                    case 0:
+                        // Alpha Blending
+                        srcBlend.floatValue = (int)BlendMode.SrcAlpha;
+                        dstBlend.floatValue = (int)BlendMode.OneMinusSrcAlpha;
+                        targetMat.DisableKeyword(keyword: "_ALPHAMODULATE_ON");
+                        break;
+                    case 1:
+                        // Premultiply
+                        srcBlend.floatValue = (int)BlendMode.One;
+                        dstBlend.floatValue = (int)BlendMode.OneMinusSrcAlpha;
+                        targetMat.DisableKeyword(keyword: "_ALPHAMODULATE_ON");
+                        break;
+                    case 2:
+                        // Additive
+                        srcBlend.floatValue = (int)BlendMode.One;
+                        dstBlend.floatValue = (int)BlendMode.One;
+                        targetMat.DisableKeyword(keyword: "_ALPHAMODULATE_ON");
+                        break;
+                    case 3:
+                        // Multiply
+                        srcBlend.floatValue = (int)BlendMode.DstColor;
+                        dstBlend.floatValue = (int)BlendMode.Zero;
+                        targetMat.EnableKeyword(keyword: "_ALPHAMODULATE_ON");
+                        break;
+                }
+                #endregion
+
+                #region Preserve Specular Settings
+                EditorGUI.indentLevel++;
+                targetMat.DisableKeyword(keyword: "_ALPHAPREMULTIPLY_ON");
+                if((int)blType.floatValue == 0 || (int)blType.floatValue == 2)
+                {
+                    MaterialProperty psl = ShaderGUI.FindProperty("_Preserve_Specular_Lighting", properties);
+                    materialEditor.ShaderProperty(psl, "Preserve Specular Lighting");
+
+                    if(psl.floatValue < 1f)
+                    {
+                        targetMat.EnableKeyword(keyword: "_ALPHAPREMULTIPLY_ON");
+                    }
+                }
+                EditorGUI.indentLevel--;
+                #endregion
+            }
+            #endregion
+
+            #region Depth Write
+            // Auto = 0
+            // Force Enabled = 1
+            // Force Disabled = 2
+
+            MaterialProperty zDepth = ShaderGUI.FindProperty("_ZWrite", properties);
+            string[] zType = { "Auto", "Force Enabled", "Force Disabled" };
+            materialEditor.PopupShaderProperty(zDepth, new GUIContent("Depth Write"), zType);
+            #endregion
+
+            #region Cull Mode
+            MaterialProperty cullMode = ShaderGUI.FindProperty("_Cull", properties);
+            string[] clMode = { "Both", "Back", "Front" };
+            materialEditor.PopupShaderProperty(cullMode, new GUIContent("Cull Mode"), clMode);
+            #endregion
+
+            #region Cast Shadows
+            MaterialProperty castShadows = ShaderGUI.FindProperty("_Cast_Shadows", properties);
+            materialEditor.ShaderProperty(castShadows, "Cast Shadows");
+            targetMat.SetInt("_CastShadow", Convert.ToInt16((int)castShadows.floatValue));
+            targetMat.SetShaderPassEnabled("SHADOWCASTER", Convert.ToInt16((int)castShadows.floatValue) == 1 ? true : false);
+            #endregion
+
+            #region Receive Shadows
+            MaterialProperty receiveShadow = ShaderGUI.FindProperty("_Receive_Shadows", properties);
+            materialEditor.ShaderProperty(receiveShadow, "Receive Shadows");
+            targetMat.SetInt("_ReceiveShadow", Convert.ToInt16((int)receiveShadow.floatValue));
+            if(receiveShadow.floatValue < 1f)
+            {
+                targetMat.EnableKeyword(keyword: "_RECEIVE_SHADOWS_OFF");
+            }
+            else
+            {
+                targetMat.DisableKeyword(keyword: "_RECEIVE_SHADOWS_OFF");
+            }
+            #endregion
+
+            SurfaceControls(targetMat, surfaceType.intValue);
+
             materialEditor.RenderQueueField();
             materialEditor.EnableInstancingField();
             materialEditor.DoubleSidedGIField();
@@ -182,7 +294,6 @@ public class BEmissiveEditor : ShaderGUI
         style.fontStyle = FontStyle.Italic;
 
         style.normal.background = MakeBackground(1, 1, bdColors.Black(0));
-
         aboutFold = EditorGUILayout.Foldout(aboutFold, "© 2024 BUDU GAMES - Burçak Duruöz", toggleOnLabelClick: true, style);
         if(aboutFold)
         {
@@ -196,32 +307,74 @@ public class BEmissiveEditor : ShaderGUI
         #endregion
     }
 
-    void loadMaterialVariables(Material targetMat)
+    void LoadMaterialVariables(Material targetMat)
     {
-        if (targetMat.renderQueue >= 3000)
-        {
-            tempRQ = targetMat.renderQueue - 3000;
-        }
-
         tempVar = targetMat.GetInt("_CheckDef");
         checkDef = tempVar == 1 ? true : false;
 
         tempVar = targetMat.GetInt("_BaseSettings");
-        checkBaseGroup = tempVar == 1 ? true: false;
+        checkBase = tempVar == 1 ? true: false;
 
-        tempVar = targetMat.GetInt("_Transparent");
+        tempVar = targetMat.GetInt("_TransparentTog");
         checkTransparent = tempVar == 1 ? true : false;
 
-        tempVar = targetMat.GetInt("_AlphaClip");
+        tempVar = targetMat.GetInt("_Alpha_Clip");
         checkAlphaClip = tempVar == 1 ? true : false;
 
-        tempVar = targetMat.GetInt("_FSwitch");
+        tempVar = targetMat.GetInt("_Fresnel");
         checkFresnel = tempVar == 1 ? true : false;
 
         tempVar = targetMat.GetInt("_FresnelInvert");
         checkFresnelInvert = tempVar == 1 ? true : false;
     }
+    void SurfaceControls(Material targetMat, int surfType)
+    {
+        targetMat.SetInt("_AlphaToMask", 0);
 
+
+        if(targetMat.renderQueue >= 3000)
+        {
+            tempRQ = targetMat.renderQueue - 3000;
+        }
+
+        switch(surfType)
+        {
+            #region Opaque
+            case 0:
+                targetMat.SetOverrideTag("QUEUE", "Geometry");
+                targetMat.SetOverrideTag("RenderType", "Opaque");
+                targetMat.renderQueue = (int)(UnityEngine.Rendering.RenderQueue.Geometry);
+
+                targetMat.DisableKeyword(keyword: "_SURFACE_TYPE_TRANSPARENT");
+                targetMat.SetShaderPassEnabled("DepthOnly", true);
+
+                targetMat.SetInt("_Surface", 0);
+                targetMat.SetInt("_Zwrite", 1);
+                break;
+            #endregion
+            #region Transparent
+            case 1:
+                targetMat.SetOverrideTag("QUEUE", "Transparent");
+                if(checkAlphaClip)
+                {
+                    targetMat.SetOverrideTag("RenderType", "TransparentCutOut");
+                }
+                else
+                {
+                    targetMat.SetOverrideTag("RenderType", "Transparent");
+                }
+                targetMat.renderQueue = (int)UnityEngine.Rendering.RenderQueue.Transparent + tempRQ;
+
+                targetMat.EnableKeyword(keyword: "_SURFACE_TYPE_TRANSPARENT");
+                targetMat.SetShaderPassEnabled("DepthOnly", false);
+
+                targetMat.SetInt("_Surface", 1);
+                targetMat.SetInt("_Zwrite", 0);
+                break;
+            #endregion
+        }
+
+    }
     private Texture2D MakeBackground(int width, int height, Color col)
     {
         Color[] pix = new Color[width * height];

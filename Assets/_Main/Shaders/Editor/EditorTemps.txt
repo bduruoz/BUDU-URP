@@ -19,3 +19,36 @@
 //EditorGUILayout.Space(50);
 //GUI.backgroundColor = bdColors.Black(100);
 //base.OnGUI(materialEditor, properties);
+
+
+
+//Debug.Log("nedir = " + ShaderGUI.FindProperty("_AlphaToMask", properties).floatValue);
+
+//MaterialProperty atoMask = ShaderGUI.FindProperty("_AlphaToMask",properties);
+//materialEditor(atoMask, "Alpha To Mask");
+//targetMat.SetInt("_AlphaToMask", 0);
+
+//foreach(var item in Shader.globalKeywords)
+//{
+//    Debug.Log(item);
+//}
+
+//int cnt = 0;
+//foreach(var item in targetMat.enabledKeywords)
+//{
+//    Debug.Log(item + " " + cnt);
+//    cnt++;
+//}
+
+//foreach(var item in properties)
+//{
+//    Debug.Log(item.name);
+//}
+
+
+//Debug.Log(targetMat.FindPass("Universal Forward"));
+
+
+//var a = new LocalKeyword();
+//Debug.Log(a.name);
+

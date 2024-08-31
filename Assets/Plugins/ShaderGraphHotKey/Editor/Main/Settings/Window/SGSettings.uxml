@@ -1,0 +1,19 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="/Assets/Plugins/ShaderGraphHotKey/Editor/Main/Settings/Window/SGSettings.uss" />
+    <ui:VisualElement name="title" style="align-items: center; justify-content: center; flex-direction: row; display: flex; visibility: visible;">
+        <ui:VisualElement name="icon" style="background-image: url(/Assets/Plugins/ShaderGraphHotKey/Icon/hot.png); width: 32px; height: 35px; -unity-background-scale-mode: scale-to-fit; margin-left: 6px; margin-right: 6px; margin-top: 6px; margin-bottom: 6px;" />
+        <ui:Label text="ShaderGraph Hot Key" display-tooltip-when-elided="true" style="font-size: 21px; -unity-text-align: middle-center; margin-top: 10px; margin-bottom: 10px;" />
+    </ui:VisualElement>
+    <ui:VisualElement name="Body" style="display: flex; visibility: visible;">
+        <ui:VisualElement name="install-embed-layer" style="height: 117px; align-items: center; justify-content: center; display: flex;">
+            <ui:Button tabindex="-1" text="단축키 기능 활성화" display-tooltip-when-elided="true" name="shader-active-button" style="-unity-text-align: middle-center; white-space: normal; height: 53px; width: 284px; font-size: 20px; border-top-left-radius: 18px; border-bottom-left-radius: 18px; border-top-right-radius: 18px; border-bottom-right-radius: 18px; display: none;" />
+            <uie:Toolbar name="FinishMessage" style="width: 100%; height: 100px; align-items: center; justify-content: center; display: none;">
+                <ui:Label text="단축키 적용이 완료되었습니다." display-tooltip-when-elided="true" name="finish-text" style="font-size: 21px; -unity-text-align: middle-center;" />
+            </uie:Toolbar>
+        </ui:VisualElement>
+        <uie:Toolbar name="error-box" style="height: 42px; align-items: center; padding-left: 10px; padding-top: 8px; padding-bottom: 8px; display: none;">
+            <ui:VisualElement style="background-image: url(&apos;project://database/Assets/Plugins/ShaderGraphHotKey/Icon/warning.png?fileID=21300000&amp;guid=eec8ad046195ff74c8fc597d8128770b&amp;type=3#warning&apos;); -unity-background-scale-mode: scale-to-fit; width: 26px; height: 26px;" />
+            <ui:Label tabindex="-1" display-tooltip-when-elided="true" text="쉐이더 그래프가 설치되어 있지 않습니다." name="errorBox-text" style="margin-left: 5px; font-size: 16px; display: flex;" />
+        </uie:Toolbar>
+    </ui:VisualElement>
+</ui:UXML>
