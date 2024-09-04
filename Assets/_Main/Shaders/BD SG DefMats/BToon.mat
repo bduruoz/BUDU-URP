@@ -1,0 +1,194 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-6407583606434202693
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 7
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: BToon
+  m_Shader: {fileID: -6465566751694194690, guid: fd9af1c1b31d5ce48954590d212542f1,
+    type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: 2000
+  stringTagMap:
+    RenderType: Opaque
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Base_Map:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 0, y: 0}
+        m_Offset: {x: 0, y: 0}
+    - _Normal_Map:
+        m_Texture: {fileID: 2800000, guid: 5062329c834beb9469cdb4211084bae3, type: 3}
+        m_Scale: {x: 10, y: 10}
+        m_Offset: {x: 0, y: 0}
+    - _Ramp_Texture:
+        m_Texture: {fileID: 2800000, guid: 261196e17095efe44b65da3382b6a367, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_9d9a919cfcd54f04a20ec83237a32a70_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 5062329c834beb9469cdb4211084bae3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_c65c35edca1a46de80c37e6d687d5cad_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 5062329c834beb9469cdb4211084bae3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_dff7f81e7fbb41aca376e85140c6ccf8_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 5062329c834beb9469cdb4211084bae3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Shape_Shade_Texture:
+        m_Texture: {fileID: 2800000, guid: 0dd3b4cdeff246c49a87a00b568f999e, type: 3}
+        m_Scale: {x: 4, y: 4}
+        m_Offset: {x: 0, y: 0}
+    - _Style_Shade_Texture:
+        m_Texture: {fileID: 2800000, guid: c52c9eeb8d5300d41b6dbb8b83428bf5, type: 3}
+        m_Scale: {x: 7, y: 7}
+        m_Offset: {x: 0, y: 0}
+    - _WorldSpaceLightResult_7176c8d49fe24f02b27980f4763fdbe6_NormalMap_1755583284_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 5062329c834beb9469cdb4211084bae3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _WorldSpaceLightResult_c493d80a5d7b47dfbaf3e3b2448f7312_NormalMap_1755583284_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 5062329c834beb9469cdb4211084bae3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AKey0: 1
+    - _AKey1: 1
+    - _AKey2: 0
+    - _AKey3: 0
+    - _AKey4: 0
+    - _AKey5: 0
+    - _AKey6: 0
+    - _AKey7: 0
+    - _ATime0: 0
+    - _ATime1: 1
+    - _ATime2: 0
+    - _ATime3: 0
+    - _ATime4: 0
+    - _ATime5: 0
+    - _ATime6: 0
+    - _ATime7: 0
+    - _Affect_Normal: 0
+    - _Affect_Shade: 1
+    - _AlphaClip: 0
+    - _AlphaToMask: 0
+    - _Ambient_Affect: 1
+    - _Ambient_Clamp_Max: 1
+    - _Ambient_Clamp_Min: 0
+    - _Ambient_Intensity: 0.39
+    - _Ambient_Toggle: 1
+    - _Blend: 0
+    - _CTime0: 0
+    - _CTime1: 0.48874646
+    - _CTime2: 1
+    - _CTime3: 0.73333335
+    - _CTime4: 0.92941177
+    - _CTime5: 1
+    - _CTime6: 0
+    - _CTime7: 0
+    - _CastShadows: 1
+    - _Cast_Shadows: 1
+    - _CheckAmbient: 1
+    - _CheckBase: 1
+    - _CheckContour: 1
+    - _CheckDef: 0
+    - _CheckNormal: 0
+    - _CheckSpec: 1
+    - _CheckStyle: 1
+    - _Colored_Ambient_Toggle: 1
+    - _Contour_Light_Affect: 0
+    - _Contour_Offset: 0.5
+    - _Contour_Scale: 0
+    - _Contour_Toggle: 1
+    - _Cull: 2
+    - _CustomRamp: 0
+    - _DstBlend: 0
+    - _Float: 0.17
+    - _GradALength: 2
+    - _GradCLength: 3
+    - _GradMode: 0
+    - _Normal_Affect: 0
+    - _Normal_Scale: 0.6
+    - _Normal_Scale_Multiplier: 0
+    - _Normal_Toggle: 0
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _Ramp_Control: 1
+    - _Ramp_Gamma_Settings: 1
+    - _Ramp_Offset: 0
+    - _Ramp_Toggle: 1
+    - _Receive_Shadows: 1
+    - _Shape_Shade_Intesity: 0.75
+    - _Shape_Shade_Multiplier: 0
+    - _Shape_Shade_Toggle: 1
+    - _Specular_Toggle: 1
+    - _SrcBlend: 1
+    - _Style_Shade_Intensity: 0.3
+    - _Style_Shade_Intesity: 0.5
+    - _Style_Shade_Multiplier: 0
+    - _Style_Shade_Toggle: 1
+    - _Surface: 0
+    - _Toon_Contour_Light_Affect: 0
+    - _Toon_Contour_Offset: 0.2
+    - _Toon_Contour_Scale: 0.05
+    - _Toon_Spec_Area: 1
+    - _Toon_Spec_Intensity: 1
+    - _Toon_Spec_Max: 1
+    - _Toon_Spec_Min: 0
+    - _ZTest: 4
+    - _ZWrite: 1
+    - _ZWriteControl: 0
+    m_Colors:
+    - _Ambient_Color: {r: 0.23529413, g: 0.6627451, b: 0.882353, a: 1}
+    - _Base_Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Ckey0: {r: 0, g: 0, b: 0, a: 0}
+    - _Ckey1: {r: 0, g: 0, b: 0, a: 0}
+    - _Ckey2: {r: 0, g: 0, b: 0, a: 0}
+    - _Ckey3: {r: 0, g: 0, b: 0, a: 0}
+    - _Ckey4: {r: 0, g: 0, b: 0, a: 0}
+    - _Ckey5: {r: 0, g: 0, b: 0, a: 0}
+    - _Ckey6: {r: 0, g: 0, b: 0, a: 0}
+    - _Ckey7: {r: 0, g: 0, b: 0, a: 0}
+    - _Contour_Color: {r: 0, g: 0.22103095, b: 0.335, a: 1}
+    - _Specular_Color: {r: 0.60691816, g: 0.85220104, b: 1, a: 1}
+  m_BuildTextureStacks: []

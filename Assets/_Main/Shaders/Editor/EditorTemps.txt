@@ -1,3 +1,5 @@
+// ---------- FOR DEBUG 
+
 //string debug1 = "_SpecularColor";
 //MaterialProperty temProp1 = ShaderGUI.FindProperty(debug1, properties);
 //materialEditor.ShaderProperty(temProp1, debug1);
@@ -14,24 +16,30 @@
 //MaterialProperty temProp4 = ShaderGUI.FindProperty(debug4, properties);
 //materialEditor.ShaderProperty(temProp4, debug4);
 
+//Debug.Log("nedir = " + ShaderGUI.FindProperty("_AlphaToMask", properties).floatValue);
 
-/////////////
+//Debug.Log(targetMat.FindPass("Universal Forward"));
+
+// ---------- DRAW BASE GUI
+
 //EditorGUILayout.Space(50);
 //GUI.backgroundColor = bdColors.Black(100);
 //base.OnGUI(materialEditor, properties);
 
-
-
-//Debug.Log("nedir = " + ShaderGUI.FindProperty("_AlphaToMask", properties).floatValue);
+// ---------- ALPHA TO MASK (ALPHA COVERAGE)
 
 //MaterialProperty atoMask = ShaderGUI.FindProperty("_AlphaToMask",properties);
 //materialEditor(atoMask, "Alpha To Mask");
 //targetMat.SetInt("_AlphaToMask", 0);
 
+// ---------- GLOBAL KEYWORDS FOREACH
+
 //foreach(var item in Shader.globalKeywords)
 //{
 //    Debug.Log(item);
 //}
+
+// ---------- KEYWORDS FOREACH
 
 //int cnt = 0;
 //foreach(var item in targetMat.enabledKeywords)
@@ -40,15 +48,37 @@
 //    cnt++;
 //}
 
+// ---------- PROPERTIES FOREACH
+
 //foreach(var item in properties)
 //{
 //    Debug.Log(item.name);
 //}
 
-
-//Debug.Log(targetMat.FindPass("Universal Forward"));
-
+// ---------- KEYWORD NAME
 
 //var a = new LocalKeyword();
 //Debug.Log(a.name);
+
+// ---------- BLEND SETTINGS
+
+//MaterialProperty srcb = ShaderGUI.FindProperty("_SrcBlend", properties);
+//MaterialProperty dstb = ShaderGUI.FindProperty("_DstBlend", properties);
+//MaterialProperty nono = ShaderGUI.FindProperty("_BlendingList", properties);
+
+//targetMat.SetInt("_SrcBlend", 5);   // Src Alpha
+
+//materialEditor.ShaderProperty(srcb,"Source Blend");
+
+// ---------- CHECKING GUI 
+
+//var chk = new EditorGUI.ChangeCheckScope();
+//if(chk.changed)
+//{
+//    loadMaterialVariables(targetMat);
+//    EditorUtility.SetDirty(targetMat);
+//}
+
+
+
 

@@ -27,7 +27,6 @@ Material:
   m_ValidKeywords:
   - _SPECTYPE_LINEAR
   m_InvalidKeywords:
-  - _AVERAGEFEATURES_ON
   - _NORMAL_ON
   - _REFLECT_ON
   - _SHADECOLORTOGGLE_ON
@@ -80,7 +79,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
         m_Texture: {fileID: 2800000, guid: c52c9eeb8d5300d41b6dbb8b83428bf5, type: 3}
-        m_Scale: {x: 15, y: 15}
+        m_Scale: {x: 12, y: 12}
         m_Offset: {x: 0, y: 0}
     - _NormalMap1:
         m_Texture: {fileID: 2800000, guid: c52c9eeb8d5300d41b6dbb8b83428bf5, type: 3}
@@ -131,7 +130,7 @@ Material:
     - _AlphaClip: 0
     - _AlphaCutoff: 0.5
     - _AlphaToMask: 0
-    - _AverageFeatures: 1
+    - _AverageFeatures: 0
     - _BGloss: 2
     - _BaseCellOffset: 0
     - _BaseCellSharpness: 1
@@ -142,10 +141,12 @@ Material:
     - _CMXPos: 0
     - _CMYPos: 0
     - _CMZPos: 0
+    - _CheckBase: 1
+    - _CheckDef: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _CubeMapExtras: 1
-    - _CubeMapRotate: 78
+    - _CubeMapRotate: 0
     - _CubemapYPosition: 0
     - _Cull: 2
     - _Cutoff: 0.5
@@ -168,7 +169,7 @@ Material:
     - _Normal: 1
     - _NormalDistortion: 0.5
     - _NormalInfluence: 0
-    - _NormalScale: 0.3
+    - _NormalScale: 0.12
     - _NormalScale1: 0.3
     - _OcclusionStrength: 1
     - _Parallax: 0.005
@@ -185,10 +186,10 @@ Material:
     - _Reflect: 1
     - _ReflectT: 1
     - _ReflectionMultiplier: 1
-    - _ReflectionStrength: 0.3
+    - _ReflectionStrength: 0.205
     - _RimBias: 0
     - _RimBias1: 0
-    - _RimIntensity: 1.5
+    - _RimIntensity: 1.15
     - _RimPower: 1
     - _RimPower1: 3
     - _RimScale: 1
@@ -200,14 +201,14 @@ Material:
     - _Scattering: 2
     - _ShadeColor: 0
     - _ShadeColorToggle: 1
-    - _ShadeContrast: 1.675
+    - _ShadeContrast: 1.37
     - _ShadeExtras: 1
     - _ShadeT: 1
-    - _ShadingContrast: 2.77
-    - _ShadingContribution: 1.213
+    - _ShadingContrast: 2.93
+    - _ShadingContribution: 1.283
     - _ShadingControl: 0.654
-    - _ShadingIntensity: 1.478
-    - _ShadingOffset: 1.069
+    - _ShadingIntensity: 1.353
+    - _ShadingOffset: 1.129
     - _Smoothness: 0.442
     - _SmoothnessTextureChannel: 0
     - _Softness: 0.1

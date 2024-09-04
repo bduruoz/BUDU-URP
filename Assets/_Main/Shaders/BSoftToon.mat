@@ -1,0 +1,163 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7085280077131810106
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 7
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: BSoftToon
+  m_Shader: {fileID: -6465566751694194690, guid: 0635f1e52ab778e47b1344aa72a432b8,
+    type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - _SPECULAR_SETUP
+  m_InvalidKeywords: []
+  m_LightmapFlags: 2
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap:
+    RenderType: Opaque
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Base_Map:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Normal_Map:
+        m_Texture: {fileID: 2800000, guid: 28341222fc6700d47839920f44c5f118, type: 3}
+        m_Scale: {x: 20, y: 20}
+        m_Offset: {x: 0, y: 0}
+    - _Reflection_Cubemap:
+        m_Texture: {fileID: 8900000, guid: 79b09e00aa776ce42915c519f8f7fb18, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _Affect_Shadow: 0
+    - _AlphaClip: 0
+    - _AlphaToMask: 0
+    - _Average_Features: 0
+    - _Base_Gamma: 1
+    - _Base_Map_Gamma: 1
+    - _Base_Map_Intensity: 1
+    - _Base_Offset: 0
+    - _Base_Sharpness: 1
+    - _Blend: 0
+    - _BlendModePreserveSpecular: 1
+    - _Boolean: 1
+    - _CastShadows: 1
+    - _Cast_Shadows: 1
+    - _CheckBase: 1
+    - _CheckDef: 0
+    - _CheckNormal: 0
+    - _CheckReflect: 0
+    - _CheckRim: 0
+    - _CheckShade: 0
+    - _CheckSpecular: 0
+    - _Cubemap_Rotate: 0
+    - _Cubemap_X_Position: 0
+    - _Cubemap_Y_Position: 0
+    - _Cubemap_Z_Position: 0
+    - _Cull: 2
+    - _DstBlend: 0
+    - _Feature_Average: 0
+    - _FilterMode: 1
+    - _FitlerMode: 0
+    - _Glossy: 2
+    - _Light_Gamma: 3
+    - _Normal_Multiplier: 0
+    - _Normal_Strength: 0.3
+    - _Normal_Toggle: 0
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _R_m_Normal_Strength: 1
+    - _ReceiveShadows: 1
+    - _Receive_Shadows: 1
+    - _Ref_Fesnel_Scale: 1
+    - _Ref_Fresnel_Bias: 0
+    - _Ref_Fresnel_Invert: 0
+    - _Ref_Fresnel_Power: 3
+    - _Ref_Fresnel_Scale: 1
+    - _Ref_Fresnel_Toggle: 0
+    - _Ref_Normal_Strength: 1
+    - _Reflection_Affect_Shadow: 1
+    - _Reflection_Multiplier: 0
+    - _Reflection_Shadow_Strength: 0.2
+    - _Reflection_Strength: 0.3
+    - _Reflection_Toggle: 0
+    - _Rim_Bias: 0
+    - _Rim_Intensity: 1
+    - _Rim_Invert: 0
+    - _Rim_Normal_Strength: 1
+    - _Rim_Power: 3
+    - _Rim_Scale: 1
+    - _Rim_Toggle: 0
+    - _Shade_Contrast: 1
+    - _Shading_Affect_Base_Texture: 0
+    - _Shading_Colored_Texture: 0
+    - _Shading_Contrast: 1
+    - _Shading_Contribution: 1.59
+    - _Shading_Contriubution: 2
+    - _Shading_Intensity: 0.25
+    - _Shading_Normal_Strength: 4
+    - _Shading_Offset: 0.53
+    - _Shading_Saturate: 0
+    - _Shading_Toggle: 0
+    - _Shadow_Strength: 1
+    - _Softness: 1
+    - _Specular_In: 0.2
+    - _Specular_Intensity: 1
+    - _Specular_Normal_Strength: 1
+    - _Specular_Out: 0.8
+    - _Specular_Saturation: 1
+    - _Specular_Toggle: 0
+    - _SrcBlend: 1
+    - _Surface: 0
+    - _Texture_Over_Color: 0
+    - _WorkflowMode: 0
+    - _ZTest: 4
+    - _ZWrite: 1
+    - _ZWriteControl: 0
+    - _cubemapFold: 0
+    - _fresnelFold: 0
+    - _shadeExtFold: 0
+    - _specExtFold: 1
+    m_Colors:
+    - _Base_Color: {r: 0.75, g: 0.75, b: 0.75, a: 1}
+    - _Reflection_Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Rim_Color: {r: 1, g: 0.47871232, b: 0, a: 1}
+    - _Shade_Color: {r: 1, g: 0.52786505, b: 0, a: 1}
+    - _Specular_Color: {r: 0.7490196, g: 0.7490196, b: 0.7490196, a: 1}
+  m_BuildTextureStacks: []

@@ -7,7 +7,7 @@ using budu;
 public class BToonEditor : ShaderGUI
 {
     Gradient grad = new Gradient();
-    bool checkCustomRamp, checkRamp, checkTSpec, checkColoredAmb, checkNormal, checkBlueNoise, checkIndirectL, checkContour, checkContourLA, checkBase, checkDef;
+    bool checkBase, checkDef, checkCustomRamp, checkRamp, checkSpec, checkAmbient, checkNormal, checkStyle, checkContour;
     bool aboutFold, rampFold, customRampFold;
     bool gradControl = true;
     int tempVar, gradMode;
@@ -47,7 +47,7 @@ public class BToonEditor : ShaderGUI
         style.normal.textColor = bdColors.NexusOrange(255);
         EditorGUILayout.BeginVertical(style);
         checkBase = EditorGUILayout.ToggleLeft("BASE SETTINGS", checkBase, style);
-        targetMat.SetInt("_BaseSettings", Convert.ToInt16(checkBase));
+        targetMat.SetInt("_CheckBase", Convert.ToInt16(checkBase));
         EditorGUILayout.EndVertical();
 
         style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
@@ -57,8 +57,8 @@ public class BToonEditor : ShaderGUI
             EditorGUI.indentLevel++;
             EditorGUILayout.Space(2);
 
-            MaterialProperty bc = ShaderGUI.FindProperty("_BaseColor", properties);
-            MaterialProperty bt = ShaderGUI.FindProperty("_BaseMap", properties);
+            MaterialProperty bc = ShaderGUI.FindProperty("_Base_Color", properties);
+            MaterialProperty bt = ShaderGUI.FindProperty("_Base_Map", properties);
 
             materialEditor.ColorProperty(bc, "Base Color");
             materialEditor.TextureProperty(bt, "Base Map");
@@ -75,7 +75,7 @@ public class BToonEditor : ShaderGUI
 
         EditorGUILayout.BeginVertical(style);
         checkRamp = EditorGUILayout.ToggleLeft("GRADIENT SETTINGS", checkRamp, style);
-        targetMat.SetInt("_Ramp", Convert.ToInt16(checkRamp));
+        targetMat.SetInt("_Ramp_Toggle", Convert.ToInt16(checkRamp));
         EditorGUILayout.EndVertical();
 
         style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
@@ -100,9 +100,10 @@ public class BToonEditor : ShaderGUI
                     RemoveGradientTexture(targetMat);
                 }
             }
-            MaterialProperty rt = ShaderGUI.FindProperty("_RampTexture", properties);
-            MaterialProperty rc = ShaderGUI.FindProperty("_RampControl", properties);
-            MaterialProperty ro = ShaderGUI.FindProperty("_RampOffset", properties);
+            MaterialProperty rt = ShaderGUI.FindProperty("_Ramp_Texture", properties);
+            MaterialProperty rgamma = ShaderGUI.FindProperty("_Ramp_Gamma_Settings", properties);
+            MaterialProperty rc = ShaderGUI.FindProperty("_Ramp_Control", properties);
+            MaterialProperty ro = ShaderGUI.FindProperty("_Ramp_Offset", properties);
 
             if(customRampFold)
             {
@@ -110,18 +111,19 @@ public class BToonEditor : ShaderGUI
                 grad = EditorGUILayout.GradientField("Gradient", grad);
                 if(EditorGUI.EndChangeCheck())
                 {
-                    MaterialProperty rmp = ShaderGUI.FindProperty("_RampTexture", properties);
+                    MaterialProperty rmp = ShaderGUI.FindProperty("_Ramp_Texture", properties);
                     saveGradientVariables(targetMat);
                 }
                 SetGradient(targetMat);
             }
             else
             {
-                materialEditor.TextureProperty(rt, "Ramp Texture");
+                materialEditor.ShaderProperty(rt, "Ramp Texture");
             }
 
-            materialEditor.RangeProperty(rc, "Ramp Control");
-            materialEditor.RangeProperty(ro, "Ramp Offset");
+            materialEditor.ShaderProperty(rgamma, "Ramp Gamma Settings");
+            materialEditor.ShaderProperty(rc, "Ramp Control");
+            materialEditor.ShaderProperty(ro, "Ramp Offset");
             EditorGUI.indentLevel--;
         }
         EditorGUILayout.EndVertical();
@@ -134,58 +136,67 @@ public class BToonEditor : ShaderGUI
         style.normal.textColor = bdColors.NexusOrange();
 
         EditorGUILayout.BeginVertical(style);
-        checkTSpec = EditorGUILayout.ToggleLeft("SPECULAR",checkTSpec,style);
-        targetMat.SetInt("_ToonSpec", Convert.ToInt16(checkTSpec));
-        targetMat.SetInt("_TSpec", Convert.ToInt16(checkTSpec));
+        checkSpec = EditorGUILayout.ToggleLeft("SPECULAR", checkSpec, style);
+        targetMat.SetInt("_CheckSpec", Convert.ToInt16(checkSpec));
+        targetMat.SetInt("_Specular_Toggle", Convert.ToInt16(checkSpec));
         EditorGUILayout.EndVertical();
 
         style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
         EditorGUILayout.BeginVertical(style);
-        if(checkTSpec)
+        if(checkSpec)
         {
             EditorGUI.indentLevel++;
             EditorGUILayout.Space(2);
 
-            MaterialProperty tsi = ShaderGUI.FindProperty("_ToonSpecIntensity", properties);
-            MaterialProperty tsmn = ShaderGUI.FindProperty("_ToonSpecMin", properties);
-            MaterialProperty tsmx = ShaderGUI.FindProperty("_ToonSpecMax", properties);
-            MaterialProperty tsa = ShaderGUI.FindProperty("_ToonSpecArea", properties);
+            MaterialProperty tscol = ShaderGUI.FindProperty("_Specular_Color", properties);
+            MaterialProperty tsi = ShaderGUI.FindProperty("_Toon_Spec_Intensity", properties);
+            MaterialProperty tsmn = ShaderGUI.FindProperty("_Toon_Spec_Min", properties);
+            MaterialProperty tsmx = ShaderGUI.FindProperty("_Toon_Spec_Max", properties);
+            MaterialProperty tsa = ShaderGUI.FindProperty("_Toon_Spec_Area", properties);
 
-            materialEditor.RangeProperty(tsi, "Specular Intensity");
-            materialEditor.RangeProperty(tsmn, "Specular Min");
-            materialEditor.RangeProperty(tsmx, "Specular Max");
-            materialEditor.RangeProperty(tsa, "Specular Area");
+            materialEditor.ShaderProperty(tsi, "Specular Intensity");
+            materialEditor.ShaderProperty(tscol, "Specular Color");
+            materialEditor.ShaderProperty(tsa, "Specular Area");
+            materialEditor.ShaderProperty(tsmn, "Specular Min");
+            materialEditor.ShaderProperty(tsmx, "Specular Max");
             EditorGUI.indentLevel--;
         }
         EditorGUILayout.EndVertical();
         EditorGUILayout.Space(1);
         #endregion
 
-        #region Colored Ambient Settings
+        #region Ambient Settings
         style.normal.background = MakeBackground(1, 1, bdColors.GrayP(18, 204));
         style.fontSize = 16;
         style.normal.textColor = bdColors.NexusOrange();
 
         EditorGUILayout.BeginVertical(style);
-        checkColoredAmb = EditorGUILayout.ToggleLeft("AMBIENT SETTINGS", checkColoredAmb, style);
-        targetMat.SetInt("_ColoredAmbientToggle", Convert.ToInt16(checkColoredAmb));
+        checkAmbient = EditorGUILayout.ToggleLeft("AMBIENT SETTINGS", checkAmbient, style);
+        targetMat.SetInt("_CheckAmbient", Convert.ToInt16(checkAmbient));
+        targetMat.SetInt("_Ambient_Toggle", Convert.ToInt16(checkAmbient));
         EditorGUILayout.EndVertical();
 
 
         style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
         EditorGUILayout.BeginVertical(style);
-        if(checkColoredAmb)
+        if(checkAmbient)
         {
             EditorGUI.indentLevel++;
             EditorGUILayout.Space(2);
 
-            MaterialProperty ambc = ShaderGUI.FindProperty("_AmbientColor", properties);
-            MaterialProperty ambclmin = ShaderGUI.FindProperty("_AmbientClampMin", properties);
-            MaterialProperty ambclmax = ShaderGUI.FindProperty("_AmbientClampMax", properties);
+            MaterialProperty ambc = ShaderGUI.FindProperty("_Ambient_Color", properties);
+            MaterialProperty ambint = ShaderGUI.FindProperty("_Ambient_Intensity", properties);
+            MaterialProperty affShd = ShaderGUI.FindProperty("_Affect_Shade", properties);
+            MaterialProperty affNrm = ShaderGUI.FindProperty("_Affect_Normal", properties);
+            MaterialProperty ambclmin = ShaderGUI.FindProperty("_Ambient_Clamp_Min", properties);
+            MaterialProperty ambclmax = ShaderGUI.FindProperty("_Ambient_Clamp_Max", properties);
 
-            materialEditor.ColorProperty(ambc, "Ambient Color");
-            materialEditor.RangeProperty(ambclmin, "Ambient Clamp Min") ;
-            materialEditor.RangeProperty(ambclmax, "Ambient Clamp Max");
+            materialEditor.ShaderProperty(ambint, "Ambient Intensity");
+            materialEditor.ShaderProperty(ambc, "Ambient Color");
+            materialEditor.ShaderProperty(affShd, "Affect Shade");
+            materialEditor.ShaderProperty(affNrm, "Affect Normal");
+            materialEditor.ShaderProperty(ambclmin, "Ambient Clamp Min");
+            materialEditor.ShaderProperty(ambclmax, "Ambient Clamp Max");
             EditorGUI.indentLevel--;
         }
         EditorGUILayout.EndVertical();
@@ -199,7 +210,8 @@ public class BToonEditor : ShaderGUI
 
         EditorGUILayout.BeginVertical(style);
         checkNormal = EditorGUILayout.ToggleLeft("NORMAL SETTINGS", checkNormal, style);
-        targetMat.SetInt("_Normal", Convert.ToInt16(checkNormal));
+        targetMat.SetInt("_CheckNormal", Convert.ToInt16(checkNormal));
+        targetMat.SetInt("_Normal_Toggle", Convert.ToInt16(checkNormal));
         EditorGUILayout.EndVertical();
 
         style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
@@ -209,11 +221,13 @@ public class BToonEditor : ShaderGUI
             EditorGUI.indentLevel++;
             EditorGUILayout.Space(2);
 
-            MaterialProperty nmap = ShaderGUI.FindProperty("_NormalMap", properties);
-            MaterialProperty nscl = ShaderGUI.FindProperty("_NormalScale", properties);
+            MaterialProperty nmap = ShaderGUI.FindProperty("_Normal_Map", properties);
+            MaterialProperty nscl = ShaderGUI.FindProperty("_Normal_Scale", properties);
+            MaterialProperty nMult = ShaderGUI.FindProperty("_Normal_Scale_Multiplier", properties);
 
-            materialEditor.TextureProperty(nmap, "Normal Map");
-            materialEditor.RangeProperty(nscl, "Normal Scale");
+            materialEditor.ShaderProperty(nmap, "Normal Map");
+            materialEditor.ShaderProperty(nscl, "Normal Scale");
+            materialEditor.ShaderProperty(nMult, "Normal Scale Multiplier");
             EditorGUI.indentLevel--;
         }
         EditorGUILayout.EndVertical();
@@ -226,48 +240,25 @@ public class BToonEditor : ShaderGUI
         style.normal.textColor = bdColors.NexusOrange();
 
         EditorGUILayout.BeginVertical(style);
-        checkBlueNoise = EditorGUILayout.ToggleLeft("TOON STYLE SETTINGS", checkBlueNoise, style);
-        targetMat.SetInt("_BlueNoise", Convert.ToInt16(checkBlueNoise));
+        checkStyle = EditorGUILayout.ToggleLeft("STYLE SETTINGS", checkStyle, style);
+        targetMat.SetInt("_CheckStyle", Convert.ToInt16(checkStyle));
+        targetMat.SetInt("_Style_Shade_Toggle", Convert.ToInt16(checkStyle));
         EditorGUILayout.EndVertical();
 
         style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
         EditorGUILayout.BeginVertical(style);
-        if(checkBlueNoise)
+        if(checkStyle)
         {
             EditorGUI.indentLevel++;
             EditorGUILayout.Space(2);
 
-            MaterialProperty bntxt = ShaderGUI.FindProperty("_BlueNoiseTexture", properties);
-            MaterialProperty bnInt = ShaderGUI.FindProperty("_BlueNoiseIntensity", properties);
+            MaterialProperty bntxt = ShaderGUI.FindProperty("_Style_Shade_Texture", properties);
+            MaterialProperty bnInt = ShaderGUI.FindProperty("_Style_Shade_Intensity", properties);
+            MaterialProperty bnMult = ShaderGUI.FindProperty("_Style_Shade_Multiplier", properties);
 
-            materialEditor.TextureProperty(bntxt, "Style Pattern");
-            materialEditor.RangeProperty(bnInt, "Style Intensity");
-            EditorGUI.indentLevel--;
-        }
-        EditorGUILayout.EndVertical();
-        EditorGUILayout.Space(1);
-        #endregion
-
-        #region Indirect Light Settings
-        style.normal.background = MakeBackground(1, 1, bdColors.GrayP(18, 204));
-        style.fontSize = 16;
-        style.normal.textColor = bdColors.NexusOrange();
-
-        EditorGUILayout.BeginVertical(style);
-        checkIndirectL = EditorGUILayout.ToggleLeft("INDIRECT LIGHT SETTINGS", checkIndirectL, style);
-        targetMat.SetInt("_IndirectLightToggle", Convert.ToInt16(checkIndirectL));
-        EditorGUILayout.EndVertical();
-
-        style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
-        EditorGUILayout.BeginVertical(style);
-        if(checkIndirectL)
-        {
-            EditorGUI.indentLevel++;
-            EditorGUILayout.Space(2);
-
-            MaterialProperty ilI = ShaderGUI.FindProperty("_IndirectLightIntensity", properties);
-
-            materialEditor.RangeProperty(ilI, "Indirect Light Intensity");
+            materialEditor.ShaderProperty(bntxt, "Style Pattern");
+            materialEditor.ShaderProperty(bnInt, "Style Intensity");
+            materialEditor.ShaderProperty(bnMult, "Style Multiplier");
             EditorGUI.indentLevel--;
         }
         EditorGUILayout.EndVertical();
@@ -281,7 +272,8 @@ public class BToonEditor : ShaderGUI
 
         EditorGUILayout.BeginVertical(style);
         checkContour = EditorGUILayout.ToggleLeft("CONTOUR SETTINGS", checkContour, style);
-        targetMat.SetInt("_ToonContour", Convert.ToInt16(checkContour));
+        targetMat.SetInt("_CheckContour", Convert.ToInt16(checkContour));
+        targetMat.SetInt("_Contour_Toggle", Convert.ToInt16(checkContour));
         EditorGUILayout.EndVertical();
 
         style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
@@ -291,16 +283,16 @@ public class BToonEditor : ShaderGUI
             EditorGUI.indentLevel++;
             EditorGUILayout.Space(2);
 
-            MaterialProperty tcc = ShaderGUI.FindProperty("_ToonContourColor", properties);
-            MaterialProperty tcs = ShaderGUI.FindProperty("_ToonContourScale", properties);
-            MaterialProperty tco = ShaderGUI.FindProperty("_ToonContourOffset",properties);
+            MaterialProperty tcc = ShaderGUI.FindProperty("_Contour_Color", properties);
+            MaterialProperty tcs = ShaderGUI.FindProperty("_Contour_Scale", properties);
+            MaterialProperty tco = ShaderGUI.FindProperty("_Contour_Offset", properties);
+            MaterialProperty cAffLgh = ShaderGUI.FindProperty("_Contour_Light_Affect", properties);
 
-            materialEditor.ColorProperty(tcc, "Toon Contour Color");
-            materialEditor.RangeProperty(tcs, "Toon Contour Scale");
-            materialEditor.RangeProperty(tco, "Toon Contour Offset");
+            materialEditor.ShaderProperty(tcc, "Contour Color");
+            materialEditor.ShaderProperty(tcs, "Contour Scale");
+            materialEditor.ShaderProperty(tco, "Contour Offset");
+            materialEditor.ShaderProperty(cAffLgh, "Contour Light Affect");
 
-            checkContourLA = EditorGUILayout.Toggle("Toon Contour Light Affect",checkContourLA);
-            targetMat.SetInt("_ToonContourLightAttenuation", Convert.ToInt16(checkContourLA));
             EditorGUI.indentLevel--;
         }
         EditorGUILayout.EndVertical();
@@ -321,7 +313,28 @@ public class BToonEditor : ShaderGUI
         {
             EditorGUI.indentLevel++;
             EditorGUILayout.Space(2);
-            //materialEditor.RenderQueueField();
+
+            #region Cast Shadows
+            MaterialProperty castShadows = ShaderGUI.FindProperty("_Cast_Shadows", properties);
+            materialEditor.ShaderProperty(castShadows, "Cast Shadows");
+            targetMat.SetInt("_CastShadow", Convert.ToInt16((int)castShadows.floatValue));
+            targetMat.SetShaderPassEnabled("SHADOWCASTER", Convert.ToInt16((int)castShadows.floatValue) == 1 ? true : false);
+            #endregion
+
+            #region Receive Shadows
+            MaterialProperty receiveShadow = ShaderGUI.FindProperty("_Receive_Shadows", properties);
+            materialEditor.ShaderProperty(receiveShadow, "Receive Shadows");
+            targetMat.SetInt("_ReceiveShadow", Convert.ToInt16((int)receiveShadow.floatValue));
+            if(receiveShadow.floatValue < 1f)
+            {
+                targetMat.EnableKeyword(keyword: "_RECEIVE_SHADOWS_OFF");
+            }
+            else
+            {
+                targetMat.DisableKeyword(keyword: "_RECEIVE_SHADOWS_OFF");
+            }
+            #endregion
+
             materialEditor.EnableInstancingField();
             materialEditor.DoubleSidedGIField();
             EditorGUI.indentLevel--;
@@ -352,7 +365,6 @@ public class BToonEditor : ShaderGUI
         EditorUtility.SetDirty(targetMat);
     }
 
-
     void ClearGradient(Gradient grad)
     {
         // Current Gradient Datas Clearing
@@ -378,11 +390,11 @@ public class BToonEditor : ShaderGUI
     void SetGradient(Material targetMat)
     {
         Texture2D gradientTX = MakeGradient(256, 1, grad);
-        targetMat.SetTexture("_RampTexture", gradientTX);
+        targetMat.SetTexture("_Ramp_Texture", gradientTX);
     }
     void RemoveGradientTexture(Material targetMat)
     {
-        targetMat.SetTexture("_RampTexture", null);
+        targetMat.SetTexture("_Ramp_Texture", null);
     }
     void saveGradientVariables(Material targetMat)
     {
@@ -422,42 +434,45 @@ public class BToonEditor : ShaderGUI
         checkCustomRamp = tempVar == 1 ? true : false;
         customRampFold = checkCustomRamp;
 
-        tempVar = targetMat.GetInt("_Ramp");
+        tempVar = targetMat.GetInt("_Ramp_Toggle");
         checkRamp = tempVar == 1 ? true : false;
         rampFold = checkRamp;
 
-        var tempTX = targetMat.GetTexture("_RampTexture");
-        if(gradControl)
+        var tempTX = targetMat.GetTexture("_Ramp_Texture");
+        if(checkCustomRamp)
         {
-            RemoveGradientTexture(targetMat);
-            ClearGradient(grad);
+            if(gradControl)
+            {
+                RemoveGradientTexture(targetMat);
+                ClearGradient(grad);
 
-            // Loading Gradient Variables from Material
-            grad.mode = (GradientMode)targetMat.GetInt("_GradMode");
-            GradCLength = (int)targetMat.GetInt("_GradCLength");
-            GradALength= (int)targetMat.GetInt("_GradALength");
-            
-            // Creating New Gradient from Material
-            for(int i = 0; i < GradCLength; i++)
-            {
-                iGradColors.Add(new GradientColorKey((Color)targetMat.GetVector("_CKey" + i), targetMat.GetFloat("_CTime" + i)));
-            }
-            for(int i = 0; i < GradALength; i++)
-            {
-                iGradAlphas.Add(new GradientAlphaKey(targetMat.GetFloat("_AKey" + i), targetMat.GetFloat("_ATime" + i)));
-            }
-            grad.SetKeys(iGradColors.ToArray(), iGradAlphas.ToArray());
-            gradControl = false;
-            SetGradient(targetMat);
-            if(targetMat.GetInt("_CustomRamp") == 0)
-            {
-                if(tempTX != null)
+                // Loading Gradient Variables from Material
+                grad.mode = (GradientMode)targetMat.GetInt("_GradMode");
+                GradCLength = (int)targetMat.GetInt("_GradCLength");
+                GradALength = (int)targetMat.GetInt("_GradALength");
+
+                // Creating New Gradient from Material
+                for(int i = 0; i < GradCLength; i++)
                 {
-                    targetMat.SetTexture("_RampTexture", tempTX);
+                    iGradColors.Add(new GradientColorKey((Color)targetMat.GetColor("_CKey" + i), targetMat.GetFloat("_CTime" + i)));
                 }
-                else
+                for(int i = 0; i < GradALength; i++)
                 {
-                    RemoveGradientTexture(targetMat);
+                    iGradAlphas.Add(new GradientAlphaKey(targetMat.GetFloat("_AKey" + i), targetMat.GetFloat("_ATime" + i)));
+                }
+                grad.SetKeys(iGradColors.ToArray(), iGradAlphas.ToArray());
+                gradControl = false;
+                SetGradient(targetMat);
+                if(targetMat.GetInt("_CustomRamp") == 0)
+                {
+                    if(tempTX != null)
+                    {
+                        targetMat.SetTexture("_Ramp_Texture", tempTX);
+                    }
+                    else
+                    {
+                        RemoveGradientTexture(targetMat);
+                    }
                 }
             }
         }
@@ -466,25 +481,22 @@ public class BToonEditor : ShaderGUI
         tempVar = targetMat.GetInt("_CheckDef");
         checkDef = tempVar == 1 ? true : false;
 
-        tempVar = targetMat.GetInt("_BaseSettings");
+        tempVar = targetMat.GetInt("_CheckBase");
         checkBase = tempVar == 1 ? true : false;
 
-        tempVar = targetMat.GetInt("_ToonSpec");
-        checkTSpec = tempVar == 1 ? true : false;
+        tempVar = targetMat.GetInt("_CheckSpec");
+        checkSpec = tempVar == 1 ? true : false;
 
-        tempVar = targetMat.GetInt("_ColoredAmbientToggle");
-        checkColoredAmb = tempVar == 1 ? true : false;
+        tempVar = targetMat.GetInt("_CheckAmbient");
+        checkAmbient = tempVar == 1 ? true : false;
 
-        tempVar = targetMat.GetInt("_Normal");
+        tempVar = targetMat.GetInt("_CheckNormal");
         checkNormal = tempVar == 1 ? true : false;
 
-        tempVar = targetMat.GetInt("_BlueNoise");
-        checkBlueNoise = tempVar == 1 ? true : false;   
+        tempVar = targetMat.GetInt("_CheckStyle");
+        checkStyle = tempVar == 1 ? true : false;
 
-        tempVar = targetMat.GetInt("_IndirectLightToggle");
-        checkIndirectL = tempVar == 1 ? true : false;
-
-        tempVar = targetMat.GetInt("_ToonContour");
+        tempVar = targetMat.GetInt("_CheckContour");
         checkContour = tempVar == 1 ? true : false;
     }
 
@@ -516,26 +528,30 @@ public class BToonEditor : ShaderGUI
 }
 
 
-/*
-        //MaterialProperty srcb = ShaderGUI.FindProperty("_SrcBlend", properties);
-        //MaterialProperty dstb = ShaderGUI.FindProperty("_DstBlend", properties);
-        //MaterialProperty nono = ShaderGUI.FindProperty("_BlendingList", properties);
+/* Indirect Light Settings - Eskidi (belki sonra yenisini yaparım
+#region Indirect Light Settings
+style.normal.background = MakeBackground(1, 1, bdColors.GrayP(18, 204));
+style.fontSize = 16;
+style.normal.textColor = bdColors.NexusOrange();
 
-        //targetMat.SetInt("_SrcBlend", 5);   // Src Alpha
+EditorGUILayout.BeginVertical(style);
+checkIndirectL = EditorGUILayout.ToggleLeft("INDIRECT LIGHT SETTINGS", checkIndirectL, style);
+targetMat.SetInt("_IndirectLightToggle", Convert.ToInt16(checkIndirectL));
+EditorGUILayout.EndVertical();
 
-        //materialEditor.ShaderProperty(srcb,"Source Blend");
+style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
+EditorGUILayout.BeginVertical(style);
+if(checkIndirectL)
+{
+    EditorGUI.indentLevel++;
+    EditorGUILayout.Space(2);
 
-        //var chk = new EditorGUI.ChangeCheckScope();
-        //if(chk.changed)
-        //{
-        //    loadMaterialVariables(targetMat);
-        //    EditorUtility.SetDirty(targetMat);
-        //}
+    MaterialProperty ilI = ShaderGUI.FindProperty("_IndirectLightIntensity", properties);
 
-        //GUILayout.BeginVertical();
-        //{
-        //    base.OnGUI(materialEditor, properties);
-        //}
-        //GUILayout.EndVertical();
-
- */
+    materialEditor.RangeProperty(ilI, "Indirect Light Intensity");
+    EditorGUI.indentLevel--;
+}
+EditorGUILayout.EndVertical();
+EditorGUILayout.Space(1);
+#endregion
+*/
