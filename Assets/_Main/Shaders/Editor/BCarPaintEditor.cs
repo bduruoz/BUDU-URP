@@ -8,10 +8,6 @@ public class BCarPaintEditor : ShaderGUI
     bool checkDef, checkBase, checkStickers, checkShade, checkFlakes, checkNormal, checkSpec, checkSecSpec, checkReflect, checkAO, checkDamage;
     bool checkTwoColors, shadeExtFold, flakeAFold, flakeBFold, cubemapFold, fresnelFold;
     bool aboutFold, TopStickerTog, BottomStickerTog, LeftStickerTog, RightStickerTog, FrontStickerTog, BackStickerTog;
-    //bool checkTwoColors, checkFlakesTexture, checkSpec, checkReflect, checkRefFresnel, checkRefFrsInvert, checkShade, checkAO, checkDef, checkBaseSpec;
-    //bool twoColFold, aboutFold, checkFlakes, flakesExtFold, checkNormal, flTxtFold, specExtFold, reflectFold, cubemapFold;
-    //bool fresnelFold, refcheckFlakes, shadeFold, shadeExtFold, colcheckFlakes, checkBase;
-    //int paintMethod;
     int tempVar;
     
     public override void OnGUI(MaterialEditor materialEditor, MaterialProperty[] properties)
@@ -162,7 +158,6 @@ public class BCarPaintEditor : ShaderGUI
         #endregion
 
         #region Stickers Settings
-
         style.normal.background = MakeBackground(1, 1, bdColors.GrayP(18, 204));
         style.fontSize = 16;
         style.normal.textColor = bdColors.NexusOrange();
@@ -588,11 +583,13 @@ public class BCarPaintEditor : ShaderGUI
             EditorGUI.indentLevel++;
             EditorGUILayout.Space(2);
 
+            MaterialProperty flCol = ShaderGUI.FindProperty("_Flakes_Color", properties);
             MaterialProperty flTxt = ShaderGUI.FindProperty("_Flakes_Texture", properties);
             MaterialProperty flGamma = ShaderGUI.FindProperty("_Flakes_Gamma_Strength", properties);
             MaterialProperty flSpInt = ShaderGUI.FindProperty("_Flakes_Specular_Intensity", properties);
             MaterialProperty flCrvSt = ShaderGUI.FindProperty("_FLAKES_CURVE_STEPS", properties);
 
+            materialEditor.ShaderProperty(flCol, "Flakes Color");
             materialEditor.ShaderProperty(flTxt, "Flakes Texture");
             materialEditor.ShaderProperty(flGamma, "Flakes Gamma");
             materialEditor.ShaderProperty(flSpInt, "Flakes Intensity");
@@ -885,23 +882,27 @@ public class BCarPaintEditor : ShaderGUI
 
             fresnelFold = EditorGUILayout.Foldout(fresnelFold, "Reflection Fresnel", toggleOnLabelClick: true);
             targetMat.SetInt("_FresnelFold", Convert.ToInt16(fresnelFold));
-            targetMat.SetInt("_Ref_Fresnel_Toggle", Convert.ToInt16(fresnelFold));
+            //targetMat.SetInt("_Ref_Fresnel_Toggle", Convert.ToInt16(fresnelFold));
             if(fresnelFold)
             {
                 EditorGUI.indentLevel++;
 
+                MaterialProperty refFresTog = ShaderGUI.FindProperty("_Ref_Fresnel_Toggle", properties);
                 MaterialProperty refFresInv = ShaderGUI.FindProperty("_Ref_Fresnel_Invert",properties);
                 MaterialProperty refFresGam = ShaderGUI.FindProperty("_Reflect_Fresnel_Gamma", properties);
                 MaterialProperty refFresBias = ShaderGUI.FindProperty("_Ref_Fresnel_Bias", properties);
                 MaterialProperty refFresScale = ShaderGUI.FindProperty("_Ref_Fresnel_Scale", properties);
                 MaterialProperty refFresPower = ShaderGUI.FindProperty("_Ref_Fresnel_Power", properties);
 
-                materialEditor.ShaderProperty(refFresInv, "Fresnel Invert");
-                materialEditor.ShaderProperty(refFresGam, "Fresnel Gamma");
-                materialEditor.ShaderProperty(refFresBias, "Fresnel Bias");
-                materialEditor.ShaderProperty(refFresScale, "Fresnel Scale");
-                materialEditor.ShaderProperty(refFresPower, "Fresnel Power");
-
+                materialEditor.ShaderProperty(refFresTog, "Fresnel");
+                if(refFresTog.floatValue > 0f)
+                {
+                    materialEditor.ShaderProperty(refFresInv, "Fresnel Invert");
+                    materialEditor.ShaderProperty(refFresGam, "Fresnel Gamma");
+                    materialEditor.ShaderProperty(refFresBias, "Fresnel Bias");
+                    materialEditor.ShaderProperty(refFresScale, "Fresnel Scale");
+                    materialEditor.ShaderProperty(refFresPower, "Fresnel Power");
+                }
                 EditorGUI.indentLevel--;
             }
             EditorGUILayout.EndVertical();
@@ -945,7 +946,6 @@ public class BCarPaintEditor : ShaderGUI
         #endregion
 
         #region Damage Settings
-
         style.normal.background = MakeBackground(1, 1, bdColors.GrayP(18, 204));
         style.fontSize = 16;
         style.normal.textColor = bdColors.NexusOrange();

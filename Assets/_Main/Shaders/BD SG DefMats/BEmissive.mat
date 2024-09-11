@@ -27,19 +27,18 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _ALPHACHANNEL_RED
+  - _ALPHAPREMULTIPLY_ON
   - _ALPHATEST_ON
-  - _SURFACE_TYPE_TRANSPARENT
   - _SURFTYPE_TRANSPARENT
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3000
+  m_CustomRenderQueue: 2000
   stringTagMap:
-    QUEUE: Transparent
-    RenderType: TransparentCutout
-  disabledShaderPasses:
-  - DepthOnly
+    QUEUE: Geometry
+    RenderType: Opaque
+  disabledShaderPasses: []
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
@@ -91,12 +90,13 @@ Material:
     - _FresnelInvert: 0
     - _Intensity: 1
     - _MapInvert: 0
+    - _Preserve_Specular_Lighting: 0
     - _QueueControl: 1
     - _QueueOffset: 0
     - _SURFTYPE: 1
     - _Smoothness: 0.5
     - _SrcBlend: 5
-    - _Surface: 1
+    - _Surface: 0
     - _TransparentTog: 1
     - _ZTest: 4
     - _ZWrite: 0
