@@ -1,0 +1,380 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: BCarPaint_Sticker
+  m_Shader: {fileID: -6465566751694194690, guid: 9d82811597fd6d44a981a1bf6bde4a4c,
+    type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - _DAMAGE_COLOR_BLEND_MULTIPLY
+  - _PAINT_TYPE_SELECTOR_FRESNEL
+  - _SPECULAR_SETUP
+  - _STICKER_BLEND_ALPHA
+  m_InvalidKeywords:
+  - _FLAKES_CURVE_STEPS_FIRST
+  m_LightmapFlags: 2
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: 2000
+  stringTagMap:
+    RenderType: Opaque
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _AO_Map:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Back_Sticker:
+        m_Texture: {fileID: 2800000, guid: 45dd9c8db2c0da24e9c52284a00697eb, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Bottom_Sticker:
+        m_Texture: {fileID: 2800000, guid: 474069eb48cb09f4e9e04f964ce08866, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _CustomSpecularSettings_fd704405987946e1b3fbca332aa9a85a_CustomSpecMap_3507319407_Texture2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Damage_Texture:
+        m_Texture: {fileID: 2800000, guid: 7c59fa75994b9f845b7561a9945dad1f, type: 3}
+        m_Scale: {x: 4, y: 6}
+        m_Offset: {x: 0, y: 0}
+    - _Flakes_Normal_Map:
+        m_Texture: {fileID: 2800000, guid: 5062329c834beb9469cdb4211084bae3, type: 3}
+        m_Scale: {x: 5, y: 5}
+        m_Offset: {x: 0, y: 0}
+    - _Flakes_Texture:
+        m_Texture: {fileID: 2800000, guid: 18a6c56412dba3248aa89410941fd46b, type: 3}
+        m_Scale: {x: 4, y: 4}
+        m_Offset: {x: 0, y: 0}
+    - _Front_Sticker:
+        m_Texture: {fileID: 2800000, guid: f83a41abb059dca4a8eff3f6ae133b73, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Left_Sticker:
+        m_Texture: {fileID: 2800000, guid: f83a41abb059dca4a8eff3f6ae133b73, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Normal_Map:
+        m_Texture: {fileID: 2800000, guid: 4c8c70d7a814e5643b54418280444039, type: 3}
+        m_Scale: {x: 6, y: 6}
+        m_Offset: {x: 0, y: 0}
+    - _Reflection_Cubemap:
+        m_Texture: {fileID: 8900000, guid: 7a412fdc2fe96ae4f8a4fe059ce9bfed, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Right_Sticker:
+        m_Texture: {fileID: 2800000, guid: c78351b9d6328e847b8ca9e86c92f9a0, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_3f362d2fb3b943f8beaf2da49d400396_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 4f46ea1b3c3b68941ab7d3f16f16c4ae, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2D:
+        m_Texture: {fileID: 2800000, guid: 2272f2dfdb7932b43921aa9b38213a6e, type: 3}
+        m_Scale: {x: 3, y: 3}
+        m_Offset: {x: 0, y: 0}
+    - _Top_Sticker:
+        m_Texture: {fileID: 2800000, guid: 474069eb48cb09f4e9e04f964ce08866, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TriplanarTextures_c8b876d487e44a89a7d903cf24626287_BackTexture_2543201429_Texture2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TriplanarTextures_c8b876d487e44a89a7d903cf24626287_BottomTexture_1198803665_Texture2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TriplanarTextures_c8b876d487e44a89a7d903cf24626287_FrontTexture_2073923985_Texture2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TriplanarTextures_c8b876d487e44a89a7d903cf24626287_LeftTexture_3413863951_Texture2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TriplanarTextures_c8b876d487e44a89a7d903cf24626287_RightTexture_4154060624_Texture2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AO_Gamma_Settings: 1
+    - _AO_Intensity: 1
+    - _AO_Toggle: 0
+    - _AlphaClip: 0
+    - _AlphaToMask: 0
+    - _Back_Pos_X: 0
+    - _Back_Pos_Y: 0.07
+    - _Back_Rotate: 0
+    - _Back_Rotate_Speed: 0
+    - _Back_Scale: 0.5
+    - _Back_Scale_X: 0.7
+    - _Back_Scale_Y: 0.7
+    - _Back_Sticker_Toggle: 1
+    - _Base_Map_Intensity: 1
+    - _Base_Normal_Intensity: 0.1
+    - _Base_Offset: 0
+    - _Base_Sharpness: 1
+    - _Base_Spec_Intensity: 0.5
+    - _Base_Spec_Toggle: 0
+    - _Blend: 0
+    - _BlendModePreserveSpecular: 1
+    - _Boolean: 0
+    - _Bottom_Pos_X: 0
+    - _Bottom_Pos_Z: 0
+    - _Bottom_Rotate: 0
+    - _Bottom_Rotate_Speed: 0
+    - _Bottom_Scale: 0.5
+    - _Bottom_Scale_X: 1
+    - _Bottom_Scale_Y: 0.5
+    - _Bottom_Scale_Z: 1
+    - _Bottom_Sticker_Toggle: 0
+    - _CastShadow: 1
+    - _CastShadows: 1
+    - _Cast_Shadows: 1
+    - _CheckAO: 0
+    - _CheckBase: 1
+    - _CheckDamage: 1
+    - _CheckDef: 0
+    - _CheckFlakes: 1
+    - _CheckNormal: 1
+    - _CheckReflect: 1
+    - _CheckSecSpec: 1
+    - _CheckShading: 0
+    - _CheckSpec: 0
+    - _CheckStickers: 0
+    - _Coat_Mask: 0
+    - _Coat_Smoothness: 1
+    - _Color_Affect_Emissive: 0.1
+    - _Color_Affect_Emmissive: 0.1
+    - _Color_Fresnel_Bias: 0
+    - _Color_Fresnel_Gamma: 0.5
+    - _Color_Fresnel_Invert: 0
+    - _Color_Fresnel_Power: 1
+    - _Color_Fresnel_Scale: 1
+    - _Color_Fresnel_Toggle: 1
+    - _Color_Y_Grad_Gamma: 2.94
+    - _Color_Y_Grad_Invert: 1
+    - _Color_Y_Grad_Offset: -1
+    - _Color_Y_Grad_Scale: 2
+    - _CubemapFold: 0
+    - _Cubemap_Rotate: 0
+    - _Cubemap_X_Position: 0
+    - _Cubemap_Y_Position: 0
+    - _Cubemap_Z_Position: 0
+    - _Cull: 2
+    - _DAMAGE_COLOR_BLEND: 2
+    - _Damage_Alpha_Blend_Intensity: 0.657
+    - _Damage_Alpha_To_Base: 1
+    - _Damage_Color_Intensity: 1
+    - _Damage_Gamma: 0.51
+    - _Damage_Percent: 65.6
+    - _Damage_Reflect: 1.87
+    - _Damage_Toggle: 1
+    - _DstBlend: 0
+    - _Environment_Light_Affect: 1
+    - _FLAKES_CURVE_STEPS: 0
+    - _FlakeAFold: 1
+    - _FlakeBFold: 1
+    - _FlakeSpecFold: 1
+    - _Flake_A_Overall_Speed: 0.1
+    - _Flake_A_Pivot_X: 0
+    - _Flake_A_Pivot_Y: 0
+    - _Flake_A_Rotate: -50
+    - _Flake_A_Rotate_Speed: 0
+    - _Flake_A_Speed_X: 0.03
+    - _Flake_A_Speed_Y: 0.1
+    - _Flake_B_Overall_Speed: 0.13
+    - _Flake_B_Pivot_X: 0
+    - _Flake_B_Pivot_Y: 0
+    - _Flake_B_Rotate: 40
+    - _Flake_B_Rotate_Speed: 0
+    - _Flake_B_Speed_X: -0.12
+    - _Flake_B_Speed_Y: -0.04
+    - _Flakes_Gamma_Strength: 1
+    - _Flakes_Normal_Multiplier: 0
+    - _Flakes_Normal_Strength: -1
+    - _Flakes_Normal_Toggle: 1
+    - _Flakes_Spec_Gamma: 3
+    - _Flakes_Spec_Glossy: 4
+    - _Flakes_Spec_In: 0.2
+    - _Flakes_Spec_Out: 0.8
+    - _Flakes_Spec_Saturation: 1
+    - _Flakes_Spec_Softness: 0.1
+    - _Flakes_Specular_Glossy: 1
+    - _Flakes_Specular_In: 1
+    - _Flakes_Specular_Intensity: 2
+    - _Flakes_Specular_Out: 1
+    - _Flakes_Specular_Saturation: 1
+    - _Flakes_Specular_Softness: 1
+    - _Float: 1.65
+    - _FresnelFold: 0
+    - _Front_Pos_X: 0
+    - _Front_Pos_Y: -0.1
+    - _Front_Rotate: 360
+    - _Front_Rotate_Speed: 0
+    - _Front_Scale: 0.5
+    - _Front_Scale_X: 0.2
+    - _Front_Scale_Y: 0.2
+    - _Front_Sticker_Toggle: 1
+    - _Glossy: 2
+    - _Left_Pos_Y: 0.1
+    - _Left_Pos_Z: 0.15
+    - _Left_Rotate: 0
+    - _Left_Rotate_Speed: 0
+    - _Left_Scale: 0.5
+    - _Left_Scale_X: 0.25
+    - _Left_Scale_Y: 0.5
+    - _Left_Scale_Z: 0.5
+    - _Left_Sticker_Toggle: 1
+    - _Light_Gamma: 4
+    - _Normal_Multiplier: 0
+    - _Normal_Strength: 0.3
+    - _Normal_Toggle: 1
+    - _Overall_Speed: 0.5
+    - _PAINT_TYPE_SELECTOR: 0
+    - _Pivot_X: 0
+    - _Pivot_Y: 0
+    - _Position_Precision: 0.01
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _ReceiveShadow: 1
+    - _ReceiveShadows: 1
+    - _Receive_Shadows: 1
+    - _Ref_Fresnel_Bias: 0
+    - _Ref_Fresnel_Invert: 0
+    - _Ref_Fresnel_Power: 1
+    - _Ref_Fresnel_Scale: 1
+    - _Ref_Fresnel_Toggle: 0
+    - _Ref_Normal_Strength: 0.1
+    - _Reflect_Fresnel_Gamma: 1
+    - _Reflection_Affect_Shadow: 1
+    - _Reflection_Multiplier: 0
+    - _Reflection_Shadow_Strength: 0.2
+    - _Reflection_Strength: 1
+    - _Reflection_Toggle: 1
+    - _Right_Pos_Y: 0.06
+    - _Right_Pos_Z: -0.2
+    - _Right_Rotate: 0
+    - _Right_Rotate_Speed: 0
+    - _Right_Scale: 0.5
+    - _Right_Scale_X: 0.5
+    - _Right_Scale_Y: 0.5
+    - _Right_Scale_Z: 0.5
+    - _Right_Sticker_Toggle: 1
+    - _Rotate: 0
+    - _Rotate_Speed: 0
+    - _STICKER_BLEND: 0
+    - _Scale_Precision: 0.01
+    - _Second_Spec_Intensity: 5
+    - _Second_Spec_Saturatiion: 1
+    - _Second_Spec_Saturation: 0.247
+    - _Second_Spec_Toggle: 1
+    - _ShadeExtFold: 0
+    - _Shade_Contrast: 1
+    - _Shading_Affect_Base_Texture: 0
+    - _Shading_Colored_Texture: 0
+    - _Shading_Contrast: 1
+    - _Shading_Contribution: 1
+    - _Shading_Intensity: 0.63
+    - _Shading_Normal_Strength: 1
+    - _Shading_Offset: 0
+    - _Shading_Saturate: 0
+    - _Shading_Toggle: 0
+    - _Smoothness: 0.5
+    - _Softness: 0.1
+    - _Specular_Flakes: 1
+    - _Specular_In: 0.2
+    - _Specular_Normal_Strength: 0.31
+    - _Specular_Out: 1
+    - _Speed_X: 0.1
+    - _Speed_Y: 0.1
+    - _SrcBlend: 1
+    - _Sticker_AO: 1
+    - _Sticker_AO_Area: 2
+    - _Sticker_AO_Gamma: 1
+    - _Sticker_AO_Intensity: 1
+    - _Sticker_Emissive_Intensity: 0.1
+    - _Sticker_Emmissive_Intensity: 0.1
+    - _Sticker_Normal_Strength: 10
+    - _Sticker_Normal_Toggle: 1
+    - _Sticker_Opacity: 1
+    - _Sticker_Toggle: 0
+    - _Stickers_Features: 1
+    - _Stickers_Reflection: 1
+    - _Surface: 0
+    - _Texture_Over_Color: 0
+    - _Top_Pos_X: 0
+    - _Top_Pos_X_1: 0
+    - _Top_Pos_X_2: 0
+    - _Top_Pos_Y: 0
+    - _Top_Pos_Z: 0.85
+    - _Top_Rotate: 180
+    - _Top_Rotate_Speed: 0
+    - _Top_Scale: 0.5
+    - _Top_Scale_X: 0.7
+    - _Top_Scale_Y: 0.5
+    - _Top_Scale_Z: 0.7
+    - _Top_Sticker_Toggle: 1
+    - _Triplanar_Blend: 1
+    - _Two_Colors: 0
+    - _WorkflowMode: 0
+    - _ZTest: 4
+    - _ZWrite: 1
+    - _ZWriteControl: 0
+    m_Colors:
+    - _AO_Color: {r: 0, g: 0, b: 0, a: 0}
+    - _Back_Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Base_Color: {r: 0.4716981, g: 0, b: 0, a: 1}
+    - _Base_Spec_Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    - _Bottom_Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Damage_Color: {r: 0.236, g: 0.236, b: 0.236, a: 1}
+    - _Flakes_Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Front_Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Left_Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Reflection_Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Right_Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Second_Color: {r: 0.5, g: 0, b: 0, a: 1}
+    - _Second_Spec_Color: {r: 0.75, g: 0.75, b: 0.75, a: 1}
+    - _Shade_Color: {r: 1, g: 0.4789394, b: 0, a: 1}
+    - _Top_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []
+--- !u!114 &2601961434559340525
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 7

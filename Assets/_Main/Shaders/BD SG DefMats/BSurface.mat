@@ -1,0 +1,169 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: BSurface
+  m_Shader: {fileID: -6465566751694194690, guid: 6a007eb5023ff3c4d8fcaa996dc90120,
+    type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - _SPECULAR_SETUP
+  m_InvalidKeywords: []
+  m_LightmapFlags: 2
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: 2000
+  stringTagMap:
+    RenderType: Opaque
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _AO_Textu_re:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Base_Texture:
+        m_Texture: {fileID: 2800000, guid: 2272f2dfdb7932b43921aa9b38213a6e, type: 3}
+        m_Scale: {x: 4, y: 4}
+        m_Offset: {x: 0, y: 0}
+    - _Custom_Spec_Map:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Emissive_Map:
+        m_Texture: {fileID: 2800000, guid: 17b7dccfcf727284ea5ad8dc292b9d42, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Metallic_Map:
+        m_Texture: {fileID: 2800000, guid: 4bd6618be485426998392fc8a5e9bc18, type: 3}
+        m_Scale: {x: 4, y: 4}
+        m_Offset: {x: 0, y: 0}
+    - _Normal_Texture:
+        m_Texture: {fileID: 2800000, guid: f805cc10b4bf5a74ea96cfb83ec9dad4, type: 3}
+        m_Scale: {x: 20, y: 20}
+        m_Offset: {x: 0, y: 0}
+    - _Reflection_Cubemap:
+        m_Texture: {fileID: 8900000, guid: 66550a1f16f8c3740baf3acd15c3cf7a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AO_Gamma_Settings: 1
+    - _AO_Intensity: 1
+    - _AO_Toggle: 0
+    - _AlphaClip: 0
+    - _AlphaToMask: 0
+    - _Base_Spec_Intensity: 1
+    - _Base_Spec_Toggle: 0
+    - _Blend: 0
+    - _BlendModePreserveSpecular: 1
+    - _CastShadows: 1
+    - _Clear_Coat_Toggle: 0
+    - _Coat_Mask: 0
+    - _Coat_Smoothness: 1
+    - _Cubemap_Rotate: 0
+    - _Cubemap_X_Position: 0
+    - _Cubemap_Y_Position: 0
+    - _Cubemap_Z_Position: 0
+    - _Cull: 2
+    - _Custom_Spec_Gamma: 4.34
+    - _Custom_Spec_Glossy: 3
+    - _Custom_Spec_In: 0
+    - _Custom_Spec_Intensity: 1
+    - _Custom_Spec_Normal_Strength: 0.144
+    - _Custom_Spec_Out: 1.003
+    - _Custom_Spec_Saturation: 1
+    - _Custom_Spec_Softness: 3
+    - _Custom_Spec_Toggle: 0
+    - _DstBlend: 0
+    - _Emissive_Intensity: 0.197
+    - _Emissive_Invert: 0
+    - _Emissive_Multiplier: 0
+    - _Emissive_Toggle: 1
+    - _Metallic_Intensity: 1
+    - _Metallic_Invert: 0
+    - _Metallic_Multiplier: 0
+    - _Metallic_Toggle: 0
+    - _Normal_Intensity: 0.3
+    - _Normal_Multiplier: 0
+    - _Normal_Toggle: 1
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _ReceiveShadows: 1
+    - _Ref_Fresnel_Bias: 0
+    - _Ref_Fresnel_Invert: 0
+    - _Ref_Fresnel_Power: 3
+    - _Ref_Fresnel_Scale: 1
+    - _Ref_Fresnel_Toggle: 0
+    - _Ref_Normal_Strength: 0.1
+    - _Reflect_Fresnel_Gamma: 1
+    - _Reflection_Affect_Shadow: 1
+    - _Reflection_Multiplier: 0
+    - _Reflection_Shadow_Strength: 0.2
+    - _Reflection_Strength: 1
+    - _Reflection_Toggle: 0
+    - _Rim_Bias: 0
+    - _Rim_Gamma: 1
+    - _Rim_Invert: 0
+    - _Rim_Normal_Strength: 1
+    - _Rim_Power: 3
+    - _Rim_Scale: 1
+    - _Rim_Toggle: 0
+    - _Rotator: 0
+    - _Smoothness: 0.697
+    - _Speed: 0
+    - _Speed_X: 0
+    - _Speed_Y: 0
+    - _Speed_Z: 0
+    - _SrcBlend: 1
+    - _Surface: 0
+    - _Triplanar_Blend: 1
+    - _Triplanar_Map: 0
+    - _Triplanar_Scale: 1
+    - _Triplanar_Tile: 1
+    - _WorkflowMode: 0
+    - _ZTest: 4
+    - _ZWrite: 1
+    - _ZWriteControl: 0
+    m_Colors:
+    - _AO_Color: {r: 0, g: 0, b: 0, a: 1}
+    - _Base_Color: {r: 0.6289307, g: 0.6289307, b: 0.6289307, a: 1}
+    - _Base_Spec_Color: {r: 0.514, g: 0.514, b: 0.514, a: 1}
+    - _Custom_Spec_Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Emissive_Color: {r: 0.52300596, g: 1, b: 0, a: 1}
+    - _Reflection_Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Rim_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_BuildTextureStacks: []
+--- !u!114 &120603303013163187
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 7

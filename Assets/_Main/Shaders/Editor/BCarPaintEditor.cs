@@ -6,7 +6,7 @@ using System;
 public class BCarPaintEditor : ShaderGUI
 {
     bool checkDef, checkBase, checkStickers, checkShade, checkFlakes, checkNormal, checkSpec, checkSecSpec, checkReflect, checkAO, checkDamage;
-    bool checkTwoColors, shadeExtFold, flakeAFold, flakeBFold, cubemapFold, fresnelFold;
+    bool checkTwoColors, shadeExtFold, flakeAFold, flakeBFold, cubemapFold, fresnelFold, flakeSpecFold;
     bool aboutFold, TopStickerTog, BottomStickerTog, LeftStickerTog, RightStickerTog, FrontStickerTog, BackStickerTog;
     int tempVar;
     
@@ -587,13 +587,11 @@ public class BCarPaintEditor : ShaderGUI
             MaterialProperty flTxt = ShaderGUI.FindProperty("_Flakes_Texture", properties);
             MaterialProperty flGamma = ShaderGUI.FindProperty("_Flakes_Gamma_Strength", properties);
             MaterialProperty flSpInt = ShaderGUI.FindProperty("_Flakes_Specular_Intensity", properties);
-            MaterialProperty flCrvSt = ShaderGUI.FindProperty("_FLAKES_CURVE_STEPS", properties);
-
+            
             materialEditor.ShaderProperty(flCol, "Flakes Color");
             materialEditor.ShaderProperty(flTxt, "Flakes Texture");
             materialEditor.ShaderProperty(flGamma, "Flakes Gamma");
             materialEditor.ShaderProperty(flSpInt, "Flakes Intensity");
-            materialEditor.ShaderProperty(flCrvSt, "Flakes Curve Steps");
 
 
             #region Flake A Settings
@@ -691,6 +689,36 @@ public class BCarPaintEditor : ShaderGUI
             EditorGUILayout.EndVertical();
             #endregion
 
+            #region Flakes Specular Settings
+            style.normal.background = MakeBackground(1, 1, bdColors.DarkRed(60));
+            style.fontSize = default;
+            style.normal.textColor = default;
+
+            EditorGUILayout.BeginVertical(style);
+            flakeSpecFold = EditorGUILayout.Foldout(flakeSpecFold, "Flakes Specular Settings", toggleOnLabelClick: true);
+            targetMat.SetInt("_FlakeSpecFold", Convert.ToInt16(flakeSpecFold));
+            if(flakeSpecFold)
+            {
+                EditorGUI.indentLevel++;
+
+                MaterialProperty spGam = ShaderGUI.FindProperty("_Flakes_Spec_Gamma", properties);
+                MaterialProperty spGls = ShaderGUI.FindProperty("_Flakes_Spec_Glossy", properties);
+                MaterialProperty spSoft = ShaderGUI.FindProperty("_Flakes_Spec_Softness", properties);
+                MaterialProperty spSat = ShaderGUI.FindProperty("_Flakes_Spec_Saturation", properties);
+                MaterialProperty spSIn = ShaderGUI.FindProperty("_Flakes_Spec_In", properties);
+                MaterialProperty spSOut = ShaderGUI.FindProperty("_Flakes_Spec_Out", properties);
+
+                materialEditor.ShaderProperty(spGam, "Flakes Specular Gamma");
+                materialEditor.ShaderProperty(spGls, "Flakes Specular Glossy");
+                materialEditor.ShaderProperty(spSoft, "Flakes Specular Softness");
+                materialEditor.ShaderProperty(spSat, "Flakes Specular Saturation");
+                materialEditor.ShaderProperty(spSIn, "Flakes Specular In");
+                materialEditor.ShaderProperty(spSOut, "Flakes Specular Out");
+
+                EditorGUI.indentLevel--;
+            }
+            EditorGUILayout.EndVertical();
+            #endregion
 
             EditorGUI.indentLevel--;
         }
@@ -1089,6 +1117,9 @@ public class BCarPaintEditor : ShaderGUI
 
         tempVar = targetMat.GetInt("_FlakeBFold");
         flakeBFold = tempVar == 1 ? true : false;
+
+        tempVar = targetMat.GetInt("_FlakeSpecFold");
+        flakeSpecFold = tempVar == 1 ? true : false;
 
         tempVar = targetMat.GetInt("_CheckNormal");
         checkNormal = tempVar == 1 ? true : false;
