@@ -6,7 +6,7 @@ Shader "Unlit/Raymarch"
     }
     SubShader
     {
-        Tags { "RenderType" = "Opaque" "RenderPipeline" = "UniversalRenderPipeline" }
+        Tags { "RenderType" = "Opaque" "RenderPipeline" = "UniversalRenderPipeline" "Queue"="AlphaTest+51"}
         
         Pass
         {
