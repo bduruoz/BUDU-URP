@@ -512,7 +512,8 @@ public class BFabricEditor : ShaderGUI
             EditorGUILayout.LabelField("Thickness Feature");
             EditorGUILayout.EndVertical();
 
-            MaterialProperty thtype = ShaderGUI.FindProperty("_THICKNESS_GAMMA_SELECTOR", properties);
+            //MaterialProperty thtype = ShaderGUI.FindProperty("_THICKNESS_GAMMA_SELECTOR", properties);
+            MaterialProperty thGamma = ShaderGUI.FindProperty("_Thickness_Gamma", properties);
             MaterialProperty thCol = ShaderGUI.FindProperty("_Thickness_Color", properties);
             MaterialProperty thTxt = ShaderGUI.FindProperty("_Thickness_Map", properties);
             MaterialProperty thInv = ShaderGUI.FindProperty("_Thickness_Invert", properties);
@@ -520,8 +521,8 @@ public class BFabricEditor : ShaderGUI
             MaterialProperty thPatInt = ShaderGUI.FindProperty("_Thickness_Pattern_Intensity", properties);
             MaterialProperty thMult = ShaderGUI.FindProperty("_Thickness_Multiplier", properties);
 
-            materialEditor.ShaderProperty(thtype, "Thickness Grade Type");
             materialEditor.ShaderProperty(thInt, "Thickness Intensity");
+            materialEditor.ShaderProperty(thGamma, "Thickness Gamma");
             materialEditor.ShaderProperty(thCol, "Thickness Color");
             materialEditor.ShaderProperty(thTxt, "Thickness Map");
             materialEditor.ShaderProperty(thInv, "Thickness Invert");

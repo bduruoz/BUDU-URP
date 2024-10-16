@@ -44,10 +44,7 @@ float4 posiNDC(float3 input)
 
  #endif
 
-
-
-
-// Clip Space Position (calculated for vertex shader SV_POSITION output)
+ // Clip Space Position (calculated for vertex shader SV_POSITION output)
 
 //float4 positionCS 	= TransformWorldToHClip(input.positionOS.xyz);
 //OUT.positionCS 		= positionCS;
