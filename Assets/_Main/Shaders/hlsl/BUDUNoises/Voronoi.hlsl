@@ -19,7 +19,7 @@ float voronoi_noise(float2 uv, float type, float speed, float pointNo, float see
         else
         {
             p = (sin(n * t));
-        }
+        } 
         
         float2 ruv = (uv * 2) - 1;
         float td = length(ruv - p);
