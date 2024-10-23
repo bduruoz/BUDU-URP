@@ -18,4 +18,9 @@ float2 noise_v2(float2 p)
     p = float2( dot(p,float2(127.1,311.7)), dot(p,float2(269.5,183.3)) );
     return frac(sin(p)*43758.5453);
 } 
+
+float remap(float v, float minOld, float maxOld, float minNew, float maxNew) {
+    return minNew + (v-minOld) * (maxNew - minNew) / (maxOld-minOld);
+}
+
 #endif

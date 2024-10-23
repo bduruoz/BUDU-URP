@@ -156,7 +156,7 @@
                 for(float i = 0; i < numSamples; i++)
                 {
                     float2 offs = float2(sin(a), cos(a)) * blur;
-                    float d = frac(sin((i+1)*546.)*5424.);
+                    float d = frac(sin((i+0.1)*1546.)*25424.);
                     d = sqrt(d);
                     offs *= d;
 
