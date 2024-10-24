@@ -31,7 +31,6 @@ Material:
   - _KEYWORD0_TRISPHERE
   - _KEYWORD1_TRISPHERE
   - _NOISEBLENDTYPE_ADD
-  - _WINDTOGGLE_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
@@ -123,7 +122,7 @@ Material:
     - _BaseSettings: 1
     - _Bias: 0
     - _CheckCloud: 0
-    - _CheckDef: 1
+    - _CheckDef: 0
     - _CheckNode: 0
     - _ClipThreshold: 0.505
     - _Contrast: 0.15
@@ -249,13 +248,13 @@ Material:
     - _WindSpeedY: 0
     - _WindTileX: 4
     - _WindTileY: 1
-    - _WindToggle: 1
+    - _WindToggle: 0
     - _ZWrite: 1
     - _cameraRayFold: 1
-    - _checkCloud: 1
-    - _checkDetail: 1
+    - _checkCloud: 0
+    - _checkDetail: 0
     - _checkLight: 0
-    - _checkWind: 1
+    - _checkWind: 0
     - _cloudFold: 1
     - _lightRayFold: 1
     - _nodeFold: 0

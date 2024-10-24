@@ -8,12 +8,11 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: BWater
-  m_Shader: {fileID: -6465566751694194690, guid: bcb5f68cc9810aa4faad580e387fff69,
+  m_Shader: {fileID: -6465566751694194690, guid: 4d36376fa5bc7b44ebf3ded7f39f3dba,
     type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _ALPHAPREMULTIPLY_ON
   - _SURFACE_TYPE_TRANSPARENT
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -88,6 +87,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: 5062329c834beb9469cdb4211084bae3, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_ae7bbd954ef246d8ad2e8482e9bb86a7_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 16766b6156990c346b882c7a73c03db9, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_b8f878d859a14369a3b1c9fbb023f01d_Texture_1_Texture2D:
         m_Texture: {fileID: 2800000, guid: 1d41051305d87384b8bdc4eb5a92e448, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -140,37 +143,40 @@ Material:
     - _Deep_Gamma: 1
     - _Deep_Intensity: 1
     - _Deep_Invert: 0
-    - _Deep_Size: 2.85
-    - _Deep_Toggle: 0
+    - _Deep_Size: 1
+    - _Deep_Toggle: 1
     - _Depth_Brightness: 2.29
     - _Depth_Contrast: 1
-    - _Depth_Gamma: 3
+    - _Depth_Gamma: 2
     - _Depth_Invert: 1
     - _Depth_Noise_Scale: 1
     - _Depth_Noise_Strength: -0.78
     - _Depth_Noise_Toggle: 1
     - _Depth_Offset: 0
     - _Depth_Scale: 1
-    - _Depth_Size: 1.8
+    - _Depth_Size: 1
     - _Depth_Toggle: 1
     - _DstBlend: 10
     - _Emission_Intensity: 0.21
     - _Emission_Toggle: 1
-    - _Float: 7.98
-    - _Flow_Map_Depth_Toggle: 0
+    - _Float: 0.1
+    - _Float_1: 1
+    - _Flow_Map_Depth_Toggle: 1
     - _Flow_Map_Exp: 1
     - _Flow_Map_Gamma: 1
     - _Flow_Map_Mask_Gamma: 1
-    - _Flow_Texture_Gamma: 0.86
+    - _Flow_Texture_Gamma: 1
     - _Freq: 50
     - _Frequency: 4
     - _Grid_Area: 1
     - _Influence_Flow: 1
+    - _Intensity: 10
     - _Iter_Speed: 1
     - _Iterations: 20
     - _Normal_Multiplier: 0
     - _Normal_Strength: 0.5
     - _Normal_Toggle: 1
+    - _Normal_strength: 1
     - _Octave: 1
     - _Offset_X: 0
     - _Offset_Y: 0
@@ -191,7 +197,7 @@ Material:
     - _Speed_Coeff: 1.5
     - _Speed_X: 0.3
     - _Speed_Y: 0.3
-    - _SrcBlend: 1
+    - _SrcBlend: 5
     - _Surface: 1
     - _Surface_Noise_Function: 1
     - _Surface_Noise_Opacity: 0.716
@@ -221,7 +227,7 @@ Material:
     - _speed: 0.4
     m_Colors:
     - _Crack_Tiles: {r: 3, g: 3, b: 0, a: 0}
-    - _Deep_Color: {r: 1, g: 0, b: 0, a: 0}
+    - _Deep_Color: {r: 1, g: 0, b: 0, a: 1}
     - _Depth_Color: {r: 0.3882353, g: 0.57630587, b: 0.6666667, a: 0}
     - _Depth_Noise_Tiles: {r: 3, g: 3, b: 0, a: 0}
     - _Emission_Color: {r: 0.33018857, g: 0.799341, b: 1, a: 1}

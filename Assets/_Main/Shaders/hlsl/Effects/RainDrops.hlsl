@@ -23,17 +23,26 @@ float3 drops(
     float wiggleNoise, 
     float size, 
     float t,
-    out float drplts
+    out float drplts,
+    out float dropD,
+    out float trailD,
+    out float2 dPos,
+    out float2 tPos,
+    out float2 gv
     )
 {
-    //aspect = aspect / objectAspect;
     drplts = 0;
+    dropD = 0;
+    trailD = 0;
+    dPos = float2(0, 0);
+    tPos = float2(0, 0);
+
     int wgType = 0;
 
     float2 uv = UV * size * aspect * objectAspect;
     uv.y += t * 0.25;
 
-    float2 gv = frac(uv) - 0.5;
+    gv = frac(uv) - 0.5;
 
     float2 id = floor(uv);
 
@@ -86,8 +95,8 @@ float3 drops(
 
     float2 dropPos = (gv - float2(x, y)) / aspect;
     dropPos += (dropNoise * 1);
-    //dropPos *= objectAspect;
     float drop =  S(0.04, 0.03, length(dropPos));
+    float ddrop = S(0.04, 0.001, length(dropPos));
     
     float2 trailPos = (gv - float2(x, t * 0.25)) / aspect;
     trailPos.y = (frac(trailPos.y * trailDropNo) - 0.5) / trailDropNo; 
@@ -98,6 +107,7 @@ float3 drops(
     if(trailIn>trailOut) trailIn = trailOut - 0.001;
 
     float trail =  S(trailOut * 0.1, trailIn * 0.1, length(trailPos));
+    float dtrail = S(trailOut * 0.1, 0.001, length(trailPos));
     
     if(fogTOut < fogTIn) fogTOut = fogTIn + 0.001;
     if(fogTIn > fogTOut) fogTIn = fogTOut - 0.001;
@@ -113,6 +123,10 @@ float3 drops(
 
     drplts += drop + trail + (fogTrail * 0.1);
 
+    dropD += ddrop;
+    trailD += dtrail;
+    dPos = drop * dropPos;
+    tPos = trail * trailPos;
     return float3(offs, fogTrail);
 }
 
@@ -140,7 +154,11 @@ void rainDrops_float(
     out float2 offset, 
     out float fogTrail,
     out float droplets,
-    out float debug
+    out float dropD,
+    out float trailD,
+    out float2 dPos,
+    out float2 tPos,
+    out float2 guv
     )
 {
     if(layer < 0)
@@ -158,6 +176,18 @@ void rainDrops_float(
 
     float a = 0;
     float b = 0;
+
+    float drp = 0;
+    dropD = 0;
+    
+    float trl = 0;
+    trailD = 0;
+
+    float tps = 0;
+    tPos = 0;
+
+    float dps = 0;
+    dPos = 0;
 
     droplets = 0;
     offset = 0;
@@ -177,13 +207,38 @@ void rainDrops_float(
             layeruv = uv * a + b;
         }
         
-        result = drops(layeruv, aspect, objectAspect, IDSeed, curlSize, dropNoise, trailDropNo, trailIntensity, trailNoise, trailOut, trailIn, fogTOut, fogTIn, fogTrailLength, wiggleIntensity, wiggleNoise, size, t, droplets);
+        result = drops(
+            layeruv, 
+            aspect, 
+            objectAspect, 
+            IDSeed, 
+            curlSize, 
+            dropNoise, 
+            trailDropNo, 
+            trailIntensity, 
+            trailNoise, 
+            trailOut, 
+            trailIn, 
+            fogTOut, 
+            fogTIn, 
+            fogTrailLength, 
+            wiggleIntensity, 
+            wiggleNoise, 
+            size, 
+            t, 
+            droplets, 
+            drp, 
+            trl, 
+            dPos, 
+            tPos, 
+            guv
+            );
         
+        dropD += drp;
+        trailD += trl;
         droplets += droplets;
         resultFin += result;
     }
-
-    debug = 0;
 
     // distance fade
     float fade = 1-saturate(fwidth(uv) * 60);

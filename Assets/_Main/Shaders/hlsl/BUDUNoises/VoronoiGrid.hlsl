@@ -2,6 +2,8 @@
 
 float voronoi_calc(float2 uv, float type, float speed, float gridNo, float gridArea, float seed, out float2 cellIndex)
 {
+    float temp = 0;
+
     //gridArea = 5; // grid render area
     if(gridArea < 1)
     {
@@ -79,6 +81,41 @@ float voronoi_calc(float2 uv, float type, float speed, float gridNo, float gridA
                     //p += (saturate(step(euclidean2,0.5)))-1;
                     d = p2+p;
                     break;
+                case 8:
+                    // circles
+                    temp = pow(distance(euclidean2, euclidean),2);
+                    d = smoothstep(0,1, temp);
+                    break;
+                case 9:
+                    // kalin circles
+                    temp = (euclidean2 - euclidean) + 0.3;
+                    d = smoothstep(0,.3, temp);
+                    break;
+                case 10:
+                    // 
+                    temp = distance(euclidean2, manhattan);
+                    d = smoothstep(0,1, temp);
+                    break;
+
+
+
+
+                case 100:
+                    // random grid anim
+                    temp = distance(p - ((1-gv) * gv),0);
+                    d = smoothstep(0,1, temp);
+                    break;
+                case 101:
+                    // random grid anim different method
+                    temp = dot(p * (1-gv) * gv, p * (1-gv) * gv);
+                    d = smoothstep(0,1, temp);
+                    break;
+                case 102:
+                    // ic ice daireler (frac yüzünden)
+                    temp = frac(euclidean2 - euclidean);
+                    d = smoothstep(0,1, temp);
+                    break;
+
             }
 
             if(d < minDist)
