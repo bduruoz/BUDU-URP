@@ -108,12 +108,20 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Texture2D:
+        m_Texture: {fileID: 2800000, guid: 16ccaff3d0f50b741bdbc85fa912235d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_54480a5ae99743d9b9c4dd54fdec4084_Out_0_Texture2D:
         m_Texture: {fileID: 2800000, guid: 8cb3e59fc6243e44aaa02d24e9cec222, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Texture_Map:
         m_Texture: {fileID: 2800000, guid: ae2961e4565cb064c93a32ffb6aed3a2, type: 3}
         m_Scale: {x: 2, y: 2}
+        m_Offset: {x: 0, y: 0}
+    - _causticCustomFunction_4eaf0594970343278141a479d6312d52_iChannel0_2_Texture2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
@@ -132,8 +140,11 @@ Material:
     - _Alpha: 1
     - _AlphaClip: 0
     - _AlphaToMask: 0
+    - _Amplifier: 1
+    - _Amplifier_Manipulator: 1
     - _Amplitude: 1
-    - _Blend: 0
+    - _Billow_Speed: 1
+    - _Blend: 1
     - _BlendModePreserveSpecular: 1
     - _CastShadows: 1
     - _Change_Speed: 1
@@ -161,23 +172,27 @@ Material:
     - _Emission_Toggle: 1
     - _Float: 0.1
     - _Float_1: 1
-    - _Flow_Map_Depth_Toggle: 1
+    - _Flow_Map_Depth_Toggle: 0
     - _Flow_Map_Exp: 1
     - _Flow_Map_Gamma: 1
     - _Flow_Map_Mask_Gamma: 1
     - _Flow_Texture_Gamma: 1
     - _Freq: 50
-    - _Frequency: 4
+    - _Frequency: 8
+    - _Frequency_Manipulator: 1.5
     - _Grid_Area: 1
+    - _IOR: -0.15
+    - _IOR_Med: 1.5
+    - _IOR_Src: 1
     - _Influence_Flow: 1
-    - _Intensity: 10
+    - _Intensity: 1
     - _Iter_Speed: 1
     - _Iterations: 20
     - _Normal_Multiplier: 0
     - _Normal_Strength: 0.5
     - _Normal_Toggle: 1
     - _Normal_strength: 1
-    - _Octave: 1
+    - _Octave: 3
     - _Offset_X: 0
     - _Offset_Y: 0
     - _Overall_Speed: 1
@@ -189,15 +204,16 @@ Material:
     - _Roughness_Intensity: 0.681
     - _Roughness_Toggle: 1
     - _Scale: 3
-    - _Seed: 1
+    - _Seed: 0
     - _Smoothness: 0.588
     - _Snow_Intensity: 0.466
     - _Snow_Toggle: 1
-    - _Speed: 0.3
+    - _Speed: 0.02
+    - _Speed_1: 1
     - _Speed_Coeff: 1.5
     - _Speed_X: 0.3
     - _Speed_Y: 0.3
-    - _SrcBlend: 5
+    - _SrcBlend: 1
     - _Surface: 1
     - _Surface_Noise_Function: 1
     - _Surface_Noise_Opacity: 0.716
@@ -223,7 +239,10 @@ Material:
     - _ZTest: 4
     - _ZWrite: 0
     - _ZWriteControl: 0
-    - _disper_angle: -0.2
+    - _disper_angle: 1
+    - _sIn: 2
+    - _sOut: 1
+    - _scaleN: 20
     - _speed: 0.4
     m_Colors:
     - _Crack_Tiles: {r: 3, g: 3, b: 0, a: 0}
@@ -231,8 +250,12 @@ Material:
     - _Depth_Color: {r: 0.3882353, g: 0.57630587, b: 0.6666667, a: 0}
     - _Depth_Noise_Tiles: {r: 3, g: 3, b: 0, a: 0}
     - _Emission_Color: {r: 0.33018857, g: 0.799341, b: 1, a: 1}
+    - _Period: {r: 0, g: 0, b: 0, a: 0}
     - _Spec_Color: {r: 1, g: 1, b: 1, a: 0}
     - _Surface_Noise_Tile: {r: 2, g: 2, b: 0, a: 0}
+    - _Translate: {r: 0, g: 0, b: 0, a: 0}
+    - _Translate_Speed: {r: 3, g: -2, b: 0, a: 0}
+    - _Translate_Speed_B: {r: -3, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &4863923715823743694
 MonoBehaviour:

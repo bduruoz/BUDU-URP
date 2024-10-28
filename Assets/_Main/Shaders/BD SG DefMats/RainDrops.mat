@@ -104,7 +104,7 @@ Material:
     - _AlphaClip: 0
     - _AlphaToMask: 0
     - _Blend: 0
-    - _Blur: 0.2
+    - _Blur: 0.3
     - _Blur_Normal: 1.97
     - _Blur_Normal_Tile: 6.6
     - _Blur_Texture_Intensity: 0
@@ -118,7 +118,7 @@ Material:
     - _Custom_Blur_Noise: 0
     - _Debug: 0
     - _Distort: -7
-    - _Distortion: -5
+    - _Distortion: -10
     - _DropD_Intensity: 0.25
     - _DropNoise: 1
     - _Drop_D: 0
@@ -144,7 +144,7 @@ Material:
     - _Fog_Trail_D: 0
     - _Fog_Trail_D_Intensity: 0.25
     - _Fog_Trail_In: 0
-    - _Fog_Trail_Intensity: 1
+    - _Fog_Trail_Intensity: 2
     - _Fog_Trail_Length: 0.35
     - _Fog_Trail_Out: 0.04
     - _Fog_Trail_Width: 0.3
@@ -154,7 +154,7 @@ Material:
     - _LBlur: 0.74
     - _LOD: 0
     - _LODBlur: 0
-    - _Layer_No: 2
+    - _Layer_No: 5
     - _Layer_Seed: 1
     - _MoveSeed: 0
     - _NoiseB_Intensity: 1
@@ -166,13 +166,13 @@ Material:
     - _Noise_Scale: 70
     - _Noises_Intensity: 1
     - _Normal_Strength: 0.1
-    - _Number_Of_Trail_Drop: 8
+    - _Number_Of_Trail_Drop: 12
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Samples: 16
     - _Screen_Grab_Toggle: 1
-    - _Size: 3
-    - _Speed: 2
+    - _Size: 20
+    - _Speed: 1
     - _SrcBlend: 5
     - _Surface: 1
     - _TimeM: 0
@@ -181,7 +181,7 @@ Material:
     - _TrailD_Intensity: 0.25
     - _Trail_D: 0
     - _Trail_D_Intensity: 0.25
-    - _Trail_Intensity: 0.4
+    - _Trail_Intensity: 0.685
     - _Trail_Noise: 1
     - _Trail_Noise_D: 0
     - _Trail_Noise_D_Intensity: 0.163
@@ -194,7 +194,7 @@ Material:
     - _Trail_Size_Out: 0.3
     - _VAngle: 1
     - _VDensity: 37.8
-    - _Vapor: 1
+    - _Vapor: 10
     - _Wiggle_Grid_No: 12
     - _Wiggle_Intensity: 0.3
     - _Wiggle_Noise: 1
@@ -215,7 +215,7 @@ Material:
     m_Colors:
     - _AspectUV: {r: 1, g: 1, b: 0, a: 0}
     - _AspectXY: {r: 2, g: 1, b: 0, a: 0}
-    - _Base_Texture_Tile: {r: 5, g: 1, b: 0, a: 0}
+    - _Base_Texture_Tile: {r: 5, g: 5, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Drop_Color: {r: 0.8588236, g: 0.93725497, b: 0.9568628, a: 1}
     - _Flow_Noise_A_Speed: {r: 1, g: 1, b: 0, a: 0}

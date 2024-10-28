@@ -1,3 +1,6 @@
+// BUDU Games 2024 
+// Alligator Noise
+
 #include "Assets/_Main/Shaders/hlsl/BUDUNoises/brandom.hlsl"
 
 float2 alligator_noise(float2 uv, float t, float speed, int frequencies, float scale, float amplitude, float seed)

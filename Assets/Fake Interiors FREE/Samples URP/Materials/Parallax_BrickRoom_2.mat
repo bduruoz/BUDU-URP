@@ -9,6 +9,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Parallax_BrickRoom_2
   m_Shader: {fileID: 4800000, guid: 6c4ea63bf8213f9488b76032168d558b, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _FACADETEXTURE_ON
   - _SWITCHPLANE_ON
@@ -20,6 +22,7 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -143,6 +146,6 @@ Material:
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _PositionOffsetXYZroomsWprops: {r: 0.25, g: 0, b: 0.27, a: 0.13}
     - _RoomColorTint: {r: 1, g: 1, b: 1, a: 0}
-    - _RoomsXYZPropsW: {r: 2, g: 2, b: 1.92, a: 2}
+    - _RoomsXYZPropsW: {r: 1, g: 2, b: 1.92, a: 2}
     - _Vector0: {r: 0.93, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []

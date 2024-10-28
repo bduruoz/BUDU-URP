@@ -1,4 +1,6 @@
-// BUDU Games - Blur Calculations
+// BUDU Games 2024
+// Blur Calculations
+
 #include "Assets/_Main/Shaders/hlsl/BUDUNoises/brandom.hlsl"
 
 void blur_float(

@@ -1,0 +1,130 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-3006573667172903427
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 7
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Interior Mapping
+  m_Shader: {fileID: -6465566751694194690, guid: ef2f9407f820da94591bc856b9abbe19,
+    type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Building_Normal_Map:
+        m_Texture: {fileID: 2800000, guid: 35151b18f513934469a689ceb09e8bc4, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Building_Texture:
+        m_Texture: {fileID: 2800000, guid: eb47f9e2a5d772c4eb2265d589754b55, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _InteriorMap_1:
+        m_Texture: {fileID: 8900000, guid: da764cb5ead06f64b87c339a5aaaa1c7, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _InteriorMap_2:
+        m_Texture: {fileID: 8900000, guid: da764cb5ead06f64b87c339a5aaaa1c7, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _InteriorMap_3:
+        m_Texture: {fileID: 8900000, guid: da764cb5ead06f64b87c339a5aaaa1c7, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _InteriorMap_4:
+        m_Texture: {fileID: 8900000, guid: da764cb5ead06f64b87c339a5aaaa1c7, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Interior_Texture:
+        m_Texture: {fileID: 8900000, guid: da764cb5ead06f64b87c339a5aaaa1c7, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ReflectCube:
+        m_Texture: {fileID: 8900000, guid: 11bf34a82ad795340be5b54193aa59cc, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleCubemap_196fb86d94824f018c491d20eef49905_Cube_1_Cubemap:
+        m_Texture: {fileID: 8900000, guid: 86f4d6fa9aca6024dae63423a3efec72, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleReflectedCubemap_814d3d87231c45c3a675fa933d7876a8_Cube_1_Cubemap:
+        m_Texture: {fileID: 8900000, guid: 86f4d6fa9aca6024dae63423a3efec72, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleReflectedCubemap_9a63ca054d3c4b6e898865a5089b1a86_Cube_1_Cubemap:
+        m_Texture: {fileID: 8900000, guid: da764cb5ead06f64b87c339a5aaaa1c7, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_dd1d448f67594349800b94ca55a791ce_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: eb47f9e2a5d772c4eb2265d589754b55, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_77fb5a666cce4870aa678136cc7da77d_Out_0_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 35151b18f513934469a689ceb09e8bc4, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _WallTexture:
+        m_Texture: {fileID: 2800000, guid: eb47f9e2a5d772c4eb2265d589754b55, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AO_Intensity: 0.905
+    - _Lights_Brightness: 8
+    - _Normal_Height: 0.211
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _ReflectCubeOpacity: 0.5
+    - _RoomZoom: 1
+    - _Sky_Color_Opacity: 0.2
+    - _Transparent_Glass: 0.752
+    - _UseWallTexture: 0
+    - _seed: 0
+    m_Colors:
+    - _Offset: {r: 0, g: 0, b: 0, a: 0}
+    - _RCNT: {r: 4, g: 4, b: 4, a: 0}
+    - _RooftopColor: {r: 0.18039218, g: 0.094117604, b: 0, a: 1}
+    - _RoomShifter: {r: 1, g: 1, b: 0, a: 0}
+    - _RoomWideness: {r: 2, g: 2, b: 0, a: 0}
+    - _Room_Count: {r: 4, g: 4, b: 0, a: 0}
+    - _Tiling: {r: 4, g: 4, b: 0, a: 0}
+    - _Vector3: {r: 0, g: 0, b: 0, a: 0}
+  m_BuildTextureStacks: []

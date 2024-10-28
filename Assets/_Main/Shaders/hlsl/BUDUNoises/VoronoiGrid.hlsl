@@ -1,6 +1,15 @@
 #include "Assets/_Main/Shaders/hlsl/BUDUNoises/brandom.hlsl"
 
-float voronoi_calc(float2 uv, float type, float speed, float gridNo, float gridArea, float seed, out float2 cellIndex)
+float voronoi_calc(
+    float2 uv, 
+    float type, 
+    float speed, 
+    float gridNo, 
+    float gridArea, 
+    float seed, 
+    float sStepIn,
+    float sStepOut,
+    out float2 cellIndex)
 {
     float temp = 0;
 
@@ -14,6 +23,7 @@ float voronoi_calc(float2 uv, float type, float speed, float gridNo, float gridA
         gridArea = 5;
     }
 
+    float smt = 0;
     float count = 0;
     float radius = 1;
     float t = 0;
@@ -53,48 +63,45 @@ float voronoi_calc(float2 uv, float type, float speed, float gridNo, float gridA
             switch(type)
             {
                 case 0:
-                    d = euclidean2;
+                    smt = euclidean2;
                     break;
                 case 1:
-                    d = euclidean;
+                    smt = euclidean;
                     break;
                 case 2:
-                    d = manhattan;
+                    smt = manhattan;
                     break;
                 case 3:
-                    d = chebyshev;
+                    smt = chebyshev;
                     break;
                 case 4:
-                    d = dot( manhattan, chebyshev);
+                    smt = dot( manhattan, chebyshev);
                     break;
                 case 5:
                     p -= gv;
-                    d = pow(p.x * p.x * p.x * p.x + p.y * p.y * p.y * p.y,
+                    smt = pow(p.x * p.x * p.x * p.x + p.y * p.y * p.y * p.y,
                         1.5);
                     break;
                 case 6:
-                    d = distance((manhattan) - (chebyshev/2), (manhattan/2) + (chebyshev));
+                    smt = distance((manhattan) - (chebyshev/2), (manhattan/2) + (chebyshev));
                     break;
                 case 7:
                     p = euclidean2;
                     float p2 = clamp(saturate(smoothstep(0.32, 0.32, euclidean2)),0,1);
                     //p += (saturate(step(euclidean2,0.5)))-1;
-                    d = p2+p;
+                    smt = p2+p;
                     break;
                 case 8:
                     // circles
-                    temp = pow(distance(euclidean2, euclidean),2);
-                    d = smoothstep(0,1, temp);
+                    smt = pow(distance(euclidean2, euclidean),2);
                     break;
                 case 9:
                     // kalin circles
-                    temp = (euclidean2 - euclidean) + 0.3;
-                    d = smoothstep(0,.3, temp);
+                    smt = (euclidean2 - euclidean) + 0.3;
                     break;
                 case 10:
                     // 
-                    temp = distance(euclidean2, manhattan);
-                    d = smoothstep(0,1, temp);
+                    smt = distance(euclidean2, manhattan);
                     break;
 
 
@@ -102,21 +109,20 @@ float voronoi_calc(float2 uv, float type, float speed, float gridNo, float gridA
 
                 case 100:
                     // random grid anim
-                    temp = distance(p - ((1-gv) * gv),0);
-                    d = smoothstep(0,1, temp);
+                    smt = distance(p - ((1-gv) * gv),0);
                     break;
                 case 101:
                     // random grid anim different method
-                    temp = dot(p * (1-gv) * gv, p * (1-gv) * gv);
-                    d = smoothstep(0,1, temp);
+                    smt = dot(p * (1-gv) * gv, p * (1-gv) * gv);
                     break;
                 case 102:
                     // ic ice daireler (frac yüzünden)
-                    temp = frac(euclidean2 - euclidean);
-                    d = smoothstep(0,1, temp);
+                    smt = frac(euclidean2 - euclidean);
                     break;
 
             }
+
+            d = smoothstep(sStepIn, sStepOut, smt);
 
             if(d < minDist)
             {
@@ -128,7 +134,19 @@ float voronoi_calc(float2 uv, float type, float speed, float gridNo, float gridA
     return minDist;
 }
 
-float voronoi_iter(float2 uv, float type, float Speed, float gridNo, float gridArea, float iterAlpha, float octave, float iterSpeed, float seed, out float2 cellIndex)
+float voronoi_iter(
+    float2 uv, 
+    float type, 
+    float Speed, 
+    float gridNo, 
+    float gridArea, 
+    float iterAlpha, 
+    float octave, 
+    float iterSpeed, 
+    float seed, 
+    float sStepIn,
+    float sStepOut,
+    out float2 cellIndex)
 {   
     if(octave > 10)
     {
@@ -143,7 +161,7 @@ float voronoi_iter(float2 uv, float type, float Speed, float gridNo, float gridA
 
     for(int i = 0; i < octave; i++)
     {
-        b = voronoi_calc(uv, type, Speed, gridNo, gridArea, seed, cellIndex);
+        b = voronoi_calc(uv, type, Speed, gridNo, gridArea, seed, sStepIn, sStepOut, cellIndex);
 
         s += a * b;
         m += a;
@@ -157,9 +175,22 @@ float voronoi_iter(float2 uv, float type, float Speed, float gridNo, float gridA
     return result;
 }
 
-
-void voronoi_float(float2 uv, float Type, float octave, float Speed, float gridNo, float gridArea, float iterAlpha, float iterSpeed, float edgeSize, float seed,
-    out float Voronoi, out float2 CellIndex, out float Edges)
+void voronoi_float(
+    float2 uv, 
+    float Type, 
+    float octave, 
+    float Speed, 
+    float gridNo, 
+    float gridArea, 
+    float iterAlpha, 
+    float iterSpeed, 
+    float edgeSize, 
+    float seed,
+    float sStepIn,
+    float sStepOut,
+    out float Voronoi, 
+    out float2 CellIndex, 
+    out float Edges)
 {
     // type
     // 1 - Euclidean ^2
@@ -171,13 +202,13 @@ void voronoi_float(float2 uv, float Type, float octave, float Speed, float gridN
 
     edgeSize *= 0.001;
 
-    voronoi_iter(uv + float2(edgeSize, 0), Type, Speed, gridNo, gridArea, iterAlpha, octave, iterSpeed, seed, CellIndex);
+    voronoi_iter(uv + float2(edgeSize, 0), Type, Speed, gridNo, gridArea, iterAlpha, octave, iterSpeed, seed, sStepIn, sStepOut, CellIndex);
     float2 dx1 = CellIndex;
-    voronoi_iter(uv - float2(edgeSize, 0), Type, Speed, gridNo, gridArea, iterAlpha, octave, iterSpeed, seed, CellIndex);
+    voronoi_iter(uv - float2(edgeSize, 0), Type, Speed, gridNo, gridArea, iterAlpha, octave, iterSpeed, seed, sStepIn, sStepOut, CellIndex);
     float2 dx2 = CellIndex;
-    voronoi_iter(uv + float2(0, edgeSize), Type, Speed, gridNo, gridArea, iterAlpha, octave, iterSpeed, seed, CellIndex);
+    voronoi_iter(uv + float2(0, edgeSize), Type, Speed, gridNo, gridArea, iterAlpha, octave, iterSpeed, seed, sStepIn, sStepOut, CellIndex);
     float2 dy1 = CellIndex;
-    voronoi_iter(uv - float2(0, edgeSize), Type, Speed, gridNo, gridArea, iterAlpha, octave, iterSpeed, seed, CellIndex);
+    voronoi_iter(uv - float2(0, edgeSize), Type, Speed, gridNo, gridArea, iterAlpha, octave, iterSpeed, seed, sStepIn, sStepOut, CellIndex);
     float2 dy2 = CellIndex;
     
     float dx = dx1.x - dx2.x;
@@ -185,7 +216,7 @@ void voronoi_float(float2 uv, float Type, float octave, float Speed, float gridN
 
     Edges = abs(dx) + abs(dy) > 0;
 
-    Voronoi = voronoi_iter(uv, Type, Speed, gridNo, gridArea, iterAlpha, octave, iterSpeed, seed, CellIndex);
+    Voronoi = voronoi_iter(uv, Type, Speed, gridNo, gridArea, iterAlpha, octave, iterSpeed, seed, sStepIn, sStepOut, CellIndex);
 }
 
 /* tests
