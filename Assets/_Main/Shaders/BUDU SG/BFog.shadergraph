@@ -1891,7 +1891,7 @@
     "m_CastShadows": false,
     "m_ReceiveShadows": true,
     "m_SupportsLODCrossFade": false,
-    "m_CustomEditorGUI": "BFogEditor",
+    "m_CustomEditorGUI": "",
     "m_SupportVFX": false
 }
 
@@ -1985,6 +1985,9 @@
     },
     "m_Slots": [
         {
+            "m_Id": "fcc81516a6e54db3b44c1aa8192babce"
+        },
+        {
             "m_Id": "77f9fc616dfd420db851944cf974f049"
         },
         {
@@ -2001,10 +2004,12 @@
     },
     "m_SerializedSubGraph": "{\n    \"subGraph\": {\n        \"fileID\": -5475051401550479605,\n        \"guid\": \"e0e5c872dcbe4544da5e82316d7f8506\",\n        \"type\": 3\n    }\n}",
     "m_PropertyGuids": [
-        "a3660e94-cd2c-4da7-b7bf-f3c98b90407d"
+        "a3660e94-cd2c-4da7-b7bf-f3c98b90407d",
+        "99f17aea-7a56-44e0-97bf-f11be861bfb1"
     ],
     "m_PropertyIds": [
-        1517481092
+        1517481092,
+        2002771651
     ],
     "m_Dropdowns": [],
     "m_DropdownSelectedEntries": []
@@ -2847,6 +2852,27 @@
         "x": -1731.333251953125,
         "y": 99.3333740234375
     }
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector2MaterialSlot",
+    "m_ObjectId": "fcc81516a6e54db3b44c1aa8192babce",
+    "m_Id": 2002771651,
+    "m_DisplayName": "UV",
+    "m_SlotType": 0,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "_UV",
+    "m_StageCapability": 3,
+    "m_Value": {
+        "x": 0.0,
+        "y": 0.0
+    },
+    "m_DefaultValue": {
+        "x": 0.0,
+        "y": 0.0
+    },
+    "m_Labels": []
 }
 
 {
