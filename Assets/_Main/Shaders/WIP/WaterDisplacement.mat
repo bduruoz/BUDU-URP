@@ -1,0 +1,107 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: WaterDisplacement
+  m_Shader: {fileID: -6465566751694194690, guid: 43cd1c7e824054546bd2f2f6083dbfd0,
+    type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - _SPECULAR_SETUP
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: 2000
+  stringTagMap:
+    RenderType: Opaque
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _SampleTexture2D_b7d4d83ac4d64a58a143c91b081d37d1_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 136144d880a69254ea8b2d639e2fe9c5, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AlphaClip: 0
+    - _AlphaToMask: 0
+    - _Amp: 1
+    - _Blend: 0
+    - _BlendModePreserveSpecular: 1
+    - _CastShadows: 1
+    - _Cull: 0
+    - _DstBlend: 0
+    - _NSpeed_A: 5
+    - _NSpeed_A_1: 0
+    - _NSpeed_B: 5
+    - _NSpeed_C: 5
+    - _Peak_Sharpness: 0.7
+    - _Peak_Sharpness_A: 0.6
+    - _Peak_Sharpness_B: 0.6
+    - _Peak_Sharpness_C: 0.6
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _ReceiveShadows: 1
+    - _Speed_A: 0.7
+    - _Speed_A_1: 1
+    - _Speed_B: -0.03
+    - _Speed_B_1: 1
+    - _Speed_C: -1.2
+    - _Speed_C_1: 1
+    - _Speed_C_2: 1
+    - _SrcBlend: 1
+    - _Surface: 0
+    - _WaveLengthA: 14
+    - _WaveLengthB: 12
+    - _WaveLengthC: 10
+    - _Wave_Height: 0.5
+    - _Wave_Height_A: 0.5
+    - _Wave_Height_B: 0.4
+    - _Wave_Height_C: 0.3
+    - _Wave_Length: 8
+    - _WorkflowMode: 0
+    - _ZTest: 1
+    - _ZWrite: 1
+    - _ZWriteControl: 1
+    m_Colors:
+    - _Wave_Direction: {r: 1, g: 0, b: 0, a: 0}
+    - _Wave_DirectionA: {r: 1, g: 0, b: 0, a: 0}
+    - _Wave_DirectionB: {r: -0.3, g: 0, b: -0.7, a: 0}
+    - _Wave_DirectionC: {r: -0.7, g: 0, b: 0.4, a: 0}
+    - _Wave_Direction_1: {r: 0.01, g: 0, b: 0, a: 0}
+    - _Wave_Direction_2: {r: 0.01, g: 0, b: 0, a: 0}
+  m_BuildTextureStacks: []
+--- !u!114 &8932969555919880907
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 7

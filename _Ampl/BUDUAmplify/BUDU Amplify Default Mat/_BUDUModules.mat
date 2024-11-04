@@ -1,0 +1,176 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-1826569326864406015
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 7
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: _BUDUModules
+  m_Shader: {fileID: 4800000, guid: 34cbc73342d2d51419a90cbcf2c4ba1b, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - _ENVIRONMENTREFLECTIONS_OFF
+  - _SPECULARHIGHLIGHTS_OFF
+  m_InvalidKeywords:
+  - _WINDTOGGLE_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Leaves03:
+        m_Texture: {fileID: 2800000, guid: 8b4eb68c413d91e41a98881e30998e31, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _LeavesSpecTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _LeavesTexture:
+        m_Texture: {fileID: 2800000, guid: 8b4eb68c413d91e41a98881e30998e31, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Noise:
+        m_Texture: {fileID: 2800000, guid: c662692ad44de0b45ba4f81297e97381, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Noise1:
+        m_Texture: {fileID: 2800000, guid: 7ec7052ce3ab6a945ad73485b22020ef, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap1:
+        m_Texture: {fileID: 2800000, guid: e2f374f43d66c9647a243c4972f11b11, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints:
+    - Akey0: 0
+    m_Floats:
+    - _AKey0: 0
+    - _AKey1: 0
+    - _AKey2: 0
+    - _AKey3: 0
+    - _AKey4: 0
+    - _AKey5: 0
+    - _AKey6: 0
+    - _AKey7: 0
+    - _ATime0: 0
+    - _ATime1: 0
+    - _ATime2: 0
+    - _ATime3: 0
+    - _ATime4: 0
+    - _ATime5: 0
+    - _ATime6: 0
+    - _ATime7: 0
+    - _AlphaCutoff: 0.5
+    - _CTime0: 0
+    - _CTime1: 0
+    - _CTime2: 0
+    - _CTime3: 0
+    - _CTime4: 0
+    - _CTime5: 0
+    - _CTime6: 0
+    - _CTime7: 0
+    - _CardRotate: 40
+    - _CardSize: 1
+    - _ClipThreshold: 0.5
+    - _ColoredAmbient: 0
+    - _CustomRamp: 0
+    - _Direct: 0.9
+    - _Direct1: 0.9
+    - _DstBlend: 0
+    - _EffectBlend: 0
+    - _EnvironmentReflections: 0
+    - _FSwitch: 0
+    - _FresnelInvert: 0
+    - _GradALength: 0
+    - _GradCLength: 0
+    - _GradMode: 0
+    - _GradModeB: 0
+    - _Inflate: 0
+    - _LeavesRimBias: 0
+    - _LeavesRimPower: 3
+    - _LeavesRimScale: 1
+    - _LeavesRimYContrast: 0
+    - _LeavesRimYPosition: 0
+    - _LeavesSpecIntensity: 1
+    - _Normal: 0
+    - _NormalDistortion: 0.5
+    - _NormalScale1: 0.3
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _RandomRotate: 0
+    - _ReceiveShadows: 1
+    - _RimSwitch: 0
+    - _Scattering: 14.1
+    - _Smoothness: 0.5
+    - _SpecularHighlights: 0
+    - _SrcBlend: 1
+    - _ToonSpec: 0
+    - _TransAmbient: 0.1
+    - _TransDirect: 0.9
+    - _TransNormal: 0.5
+    - _TransScattering: 2
+    - _TransShadow: 0.5
+    - _TransStrength: 1
+    - _TranslucencyStrength: 1
+    - _WNoiseAX: 1
+    - _WNoiseAY: 1
+    - _WNoiseBX: 1
+    - _WNoiseBY: 1
+    - _WindIntensity: 1
+    - _WindMultiplier: 2.11
+    - _WindNormalize: 0.256
+    - _WindSpeed: 2.83
+    - _WindToggle: 1
+    - _ZWrite: 1
+    m_Colors:
+    - _CKey0: {r: 0, g: 0, b: 0, a: 1}
+    - _CKey1: {r: 0, g: 0, b: 0, a: 1}
+    - _CKey2: {r: 0, g: 0, b: 0, a: 1}
+    - _CKey3: {r: 0, g: 0, b: 0, a: 1}
+    - _CKey4: {r: 0, g: 0, b: 0, a: 1}
+    - _CKey5: {r: 0, g: 0, b: 0, a: 1}
+    - _CKey6: {r: 0, g: 0, b: 0, a: 1}
+    - _CKey7: {r: 0, g: 0, b: 0, a: 1}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _LeavesColor: {r: 0.31933287, g: 0.46540868, b: 0.16538107, a: 1}
+    - _LeavesRimColor: {r: 0.31249547, g: 0.4842767, b: 0.26955017, a: 1}
+    - _LeavesSpecColor: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []

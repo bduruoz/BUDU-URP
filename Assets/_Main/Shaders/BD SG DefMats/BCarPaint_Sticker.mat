@@ -56,7 +56,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _Flakes_Texture:
         m_Texture: {fileID: 2800000, guid: 18a6c56412dba3248aa89410941fd46b, type: 3}
-        m_Scale: {x: 4, y: 4}
+        m_Scale: {x: 8, y: 8}
         m_Offset: {x: 0, y: 0}
     - _Front_Sticker:
         m_Texture: {fileID: 2800000, guid: f83a41abb059dca4a8eff3f6ae133b73, type: 3}
@@ -68,7 +68,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _Normal_Map:
         m_Texture: {fileID: 2800000, guid: 4c8c70d7a814e5643b54418280444039, type: 3}
-        m_Scale: {x: 6, y: 6}
+        m_Scale: {x: 8, y: 8}
         m_Offset: {x: 0, y: 0}
     - _Reflection_Cubemap:
         m_Texture: {fileID: 8900000, guid: 7a412fdc2fe96ae4f8a4fe059ce9bfed, type: 3}
@@ -162,7 +162,7 @@ Material:
     - _CheckBase: 1
     - _CheckDamage: 1
     - _CheckDef: 0
-    - _CheckFlakes: 1
+    - _CheckFlakes: 0
     - _CheckNormal: 1
     - _CheckReflect: 1
     - _CheckSecSpec: 1
@@ -309,7 +309,7 @@ Material:
     - _Shading_Toggle: 0
     - _Smoothness: 0.5
     - _Softness: 0.1
-    - _Specular_Flakes: 1
+    - _Specular_Flakes: 0
     - _Specular_In: 0.2
     - _Specular_Normal_Strength: 0.31
     - _Specular_Out: 1

@@ -8,15 +8,16 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: sky_old
-  m_Shader: {fileID: 103, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: -6465566751694194690, guid: 4cc7685c029292f4a87e4c54be11f07b, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _BLEND_METHOD_OVER
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 1000
   stringTagMap: {}
   disabledShaderPasses: []
   m_LockedProperties: 
@@ -32,6 +33,14 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _CloudNoise:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Cubemap:
+        m_Texture: {fileID: 8900000, guid: 11bf34a82ad795340be5b54193aa59cc, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Cubemap_Layer:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -76,7 +85,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Tex:
-        m_Texture: {fileID: 8900000, guid: 11bf34a82ad795340be5b54193aa59cc, type: 3}
+        m_Texture: {fileID: 8900000, guid: 86f4d6fa9aca6024dae63423a3efec72, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -95,9 +104,17 @@ Material:
     m_Floats:
     - _AlphaClip: 0
     - _AlphaToMask: 0
+    - _BLEND_METHOD: 0
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
+    - _Blended_Cubemaps: 0
     - _BumpScale: 1
+    - _CheckBase: 0
+    - _CheckCubeMap: 1
+    - _CheckDef: 0
+    - _CheckFog: 0
+    - _CheckGradient: 0
+    - _CheckHaze: 0
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _CloudCoverage: 0
@@ -106,9 +123,15 @@ Material:
     - _CloudHorizonMaskHeightOffset: 0
     - _CloudHorizonMaskSharpness: 0
     - _CloudTimescale: 0
+    - _Contrast: 1
     - _CoverageGradientHeight: 0
     - _CoverageGradientSharpness: 0
+    - _Cubemap_Blend: 0
+    - _Cubemap_Exposure: 1
+    - _Cubemap_Intensity: 1
+    - _Cubemap_Toggle: 1
     - _Cull: 2
+    - _Custom_Fog_Color: 0
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
@@ -116,9 +139,24 @@ Material:
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 1
     - _Exposure: 1
+    - _Fog_Fill: 0
+    - _Fog_Height: 0.3
+    - _Fog_Intensity: 1
+    - _Fog_Position: 0
+    - _Fog_Smooth: 0.5
+    - _Fog_Toggle: 0
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
+    - _Gradient_Intensity: 1
+    - _Gradient_Position: 0
+    - _Gradient_Toggle: 0
+    - _Haze_Fill: 0
+    - _Haze_Height: 0.3
+    - _Haze_Intensity: 1
+    - _Haze_Position: 1.5
+    - _Haze_Smooth: 0.5
+    - _Haze_Toggle: 0
     - _HorizonGlowIntensity: 0.59
     - _HorizonMinAmountAlways: 0
     - _HorizonSharpness: 5.7
@@ -130,9 +168,16 @@ Material:
     - _NightTransitionScale: 1
     - _OcclusionStrength: 1
     - _Parallax: 0.005
+    - _Position_X: 0
+    - _Position_Y: 0
+    - _Position_Z: 0
+    - _Power: 1
+    - _QueueControl: -1
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _Rotation: 0
+    - _RotationSpeed: 10
+    - _Rotator: 0
     - _SkyGradientPower: 0
     - _SkyGradientScale: 0
     - _Smoothness: 0.5
@@ -152,8 +197,12 @@ Material:
     - _UseRadialCoverageMask: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
+    - _positionFold: 0
+    - _rotationFold: 0
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Base_Color: {r: 0.16, g: 0.2653659, b: 0.4, a: 1}
+    - _Bottom_Color: {r: 0.4, g: 0.3, b: 0.16, a: 1}
     - _CloudColor: {r: 0, g: 0, b: 0, a: 0}
     - _CloudOffset: {r: 0, g: 0, b: 0, a: 0}
     - _CloudOffset2: {r: 0, g: 0, b: 0, a: 0}
@@ -164,7 +213,10 @@ Material:
     - _CloudTiling: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _CoverageGradientOffset: {r: 0, g: 0, b: 0, a: 0}
+    - _Cubemap_Tint_Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _Fog_Color: {r: 0.3007692, g: 0.28, b: 0.4, a: 1}
+    - _Haze_Color: {r: 0.4, g: 0.2701571, b: 0.1445026, a: 1}
     - _HorizonColor: {r: 0.9137255, g: 0.8509804, b: 0.7215686, a: 0}
     - _NightColorBottom: {r: 0, g: 0, b: 0, a: 0}
     - _NightColorTop: {r: 0, g: 0, b: 0, a: 0}
@@ -175,6 +227,7 @@ Material:
     - _StarRotationSpeed: {r: 0, g: 0, b: 0, a: 0}
     - _StarSize: {r: 0, g: 0, b: 0, a: 0}
     - _Tint: {r: 0.4509804, g: 0.48366016, b: 0.5, a: 1}
+    - _Top_Color: {r: 0.4666667, g: 0.7333333, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &4893819770891922050
 MonoBehaviour:

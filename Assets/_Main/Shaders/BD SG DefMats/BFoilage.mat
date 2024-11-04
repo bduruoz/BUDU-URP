@@ -27,6 +27,7 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _ALPHACHANNEL_RED
+  - _ALPHAPREMULTIPLY_ON
   - _ALPHATEST_ON
   - _SPECULAR_SETUP
   - _SURFACE_TYPE_TRANSPARENT
@@ -35,7 +36,7 @@ Material:
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2450
+  m_CustomRenderQueue: 3000
   stringTagMap:
     RenderType: Transparent
   disabledShaderPasses: []
@@ -44,7 +45,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _Leaves_Normal_Map:
-        m_Texture: {fileID: 2800000, guid: 3e0385cb1390e6546911788c5411445c, type: 3}
+        m_Texture: {fileID: 2800000, guid: 2c3219b0fa3833c4d92284b2379dcd1c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Leaves_Specular_Texture:
@@ -70,37 +71,37 @@ Material:
     m_Ints: []
     m_Floats:
     - _ALPHACHANNEL: 0
-    - _Affect_Rim: 0
+    - _Affect_Rim: 1
     - _AlphaClip: 1
     - _AlphaToMask: 0
-    - _Alpha_Clip_Threshold: 0.1
+    - _Alpha_Clip_Threshold: 0.55
     - _Blend: 0
-    - _BlendModePreserveSpecular: 0
+    - _BlendModePreserveSpecular: 1
     - _Card_Rotate: 0
     - _Card_Size: 1
-    - _CastShadows: 0
+    - _CastShadows: 1
     - _Cast_Shadows: 1
     - _Cell_Density: 2
     - _Cull: 2
     - _DstBlend: 10
     - _Effect_Blend: 1
     - _Float: 0.19
-    - _FoilageSetting: 0
+    - _FoilageSetting: 1
     - _FoilageSettings: 0
     - _FresnelInvert: 0
     - _Inflate: 0
     - _LeavesSpecular: 1
     - _Leaves_Rim: 1
-    - _NoiseToggle: 1
+    - _NoiseToggle: 0
     - _Noise_Invert: 0
-    - _NormalToggle: 1
+    - _NormalToggle: 0
     - _Normal_Scale: 0.3
     - _Per_Leaves: 1
     - _QueueControl: 0
     - _QueueOffset: 0
     - _RandomRotate: 1
     - _RandomSize: 50
-    - _ReceiveShadows: 0
+    - _ReceiveShadows: 1
     - _Receive_Shadows: 1
     - _Rim_B_as: 0
     - _Rim_Bias: 0
@@ -110,12 +111,12 @@ Material:
     - _Rim_Y_Contrast: 0.34
     - _Rim_Y_Position: 0.635
     - _Smoothness: 0.25
-    - _Specular_Intensity: 0.11
-    - _SrcBlend: 5
+    - _Specular_Intensity: 0.15
+    - _SrcBlend: 1
     - _Surface: 1
     - _Surface_Foilage: 1
-    - _Surface_Foilage_Intensity: 0.09
-    - _Texture_Color_Intensity: 0
+    - _Surface_Foilage_Intensity: 0.1
+    - _Texture_Color_Intensity: 0.6
     - _Texture_Color_bIntensity: 0.5
     - _Texture_Intensity: 0
     - _TileSize: 1
@@ -133,8 +134,8 @@ Material:
     - _checkBase: 1
     - _checkDef: 1
     m_Colors:
-    - _Leaves_Color: {r: 0.3648364, g: 0.632, b: 0, a: 1}
-    - _Leaves_Specular_Color: {r: 3.2490096, g: 2.9782586, b: 0, a: 1}
-    - _Rim_Color: {r: 0.12197883, g: 0.2509804, b: 0, a: 1}
+    - _Leaves_Color: {r: 0.3156863, g: 0.6313726, b: 0, a: 1}
+    - _Leaves_Specular_Color: {r: 2.1688414, g: 4.3376827, b: 0, a: 1}
+    - _Rim_Color: {r: 0.31764707, g: 0.63529414, b: 0, a: 1}
     - _Vector3: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []

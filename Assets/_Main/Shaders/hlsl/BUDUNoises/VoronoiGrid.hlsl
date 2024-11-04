@@ -1,9 +1,13 @@
+// BUDU Games 2024
+// Voronoi Noise Fast method
+
 #include "Assets/_Main/Shaders/hlsl/BUDUNoises/brandom.hlsl"
 
 float voronoi_calc(
     float2 uv, 
+    float time,
+    float speed,
     float type, 
-    float speed, 
     float gridNo, 
     float gridArea, 
     float seed, 
@@ -34,7 +38,7 @@ float voronoi_calc(
     }
     else
     {
-        t = _Time * (speed * 30);
+        t = time * (speed);
     }
 
     float minDist = 100;
@@ -59,53 +63,53 @@ float voronoi_calc(
             float euclidean = distance(p - gv, 0);
             float manhattan = abs(length(gv.x - p.x)) + abs(length(gv.y - p.y));
             float chebyshev = max(abs(length(gv.x - p.x)), abs(length(gv.y - p.y)));
-
+            float nLength = length(p-gv);
+            
             switch(type)
             {
-                case 0:
+                case 0: // Eucledian 2
                     smt = euclidean2;
                     break;
-                case 1:
+                case 1: // Eucledian
                     smt = euclidean;
                     break;
-                case 2:
+                case 2: // Manhattan
                     smt = manhattan;
                     break;
-                case 3:
+                case 3: // Chebyhev
                     smt = chebyshev;
                     break;
-                case 4:
+                case 4: // Manhattan * Chebyshev
                     smt = dot( manhattan, chebyshev);
                     break;
-                case 5:
+                case 5: // Power
                     p -= gv;
-                    smt = pow(p.x * p.x * p.x * p.x + p.y * p.y * p.y * p.y,
-                        1.5);
+                    smt = pow(p.x * p.x * p.x * p.x + p.y * p.y * p.y * p.y, 1.5);
                     break;
-                case 6:
+                case 6: // Distance Manhattan Chebysev
                     smt = distance((manhattan) - (chebyshev/2), (manhattan/2) + (chebyshev));
                     break;
-                case 7:
+                case 7: // Eucledian smoothstep
                     p = euclidean2;
                     float p2 = clamp(saturate(smoothstep(0.32, 0.32, euclidean2)),0,1);
                     //p += (saturate(step(euclidean2,0.5)))-1;
                     smt = p2+p;
                     break;
-                case 8:
-                    // circles
+                case 8: // Circles
                     smt = pow(distance(euclidean2, euclidean),2);
                     break;
-                case 9:
-                    // kalin circles
+                case 9: // Thick Circles
                     smt = (euclidean2 - euclidean) + 0.3;
                     break;
-                case 10:
-                    // 
+                case 10: // Distance Euclidean2 Manhattan
                     smt = distance(euclidean2, manhattan);
                     break;
-
-
-
+                case 11: // Length
+                    smt = log2(exp2(nLength/4.0))*nLength;
+                    break;
+                
+                
+                ///////////////////////////////////////////////////////////////////////////
 
                 case 100:
                     // random grid anim
@@ -121,9 +125,9 @@ float voronoi_calc(
                     break;
 
             }
-
+            
             d = smoothstep(sStepIn, sStepOut, smt);
-
+            
             if(d < minDist)
             {
                 minDist = d;
@@ -136,8 +140,9 @@ float voronoi_calc(
 
 float voronoi_iter(
     float2 uv, 
+    float time,
+    float Speed,
     float type, 
-    float Speed, 
     float gridNo, 
     float gridArea, 
     float iterAlpha, 
@@ -161,8 +166,7 @@ float voronoi_iter(
 
     for(int i = 0; i < octave; i++)
     {
-        b = voronoi_calc(uv, type, Speed, gridNo, gridArea, seed, sStepIn, sStepOut, cellIndex);
-
+        b = voronoi_calc(uv, time, Speed, type, gridNo, gridArea, seed, sStepIn, sStepOut, cellIndex);
         s += a * b;
         m += a;
 
@@ -176,10 +180,11 @@ float voronoi_iter(
 }
 
 void voronoi_float(
-    float2 uv, 
+    float2 uv,
+    float time,
+    float Speed,
     float Type, 
     float octave, 
-    float Speed, 
     float gridNo, 
     float gridArea, 
     float iterAlpha, 
@@ -202,13 +207,13 @@ void voronoi_float(
 
     edgeSize *= 0.001;
 
-    voronoi_iter(uv + float2(edgeSize, 0), Type, Speed, gridNo, gridArea, iterAlpha, octave, iterSpeed, seed, sStepIn, sStepOut, CellIndex);
+    voronoi_iter(uv + float2(edgeSize, 0), time, Speed, Type, gridNo, gridArea, iterAlpha, octave, iterSpeed, seed, sStepIn, sStepOut, CellIndex);
     float2 dx1 = CellIndex;
-    voronoi_iter(uv - float2(edgeSize, 0), Type, Speed, gridNo, gridArea, iterAlpha, octave, iterSpeed, seed, sStepIn, sStepOut, CellIndex);
+    voronoi_iter(uv - float2(edgeSize, 0), time, Speed, Type, gridNo, gridArea, iterAlpha, octave, iterSpeed, seed, sStepIn, sStepOut, CellIndex);
     float2 dx2 = CellIndex;
-    voronoi_iter(uv + float2(0, edgeSize), Type, Speed, gridNo, gridArea, iterAlpha, octave, iterSpeed, seed, sStepIn, sStepOut, CellIndex);
+    voronoi_iter(uv + float2(0, edgeSize), time, Speed, Type, gridNo, gridArea, iterAlpha, octave, iterSpeed, seed, sStepIn, sStepOut, CellIndex);
     float2 dy1 = CellIndex;
-    voronoi_iter(uv - float2(0, edgeSize), Type, Speed, gridNo, gridArea, iterAlpha, octave, iterSpeed, seed, sStepIn, sStepOut, CellIndex);
+    voronoi_iter(uv - float2(0, edgeSize), time, Speed, Type, gridNo, gridArea, iterAlpha, octave, iterSpeed, seed, sStepIn, sStepOut, CellIndex);
     float2 dy2 = CellIndex;
     
     float dx = dx1.x - dx2.x;
@@ -216,7 +221,7 @@ void voronoi_float(
 
     Edges = abs(dx) + abs(dy) > 0;
 
-    Voronoi = voronoi_iter(uv, Type, Speed, gridNo, gridArea, iterAlpha, octave, iterSpeed, seed, sStepIn, sStepOut, CellIndex);
+    Voronoi = voronoi_iter(uv, time, Speed, Type, gridNo, gridArea, iterAlpha, octave, iterSpeed, seed, sStepIn, sStepOut, CellIndex);
 }
 
 /* tests

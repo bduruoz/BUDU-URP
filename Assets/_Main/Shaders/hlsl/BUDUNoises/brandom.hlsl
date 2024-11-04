@@ -1,9 +1,10 @@
-// BUDU Games - Pseudo Randoms
+// BUDU Games 2024
+// Pseudo Randoms
+
 #ifndef BUDU_RANDOM
 #define BUDU_RANDOM
 
-#define PI          3.14159265359
-#define TAU         6.28318530718
+#include "Assets/_Main/Shaders/hlsl/Includes/constants.hlsl"
 
 // noise v1 Hash23
 float2 noise_v1(float2 p)
@@ -53,22 +54,18 @@ float hash21(float2 p)
     return  -1.0 + 2.0 * frac(sin(h) * 43758.5453123);
 }
 
-float2 hash22(float2 p, float time)
+float2 hash22(float2 p, float time, float seed)
 {
-    matrix <float,2,2> amtx = {127.1, 311.7,
-                               269.5, 183.3};
-
+    if(seed == 0) seed = 86;
+    matrix <float,2,2> amtx = {127.1, 311.7, 269.5, 183.3};
     p.x = amtx[0,0] * p.x + amtx[0,1] * p.y;
     p.y = amtx[1,0] * p.x + amtx[1,1] * p.y;
-
-	p = -1.0 + 2.0 * frac(sin(p) * 43758.5453123);
+	p = -1.0 + 2.0 * frac(sin(p) * (14375.5453123 * seed));
 	return sin(p * TAU + time);
 }
 
 float remap(float v, float minOld, float maxOld, float minNew, float maxNew) {
     return minNew + (v-minOld) * (maxNew - minNew) / (maxOld-minOld);
 }
-
-// 
 
 #endif

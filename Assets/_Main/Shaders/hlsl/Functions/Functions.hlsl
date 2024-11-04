@@ -1,9 +1,10 @@
-// BUDU Games - Functions
+// BUDU Games 2024
+// Functions
+
 #ifndef BUDU_FUNCTIONS
 #define BUDU_FUNCTIONS
 
-#define PI          3.14159265359
-#define TAU         6.28318530718
+#include "Assets/_Main/Shaders/hlsl/Includes/constants.hlsl"
 
 float repeated(float3 p, float s)
 {

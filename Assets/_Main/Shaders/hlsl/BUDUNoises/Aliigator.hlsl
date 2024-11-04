@@ -3,7 +3,15 @@
 
 #include "Assets/_Main/Shaders/hlsl/BUDUNoises/brandom.hlsl"
 
-float2 alligator_noise(float2 uv, float t, float speed, int frequencies, float scale, float amplitude, float seed)
+float2 alligator_noise(
+    float2 uv, 
+    float tm, 
+    float speed, 
+    int frequencies, 
+    float scale, 
+    float amplitude, 
+    float seed
+    )
 {
     float2 allg;
 
@@ -16,8 +24,8 @@ float2 alligator_noise(float2 uv, float t, float speed, int frequencies, float s
             float2 amp_phase = noise_v2(float2(x,y) * seed);
             float amp = amp_phase.x / float(y*y + x*x);
             float phase = amp_phase.y * TAU;
-            float theta = ( ((uv.x) + sign(float(y)) * speed * t) * float(y)
-                        + ((uv.y) + sign(float(x)) * speed * -t) * float(x))
+            float theta = ( ((uv.x) + sign(float(y)) * speed * tm) * float(y)
+                        + ((uv.y) + sign(float(x)) * speed * -tm) * float(x))
                         + phase;
 
             allg += float2(x , y ) * cos((theta) * ((x + scale))) * (amp * amplitude);
@@ -27,11 +35,18 @@ float2 alligator_noise(float2 uv, float t, float speed, int frequencies, float s
     return allg;
 }
 
-void alligator_float(float2 uv, float Speed, float Frequency, float Scale, float Amplitude, float Seed,
-    out float2 Alligator)
+void alligator_float(
+    float2 uv, 
+    float tm,
+    float Speed, 
+    float Frequency, 
+    float Scale, 
+    float Amplitude, 
+    float Seed,
+    out float Alligator,
+    out float2 Channels
+    )
 {
-    float t = _Time;
-
     if(Seed==0)
         Seed=989.23;
     if(Frequency>10)
@@ -39,9 +54,9 @@ void alligator_float(float2 uv, float Speed, float Frequency, float Scale, float
     Scale *= 10;
     Amplitude *= 0.1;
 
-    Alligator = float2(alligator_noise(uv, t, Speed, Frequency, Scale, Amplitude, Seed));
+    Channels = float2(alligator_noise(uv, tm, Speed, Frequency, Scale, Amplitude, Seed));
+    Alligator = distance(alligator_noise(uv, tm, Speed, Frequency, Scale, Amplitude, Seed).x, alligator_noise(uv, tm, Speed, Frequency, Scale, Amplitude, Seed).y);
 }
-
 
 /*
 //addAlligator = float(alligator_noise(uv, t, Speed, Frequency, Scale, Amplitude).x + alligator_noise(uv, t, Speed, Frequency, Scale, Amplitude).y);

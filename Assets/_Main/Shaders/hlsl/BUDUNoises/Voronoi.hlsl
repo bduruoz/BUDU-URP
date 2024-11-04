@@ -1,9 +1,20 @@
+// BUDU Games 2024
+// Voronoi Noise (Slow Method)
+
 #include "Assets/_Main/Shaders/hlsl/BUDUNoises/brandom.hlsl"
 
-float voronoi_noise(float2 uv, float type, float speed, float pointNo, float seed, out float cellIndex)
+float voronoi_noise(
+        float2 uv, 
+        float time, 
+        float speed,
+        float type, 
+        float pointNo, 
+        float seed, 
+        out float cellIndex
+        )
 {
     float coeff = 1;//0.35;
-    float t = _Time * speed;
+    float t = time * speed;
     float minDist = 100;
     float d = 0;
     float2 p = 0;
@@ -67,8 +78,18 @@ float voronoi_noise(float2 uv, float type, float speed, float pointNo, float see
     return minDist;
 }
 
-void voronoi_float( float2 uv, float Type, float Speed, float PointNo, float edgeSize, float seed,
-     out float Voronoi, out float CellIndex, out float Edges)
+void voronoi_float( 
+        float2 uv,
+        float time,
+        float Speed, 
+        float Type,
+        float PointNo, 
+        float edgeSize, 
+        float seed,
+        out float Voronoi, 
+        out float CellIndex, 
+        out float Edges
+        )
 {
     // type
     // 1 - Euclidean ^2
@@ -80,13 +101,13 @@ void voronoi_float( float2 uv, float Type, float Speed, float PointNo, float edg
 
     edgeSize *= 0.001;
 
-    voronoi_noise(uv + float2(edgeSize, 0), Type, Speed, PointNo, seed, CellIndex);
+    voronoi_noise(uv + float2(edgeSize, 0), time, Speed, Type, PointNo, seed, CellIndex);
     float dx1 = CellIndex;
-    voronoi_noise(uv - float2(edgeSize, 0), Type, Speed, PointNo, seed, CellIndex);
+    voronoi_noise(uv - float2(edgeSize, 0), time, Speed, Type, PointNo, seed, CellIndex);
     float dx2 = CellIndex;
-    voronoi_noise(uv + float2(0, edgeSize), Type, Speed, PointNo, seed, CellIndex);
+    voronoi_noise(uv + float2(0, edgeSize), time, Speed, Type, PointNo, seed, CellIndex);
     float dy1 = CellIndex;
-    voronoi_noise(uv - float2(0, edgeSize), Type, Speed, PointNo, seed, CellIndex);
+    voronoi_noise(uv - float2(0, edgeSize), time, Speed, Type, PointNo, seed, CellIndex);
     float dy2 = CellIndex;
     
     float dx = dx1 - dx2;
@@ -94,6 +115,6 @@ void voronoi_float( float2 uv, float Type, float Speed, float PointNo, float edg
 
     Edges = abs(dx) + abs(dy) > 0;
 
-    Voronoi = voronoi_noise(uv, Type, Speed, PointNo, seed, CellIndex);
+    Voronoi = voronoi_noise(uv, time, Speed, Type, PointNo, seed, CellIndex);
 
 }

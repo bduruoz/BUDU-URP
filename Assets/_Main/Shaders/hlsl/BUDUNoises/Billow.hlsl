@@ -4,7 +4,14 @@
 #include "Assets/_Main/Shaders/hlsl/BUDUNoises/brandom.hlsl"
 #include "Assets/_Main/Shaders/hlsl/Functions/Functions.hlsl"
 
-float billow_calc(float2 xy, float2 period, float alpha, float seed, float i, out float2 result)
+float billow_calc(
+	float2 xy, 
+	float2 period, 
+	float alpha, 
+	float seed, 
+	float i, 
+	out float2 result
+	)
 {
 	float2 uv = float2(xy.x + xy.y * 0.5, xy.y);
 	float2 i0 = floor(uv);

@@ -12,6 +12,7 @@ float2 rotate(float2 vec, float rot)
 
 float brownian2D_calc(
     float2 uv,
+    float time,
     float octave,
     float scale,
     float iterScl,
@@ -29,7 +30,7 @@ float brownian2D_calc(
     for(int i = 0; i < octave; i++)
     {
         cnt += att;
-        val += noise_v3(uv  * scl, float(i)) * att;
+        val += noise_v3(uv * scl + time, float(i)) * att;
 
         scl *= iterScl;
         att *= iterAtt;
@@ -41,6 +42,7 @@ float brownian2D_calc(
 
 void brownian2D_float(
     float2 uv,
+    float time,
     float octave,
     float scale,
     float iterScl,
@@ -48,7 +50,7 @@ void brownian2D_float(
     out float output
     )
 {
-    float result = brownian2D_calc(uv, octave, scale, iterScl, iterAtt);
+    float result = brownian2D_calc(uv, time, octave, scale, iterScl, iterAtt);
     output = result;
 }
 
