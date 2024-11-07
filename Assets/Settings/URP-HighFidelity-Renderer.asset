@@ -54,8 +54,9 @@ MonoBehaviour:
   m_RendererFeatures:
   - {fileID: -1878332245247344467}
   - {fileID: 4468716675224247226}
-  m_RendererFeatureMap: adc0de57c6d2eee5ba1b9bcc2312043e
-  m_UseNativeRenderPass: 1
+  - {fileID: 6045603032548695510}
+  m_RendererFeatureMap: adc0de57c6d2eee5ba1b9bcc2312043ed6dd1658ed4be653
+  m_UseNativeRenderPass: 0
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
   shaders:
@@ -90,11 +91,11 @@ MonoBehaviour:
     stencilCompareFunction: 8
     passOperation: 1
     failOperation: 2
-    zFailOperation: 4
-  m_ShadowTransparentReceive: 1
+    zFailOperation: 7
+  m_ShadowTransparentReceive: 0
   m_RenderingMode: 0
-  m_DepthPrimingMode: 2
-  m_CopyDepthMode: 1
+  m_DepthPrimingMode: 1
+  m_CopyDepthMode: 0
   m_AccurateGbufferNormals: 0
   m_IntermediateTextureMode: 0
 --- !u!114 &4468716675224247226
@@ -133,3 +134,26 @@ MonoBehaviour:
   _shaderLightModes:
   - UseColorTexture
   _sortingCriteria: 23
+--- !u!114 &6045603032548695510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1614fc811f8f184697d9bee70ab9fe5, type: 3}
+  m_Name: DecalRendererFeature
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  m_Settings:
+    technique: 0
+    maxDrawDistance: 1000
+    decalLayers: 0
+    dBufferSettings:
+      surfaceData: 2
+    screenSpaceSettings:
+      normalBlend: 0
+  m_CopyDepthPS: {fileID: 4800000, guid: d6dae50ee9e1bfa4db75f19f99355220, type: 3}
+  m_DBufferClear: {fileID: 4800000, guid: f056d8bd2a1c7e44e9729144b4c70395, type: 3}

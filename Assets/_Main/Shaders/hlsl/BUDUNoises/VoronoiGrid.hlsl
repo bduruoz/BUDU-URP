@@ -63,7 +63,19 @@ float voronoi_calc(
             float euclidean = distance(p - gv, 0);
             float manhattan = abs(length(gv.x - p.x)) + abs(length(gv.y - p.y));
             float chebyshev = max(abs(length(gv.x - p.x)), abs(length(gv.y - p.y)));
-            float nLength = length(p-gv);
+            float nLength = length(p - gv);
+
+            // Minkowski Method - use case 12
+            // NN = 1 : Manhattan
+            // NN = 2 : Euclidean
+            // NN = 3 : Box
+            // NN = 4 : Rounded box
+            // NN = 5 : Goto Chebysev
+            float NN = 4.0;
+            // NS : Scale of points
+            float NS = 3.0;
+            float minkowski = pow(pow(abs(p.x - gv.x), NN) + pow(abs(p.y - gv.y), NN), (NS / NN));
+            // End of Minkowski Method
             
             switch(type)
             {
@@ -106,6 +118,9 @@ float voronoi_calc(
                     break;
                 case 11: // Length
                     smt = log2(exp2(nLength/4.0))*nLength;
+                    break;
+                case 12: // Minkowski
+                    smt = minkowski;
                     break;
                 
                 
