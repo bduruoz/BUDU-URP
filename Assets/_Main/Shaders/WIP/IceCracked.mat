@@ -26,7 +26,7 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _ALPHAPREMULTIPLY_ON
+  - _SPECULAR_SETUP
   - _SURFACE_TYPE_TRANSPARENT
   m_InvalidKeywords: []
   m_LightmapFlags: 2
@@ -42,35 +42,39 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _Base_Texture:
-        m_Texture: {fileID: 2800000, guid: 3646c60499062b449b3283d13d16cb50, type: 3}
+        m_Texture: {fileID: 2800000, guid: 70102fff8615bc74fa4d9ea0bd899dc9, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Crack_Mask:
-        m_Texture: {fileID: 2800000, guid: 996358d0713657f46a5b35523283b67d, type: 3}
+        m_Texture: {fileID: 2800000, guid: 716217b79dc68d84890ad42b7cb2f338, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Depth_Noise_Texture:
         m_Texture: {fileID: 2800000, guid: 2272f2dfdb7932b43921aa9b38213a6e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Emission_Map:
+        m_Texture: {fileID: 2800000, guid: 716217b79dc68d84890ad42b7cb2f338, type: 3}
+        m_Scale: {x: 3, y: 3}
+        m_Offset: {x: 0, y: 0}
     - _NNoise_Texture:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Normal_Map:
-        m_Texture: {fileID: 2800000, guid: ad07b1857d4c0bb4aa7da90fcccd0d36, type: 3}
+        m_Texture: {fileID: 2800000, guid: a0358bbcd74036c41a826d98c2744349, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Roughness_Texture:
-        m_Texture: {fileID: 2800000, guid: ddbd69494ea260a4abee7927fc235fd1, type: 3}
-        m_Scale: {x: 1, y: 1}
+        m_Texture: {fileID: 2800000, guid: dddf05bc87b370847a4a5c695acedda4, type: 3}
+        m_Scale: {x: 3, y: 3}
         m_Offset: {x: 0, y: 0}
     - _Snow_Map:
-        m_Texture: {fileID: 2800000, guid: 1d1146d95e3c26e49b610e50ac273104, type: 3}
+        m_Texture: {fileID: 2800000, guid: befb42a7faa371045a78db364125c8bd, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Snow_Normal_Map:
-        m_Texture: {fileID: 2800000, guid: 8ac06916341c81248b87b71790f7dfe5, type: 3}
+        m_Texture: {fileID: 2800000, guid: a0358bbcd74036c41a826d98c2744349, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Surface_Noise_Texture:
@@ -94,43 +98,53 @@ Material:
     - _Alpha: 1
     - _AlphaClip: 0
     - _AlphaToMask: 0
-    - _Blend: 0
+    - _Blend: 1
     - _BlendModePreserveSpecular: 1
     - _CastShadows: 1
+    - _Clamp_In: 0.48
+    - _Clamp_Out: 0.65
     - _Crack_Fade: 1
-    - _Crack_Multiplier: 0
+    - _Crack_Multiplier: 0.03
     - _Cull: 2
-    - _Depth_Brightness: 1
+    - _Depth_Brightness: 0.25
     - _Depth_Noise_Scale: 1.76
     - _Depth_Noise_Strength: 0.27
     - _Depth_Noise_Toggle: 1
     - _Depth_Toggle: 1
     - _DstBlend: 10
-    - _Iterations: 20
+    - _Emission_Intensity: 0.3
+    - _Emission_Toggle: 1
+    - _Iterations: 10
     - _Normal_Multiplier: 0
     - _Normal_Strength: 0.3
     - _Normal_Toggle: 1
-    - _Parallax_Offset: 1.25
+    - _Parallax_Offset: 1
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _Smoothness: 1
-    - _Snow_Toggle: 0
+    - _Roughnes_Invert: 1
+    - _Roughness_Intensity: 1
+    - _Roughness_Toggle: 1
+    - _Smoothness: 0.883
+    - _Snow_Intensity: 1
+    - _Snow_Toggle: 1
     - _SrcBlend: 1
     - _Surface: 1
     - _Surface_Noise_Function: 1
     - _Surface_Noise_Opacity: 0.497
-    - _Surface_Noise_Parallax_Offset: 0
-    - _Surface_Noise_Scale: 100
+    - _Surface_Noise_Parallax_Offset: 0.1
+    - _Surface_Noise_Scale: 120.36
     - _Surface_Noise_Toggle: 1
     - _Water_Depth: -0.25
-    - _WorkflowMode: 1
+    - _WorkflowMode: 0
     - _ZTest: 4
     - _ZWrite: 0
     - _ZWriteControl: 0
     m_Colors:
     - _Crack_Tiles: {r: 3, g: 3, b: 0, a: 0}
-    - _Depth_Color: {r: 1, g: 1, b: 1, a: 0}
+    - _Depth_Color: {r: 0.66981125, g: 0.8780558, b: 1, a: 0}
     - _Depth_Noise_Tiles: {r: 2, g: 2, b: 0, a: 0}
+    - _Emission_Color: {r: 0, g: 0.84338546, b: 1, a: 1}
+    - _Spec_Color: {r: 0.41823888, g: 0.77956706, b: 1, a: 1}
     - _Surface_Noise_Tile: {r: 2, g: 2, b: 0, a: 0}
   m_BuildTextureStacks: []

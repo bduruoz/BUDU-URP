@@ -70,6 +70,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: 4c8c70d7a814e5643b54418280444039, type: 3}
         m_Scale: {x: 8, y: 8}
         m_Offset: {x: 0, y: 0}
+    - _ReflectSettings_89614ed42cc24473b8b51b40965d74fd_ReflectionMap_3763759787_Texture2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Reflection_Cubemap:
         m_Texture: {fileID: 8900000, guid: 7a412fdc2fe96ae4f8a4fe059ce9bfed, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -159,30 +163,30 @@ Material:
     - _CastShadows: 1
     - _Cast_Shadows: 1
     - _CheckAO: 0
-    - _CheckBase: 1
-    - _CheckDamage: 1
+    - _CheckBase: 0
+    - _CheckDamage: 0
     - _CheckDef: 0
     - _CheckFlakes: 0
-    - _CheckNormal: 1
-    - _CheckReflect: 1
-    - _CheckSecSpec: 1
+    - _CheckNormal: 0
+    - _CheckReflect: 0
+    - _CheckSecSpec: 0
     - _CheckShading: 0
     - _CheckSpec: 0
-    - _CheckStickers: 0
+    - _CheckStickers: 1
     - _Coat_Mask: 0
     - _Coat_Smoothness: 1
     - _Color_Affect_Emissive: 0.1
     - _Color_Affect_Emmissive: 0.1
     - _Color_Fresnel_Bias: 0
-    - _Color_Fresnel_Gamma: 0.5
-    - _Color_Fresnel_Invert: 0
-    - _Color_Fresnel_Power: 1
-    - _Color_Fresnel_Scale: 1
+    - _Color_Fresnel_Gamma: 0.35
+    - _Color_Fresnel_Invert: 1
+    - _Color_Fresnel_Power: 1.9
+    - _Color_Fresnel_Scale: 1.79
     - _Color_Fresnel_Toggle: 1
-    - _Color_Y_Grad_Gamma: 2.94
-    - _Color_Y_Grad_Invert: 1
-    - _Color_Y_Grad_Offset: -1
-    - _Color_Y_Grad_Scale: 2
+    - _Color_Y_Grad_Gamma: 1.93
+    - _Color_Y_Grad_Invert: 0
+    - _Color_Y_Grad_Offset: -1.43
+    - _Color_Y_Grad_Scale: 2.52
     - _CubemapFold: 0
     - _Cubemap_Rotate: 0
     - _Cubemap_X_Position: 0
@@ -196,7 +200,7 @@ Material:
     - _Damage_Gamma: 0.51
     - _Damage_Percent: 65.6
     - _Damage_Reflect: 1.87
-    - _Damage_Toggle: 1
+    - _Damage_Toggle: 0
     - _DstBlend: 0
     - _Environment_Light_Affect: 1
     - _FLAKES_CURVE_STEPS: 0
@@ -206,7 +210,7 @@ Material:
     - _Flake_A_Overall_Speed: 0.1
     - _Flake_A_Pivot_X: 0
     - _Flake_A_Pivot_Y: 0
-    - _Flake_A_Rotate: -50
+    - _Flake_A_Rotate: 114
     - _Flake_A_Rotate_Speed: 0
     - _Flake_A_Speed_X: 0.03
     - _Flake_A_Speed_Y: 0.1
@@ -217,7 +221,7 @@ Material:
     - _Flake_B_Rotate_Speed: 0
     - _Flake_B_Speed_X: -0.12
     - _Flake_B_Speed_Y: -0.04
-    - _Flakes_Gamma_Strength: 1
+    - _Flakes_Gamma_Strength: 1.49
     - _Flakes_Normal_Multiplier: 0
     - _Flakes_Normal_Strength: -1
     - _Flakes_Normal_Toggle: 1
@@ -229,7 +233,7 @@ Material:
     - _Flakes_Spec_Softness: 0.1
     - _Flakes_Specular_Glossy: 1
     - _Flakes_Specular_In: 1
-    - _Flakes_Specular_Intensity: 2
+    - _Flakes_Specular_Intensity: 2.91
     - _Flakes_Specular_Out: 1
     - _Flakes_Specular_Saturation: 1
     - _Flakes_Specular_Softness: 1
@@ -256,7 +260,7 @@ Material:
     - _Light_Gamma: 4
     - _Normal_Multiplier: 0
     - _Normal_Strength: 0.3
-    - _Normal_Toggle: 1
+    - _Normal_Toggle: 0
     - _Overall_Speed: 0.5
     - _PAINT_TYPE_SELECTOR: 0
     - _Pivot_X: 0
@@ -278,7 +282,7 @@ Material:
     - _Reflection_Multiplier: 0
     - _Reflection_Shadow_Strength: 0.2
     - _Reflection_Strength: 1
-    - _Reflection_Toggle: 1
+    - _Reflection_Toggle: 0
     - _Right_Pos_Y: 0.06
     - _Right_Pos_Z: -0.2
     - _Right_Rotate: 0
@@ -295,7 +299,7 @@ Material:
     - _Second_Spec_Intensity: 5
     - _Second_Spec_Saturatiion: 1
     - _Second_Spec_Saturation: 0.247
-    - _Second_Spec_Toggle: 1
+    - _Second_Spec_Toggle: 0
     - _ShadeExtFold: 0
     - _Shade_Contrast: 1
     - _Shading_Affect_Base_Texture: 0
@@ -325,7 +329,7 @@ Material:
     - _Sticker_Normal_Strength: 10
     - _Sticker_Normal_Toggle: 1
     - _Sticker_Opacity: 1
-    - _Sticker_Toggle: 0
+    - _Sticker_Toggle: 1
     - _Stickers_Features: 1
     - _Stickers_Reflection: 1
     - _Surface: 0
@@ -335,7 +339,7 @@ Material:
     - _Top_Pos_X_2: 0
     - _Top_Pos_Y: 0
     - _Top_Pos_Z: 0.85
-    - _Top_Rotate: 180
+    - _Top_Rotate: -360
     - _Top_Rotate_Speed: 0
     - _Top_Scale: 0.5
     - _Top_Scale_X: 0.7
@@ -359,8 +363,8 @@ Material:
     - _Front_Color: {r: 1, g: 1, b: 1, a: 1}
     - _Left_Color: {r: 1, g: 1, b: 1, a: 1}
     - _Reflection_Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Right_Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Second_Color: {r: 0.5, g: 0, b: 0, a: 1}
+    - _Right_Color: {r: 0.6081228, g: 1, b: 0, a: 1}
+    - _Second_Color: {r: 1, g: 0.7209362, b: 0, a: 1}
     - _Second_Spec_Color: {r: 0.75, g: 0.75, b: 0.75, a: 1}
     - _Shade_Color: {r: 1, g: 0.4789394, b: 0, a: 1}
     - _Top_Color: {r: 1, g: 1, b: 1, a: 1}

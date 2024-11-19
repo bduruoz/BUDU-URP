@@ -30,7 +30,7 @@ Shader "Unlit/Raymarch"
             {
                 float4 positionHCS  : SV_POSITION;
                 float2 uv           : TEXCOORD0;
-                float3 ro           : TEXCOORD1;
+                float3 rayOrigin    : TEXCOORD1;
                 float3 hitPos       : TEXCOORD2;
             };            
 
@@ -47,10 +47,10 @@ Shader "Unlit/Raymarch"
                 OUT.positionHCS = TransformObjectToHClip(IN.positionOS.xyz);
                 OUT.uv = TRANSFORM_TEX(IN.uv, _BaseMap);
                 
-                //OUT.ro = _WorldSpaceCameraPos; // World Space
+                //OUT.rayOriginormal = _WorldSpaceCameraPos; // World Space
                 //OUT.hitPos = mul(unity_ObjectToWorld, IN.positionOS); // World Space
 
-                OUT.ro = mul(unity_WorldToObject, float4(_WorldSpaceCameraPos,1)); // Object Space
+                OUT.rayOrigin = mul(unity_WorldToObject, float4(_WorldSpaceCameraPos,1)); // Object Space
                 OUT.hitPos = IN.positionOS; // Object Space
                 
                 return OUT;
@@ -136,36 +136,36 @@ Shader "Unlit/Raymarch"
                 return d;
             }
 
-            float Raymarch(float3 ro, float3 rd) {
-                float dO = 0;
-                float dS;
+            float Raymarch(float3 rayOrigin, float3 rayDistance) {
+                float distObject = 0;
+                float distShape;
                 for(int i = 0; i < MAX_STEPS; i++)
                 {
-                    float3 p = ro + dO * rd;
-                    dS = GetDist(p);
-                    dO += dS;
-                    if(dS < SURF_DIST || dO > MAX_DIST) break;
+                    float3 p = rayOrigin + distObject * rayDistance;
+                    distShape = GetDist(p);
+                    distObject += distShape;
+                    if(distShape < SURF_DIST || distObject > MAX_DIST) break;
                 }
-                return dO;
+                return distObject;
             }
 
             float3 GetNormal(float3 p) {
                 float2 e = float2(1e-2, 0);
-                float3 n = GetDist(p) - float3(
+                float3 normal = GetDist(p) - float3(
                     GetDist(p-e.xyy),
                     GetDist(p-e.yxy),
                     GetDist(p-e.yyx)
                     );
-                return normalize(n);
+                return normalize(normal);
             }
 
             half4 frag(Varyings IN) : SV_Target
             {
-                float2 uv = IN.uv - .5;
-                float3 ro = IN.ro;// float3(0, 0, -3);
-                float3 rd = normalize(IN.hitPos - ro);// normalize(float3(uv.x, uv.y, 1));
+                float2 uv = IN.uv - 0.5;
+                float3 rayOrigin = IN.rayOrigin;// float3(0, 0, -3);
+                float3 rayDistance = normalize(IN.hitPos - rayOrigin);// normalize(float3(uv.x, uv.y, 1));
                 
-                float d = Raymarch(ro, rd);
+                float d = Raymarch(rayOrigin, rayDistance);
                 half4 tex = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, IN.uv);
                 half4 col = 0;
 
@@ -173,14 +173,14 @@ Shader "Unlit/Raymarch"
 
                 if(d < MAX_DIST)
                 {
-                    float3 p = ro + rd * d;
-                    float3 n = GetNormal(p);
-                    col.rgb = n;
+                    float3 p = rayOrigin + rayDistance * d;
+                    float3 normal = GetNormal(p);
+                    col.rgb = normal;
                 } 
                 //else
                 //    discard;
                 
-                col = lerp(col, tex, smoothstep(.1,.2,m));
+                col = lerp(col, tex, smoothstep(0.1, 0.2, m));
                 return col;
             }
             ENDHLSL

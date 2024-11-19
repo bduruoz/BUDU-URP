@@ -1,0 +1,167 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-4898164967897161212
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 7
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: BSnow
+  m_Shader: {fileID: -6465566751694194690, guid: 718ee787ddc0fa04d98523b3d5a1c12b,
+    type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 2
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: 2000
+  stringTagMap:
+    RenderType: Opaque
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _AO_Texture:
+        m_Texture: {fileID: 2800000, guid: 567b34355056bfc478551391eda677ca, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SSS_Lut:
+        m_Texture: {fileID: 2800000, guid: 09b752fa066ad6b42931c90f01b96865, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_00a121ff6fda477eaa8d0f9db8d047d2_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: c5b46a3450a668342b534a527b7f1ba8, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_09d24485c671434ba20a5e8b8982c78d_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: ac405faab9f7cf14d80b3fe024979b8c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_3bcc6521284e40d4bc22038d8a29dc65_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 46b94e277bc241848be04aa173114b67, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_946c1c4bc5974fd584f58128d4ceccc8_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: ac405faab9f7cf14d80b3fe024979b8c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_c2748721ca84416a967d35aff0aefa6e_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: c5b46a3450a668342b534a527b7f1ba8, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_dfb95a18ab49412ea68b0b297bcc5ed5_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: ac405faab9f7cf14d80b3fe024979b8c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_f0a6efade9f74a918ea5586ecf0fb9b4_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 5062329c834beb9469cdb4211084bae3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_2ed2cf47a7304ff2b157496d92b2199f_Out_0_Texture2D:
+        m_Texture: {fileID: 2800000, guid: dc7877176bd9566459ab9ebd3641d8ca, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AO_Darkness: 0.1
+    - _AO_Darkness_Saturation: 50
+    - _AO_Deep: 1
+    - _AO_Deep_Saturation: 1
+    - _AO_Intensity: 0.531
+    - _AO_Power: 2.53
+    - _AO_Toggle: 1
+    - _AlphaClip: 0
+    - _AlphaToMask: 0
+    - _Blend: 0
+    - _BlendModePreserveSpecular: 1
+    - _CastShadows: 1
+    - _Cull: 2
+    - _DstBlend: 0
+    - _Float: 0.05
+    - _Fluffy_Frequency: 3
+    - _Fluffy_Noise_Scale: 10
+    - _Fluffy_Octave: 1
+    - _Fluffy_Snow_Noise: 250
+    - _Fluffy_TriBlend: 10
+    - _Fluffy_World_Smooth: 0.5
+    - _GN_Power: 4
+    - _GN_Tile: 1
+    - _GN_TriBlend: 10
+    - _Glacier_Noise_Size: 50
+    - _Glacier_Strength: 2
+    - _Irregular_Strength: 0.01
+    - _Noise_Scale: 250
+    - _Noise_Size: 50
+    - _Normal_Strength: 0.988
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _Ramp_Control: 0.5
+    - _Ramp_Intensity: 0.65
+    - _Ramp_Offset: 0.5
+    - _ReceiveShadows: 1
+    - _Rim_Power: 0.642
+    - _Rim_Strength: 4
+    - _SI_Tri_Blend: 10
+    - _SN_Power: 4
+    - _SN_Tile: 15
+    - _SN_TriBlend: 10
+    - _Smoothness: 0
+    - _Snow_Fluffy: 0.7
+    - _Snow_Irregular_Size: 10
+    - _Snow_Irregularity: 4
+    - _Snow_Noise_Size: 50
+    - _SrcBlend: 1
+    - _Surface: 0
+    - _TI_Tri_Blend: 10
+    - _TN_Power: 4
+    - _TN_Tile: 1
+    - _TN_TriBlend: 10
+    - _Threshold: 0
+    - _Triplanar_Blend: 20
+    - _Twinkle_Blend: 0.5
+    - _Twinkle_E: 0.5
+    - _Twinkle_Irregular_Size: 3
+    - _Twinkle_Noise_Size: 250
+    - _Twinkle_Power: 0.37
+    - _Twinkle_SS: 0.3
+    - _Twinkle_Strength: 38.8
+    - _WorkflowMode: 1
+    - _World_Snow: 0
+    - _ZTest: 4
+    - _ZWrite: 1
+    - _ZWriteControl: 0
+    m_Colors:
+    - _Deep_Color: {r: 0.2509804, g: 0.3378582, b: 0.5019608, a: 1}
+    - _Flufy_Noise_Tile: {r: 1, g: 1, b: 0, a: 0}
+    - _Snow_Color: {r: 0.96052635, g: 0.9736842, b: 1, a: 1}
+    - _Specular_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_BuildTextureStacks: []

@@ -12,19 +12,58 @@ Material:
     type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _SURFACE_TYPE_TRANSPARENT
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
+  stringTagMap:
+    RenderType: Transparent
+  disabledShaderPasses:
+  - DepthOnly
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _Texture3DAsset_1913f3c1e4d740ec8d31878859f97886_Out_0_Texture3D:
+        m_Texture: {fileID: 11700000, guid: 6f54f744d9ea2484eb47f5eee5587ec6, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Volume_Cloud_Texture:
+        m_Texture: {fileID: 11700000, guid: df1c3b0c935341b44a6f5dd2b4d3e7c8, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _testCustomFunction_c366c91318f24bd494d3ec5488dcf8bc_DetailTexture_3_Texture3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _testCustomFunction_c366c91318f24bd494d3ec5488dcf8bc_New_12_Texture2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _testCustomFunction_c366c91318f24bd494d3ec5488dcf8bc_NoiseTexture_12_Texture2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _testCustomFunction_c366c91318f24bd494d3ec5488dcf8bc_NoiseTexture_2_Texture3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _testCustomFunction_c366c91318f24bd494d3ec5488dcf8bc_Texture_12_Texture2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _testCustomFunction_c366c91318f24bd494d3ec5488dcf8bc_Texture_6_Texture2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _volumeFogCustomFunction_fbc109e2b3f84e799c86b157b0c34c1f_NoiseTexture_14_Texture2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _volumeTex:
         m_Texture: {fileID: 11700000, guid: 6f54f744d9ea2484eb47f5eee5587ec6, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -42,32 +81,48 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AlphaClip: 0
+    - _AlphaToMask: 0
     - _Ambient_Density: 1
-    - _Extinc_Density: -4.13
+    - _Ambient_Density_1: 1
+    - _Ambient_Strength: 1
+    - _Blend: 0
+    - _CastShadows: 1
+    - _Cull: 2
+    - _DstBlend: 10
+    - _Extinc_Density: -2.36
     - _ExtinctionIntensity: 1
     - _Extinction_Transmittance: 1
+    - _Float: 1
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Sky_Intensity: 1
-    - _darknessThreshold: 0.05
-    - _densityScale: -0.16
+    - _SrcBlend: 5
+    - _Surface: 1
+    - _Transmission_Coefficient: 0.05
+    - _ZTest: 4
+    - _ZWrite: 0
+    - _ZWriteControl: 0
+    - _darknessThreshold: 0.01
+    - _densityScale: 1
     - _exDensity: 1
     - _exDensityScale: 0.31
     - _exNumStep: 32
     - _exStepSize: 0.1
-    - _lightAbsorb: 1
+    - _lightAbsorb: 1.5
     - _lightStepSize: 0.05
     - _numLightSteps: 8
-    - _numSteps: 128
-    - _stepSize: 0.02
-    - _transmittance: 1
+    - _numSteps: 144
+    - _stepSize: 0.0069444445
+    - _transmittance: 0.7
     m_Colors:
-    - _Color: {r: 0.7490197, g: 0.7490197, b: 0.7490197, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Ext_Color: {r: 6.964404, g: 2.2242339, b: 0, a: 1}
     - _Extinction_Color: {r: 1, g: 0.427451, b: 0, a: 1}
     - _Light_Color: {r: 1, g: 1, b: 1, a: 1}
     - _ShadowColor: {r: 0, g: 0, b: 0, a: 1}
     - _Shadow_Color: {r: 0, g: 0, b: 0, a: 1}
-    - _Sky_Color: {r: 0.100392155, g: 0.3011765, b: 0.5019608, a: 1}
+    - _Sky_Color: {r: 0.06850745, g: 0.12559702, b: 0.255, a: 1}
     - _offset: {r: 0.5, g: 0.5, b: 0.5, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &3702121327213328676

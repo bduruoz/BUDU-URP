@@ -2,28 +2,61 @@
 // Volumetric Cloud
 // Based On https://shaderbits.com/blog/creating-volumetric-ray-marcher
 
+#include "Assets/_Main/Shaders/hlsl/Includes/constants.hlsl"
 #include "Assets/_Main/Shaders/hlsl/Functions/Functions.hlsl"
+
+// float HenyeyGreenstein(float g, float costh)
+// {
+//     return (1.0 - g * g) / (4.0 * PI * pow(1.0 + g * g - 2.0 * g * costh, 3.0/2.0));
+// }
+
+float HenyeyGreenstein(float theta, float g)
+{
+    float s = 1.0 / (4.0 * PI);
+    float numer = 1.0 - g*g;
+    float denom = 1.0 + g*g - 2.0 * g * cos(theta);
+    return s * numer / pow(denom, 3./2.);
+}
+float HenyeyGreenstein_(float cos_th, float g)
+{
+    float s = 1.0 / 2.0;
+    float numer = 1.0 - g * g;
+    float denom = 1.0 + g * g - 2.0 * g * cos_th;
+    return s * numer / pow(denom, 3./2.);
+}
+
+float Explicit(float x, float g) 
+{ 
+    return log10(HenyeyGreenstein(x, g)); 
+}
+
+float Explicit_dydx(float x, float g)
+{
+    /*Numeric derivative.*/
+    const float dx = 0.01;
+    return ( Explicit(x+dx,g) - Explicit(x-dx,g) ) / (2.*dx);
+    /* Analytic derivative. If you know expression. *
+    return -M*sin(M*x);
+    /**/
+}
 
 void volumetricCloud_float(
         UnityTexture3D volumeTex,
-        float3 UV,
+        float3 Noise,
         UnitySamplerState volumeSampler,
 
         float3 rayOrigin, 
         float3 rayDirection, 
         float3 lightDir,
-        float3 camDir,
 
         float3 LightColor,
-        float3 ShadowColor,
         float3 SkyColor,
-        float3 ExtinctionColor,
 
         float numSteps,
         float stepSize,
         float densityScale, 
         float AmbientDensity,
-        float extincDensity,
+        float AmbientStrength,
 
         float3 offset, 
         float numLightSteps, 
@@ -31,61 +64,37 @@ void volumetricCloud_float(
         float lightAbsorb, 
         float darknessThreshold,
         float transmittance,
-        float exTransmittance,
+        float transmissionCoef,
+
         out float3 result,
         out float3 lightEnergy
 )
 {
-    float extIntensity = 5;
-    
+    if (transmissionCoef<0.0001){transmissionCoef = 0.0001;}
+
     float density = 0;
-    float exDensity = 0;
+    float ambDensity = 0;
     float transmission = 0;
     float lightAccumulation = 0;
-    float lightExtinc = 0;
 	
     float3 lEnergy = 0;
-    float shadowdist = 0;
-    float ShadowDensity = 1;
-    float curdensity = 0;
-
-    float ambDensity = 0;
     float shadow = 0;
     float ambShadow = 0;
-    float exShadow = 0;
-    float lightTransmission = 0;
-    float ambTransmission = 0;
-    float exTransmission = 0;
-    float contour = 0;
-    
-    float resultLight = 0;
-    float resultEx = 0;
-
-    float3 fresnelCloud = 0;
-    float3 inv_fresnelCloud = 0;
-    float3 lightScatter = 0;
-    float3 inv_lightScatter = 0;
-    float3 finalLight = 0;
-    float3 finalAmbient = 0;
-    float3 finalScatter = 0;
-    float3 finalContour = 0;
-    
-    float3 finalShadow = 0;
-    float3 finalExtinc = 0;
     
     float3 lightRayOrigin = 0;
     float lightDensity = 0;
-    
-    float3 test = 0;
+    float lightTransmission = 0;
+
+    float resultLight = 0;
+    float resultAmbient = 0;
     
     for (int i = 0; i < numSteps; i++)
     {
         rayOrigin += (rayDirection * stepSize);
 
-        float3 samplePos = rayOrigin + offset;
+        float3 samplePos = (rayOrigin + offset);
         float3 sampledDensity = SAMPLE_TEXTURE3D(volumeTex, volumeSampler, samplePos).r;
         density += sampledDensity * densityScale;
-        exDensity += (sampledDensity / 2) * extincDensity;
         
         lightRayOrigin = samplePos;
 		
@@ -94,49 +103,28 @@ void volumetricCloud_float(
             lightRayOrigin += -lightDir * lightStepSize;
             lightDensity = SAMPLE_TEXTURE3D(volumeTex, volumeSampler, lightRayOrigin).r;
             lightAccumulation += lightDensity;
-            
-            ambDensity += exp(lightDensity);
-        }
 
-        lightTransmission += exp(-lightAccumulation);
-        ambTransmission += exp(-lightAccumulation);
-        exTransmission += exp(-lightAccumulation);
-        
+        }
+        ambDensity += (lightDensity + (AmbientDensity/100)) * (AmbientStrength/1000);
+
+        lightTransmission = exp(-lightAccumulation);
+
         shadow = darknessThreshold + lightTransmission * (1.0 - darknessThreshold);
-        ambShadow = darknessThreshold + ambTransmission * (1.0 - darknessThreshold);
-        exShadow = darknessThreshold + exTransmission * (1.0 - darknessThreshold);
+        ambShadow += darknessThreshold + lightTransmission * (1.0 - darknessThreshold);
+
+        resultLight += (density * transmittance * shadow);
+        resultAmbient += ambDensity * transmittance * ambShadow;
         
-        resultLight += density * transmittance * shadow;
         transmittance *= exp(-density * lightAbsorb);
         
-        resultEx += exDensity * exTransmittance * exShadow;
-        exTransmittance *= exp(-exDensity * lightAbsorb);
-
-        ambDensity += (sampledDensity * AmbientDensity);
-        exDensity += (sampledDensity * extincDensity);
-
-        contour += 1-sqrt(ambDensity * transmittance) * sampledDensity * 5;
     }
-    transmission = exp(-density);
+    transmission = exp(-density/(transmissionCoef*10));//exp(-density);
 
-    fresnelCloud = saturate(1 - (density / 40));
-    inv_fresnelCloud = 1 - fresnelCloud;
-    
-    lightScatter = pow(1.0 - ambDensity / 2000, 4.0) * 10;
-    inv_lightScatter = pow(1.0 - sqrt(lightScatter), 4);
-    
-    finalScatter = resultEx * ExtinctionColor;
-    finalAmbient = fresnelCloud * SkyColor;
-    
-    finalShadow = smoothstep(0.1,1,pow(resultLight + 0.5, 2));
-    //finalExtinc = clamp(parabola(finalScatter, 2), 0.0, 1) * ExtinctionColor;
-    
-    finalLight = (resultLight * LightColor) / 3;
-    
-    finalContour = saturate(pow(contour / 150, 2));
-    
-    lEnergy = finalScatter *100000000;
-    
+    float3 ResultLight = resultLight * LightColor;
+    float3 ResultAmbient = pow(smoothstep(-5,5,(resultAmbient / 1)),0.5) * SkyColor;
+
+    lEnergy = ResultAmbient + ResultLight;
+
     lightEnergy = lEnergy;
     
     result = float3(resultLight, transmission, transmittance);

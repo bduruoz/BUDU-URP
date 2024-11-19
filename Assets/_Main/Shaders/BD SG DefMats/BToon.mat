@@ -47,7 +47,7 @@ Material:
         m_Scale: {x: 10, y: 10}
         m_Offset: {x: 0, y: 0}
     - _Ramp_Texture:
-        m_Texture: {fileID: 2800000, guid: 261196e17095efe44b65da3382b6a367, type: 3}
+        m_Texture: {fileID: 2800000, guid: 0b8da6f71a046ed41af908ad244321f9, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_9d9a919cfcd54f04a20ec83237a32a70_Texture_1_Texture2D:
@@ -116,10 +116,10 @@ Material:
     - _Ambient_Clamp_Max: 1
     - _Ambient_Clamp_Min: 0
     - _Ambient_Intensity: 0.39
-    - _Ambient_Toggle: 1
+    - _Ambient_Toggle: 0
     - _Blend: 0
     - _CTime0: 0
-    - _CTime1: 0.48874646
+    - _CTime1: 1
     - _CTime2: 1
     - _CTime3: 0.73333335
     - _CTime4: 0.92941177
@@ -128,24 +128,24 @@ Material:
     - _CTime7: 0
     - _CastShadows: 1
     - _Cast_Shadows: 1
-    - _CheckAmbient: 1
+    - _CheckAmbient: 0
     - _CheckBase: 1
-    - _CheckContour: 1
+    - _CheckContour: 0
     - _CheckDef: 0
     - _CheckNormal: 0
-    - _CheckSpec: 1
-    - _CheckStyle: 1
+    - _CheckSpec: 0
+    - _CheckStyle: 0
     - _Colored_Ambient_Toggle: 1
     - _Contour_Light_Affect: 0
     - _Contour_Offset: 0.5
     - _Contour_Scale: 0
-    - _Contour_Toggle: 1
+    - _Contour_Toggle: 0
     - _Cull: 2
     - _CustomRamp: 0
     - _DstBlend: 0
     - _Float: 0.17
     - _GradALength: 2
-    - _GradCLength: 3
+    - _GradCLength: 2
     - _GradMode: 0
     - _Normal_Affect: 0
     - _Normal_Scale: 0.6
@@ -153,20 +153,20 @@ Material:
     - _Normal_Toggle: 0
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Ramp_Control: 1
-    - _Ramp_Gamma_Settings: 1
-    - _Ramp_Offset: 0
+    - _Ramp_Control: 0.261
+    - _Ramp_Gamma_Settings: 1.06
+    - _Ramp_Offset: 0.498
     - _Ramp_Toggle: 1
     - _Receive_Shadows: 1
     - _Shape_Shade_Intesity: 0.75
     - _Shape_Shade_Multiplier: 0
     - _Shape_Shade_Toggle: 1
-    - _Specular_Toggle: 1
+    - _Specular_Toggle: 0
     - _SrcBlend: 1
     - _Style_Shade_Intensity: 0.3
     - _Style_Shade_Intesity: 0.5
     - _Style_Shade_Multiplier: 0
-    - _Style_Shade_Toggle: 1
+    - _Style_Shade_Toggle: 0
     - _Surface: 0
     - _Toon_Contour_Light_Affect: 0
     - _Toon_Contour_Offset: 0.2

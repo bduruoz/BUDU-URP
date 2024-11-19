@@ -27,11 +27,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _AO_Textu_re:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 567b34355056bfc478551391eda677ca, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Base_Texture:
-        m_Texture: {fileID: 2800000, guid: 2272f2dfdb7932b43921aa9b38213a6e, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 4, y: 4}
         m_Offset: {x: 0, y: 0}
     - _Custom_Spec_Map:
@@ -48,7 +48,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _Normal_Texture:
         m_Texture: {fileID: 2800000, guid: f805cc10b4bf5a74ea96cfb83ec9dad4, type: 3}
-        m_Scale: {x: 20, y: 20}
+        m_Scale: {x: 8, y: 8}
+        m_Offset: {x: 0, y: 0}
+    - _ReflectSettings_7de9ccbbc8fe4fad8b7ceaaf2789bf6a_ReflectionMap_3763759787_Texture2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Reflection_Cubemap:
         m_Texture: {fileID: 8900000, guid: 66550a1f16f8c3740baf3acd15c3cf7a, type: 3}
@@ -68,9 +72,9 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AO_Gamma_Settings: 1
-    - _AO_Intensity: 1
-    - _AO_Toggle: 0
+    - _AO_Gamma_Settings: 2
+    - _AO_Intensity: 0.3
+    - _AO_Toggle: 1
     - _AlphaClip: 0
     - _AlphaToMask: 0
     - _Base_Spec_Intensity: 1
@@ -99,7 +103,7 @@ Material:
     - _Emissive_Intensity: 0.197
     - _Emissive_Invert: 0
     - _Emissive_Multiplier: 0
-    - _Emissive_Toggle: 1
+    - _Emissive_Toggle: 0
     - _Metallic_Intensity: 1
     - _Metallic_Invert: 0
     - _Metallic_Multiplier: 0
@@ -130,7 +134,7 @@ Material:
     - _Rim_Scale: 1
     - _Rim_Toggle: 0
     - _Rotator: 0
-    - _Smoothness: 0.697
+    - _Smoothness: 0.133
     - _Speed: 0
     - _Speed_X: 0
     - _Speed_Y: 0
@@ -146,8 +150,8 @@ Material:
     - _ZWrite: 1
     - _ZWriteControl: 0
     m_Colors:
-    - _AO_Color: {r: 0, g: 0, b: 0, a: 1}
-    - _Base_Color: {r: 0.6289307, g: 0.6289307, b: 0.6289307, a: 1}
+    - _AO_Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Base_Color: {r: 0.26273146, g: 0.408805, b: 0, a: 1}
     - _Base_Spec_Color: {r: 0.514, g: 0.514, b: 0.514, a: 1}
     - _Custom_Spec_Color: {r: 1, g: 1, b: 1, a: 1}
     - _Emissive_Color: {r: 0.52300596, g: 1, b: 0, a: 1}

@@ -18,7 +18,7 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3005
+  m_CustomRenderQueue: 3000
   stringTagMap:
     RenderType: Transparent
   disabledShaderPasses:
@@ -41,10 +41,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _3D_Fog: 0
+    - _3D_Fog: 1
     - _AlphaClip: 0
     - _AlphaToMask: 0
-    - _Blend: 0
+    - _Blend: 1
     - _BlendModePreserveSpecular: 1
     - _CastShadows: 0
     - _CheckBase: 1
@@ -52,8 +52,8 @@ Material:
     - _CheckFog: 1
     - _Cull: 2
     - _Depth: 1
-    - _Depth_Exponential: 0.3
-    - _Depth_Fade_Distance: 6
+    - _Depth_Exponential: 0.37
+    - _Depth_Fade_Distance: 2.89
     - _Depth_Gamma: 1
     - _Depth_Invert: 0
     - _Distance: 1
@@ -64,9 +64,9 @@ Material:
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _See_Through_Distance: 1
-    - _SrcBlend: 5
+    - _SrcBlend: 1
     - _Surface: 1
-    - _Transparency: 1
+    - _Transparency: 0.378
     - _WorkflowMode: 1
     - _ZTest: 4
     - _ZWrite: 1
