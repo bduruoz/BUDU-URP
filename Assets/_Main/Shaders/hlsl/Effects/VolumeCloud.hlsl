@@ -58,7 +58,6 @@ void volumetricCloud_float(
         float AmbientDensity,
         float AmbientStrength,
 
-        float3 offset, 
         float numLightSteps, 
         float lightStepSize, 
         float lightAbsorb, 
@@ -70,6 +69,8 @@ void volumetricCloud_float(
         out float3 lightEnergy
 )
 {
+    float3 offset = float3(0.5, 0.5, 0.5);
+
     if (transmissionCoef<0.0001){transmissionCoef = 0.0001;}
 
     float density = 0;
