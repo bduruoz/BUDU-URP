@@ -88,17 +88,19 @@ void volumetricCloud_float(
 
     float resultLight = 0;
     float resultAmbient = 0;
-    
+
+    // Marching    
     for (int i = 0; i < numSteps; i++)
     {
+        // 3D Textured Cloud
         rayOrigin += (rayDirection * stepSize);
-
         float3 samplePos = (rayOrigin + offset);
         float3 sampledDensity = SAMPLE_TEXTURE3D(volumeTex, volumeSampler, samplePos).r;
         density += sampledDensity * densityScale;
-        
+        // End 3D Textured Cloud
+
+        // 3D Textured Cloud Shadow
         lightRayOrigin = samplePos;
-		
         for (int j = 0; j < numLightSteps; j++)
         {
             lightRayOrigin += -lightDir * lightStepSize;
@@ -107,17 +109,15 @@ void volumetricCloud_float(
 
         }
         ambDensity += (lightDensity + (AmbientDensity/100)) * (AmbientStrength/1000);
-
         lightTransmission = exp(-lightAccumulation);
-
         shadow = darknessThreshold + lightTransmission * (1.0 - darknessThreshold);
         ambShadow += darknessThreshold + lightTransmission * (1.0 - darknessThreshold);
+        // End 3D Textured Cloud Shadow
 
         resultLight += (density * transmittance * shadow);
         resultAmbient += ambDensity * transmittance * ambShadow;
         
         transmittance *= exp(-density * lightAbsorb);
-        
     }
     transmission = exp(-density/(transmissionCoef*10));//exp(-density);
 

@@ -2,18 +2,18 @@
 
 #include "Assets/_Main/Shaders/hlsl/Includes/constants.hlsl"
 
-float3 mod289(float3 x)
+float3 mod289(float3 x, float seed)
 {
-    return x - floor(x * (1.0 / 289.0)) * 289.0;
+    return (x + floor(seed)) - floor(x * (1.0 / 289.0)) * 289.0;
 }
 
-float4 mod289(float4 x) {
-    return x - floor(x * (1.0 / 289.0)) * 289.0;
+float4 mod289(float4 x, float seed) {
+    return (x + floor(seed)) - floor(x * (1.0 / 289.0)) * 289.0;
 }
 
 float4 permute(float4 x)
 {
-    return mod289((x * 34.0 + 1.0) * x);
+    return mod289((x * 34.0 + 1.0) * x, 289);
 }
 
 float4 taylorInvSqrt(float4 r)
@@ -21,8 +21,9 @@ float4 taylorInvSqrt(float4 r)
     return 1.79284291400159 - 0.85373472095314 * r;
 }
 
-float snoise(float3 v, float amp, float4 lac, float grid, float ringSize)
+float snoise(float3 v, float4 amp, float4 lac, float grid, float ringSize, float seed)
 {
+    grid = floor(grid);
     const float2 C = float2(1.0 / 6.0, 1.0 / 3.0);
 
     // First corner
@@ -44,7 +45,7 @@ float snoise(float3 v, float amp, float4 lac, float grid, float ringSize)
     float3 x3 = x0 - 0.5;
 
     // Permutations
-    i = mod289(i); // Avoid truncation effects in permutation
+    i = mod289(i, seed); // Avoid truncation effects in permutation
     float4 p =  permute(
                 permute(
                 permute(
@@ -76,19 +77,17 @@ float snoise(float3 v, float amp, float4 lac, float grid, float ringSize)
     float4 a0 = b0.xzyw + s0.xzyw * sh.xxyy;
     float4 a1 = b1.xzyw + s1.xzyw * sh.zzww;
 
-    float aa = 20;
-
-    float3 g0 = float3(a0.xy/aa, h.x/aa) / lac.x;
-    float3 g1 = float3(a0.zw/aa, h.y/aa) / lac.y;
-    float3 g2 = float3(a1.xy/aa, h.z/aa) / lac.z;
-    float3 g3 = float3(a1.zw/aa, h.w/aa) / lac.w;
+    float3 g0 = float3(a0.xy, h.x) / lac.x;
+    float3 g1 = float3(a0.zw, h.y) / lac.y;
+    float3 g2 = float3(a1.xy, h.z) / lac.z;
+    float3 g3 = float3(a1.zw, h.w) / lac.w;
 
     // Normalise gradients
     float4 norm = taylorInvSqrt(float4(dot(g0, g0), dot(g1, g1), dot(g2, g2), dot(g3, g3)));
-    g0 *= norm.x * amp;
-    g1 *= norm.y * amp;
-    g2 *= norm.z * amp;
-    g3 *= norm.w * amp;
+    g0 *= norm.x * amp.x;
+    g1 *= norm.y * amp.y;
+    g2 *= norm.z * amp.z;
+    g3 *= norm.w * amp.w;
 
     // Mix final noise value
     float4 m = max(0.6 - float4(dot(x0, x0), dot(x1, x1), dot(x2, x2), dot(x3, x3)), 0.0);
@@ -102,19 +101,21 @@ float snoise(float3 v, float amp, float4 lac, float grid, float ringSize)
     return result;
 }
 
-float sampleNoises(float3 vec, float amp, float4 lac, float grid, float ringSize) {
-    return  snoise(vec, amp, lac, grid, ringSize) + 0.5 * 
-            snoise(vec * 4, amp, lac, grid, ringSize) + 0.25 * 
-            snoise(vec * 12, amp, lac, grid, ringSize) + 0.125;
+float sampleNoises(float3 vec, float4 amp, float4 lac, float grid, float ringSize, float seed) {
+    return  snoise(vec, amp, lac, grid, ringSize, seed) + 0.5 * 
+            snoise(vec * 4, amp, lac, grid, ringSize, seed) + 0.25 * 
+            snoise(vec * 12, amp, lac, grid, ringSize, seed) + 0.125;
 }
 
-//#define MAX_STEPS 128
 //#define MAX_DIST 100
 //#define SURF_DIST 1e-3
 #define EPSILON 0.000001
 
 TEXTURE2D(NoiseTexture);
 SAMPLER(sampler_NoiseTexture);
+
+TEXTURE2D(NoiseTextureB);
+SAMPLER(sampler_NoiseTextureB);
 
 void test_float(
         float2 uv,
@@ -162,11 +163,13 @@ void test_float(
     float grid = 7;
     float ringSize = 49;
 
+    float seed = 289;
+
     for(int i = 0; i < MaxSteps; i++)
     {
         rayOrigin += (rayDir * stepSize);
         samplePos = rayOrigin; 
-        n3D = sampleNoises(samplePos, amp, lac, grid, ringSize);
+        n3D = sampleNoises(samplePos, amp, lac, grid, ringSize, seed);
 
         sampled = SAMPLE_TEXTURE2D(NoiseTexture, sampler_NoiseTexture, samplePos).x;
         noise = sampled + n3D;
@@ -194,90 +197,125 @@ float4 BlendUnder(float4 color, float4 newColor)
 void volray_float(
         UnityTexture3D volumeTex,
         UnitySamplerState volumeSampler,
+        
+        float3 inst,
+
         float3 FogColor,
         float3 rayOrigin,
         float3 rayDirection,
         float3 lightDirection,
         float3 objectPos,
 
-
-        bool noiseTog,
-        float3 noisePos,
-        float noiseAmp,
-        float noiseScale,
-        float4 lac,
-        float grid,
-        float ringSize,
+        bool noiseATog,
+        bool noiseBTog,
+        bool noiseAInv,
+        bool noiseBInv,
+        float3 noisePosA,
+        float3 noisePosB,
+        float4 noiseAAmp,
+        float3 noiseAScale,
+        float4 noiseBAmp,
+        float3 noiseBScale,
+        float4 lacA,
+        float4 lacB,
+        float gridA,
+        float gridB,
+        float ringSizeA,
+        float ringSizeB,
+        float sStepMin,
+        float sStepMax,
+        float seedA,
+        float seedB,
 
         float DensityScale,
         float darknessThreshold,
 
+        float numSteps,
+        float stepSize,
+        float3 SkyColor,
+        float AmbientDensity,
+
         float numLightSteps,
         float lightStepSize,
         float lightAbsorb,
+        float ambAbsorb,
         float transmittance,
+        float ambTransmittance,
 
         float depthFade,
         float fogDensityScale,
 
-        out float3 result,
-        out float Masks
+        bool NegativeAmbient,
+
+        out float3 Result,
+        out float Masks,
+        out float3 VolumeNoiseA,
+        out float3 VolumeNoiseB,
+        out float3 VolAmbient,
+        out float3 VolLight,
+        out float Shadow
     )
 {
-    result = 0;
+    Result = 0;
+    Masks = 0;
+    VolumeNoiseA = 0;
+    VolumeNoiseB = 0;
+    VolAmbient = 0;
+    VolLight = 0;
+    Shadow = 0;
+
+    // Noise Type
+    // 0 = Noise A
+    // 1 = Noise B
+    // 2 = Noise A - Noise B
+    // 3 = Noise A + Noise B
+    // 4 = Noise A * Noise BV    
+    //int ctyp = 0; // floor(calcType); 
+
+
     float3 offset = float3(0.5, 0.5, 0.5);
 
-    float stepSize = 0.01;
-    float3 samplePos = 0;
-    float3 cloudSamPos = 0;
-    
     float sampleCloudDensity = 0;
     float sampleDensity = 0;
     float transmission = 0;
+
     float n3Da = 1;
     float n3Db = 1;
-    float noise = 0;
 
-    float lightAccumulation = 0;
-    float lightTransmission = 0;
-    float lightDensity = 1;
+    float3 lightDensity = 1;
     float density = 0;
+    float ambDensity = 0;
 
-    float4 color = float4(0, 0, 0, 0);
-    float4 scolor = float4(1, 1, 1, 1);
+    float4 colorA = 0;
+    float4 colorB = 0;
 
-    float numSteps = 128;
-
-    samplePos = rayOrigin;
+    float3 samplePos = rayOrigin;
+    float3 cloudSamPos = 0;
 
     float3 lightRayOrigin = 0;
+    float3 lightAccumulation = 0;
+    float3 lightTransmission = 0;
 
-    float shadow = 0;
-
-    float resultLight = 0;
-
+    float3 shadow = 0;
+    
     float colAlpha = 0;
 
     float4 sampledColor = 0;
+    float4 sampledColorB = 0;
     float4 sampledColorShadow = 0;
 
     float3 NoiseRayOrigin = 0;
     float NoiseAccum = 0;
     float noiseTrans = 0;
 
-    float resultnoise = 1;
+    float3 ResultLight = 0;
+    float3 ResultAmbient = 0;
 
-    float tr = 0;
-    float trmt = 0;
+    float ResultNoise = 1;
+    float ResultNoiseB = 1;
 
-    float3 loloSam = 0;
-    float lolo = 0;
-    float rLolo = 0;
-
-    float3 ro = 0;
-
-    float3 offsetN2 = float3(8, 8, 8);
-
+    transmission *= 0.1;
+    ambTransmittance *= 0.1;
 
     // Marching
     for(int i = 0; i < numSteps; i++)
@@ -289,67 +327,84 @@ void volray_float(
         density += sampleCloudDensity * DensityScale;
         // End 3D Textured Cloud
 
-        // 3D Textured Cloud Shadow
+        // 3D Textured Cloud Light & Shadow
         lightRayOrigin = cloudSamPos;
-
         for(int j = 0; j < numLightSteps; j++)
         {
             lightRayOrigin += -lightDirection * lightStepSize;
             lightDensity = SAMPLE_TEXTURE3D(volumeTex, volumeSampler, lightRayOrigin).r;
+            // Instinc Color Calculation
+            lightDensity *= 1-lerp(inst, float3(0,0,0), 1/numLightSteps);
             lightAccumulation += lightDensity;
         }
         lightTransmission = exp(-lightAccumulation);
-
         shadow = darknessThreshold + lightTransmission * (1.0 - darknessThreshold);
-        // End 3D Textured Cloud Shadow
+        // End 3D Textured Cloud Light & Shadow
 
-        resultLight += (density * transmittance * shadow);
+        ResultLight += (density * transmittance * shadow);
+        ResultAmbient += (density * ambTransmittance * ((AmbientDensity)*100));
 
         transmittance *= exp(-density * lightAbsorb);
+        ambTransmittance *= exp(-density * (ambAbsorb*5));
 
+        transmission = exp(-density);
 
         // 3D Noise Fog
         if( max(abs(samplePos.x), max(abs(samplePos.y), abs(samplePos.z)) ) < 0.5 + EPSILON)
         {
-            if(noiseTog)
+            if(noiseATog)
             {
-                n3Da = sampleNoises((samplePos * noiseScale) + noisePos, noiseAmp, lac, grid, ringSize);
-                n3Db = sampleNoises((samplePos + offsetN2 * noiseScale) - (noisePos / 2), noiseAmp, lac, grid, ringSize);
-                // resultnoise = clamp(n3Da - n3Db, -0.5, 0.5);
-                
-                // resultnoise = clamp(n3Da + n3Db, -0.5, 0.5);
-                // resultnoise = clamp(n3Da * n3Db, -0.5, 0.5);
-                // resultnoise = clamp(n3Db - n3Da, -0.5, 0.5);
+                n3Da = sampleNoises((samplePos * noiseAScale) + noisePosA, noiseAAmp, lacA, gridA, ringSizeA, seedA + 0.0) * depthFade;
+                ResultNoise = smoothstep(sStepMin, sStepMax, clamp(n3Da, -0.5, 0.5));
+                if(noiseAInv) ResultNoise = smoothstep(sStepMax, sStepMin, clamp(n3Da, -0.5, 0.5));;
+                sampledColor = SAMPLE_TEXTURE2D(NoiseTexture, sampler_NoiseTexture, samplePos) * ResultNoise * (1 - transmission);
 
-                resultnoise = smoothstep(0.0, 0.3, n3Db - n3Da);
+
+                sampledColor.a *= fogDensityScale;
+
+                colorA = BlendUnder(colorA, sampledColor/20) ;
             }
             else
             {
-                color = 1;
+                //colorA = 0;
             }
-            sampledColor = SAMPLE_TEXTURE2D(NoiseTexture, sampler_NoiseTexture, samplePos) * resultnoise;
-            
-            sampledColor.a *= fogDensityScale;
-            color = BlendUnder(color, sampledColor/20);
+
+            if(noiseBTog)
+            {
+                n3Db = sampleNoises((samplePos * noiseBScale) + noisePosB, noiseBAmp, lacB, gridB, ringSizeB, seedB + 1.0) * depthFade;
+                ResultNoiseB = smoothstep(sStepMin, sStepMax, clamp(n3Db, -0.5, 0.5));
+                if(noiseBInv) ResultNoiseB = smoothstep(sStepMax, sStepMin, clamp(n3Db, -0.5, 0.5));;
+                sampledColorB = SAMPLE_TEXTURE2D(NoiseTextureB, sampler_NoiseTextureB, samplePos) * ResultNoiseB * (1 - transmission);
+
+                sampledColorB.a *= fogDensityScale;
+
+                colorB = BlendUnder(colorB, sampledColorB/20);
+            }
+            else
+            {
+                //colorB = 0;
+            }
+
             samplePos += rayDirection * stepSize;
         }
-
         // End 3D Noise Fog
-
     }
 
-    transmission = exp(-density);
 
-    //result = resultLight;
-    //Masks = result * color.a;
+    if(NegativeAmbient) ResultAmbient = (1-ResultAmbient) + 0.5;
+    ResultAmbient *= SkyColor;
 
-    result = saturate(color * 100);// saturate(color * 50 * depthFade);// * FogColor;// * FogColor;// * color;
-
-    //result = transmission;
-
-    //Masks = (1-transmission) * depthFade;//saturate(color * 5 * depthFade);// transmission;
-   
-    Masks = saturate(color * 200) * saturate(depthFade * 100);//saturate((color) * (1-transmission));
+    Result = ResultLight + ResultAmbient;
+    Masks = 1-transmission;
+    VolumeNoiseA = saturate(colorA * 200);
+    VolumeNoiseB = saturate(colorB * 200);
+    VolAmbient = saturate(ResultAmbient);
+    VolLight = ResultLight;
+    Shadow = shadow;
 }
 
-
+// Masks = Result * color.a;
+// Result = saturate(color * 100);// 0.5;//saturate(color * 100);// saturate(color * 50 * depthFade);// * FogColor;// * FogColor;// * color;
+// Result = transmission;
+// Masks = (1-transmission) * depthFade;//saturate(color * 5 * depthFade);// transmission;
+// Masks = saturate(color * 200) * saturate(depthFade * 100);//saturate((color) * (1-transmission));

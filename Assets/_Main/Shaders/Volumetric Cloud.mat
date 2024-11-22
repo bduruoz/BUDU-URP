@@ -14,11 +14,15 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _SURFACE_TYPE_TRANSPARENT
-  m_InvalidKeywords: []
+  m_InvalidKeywords:
+  - _CALCTYPE_A
+  - _CALCTYPE_NASUBNB
+  - _DEBUG_TYPE_ONLY_LIGHT
+  - _TYPE_ONLY_LIGHT
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 3000
   stringTagMap:
     RenderType: Transparent
   disabledShaderPasses:
@@ -32,7 +36,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Volume_Cloud_Texture:
-        m_Texture: {fileID: 11700000, guid: e4bf738a8382ee84ca5e14134dc8df81, type: 3}
+        m_Texture: {fileID: 11700000, guid: 9ae618ea5bac1124182f738f57b4e4e8, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _testCustomFunction_c366c91318f24bd494d3ec5488dcf8bc_DetailTexture_3_Texture3D:
@@ -81,38 +85,84 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AA: 4
     - _AlphaClip: 0
     - _AlphaToMask: 0
-    - _Ambient_Density: 1
+    - _Alpha_Clip_Threshold: 0.5
+    - _Alpha_Toggle: 1
+    - _AmbientDebug: 0
+    - _Ambient_Absorb: 1
+    - _Ambient_Density: 0.4
     - _Ambient_Density_1: 1
+    - _Ambient_Negative: 0
+    - _Ambient_Shadow_Debug: 0
     - _Ambient_Strength: 1
+    - _Ambient_Transmittance: 1
     - _Blend: 0
+    - _Boolean: 0
+    - _CALCTYPE: 2
     - _CastShadows: 1
     - _Cull: 2
+    - _DEBUG_TYPE: 0
+    - _Darkness_Threshold: 0
+    - _Debug: 0
+    - _Debug_Tog: 0
+    - _Density_Scale: 0.05
     - _DepthDist: 0.323
-    - _DepthFade: 2
-    - _DepthPower: 5
-    - _Depth_Distance: 2
+    - _DepthFade: 1
+    - _DepthPower: 1
+    - _Depth_Distance: 1
     - _DstBlend: 10
     - _Extinc_Density: -2.36
     - _ExtinctionIntensity: 1
     - _Extinction_Transmittance: 1
     - _Float: 8.19
-    - _Fog_Density: 10
+    - _Fog_Density: 5.41
     - _Grid: 7
-    - _Noise_Amp: 5
-    - _Noise_Scale: 5
+    - _Grid_A: 7
+    - _Grid_B: 7
+    - _LightDebug: 0
+    - _Light_Absorb: 1
+    - _Light_Step_Size: 0.01
+    - _Lock: 1
+    - _Lock_Steps: 1
+    - _NoiseDebug: 0
+    - _Noise_A_Amp: 1
+    - _Noise_A_Debug: 0
+    - _Noise_A_Invert: 1
+    - _Noise_A_Scale: 1
+    - _Noise_A_Toggle: 0
+    - _Noise_Amp: 0.66
+    - _Noise_B_Amp: 1
+    - _Noise_B_Debug: 0
+    - _Noise_B_Invert: 1
+    - _Noise_B_Scale: 1
+    - _Noise_B_Toggle: 0
+    - _Noise_Scale: 8
     - _Noise_Toggle: 1
+    - _Num_Light_Steps: 16
+    - _Num_Steps: 128
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Ring_Size: 49
+    - _Ring_Size_A: 49
+    - _Ring_Size_B: 49
+    - _Seed: 0
+    - _Seed_A: 0
+    - _Seed_B: 0
+    - _Sep: 0
+    - _Seperator: 0
+    - _Shadow_Debug: 0
     - _Sky_Intensity: 1
     - _SrcBlend: 5
+    - _Step_Size: 0.0078125
     - _Surface: 1
+    - _TYPE: 0
     - _Transmission_Coefficient: 0.05
+    - _Transmittance: 1
     - _ZTest: 4
     - _ZWrite: 0
-    - _ZWriteControl: 0
+    - _ZWriteControl: 2
     - _darknessThreshold: 0
     - _densityScale: 1
     - _exDensity: 1
@@ -120,20 +170,35 @@ Material:
     - _exNumStep: 32
     - _exStepSize: 0.1
     - _lightAbsorb: 1
-    - _lightStepSize: 0.02
-    - _numLightSteps: 8
-    - _numSteps: 256
-    - _stepSize: 0.00390625
+    - _lightAccumulation: 0
+    - _lightStepSize: 0.01
+    - _lightTransmission: 0
+    - _numLightSteps: 16
+    - _numSteps: 128
+    - _sStepMax: 0.3
+    - _sStepMin: 0.2
+    - _stepSize: 0.03
     - _transmittance: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Ext_Color: {r: 6.964404, g: 2.2242339, b: 0, a: 1}
-    - _Extinction_Color: {r: 1, g: 0.427451, b: 0, a: 1}
-    - _Fog_Color: {r: 366.3109, g: 366.3109, b: 366.3109, a: 1}
-    - _Lacunarity: {r: 1, g: 1, b: 1, a: 5}
+    - _Extinction_Color: {r: 1, g: 0.87136734, b: 0.70110214, a: 1}
+    - _Fog_Color: {r: 1.7487603, g: 1.7487603, b: 1.7487603, a: 1}
+    - _Instict_Color: {r: 1, g: 0.8333334, b: 0.5, a: 1}
+    - _Lacunarity: {r: 5, g: 5, b: 5, a: 5}
+    - _Lacunarity_A: {r: 3, g: 3, b: 3, a: 3}
+    - _Lacunarity_B: {r: 3, g: 3, b: 3, a: 3}
     - _Light_Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Noise_A_Amp: {r: 5, g: 5, b: 5, a: 5}
+    - _Noise_A_Position: {r: 0, g: 0, b: 0, a: 0}
+    - _Noise_A_Scale: {r: 2, g: 10, b: 2, a: 0}
+    - _Noise_A_Speed: {r: -1, g: 0, b: 0, a: 0}
+    - _Noise_B_Amp: {r: 5, g: 5, b: 5, a: 5}
+    - _Noise_B_Position: {r: 0, g: 0, b: 0, a: 0}
+    - _Noise_B_Scale: {r: 2, g: 10, b: 2, a: 0}
+    - _Noise_B_Speed: {r: 1, g: 0, b: 0, a: 0}
     - _Noise_Position: {r: 0, g: 0, b: 0, a: 0}
-    - _Noise_Speed: {r: 1, g: 0, b: 0, a: 0}
+    - _Noise_Speed: {r: 0, g: 0, b: 0, a: 0}
     - _ShadowColor: {r: 0, g: 0, b: 0, a: 1}
     - _Shadow_Color: {r: 0, g: 0, b: 0, a: 1}
     - _Sky_Color: {r: 0.06850745, g: 0.12559702, b: 0.255, a: 1}
