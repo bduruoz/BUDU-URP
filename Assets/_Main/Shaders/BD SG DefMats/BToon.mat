@@ -39,8 +39,8 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _Base_Map:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 0, y: 0}
+        m_Texture: {fileID: 2800000, guid: 3f7a5063dc0439649817a249b10f64c8, type: 3}
+        m_Scale: {x: 10, y: 10}
         m_Offset: {x: 0, y: 0}
     - _Normal_Map:
         m_Texture: {fileID: 2800000, guid: 5062329c834beb9469cdb4211084bae3, type: 3}
@@ -153,9 +153,9 @@ Material:
     - _Normal_Toggle: 0
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Ramp_Control: 0.261
-    - _Ramp_Gamma_Settings: 1.06
-    - _Ramp_Offset: 0.498
+    - _Ramp_Control: 0.1
+    - _Ramp_Gamma_Settings: 2
+    - _Ramp_Offset: 0.55
     - _Ramp_Toggle: 1
     - _Receive_Shadows: 1
     - _Shape_Shade_Intesity: 0.75
@@ -180,7 +180,7 @@ Material:
     - _ZWriteControl: 0
     m_Colors:
     - _Ambient_Color: {r: 0.23529413, g: 0.6627451, b: 0.882353, a: 1}
-    - _Base_Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Base_Color: {r: 1, g: 0.88268906, b: 0.651, a: 1}
     - _Ckey0: {r: 0, g: 0, b: 0, a: 0}
     - _Ckey1: {r: 0, g: 0, b: 0, a: 0}
     - _Ckey2: {r: 0, g: 0, b: 0, a: 0}
