@@ -1,0 +1,203 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: BCrystal
+  m_Shader: {fileID: -6465566751694194690, guid: edf96f7d5be279e4fbcddacdbe8babf2,
+    type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - _CURVATURE_TYPE_CALCULATE
+  m_InvalidKeywords: []
+  m_LightmapFlags: 2
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: 2000
+  stringTagMap:
+    RenderType: Opaque
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Caustic_004:
+        m_Texture: {fileID: 2800000, guid: ae2961e4565cb064c93a32ffb6aed3a2, type: 3}
+        m_Scale: {x: 2, y: 2}
+        m_Offset: {x: 0, y: 0}
+    - _Crystal_Texture:
+        m_Texture: {fileID: 2800000, guid: b95600ce2b08b2c489f9f85b2eb30583, type: 3}
+        m_Scale: {x: 3, y: 3}
+        m_Offset: {x: 0, y: 0}
+    - _CubemapAsset_1ca175df3d6f4390bac718470104dada_Out_0_Cubemap:
+        m_Texture: {fileID: 8900000, guid: 7bc69c0ec653b1b4c9b07a12b3401145, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Curvature_Map:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 4, y: 4}
+        m_Offset: {x: 0, y: 0}
+    - _Normal_Map:
+        m_Texture: {fileID: 2800000, guid: 5062329c834beb9469cdb4211084bae3, type: 3}
+        m_Scale: {x: 5, y: 5}
+        m_Offset: {x: 0, y: 0}
+    - _ReflectSettings_5705a4f8187146f58f9f42cdf96234a5_ReflectionMap_3763759787_Texture2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Reflection_Map:
+        m_Texture: {fileID: 8900000, guid: 4cf44d87f1bc9f64b8906969c270d077, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_a07e2c2e7cc246159288668d0376f25b_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: c52c9eeb8d5300d41b6dbb8b83428bf5, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_f0a6efade9f74a918ea5586ecf0fb9b4_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 5062329c834beb9469cdb4211084bae3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SimpleParallax_734ec745c4f54ded977d50cc4ce82b45_InputTexture_3218634672_Texture2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_0e3e8272de3c4d57a0d8e596f38219f0_Out_0_Texture2D:
+        m_Texture: {fileID: 2800000, guid: ae2961e4565cb064c93a32ffb6aed3a2, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_fc9898c1938f4d2a8a7c4cbb892adadf_Out_0_Texture2D:
+        m_Texture: {fileID: 2800000, guid: c52c9eeb8d5300d41b6dbb8b83428bf5, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AlphaClip: 0
+    - _AlphaToMask: 0
+    - _Blend: 0
+    - _BlendModePreserveSpecular: 1
+    - _Boolean: 1
+    - _CA_Intensity: 1
+    - _CM_Pos_X: 0
+    - _CM_Pos_X_1: 0
+    - _CM_Pos_Y: 0
+    - _CM_Pos_Z: 0
+    - _CM_Rotate: 0
+    - _CURVATURE_TYPE: 0
+    - _CastShadows: 1
+    - _Center_Light_Toggle: 1
+    - _Chromatic_Aberation: 0
+    - _Contrast: 4
+    - _Convexity_Strength: 25
+    - _Convexity_Toggle: 1
+    - _Cull: 2
+    - _DstBlend: 0
+    - _Float: 20
+    - _Float_1: 5
+    - _Fresnel_Bias: 0
+    - _Fresnel_Contrast: 1
+    - _Fresnel_Gamma: 1
+    - _Fresnel_Invert: 0
+    - _Fresnel_Power: 2
+    - _Fresnel_Scale: 1
+    - _Fresnel_Toggle: 1
+    - _Glow_Anim_Intensity: 2
+    - _Glow_Anim_Speed: 3
+    - _Glow_Speed: 10
+    - _IF_Bias: 0
+    - _IF_Contrast: 2
+    - _IF_Gamma: 1
+    - _IF_Invert: 1
+    - _IF_Power: 1
+    - _IF_Scale: 1
+    - _IOR: 0.43
+    - _Interior_Additive: 0.3
+    - _Interior_Fresnel_Toggle: 1
+    - _Interior_Multiplier: 2.8
+    - _Interior_Noise_Toggle: 1
+    - _Interior_Parallax: 40
+    - _Interior_Toggle: 1
+    - _Interrior_Parallax_Second_Layer: 15
+    - _Light_Contrast: 1
+    - _Light_Multiplier: 0.3
+    - _Metallic: 0.89
+    - _Multiplier: 3
+    - _Noise_Contrast: 2.95
+    - _Noise_Invert: 0
+    - _Noise_Power: 2
+    - _Noise_Scale: 5
+    - _Normal_Multiplier: 0
+    - _Normal_Strength: -0.3
+    - _Normal_Toggle: 1
+    - _Paralax_Offset: 2
+    - _Power: 1
+    - _QueueControl: 1
+    - _QueueOffset: 0
+    - _Radius: 2
+    - _ReceiveShadows: 1
+    - _Reflection_Multiplier: 0.1
+    - _Reflection_Strength: 0.5
+    - _Reflection_Toggle: 1
+    - _Refract: -0.1
+    - _Refract_Fresnel_Power: 1
+    - _Refract_Multiplier: 0
+    - _Refract_Normal_Intensity: 2
+    - _Refract_Strength: 1
+    - _Refract_Transparency: 0.3
+    - _Refraction: 0
+    - _Second_Layer_Repeat: 2
+    - _Seed: 1
+    - _Smoothness: 0.67
+    - _SrcBlend: 1
+    - _Surface: 0
+    - _Texture_Invert: 0
+    - _WorkflowMode: 1
+    - _Y_Pos: 1.97
+    - _ZTest: 4
+    - _ZWrite: 1
+    - _ZWriteControl: 0
+    - _sqrtBool: 1
+    - _sqrtTm: 3
+    m_Colors:
+    - _CA_Blue: {r: 0, g: 0.1, b: 0, a: 0}
+    - _CA_Green: {r: 0, g: 0, b: 0.1, a: 0}
+    - _CA_Red: {r: 0.1, g: 0, b: 0, a: 0}
+    - _Color: {r: 0, g: 0, b: 0, a: 1}
+    - _Fresnel_Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    - _Interior_Back_Color: {r: 0.703, g: 0, b: 0, a: 1}
+    - _Interior_Color: {r: 0.703, g: 0.29406536, b: 0, a: 1}
+    - _Reflection_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []
+--- !u!114 &7571620734378678227
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 7

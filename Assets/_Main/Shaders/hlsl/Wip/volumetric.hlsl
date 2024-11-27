@@ -1,4 +1,5 @@
-// BUDU WIP
+// BUDU Games 2024
+// Volumetric WIP
 
 #include "Assets/_Main/Shaders/hlsl/Includes/constants.hlsl"
 
