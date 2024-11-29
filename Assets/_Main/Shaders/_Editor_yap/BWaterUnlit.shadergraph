@@ -10301,6 +10301,21 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
+    "m_ObjectId": "41c7058fd2b64f658509ef33cbee14a4",
+    "m_Id": 1898941403,
+    "m_DisplayName": "Fresnel False Result",
+    "m_SlotType": 0,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "_Fresnel_False_Result",
+    "m_StageCapability": 3,
+    "m_Value": 0.0,
+    "m_DefaultValue": 0.0,
+    "m_Labels": []
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.Texture2DMaterialSlot",
     "m_ObjectId": "420a811ac9cb44f5b84794638daa96c2",
     "m_Id": 0,
@@ -25288,6 +25303,9 @@
             "m_Id": "ce361a96cf654d8e86bd6af4743a8682"
         },
         {
+            "m_Id": "41c7058fd2b64f658509ef33cbee14a4"
+        },
+        {
             "m_Id": "9f8906e525ea4e9eaa3fad79207cffb9"
         }
     ],
@@ -25308,7 +25326,8 @@
         "9e270351-6452-4730-8efa-cfa2358d64e1",
         "aac25ae1-9563-49b5-b130-628b24e78acf",
         "2818bd74-0854-4c05-a80e-56b18756786b",
-        "d00c1567-8440-42bb-9962-a1867fa3dcb6"
+        "d00c1567-8440-42bb-9962-a1867fa3dcb6",
+        "f6f98a40-9252-4fba-8400-5c774d9330bf"
     ],
     "m_PropertyIds": [
         112126122,
@@ -25318,7 +25337,8 @@
         -1698950984,
         -1482745833,
         -1103893233,
-        -1563799359
+        -1563799359,
+        1898941403
     ],
     "m_Dropdowns": [],
     "m_DropdownSelectedEntries": []

@@ -6,6 +6,8 @@
 
 void sqrtx_float(bool negative, float input, float tm, out float output)
 {
+    const static float NaN = 0.0f / 0.0f;
+
     float result = input;
     if(negative)
     {
@@ -16,7 +18,7 @@ void sqrtx_float(bool negative, float input, float tm, out float output)
     {
         result = sqrt(result);
     }
-            
+
     output = result;
 
     if(negative)

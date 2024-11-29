@@ -1,7 +1,7 @@
 #ifndef MAINLIGHT_INCLUDED
 #define MAINLIGHT_INCLUDED
 
-void GetMainLightData_float(out half3 direction, out half3 color, out half distanceAttenuation, out half shadowAttenuation)
+void GetMainLightData_float(out half3 direction, out half3 color, out half distanceAttenuation, out half shadowAttenuation, out half3 LightPos)
 {
 #ifdef SHADERGRAPH_PREVIEW
     // In Shader Graph Preview we will assume a default light direction and white color
@@ -9,6 +9,7 @@ void GetMainLightData_float(out half3 direction, out half3 color, out half dista
     color = half3(1, 1, 1);
     distanceAttenuation = 1.0;
     shadowAttenuation = 1.0;
+    LightPos = half3(0,0,0);
 #else
 
     // Universal Render Pipeline
@@ -20,7 +21,8 @@ void GetMainLightData_float(out half3 direction, out half3 color, out half dista
         color = mainLight.color;
         distanceAttenuation = mainLight.distanceAttenuation;
         shadowAttenuation = mainLight.shadowAttenuation;
-    
+        LightPos = _MainLightPosition;
+
     #elif defined(HD_LIGHTING_INCLUDED) 
         // ToDo: make it work for HDRP (check define above)
         // Packages/com.unity.render-pipelines.high-definition/Runtime/Lighting/LightDefinition.cs.hlsl
