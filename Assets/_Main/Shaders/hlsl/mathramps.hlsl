@@ -3,27 +3,31 @@
 
 #include "Assets/_Main/Shaders/hlsl/Functions/MathRampFunctions.hlsl"
 
-void linearRamp_float(float2 uv, out float ramp, out float raw)
+void linearRamp_float(float2 uv, out float2 ramp, out float2 raw)
 {
-    ramp = linearRamp(uv.x);
+    ramp.x = linearRamp(uv.x);
+    ramp.y = linearRamp(uv.y);
     raw = pow(ramp,2.2);
 }
 
-void sinusRamp_float(float2 uv, out float ramp, out float raw)
+void sinusRamp_float(float2 uv, out float2 ramp, out float2 raw)
 {
-    ramp = sinusRamp(uv.x);
+    ramp.x = sinusRamp(uv.x);
+    ramp.y = sinusRamp(uv.y);
     raw = ramp - 0.5;
 }
 
-void cosinusRamp_float(float2 uv, out float ramp, out float raw)
+void cosinusRamp_float(float2 uv, out float2 ramp, out float2 raw)
 {
-    ramp = cosinusRamp(uv.x);
+    ramp.x = cosinusRamp(uv.x);
+    ramp.y = cosinusRamp(uv.y);
     raw = ramp - 0.5;
 }
 
-void addSinRamp_float(float2 uv, out float ramp, out float raw)
+void addSinRamp_float(float2 uv, out float2 ramp, out float2 raw)
 {
-    raw = addSinRamp(uv.x);
+    raw.x = addSinRamp(uv.x);
+    raw.y = addSinRamp(uv.y);
     ramp = raw + 0.5;
 }
 

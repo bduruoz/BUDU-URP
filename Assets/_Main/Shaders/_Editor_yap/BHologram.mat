@@ -1,0 +1,237 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-535218689559641689
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 7
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: BHologram
+  m_Shader: {fileID: -6465566751694194690, guid: c308c834be969414fbb3a6f5f7539af6,
+    type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - _HOLOTYPE_MIN
+  - _SURFACE_TYPE_TRANSPARENT
+  m_InvalidKeywords:
+  - _RECEIVE_SHADOWS_OFF
+  - _SCAN_TYPE_MAX
+  - _SPECULAR_SETUP
+  - _ST_A_TYPE_MAX
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: 3000
+  stringTagMap:
+    RenderType: Transparent
+  disabledShaderPasses:
+  - SHADOWCASTER
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Blur_3b4cb4dc168946868e63eef691e5b365_GrabTexture2D_1293248524_Texture2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Blur_d5f2876bd800470ea50c09d7147e0455_GrabTexture2D_1293248524_Texture2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Blur_dbe4df597a024d198fb71f4771049493_GrabTexture2D_1293248524_Texture2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _FS_Texture:
+        m_Texture: {fileID: 2800000, guid: eb336300f2e43ed4db08934e5265f49f, type: 3}
+        m_Scale: {x: 1, y: 5}
+        m_Offset: {x: 0, y: 0}
+    - _Fresnel_Scan_Texture:
+        m_Texture: {fileID: 2800000, guid: eb336300f2e43ed4db08934e5265f49f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _INT_Texture_Map:
+        m_Texture: {fileID: 2800000, guid: 3818f31938b429e4dbd8ebfa9e137dcf, type: 3}
+        m_Scale: {x: 2, y: 2}
+        m_Offset: {x: 0, y: 0}
+    - _Interior_Texture_Map:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Scan_Texture:
+        m_Texture: {fileID: 2800000, guid: eb336300f2e43ed4db08934e5265f49f, type: 3}
+        m_Scale: {x: 1, y: 20}
+        m_Offset: {x: 0, y: 0}
+    - _Scan_Texture_A:
+        m_Texture: {fileID: 2800000, guid: a8f76026d776e934ab76a47de96eb80b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Scan_Texture_B:
+        m_Texture: {fileID: 2800000, guid: 405636c4a1361b54c9bd28ad49907faf, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Scan_Texture_C:
+        m_Texture: {fileID: 2800000, guid: eb336300f2e43ed4db08934e5265f49f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_3cff49987c094cf1817ed9cd243a3cd1_Out_0_Texture2D:
+        m_Texture: {fileID: 2800000, guid: ae2961e4565cb064c93a32ffb6aed3a2, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _A_Rotate_Speed: 5
+    - _Additive: 5
+    - _AlphaClip: 0
+    - _AlphaToMask: 0
+    - _Alpha_Clipping: 0
+    - _B_Rotate_Speed: -5
+    - _Base_Alpha: 1
+    - _Base_Alpha_Affect_Fresnel: 1
+    - _Blend: 0
+    - _BlendModePreserveSpecular: 1
+    - _Bottom_Light_Intensity: 0.35
+    - _CastShadows: 0
+    - _Cull: 2
+    - _DstBlend: 10
+    - _FS_Additive: 0.3
+    - _FS_Power: 4
+    - _FS_Speed: 0.2
+    - _F_Max: 0.6
+    - _F_Min: 0.2
+    - _F_Persentage: 90
+    - _Flicker: 1
+    - _Fresnel_A: 1
+    - _Fresnel_A_Bias: 0.1
+    - _Fresnel_A_Contrast: 0.98
+    - _Fresnel_A_Gamma: 1
+    - _Fresnel_A_Intensity: 0.423
+    - _Fresnel_A_Invert: 0
+    - _Fresnel_A_Power: 2
+    - _Fresnel_A_Scale: 1
+    - _Fresnel_Affect_Color: 1
+    - _Fresnel_B: 1
+    - _Fresnel_B_Bias: 0
+    - _Fresnel_B_Contrast: 1.35
+    - _Fresnel_B_Gamma: 1
+    - _Fresnel_B_Intensity: 1
+    - _Fresnel_B_Invert: 0
+    - _Fresnel_B_Power: 4
+    - _Fresnel_B_Scale: 1
+    - _Fresnel_Intensity: 0.818
+    - _Fresnel_Scan: 0
+    - _HOLOTYPE: 3
+    - _Hologram_Intensity: 3
+    - _INT_Contrast: 1
+    - _INT_Invert: 0
+    - _INT_Noise_Toggle: 0
+    - _INT_Parallax: 200
+    - _INT_Parallax_Second_Layer: 50
+    - _INT_Rotate_A: 0
+    - _INT_Rotate_B: 0
+    - _INT_Second_Layer_Repeat: 3
+    - _Interior_Toggle: 0
+    - _Light_A_Intensity: 0.75
+    - _Light_B_Intensity: 0.75
+    - _Lights_Toggle: 1
+    - _NF_Fit_0_1: 0
+    - _NF_Fit_1_0: 1
+    - _NF_Max: 1
+    - _NF_Min: -1
+    - _NF_Scale: 20
+    - _NF_Speed: 3
+    - _Noise_Contrast: 2.5
+    - _Noise_Filcker: 0
+    - _Noise_Invert: 0
+    - _Noise_Tile: 6.27
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _ReceiveShadows: 0
+    - _SCAN_TYPE: 2
+    - _SN_Additive: 0
+    - _SN_Amplitude: 2
+    - _SN_Frequency: 6
+    - _SN_Speed: 0.2
+    - _SS_Space: 1
+    - _ST_A_Line_Rotate: 0
+    - _ST_A_Noise_Scale: 0.3
+    - _ST_A_Speed: 1
+    - _ST_A_TYPE: 2
+    - _ST_A_Vertical_Noise: 0.1
+    - _ST_A_Vertical_Noise_Scale: 50
+    - _ST_B_Speed: -0.7
+    - _ST_C_Speed: 0.3
+    - _Scan_A: 1
+    - _Scan_A_Additive: 0
+    - _Scan_B: 1
+    - _Scan_B_Additive: -0.217
+    - _Scan_C: 1
+    - _Scan_C_Additive: 0
+    - _Scan_C_Intensity: 0.38
+    - _Scan_Line_Rotate: 0
+    - _Scan_Noise_Scale: 0.3
+    - _Scan_Speed: 1
+    - _Scan_Vertical_Noise: 0.1
+    - _Scan_Vertical_Noise_Scale: 5
+    - _Scaner: 1
+    - _Seed: 50
+    - _Sin_Fit_0_1: 0
+    - _Sin_Max: 0.252
+    - _Sin_Min: 0.129
+    - _Sin_Speed: 10
+    - _Sinus: 0
+    - _SrcBlend: 5
+    - _Static_Noise: 1
+    - _Static_Noise_Toggle: 0
+    - _Surface: 1
+    - _Top_Light_Intensity: 1
+    - _WorkflowMode: 0
+    - _ZTest: 4
+    - _ZWrite: 1
+    - _ZWriteControl: 1
+    m_Colors:
+    - _Bottom_Light_Color: {r: 0.5, g: 0.75, b: 1, a: 1}
+    - _Hologram_Base_Color: {r: 0.23921567, g: 0.87320256, b: 1, a: 1}
+    - _Hologram_Deep_Color: {r: 0, g: 0.10909432, b: 0.236, a: 1}
+    - _INT_Back_Color: {r: 0.33333334, g: 0.33333334, b: 0.33333334, a: 1}
+    - _INT_Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Light_A_Color: {r: 1, g: 0.7, b: 0.39999998, a: 1}
+    - _Light_A_Direction: {r: 0, g: -1, b: -0.1, a: 0}
+    - _Light_B_Color: {r: 0.2980392, g: 0.76601297, b: 1, a: 1}
+    - _Light_B_Direction: {r: 0, g: 1, b: 0.1, a: 0}
+    - _SN_Tile: {r: 0.2, g: 4, b: 0, a: 0}
+    - _ST_A_Tile: {r: 1, g: 100, b: 0, a: 0}
+    - _ST_B_Tile: {r: 1, g: 20, b: 0, a: 0}
+    - _ST_C_Tile: {r: 1, g: 2, b: 0, a: 0}
+    - _Scan_Noise_Tile: {r: 1, g: 1, b: 0, a: 0}
+    - _Scan_Tile: {r: 1, g: 100, b: 0, a: 0}
+    - _Top_Light_Color: {r: 1, g: 0.70689654, b: 0.5, a: 1}
+    - _Vector3: {r: 0, g: 0, b: 0, a: 0}
+  m_BuildTextureStacks: []

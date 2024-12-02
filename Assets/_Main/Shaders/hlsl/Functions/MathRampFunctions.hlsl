@@ -6,9 +6,9 @@
 
 #include "Assets/_Main/Shaders/hlsl/Includes/constants.hlsl"
 
-float linearRamp(float x)
+float linearRamp(float2 x)
 {
-    return x ;
+    return frac(x);
 }
 
 float sinusRamp(float x)
