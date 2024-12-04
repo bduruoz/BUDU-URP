@@ -49,7 +49,7 @@ void blur_float(
     {
         offs = float2(sin(a * d), cos(a * d)) * bl;
         d = frac(sin((i + a) * 123.45) * 456.78);
-        d = log(sqrt(d * 10));
+        d = log(sqrt(d * 10)) * 1;
         offs *= d;
 
         if(grab == true)
