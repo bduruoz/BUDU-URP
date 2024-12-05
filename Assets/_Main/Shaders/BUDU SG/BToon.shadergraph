@@ -4634,7 +4634,7 @@
     },
     "m_Name": "Sample Texture 2D",
     "m_DrawState": {
-        "m_Expanded": true,
+        "m_Expanded": false,
         "m_Position": {
             "serializedVersion": "2",
             "x": -4463.33349609375,
@@ -7203,6 +7203,29 @@
         "z": 0.0,
         "w": 0.0
     }
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector3MaterialSlot",
+    "m_ObjectId": "4b130fa1325445c78e6dd0a30bf3105c",
+    "m_Id": 5,
+    "m_DisplayName": "LightPOS_WS",
+    "m_SlotType": 1,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "LightPOS_WS",
+    "m_StageCapability": 3,
+    "m_Value": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+    },
+    "m_DefaultValue": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+    },
+    "m_Labels": []
 }
 
 {
@@ -10507,6 +10530,9 @@
         },
         {
             "m_Id": "841013f120d849a69a6b0141578deea9"
+        },
+        {
+            "m_Id": "f27d490d151d4e85a17fc2615cdf7c9d"
         }
     ],
     "synonyms": [],
@@ -11226,13 +11252,13 @@
     },
     "m_Name": "Tiling And Offset",
     "m_DrawState": {
-        "m_Expanded": true,
+        "m_Expanded": false,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -4524.0,
-            "y": 1072.666748046875,
-            "width": 156.0,
-            "height": 144.0001220703125
+            "x": -4503.33349609375,
+            "y": 1062.666748046875,
+            "width": 143.33349609375,
+            "height": 96.0
         }
     },
     "m_Slots": [
@@ -11602,13 +11628,13 @@
     },
     "m_Name": "Remap",
     "m_DrawState": {
-        "m_Expanded": true,
+        "m_Expanded": false,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -2309.333251953125,
-            "y": 748.6665649414063,
-            "width": 187.333251953125,
-            "height": 144.00006103515626
+            "x": -2251.333251953125,
+            "y": 821.3333129882813,
+            "width": 129.333251953125,
+            "height": 96.0
         }
     },
     "m_Slots": [
@@ -13961,10 +13987,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -2520.0,
-            "y": 785.333251953125,
-            "width": 154.666748046875,
-            "height": 36.00006103515625
+            "x": -2438.66650390625,
+            "y": 864.0,
+            "width": 154.66650390625,
+            "height": 36.0
         }
     },
     "m_Slots": [
@@ -15706,6 +15732,9 @@
         },
         {
             "m_Id": "feed82172b9e4ea0aa68b77dbf206ac6"
+        },
+        {
+            "m_Id": "4b130fa1325445c78e6dd0a30bf3105c"
         }
     ],
     "synonyms": [],
@@ -17072,10 +17101,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -4475.33349609375,
-            "y": 302.0000305175781,
+            "x": -4478.0,
+            "y": 524.6666259765625,
             "width": 196.66650390625,
-            "height": 36.000030517578128
+            "height": 36.0
         }
     },
     "m_Slots": [
@@ -18393,9 +18422,9 @@
         "m_Position": {
             "serializedVersion": "2",
             "x": -2126.0,
-            "y": 356.6667175292969,
-            "width": 199.3333740234375,
-            "height": 145.33331298828126
+            "y": 344.6666564941406,
+            "width": 201.333251953125,
+            "height": 145.3333740234375
         }
     },
     "m_Slots": [
@@ -18611,6 +18640,29 @@
         "z": 0.0,
         "w": 0.0
     }
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector3MaterialSlot",
+    "m_ObjectId": "f27d490d151d4e85a17fc2615cdf7c9d",
+    "m_Id": 5,
+    "m_DisplayName": "LightPOS_WS",
+    "m_SlotType": 1,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "LightPOS_WS",
+    "m_StageCapability": 3,
+    "m_Value": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+    },
+    "m_DefaultValue": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+    },
+    "m_Labels": []
 }
 
 {

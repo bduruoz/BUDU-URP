@@ -18,7 +18,7 @@ void blur_float(
     out float4 output)
 {
     float2 getuv = float2(0, 0);
-    const float bsamp  = numSamples;
+    const float bsamp  = floor(numSamples);
     float4 result = 0;
     float bl = blur * 10 * (1 - msk);
     float2 offs = float2(0,0);

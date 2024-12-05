@@ -21,24 +21,22 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: BSoftToon
-  m_Shader: {fileID: -6465566751694194690, guid: 767ebe85b2c5fb4469ae4d7dcfaa2983,
+  m_Shader: {fileID: -6465566751694194690, guid: 0635f1e52ab778e47b1344aa72a432b8,
     type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _ALPHAPREMULTIPLY_ON
+  - _SPECULAR_SETUP
+  m_InvalidKeywords:
   - _CURVATURE_TYPE_RAW
   - _REFRACT_TYPE_SS_REFRACT
-  - _SPECULAR_SETUP
   - _SS_TYPE_NORMAL_MAP
-  - _SURFACE_TYPE_TRANSPARENT
-  m_InvalidKeywords: []
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3000
+  m_CustomRenderQueue: -1
   stringTagMap:
-    RenderType: Transparent
+    RenderType: Opaque
   disabledShaderPasses: []
   m_LockedProperties: 
   m_SavedProperties:
@@ -153,7 +151,7 @@ Material:
     - _Cast_Shadows: 1
     - _CheckBase: 1
     - _CheckDef: 0
-    - _CheckNormal: 0
+    - _CheckNormal: 1
     - _CheckReflect: 0
     - _CheckRim: 0
     - _CheckShade: 0
@@ -162,6 +160,7 @@ Material:
     - _Chromatic_Aberration_Intensity: 3
     - _Clamp_Max: 1
     - _Clamp_Min: 0
+    - _CubeMap_LOD: 0
     - _Cubemap_Pos_X: 0
     - _Cubemap_Pos_Y: 0
     - _Cubemap_Pos_Z: 0
@@ -182,7 +181,7 @@ Material:
     - _Custom_Spec_Saturation: 1
     - _Custom_Spec_Softness: 1.13
     - _Custom_Spec_Toggle: 1
-    - _DstBlend: 10
+    - _DstBlend: 0
     - _Feature_Average: 0
     - _FilterMode: 1
     - _FitlerMode: 0
@@ -199,8 +198,8 @@ Material:
     - _NC_Normal_Strength: 3
     - _NC_Toggle: 0
     - _Normal_Multiplier: 0
-    - _Normal_Strength: 0.077
-    - _Normal_Toggle: 0
+    - _Normal_Strength: 0.242
+    - _Normal_Toggle: 1
     - _QueueControl: 0
     - _QueueOffset: 0
     - _REFRACT_TYPE: 0
@@ -225,7 +224,7 @@ Material:
     - _RF_TR_Fresnel_Power: 1
     - _RF_TR_Fresnel_Scale: 1
     - _RF_TR_Fresnel_Toggle: 1
-    - _RF_Transparent_Toggle: 1
+    - _RF_Transparent_Toggle: 0
     - _R_m_Normal_Strength: 1
     - _ReceiveShadows: 1
     - _Receive_Shadows: 1
@@ -248,7 +247,7 @@ Material:
     - _Refract_Multiplier: 0.2
     - _Refract_Normal_Strength: 0.1
     - _Refract_Strength: 0.281
-    - _Refract_Toggle: 1
+    - _Refract_Toggle: 0
     - _Refract_Transparency: 1
     - _Rim_Bias: 0
     - _Rim_Intensity: 1
@@ -286,7 +285,7 @@ Material:
     - _Specular_Saturation: 1
     - _Specular_Toggle: 0
     - _SrcBlend: 1
-    - _Surface: 1
+    - _Surface: 0
     - _TR_Fresnel_Bias: 0
     - _TR_Fresnel_Contrast: 1
     - _TR_Fresnel_Gamma: 1
@@ -317,7 +316,7 @@ Material:
     - _specExtFold: 1
     m_Colors:
     - _AO_Color: {r: 0, g: 0, b: 0, a: 1}
-    - _Base_Color: {r: 0, g: 0, b: 0, a: 1}
+    - _Base_Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _Base_Spec_Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _Custom_Spec_Color: {r: 1, g: 1, b: 1, a: 1}
     - _Lighten_Color: {r: 0, g: 0, b: 0, a: 1}

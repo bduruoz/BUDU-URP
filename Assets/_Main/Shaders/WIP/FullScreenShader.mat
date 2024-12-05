@@ -13,7 +13,9 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
-  m_InvalidKeywords: []
+  m_InvalidKeywords:
+  - _OUTLINE_TYPE_DEPTH_EDGE
+  - _VIGNETTE_TYPE_SQUARE
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -32,6 +34,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Blur_24be037be2d642e3b9694b8e0d4452b8_GrabTexture2D_1293248524_Texture2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Blur_fdf0d4db8d0441db9bce005c8e7d861a_GrabTexture2D_1293248524_Texture2D:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -40,8 +46,12 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _Mask:
+    - _Custom_Noise_Texture:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 5, y: 5}
+        m_Offset: {x: 0, y: 0}
+    - _Mask:
+        m_Texture: {fileID: 2800000, guid: d5045e607276c254bbdcb63b203ae1ea, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_2c4bd39ef68f48cba5b95e57dc68be80_Texture_1_Texture2D:
@@ -80,6 +90,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: 4a8f054acfbd08043a931cd22760758d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _UnitySceneColorCustomFunction_b96cbe8ff3a44fe3a92efc98ded0e704_New_4_Texture2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -94,23 +108,31 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Blur: 0.54
+    - _Blur: 2.06
     - _Blur_Offset: 0.35
+    - _CRT_Intensity: 1
+    - _Center_Mask_Edge: 0.5
+    - _Center_Mask_Size: 0.0625
     - _Chromatic_Aberration: 1
     - _Circle_Time: 1.75
     - _Custom_Noise: 0
+    - _Custom_Noise_Invert: 1
+    - _Custom_Noise_Scale: 500
     - _DM_Intensity: 1
     - _DM_Power: 6
     - _DM_Slide: 0.5
     - _DM_Tile_Size: 250
+    - _DOut_Thickness: 0.249
     - _Flash_G_A_Speed: 0.1
     - _Flash_G_A_Treshold: 0.2
-    - _Flash_G_B_Speed: 0.2
+    - _Flash_G_B_Speed: 1.94
+    - _Flash_G_B_Speed_1: 4
     - _Flash_G_B_Treshold: 0.6
     - _Flash_G_Speed_A: 0.3
     - _Flash_G_Speed_B: 4
     - _Flash_Glitch_Intensity: -0.05
-    - _Float: 2.2
+    - _Float: 8
+    - _Frames: 100
     - _Full_Solid_Glitch_Intensity: -0.15
     - _Fullscreen_AlphaBlendOperation: 0
     - _Fullscreen_BlendMode: 1
@@ -124,11 +146,20 @@ Material:
     - _Glitch_Distortion: 2
     - _Glitch_Intensity: 1
     - _Glitch_Percent: 60
-    - _Intensity: 1
+    - _Inline_Out_Thickness: 0.2
+    - _Inline_Thickness: 0.7
+    - _Intensity: 2
+    - _Line_Count: 20
+    - _Line_Density: 1
     - _Line_Disp: 0.1
     - _Line_Disp_X: 0
     - _Line_Disp_Y: 0
+    - _Line_Fall_Off: 1
+    - _Line_Invert: 0
+    - _Line_Noise_Intensity: 0.5
+    - _Line_Power: 1
     - _Mask: -1.43
+    - _Mask_Invert: 1
     - _Mosaic_Glitch_Range: -0.1
     - _Mosaic_Random_Mod: 3
     - _Mosaic_X: 10
@@ -143,23 +174,43 @@ Material:
     - _Mosaic_Y_Min: 40
     - _Mosaic_Y_Random_Mod: 2
     - _Mosaic_Y_Speed: 0.4
+    - _NNNNN: 25
     - _Noise: -5
+    - _Noise_Scale: 100
     - _Noise_Scale_X: 50
     - _Noise_Scale_Y: 50
-    - _NumSamples: 4
+    - _Noise_Speed: 1
+    - _NumSamples: 8
+    - _OUTLINE_TYPE: 1
+    - _Old_Blur_Chromatic_Aberration: 0
+    - _Old_Blur_Offset: 0.3
+    - _Out_Max: 0.5
+    - _Out_Min: 0.2
+    - _Outline_Thickness: 2
+    - _Outline_Thickness_1: 0.237
     - _Percent: 19.6
+    - _Pixel_Size: 8
+    - _Radial_Scale: 0.05
     - _Range: 0.4
     - _SStep_Max: 0.71
     - _SStep_Min: 0.6
+    - _SW_Dist_From_Center: -0.1
     - _SW_Gamma: 2.2
     - _SW_Intensity: 1
     - _SW_Range: 0.333
+    - _SW_Size: 0.05
+    - _SW_Speed: 1
     - _SW_Strength: -0.5
+    - _Sampling_Affect: 1
+    - _Screen_Scale: 0
     - _Shockwave_Strength: -0.1
     - _Size: 0.03
     - _Speed: 0.3
     - _Speed_X: 1
     - _Speed_Y: 1
+    - _Thickness: 1
+    - _Type: 4
+    - _VIGNETTE_TYPE: 1
     - _VS_Opacity: 1
     - _VS_Scale: 1
     - _Vignette_Intensity: 3
@@ -170,11 +221,31 @@ Material:
     - _Vignette_Size: 2.13
     - _Vignette_Square_Power: 5000
     - _Wave_Dist_From_Center: -0.5
+    - _ZB_Additive: 1
+    - _ZB_Decay: 1
+    - _ZB_Intensity: 1
+    - _ZB_Multiplier: 1
+    - _ZB_Number_Of_Samples: 64
+    - _ZB_Strength: 1
+    - _Zoom_Anim: 10
+    - _Zoom_Anim_Speed: 5
+    - _Zoom_Blur_Type: 4
     m_Colors:
+    - _CA_Color_A: {r: 1, g: 0, b: 0, a: 1}
+    - _CA_Color_B: {r: 0, g: 1, b: 1, a: 1}
+    - _Center_Position: {r: 0.5, g: 0.5, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _DM_IN_OUT: {r: 0, g: 0.1, b: 0, a: 0}
+    - _Inline_Color_In: {r: 0, g: 1, b: 0.8296824, a: 1}
+    - _Inline_Color_Out: {r: 1, g: 0, b: 0.02198505, a: 1}
+    - _Line_Color: {r: 0.8, g: 0.8, b: 0.8, a: 1}
     - _Noise_Size: {r: 5, g: 5, b: 5, a: 0}
+    - _Outline_Color: {r: 0.2, g: 0.2, b: 0.2, a: 1}
+    - _Pivot_Point: {r: 0.5, g: 0.5, b: 0, a: 0}
     - _SW_Color: {r: 0.66666657, g: 0, b: 0, a: 1}
     - _SW_Start_Position: {r: 0.5, g: 0.5, b: 0, a: 0}
-    - _Vignette_Color: {r: 0.3584906, g: 0, b: 0, a: 1}
+    - _Vector2: {r: 0.5, g: 0.5, b: 0, a: 0}
+    - _Vignette_Color: {r: 0, g: 0, b: 0, a: 1}
+    - _ZB_Position: {r: 0.5, g: 0.5, b: 0, a: 0}
+    - _Zoom_Position: {r: 0.1, g: 0.01, b: 0, a: 0}
   m_BuildTextureStacks: []

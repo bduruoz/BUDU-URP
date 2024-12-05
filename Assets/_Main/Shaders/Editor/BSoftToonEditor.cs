@@ -335,12 +335,14 @@ public class BSoftToonEditor : ShaderGUI
             MaterialProperty rfcol = ShaderGUI.FindProperty("_Reflection_Color", properties);
             MaterialProperty rfs = ShaderGUI.FindProperty("_Reflection_Strength", properties);
             MaterialProperty rft = ShaderGUI.FindProperty("_Reflection_Cubemap", properties);
+            MaterialProperty rftLod = ShaderGUI.FindProperty("_CubeMap_LOD", properties);
             MaterialProperty rfMultiplier = ShaderGUI.FindProperty("_Reflection_Multiplier", properties);
             MaterialProperty rfNormStr = ShaderGUI.FindProperty("_Ref_Normal_Strength", properties);
             MaterialProperty rfAffShd = ShaderGUI.FindProperty("_Reflection_Affect_Shadow", properties);
             
             materialEditor.ShaderProperty(rfcol, "Reflect Color");
             materialEditor.ShaderProperty(rft, "Reflect Map");
+            materialEditor.ShaderProperty(rftLod, "Reflect Map LOD");
             materialEditor.ShaderProperty(rfs, "Reflect Strength");
             materialEditor.ShaderProperty(rfMultiplier, "Reflection Multiplier");
             materialEditor.ShaderProperty(rfNormStr, "Reflection Normal Strength");

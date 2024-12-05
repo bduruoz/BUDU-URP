@@ -86,14 +86,14 @@ public class BFabricEditor : ShaderGUI
             EditorGUILayout.Space(2);
             MaterialProperty bc = ShaderGUI.FindProperty("_Cloth_Base_Color", properties);
             MaterialProperty bt = ShaderGUI.FindProperty("_Cloth_Texture", properties);
-            MaterialProperty bttyp = ShaderGUI.FindProperty("_TEXTURE_COLOR_SPACE", properties);
+            MaterialProperty btgamma = ShaderGUI.FindProperty("_Base_Texture_Gamma", properties);
             MaterialProperty btinv = ShaderGUI.FindProperty("_Invert_Texture", properties);
             MaterialProperty btc = ShaderGUI.FindProperty("_Texture_Contrast", properties);
             MaterialProperty bta = ShaderGUI.FindProperty("_Texture_Add", properties);
 
             materialEditor.ShaderProperty(bc, "Base Color");
             materialEditor.ShaderProperty(bt, "Base Map");
-            materialEditor.ShaderProperty(bttyp, "Base Map Grade Type");
+            materialEditor.ShaderProperty(btgamma, "Base Map Gamma");
             materialEditor.ShaderProperty(btinv, "Base Map Invert");
             materialEditor.ShaderProperty(btc, "Base Texture Contrast");
             materialEditor.ShaderProperty(bta, "Additive Texture");

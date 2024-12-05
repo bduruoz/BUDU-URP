@@ -1,13 +1,25 @@
-
+// BUDU GAMES © 2024
+// Text Functions
 
 void neoluyor_float(float a, float b, out float c)
 {
-    // a = 0;
-    // b = 1;
     c = 0;
-
     c = a + b;
 }
+
+void Unity_SceneColor_float(
+    float4 uv,
+    UnityTexture2D _CameraOpaqueTexture,
+    UnitySamplerState sampler_CameraOpaqueTexture,
+    out float3 Out)
+{
+    
+    Out = SAMPLE_TEXTURE2D(_CameraOpaqueTexture, sampler_CameraOpaqueTexture, uv);
+}
+
+
+
+////////////////////////////////////
 
 #ifndef UNITY_SHADER_VARIABLES_FUNCTIONS_INCLUDED
 #define UNITY_SHADER_VARIABLES_FUNCTIONS_INCLUDED
@@ -19,8 +31,6 @@ void nedir_float(float3 input, out float4 posCS, out float4 posNDC)
     posCS = posiCS(input);
     posNDC = posiNDC(input);
 }
-
-
 
 float4 posiCS(float3 input)
 {
