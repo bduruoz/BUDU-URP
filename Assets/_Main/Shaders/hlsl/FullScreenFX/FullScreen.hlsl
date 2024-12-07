@@ -90,5 +90,50 @@ void ZoomBlur_float(
         Output += saturate((SAMPLE_TEXTURE2D(_CameraOpaqueTexture, sampler_CameraOpaqueTexture, result) / numSample) * intensity);// * (i/numSample));
         intensity -= (smpRange * decay);
     }
+}
 
+void RadialBlur_float(
+    UnityTexture2D mulriple_tex, 
+    float2 uv, 
+    UnitySamplerState origin_tex, 
+    float2 pos,
+    float R, 
+    int type,
+    float strength,
+    float numSample,
+    out float3 Result)
+{
+
+    if(strength<1) strength = 1;
+    const float2 center = pos;
+    if(numSample < 4) numSample = 4;
+    const int ns = numSample;
+
+    float2 offset = uv - center;
+    offset = normalize(offset);
+
+    float2 direction = offset;
+    if(type == 1)
+    {
+        direction = float2(-offset.y, offset.x);
+    }
+    
+    //float mulriple = SAMPLE_TEXTURE2D(mulriple_tex, origin_tex, uv).r;
+    float r = R * 0.1;
+
+    float3 sum_c = 0.0;
+
+    int se = int(ns/2);
+    
+
+
+    for(float i = -se; i < se; i++)
+    {
+    	float2 uv2 = uv + direction * (i/numSample) *  r * strength;
+        sum_c += SAMPLE_TEXTURE2D(mulriple_tex, origin_tex, uv2).rgb;
+    }
+    sum_c /= numSample;
+    //return sum_c;
+
+    Result = sum_c;
 }

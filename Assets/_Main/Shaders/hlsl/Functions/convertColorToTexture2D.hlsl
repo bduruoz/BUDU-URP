@@ -12,9 +12,10 @@ float4 _gColorMap_ST;
 
 void ColorToTexture_float(float4 input, float2 uv, out float dummy, out UnityTexture2D Result)
 {
-    SAMPLE_TEXTURE2D(_gColorMap, sampler_gColorMap, input * uv);
+    //SAMPLE_TEXTURE2D(_gColorMap, sampler_gColorMap, uv);
+    _gColorMap = tex2D(sampler_gColorMap, uv);
 
-    dummy = 1;
+    dummy = input;
     Result = UnityBuildTexture2DStruct(_gColorMap);
 }
 

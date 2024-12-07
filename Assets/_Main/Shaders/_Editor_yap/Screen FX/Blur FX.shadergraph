@@ -162,11 +162,7 @@
             "m_Id": "f8e12d8c116341b298b9d356fbda6b57"
         }
     ],
-    "m_StickyNoteDatas": [
-        {
-            "m_Id": "a02134e487814a7086d0828e18905139"
-        }
-    ],
+    "m_StickyNoteDatas": [],
     "m_Edges": [
         {
             "m_OutputSlot": {
@@ -1233,11 +1229,11 @@
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
     "m_Hidden": false,
-    "m_Value": 4.0,
+    "m_Value": 8.0,
     "m_FloatType": 1,
     "m_RangeValues": {
         "x": 1.0,
-        "y": 128.0
+        "y": 256.0
     }
 }
 
@@ -1364,7 +1360,7 @@
     "m_Type": "UnityEditor.ShaderGraph.Texture2DMaterialSlot",
     "m_ObjectId": "232c92d679af4c67ac59cc6bcc800ab0",
     "m_Id": 0,
-    "m_DisplayName": "GrabbedTexture",
+    "m_DisplayName": "CameraOpaqueTexture",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Out",
@@ -1704,10 +1700,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": 543.3333740234375,
-            "y": 387.33331298828127,
-            "width": 147.3333740234375,
-            "height": 141.33331298828126
+            "x": 592.666748046875,
+            "y": 378.0,
+            "width": 147.33331298828126,
+            "height": 141.3333740234375
         }
     },
     "m_Slots": [
@@ -2743,10 +2739,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": 543.3333740234375,
-            "y": 231.33326721191407,
-            "width": 161.33343505859376,
-            "height": 35.99998474121094
+            "x": 543.3334350585938,
+            "y": 337.9999694824219,
+            "width": 196.6666259765625,
+            "height": 36.00006103515625
         }
     },
     "m_Slots": [
@@ -2946,26 +2942,6 @@
         "y": 0.0,
         "z": 0.0,
         "w": 0.0
-    }
-}
-
-{
-    "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.StickyNoteData",
-    "m_ObjectId": "a02134e487814a7086d0828e18905139",
-    "m_Title": "Değiştirilecekler",
-    "m_Content": "Camera Opaque Texture ile değiştir bunu\n",
-    "m_TextSize": 0,
-    "m_Theme": 0,
-    "m_Position": {
-        "serializedVersion": "2",
-        "x": 992.0,
-        "y": 155.3333282470703,
-        "width": 200.00006103515626,
-        "height": 160.0
-    },
-    "m_Group": {
-        "m_Id": "f8e12d8c116341b298b9d356fbda6b57"
     }
 }
 
@@ -3294,10 +3270,10 @@
     "m_Guid": {
         "m_GuidSerialized": "c67428db-7c2d-4f54-841a-40ecff402503"
     },
-    "m_Name": "GrabbedTexture",
+    "m_Name": "CameraOpaqueTexture",
     "m_DefaultRefNameVersion": 1,
-    "m_RefNameGeneratedByDisplayName": "GrabbedTexture",
-    "m_DefaultReferenceName": "_GrabbedTexture",
+    "m_RefNameGeneratedByDisplayName": "CameraOpaqueTexture",
+    "m_DefaultReferenceName": "_CameraOpaqueTexture",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": false,
     "m_UseCustomSlotLabel": false,

@@ -12,9 +12,12 @@ Material:
     type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _BLUR_TYPE_RADIAL
   m_InvalidKeywords:
+  - _DIRECTION_RIGHT2LEFT
   - _OUTLINE_TYPE_DEPTH_EDGE
+  - _TYPE_SIN
   - _VIGNETTE_TYPE_SQUARE
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -26,6 +29,14 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _BG_Map:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 20, y: 20}
+        m_Offset: {x: 0, y: 0}
+    - _Black_Texture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Blur_18d84589cf6e42d6885a0357a25195d4_GrabTexture2D_1293248524_Texture2D:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -49,6 +60,10 @@ Material:
     - _Custom_Noise_Texture:
         m_Texture: {fileID: 0}
         m_Scale: {x: 5, y: 5}
+        m_Offset: {x: 0, y: 0}
+    - _Map:
+        m_Texture: {fileID: 2800000, guid: 8b4eb68c413d91e41a98881e30998e31, type: 3}
+        m_Scale: {x: 20, y: 20}
         m_Offset: {x: 0, y: 0}
     - _Mask:
         m_Texture: {fileID: 2800000, guid: d5045e607276c254bbdcb63b203ae1ea, type: 3}
@@ -108,6 +123,9 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _Amplitude: 0.1
+    - _Amplitude_Y: 0.2
+    - _BLUR_TYPE: 1
     - _Blur: 2.06
     - _Blur_Offset: 0.35
     - _CRT_Intensity: 1
@@ -118,6 +136,7 @@ Material:
     - _Custom_Noise: 0
     - _Custom_Noise_Invert: 1
     - _Custom_Noise_Scale: 500
+    - _DIRECTION: 0
     - _DM_Intensity: 1
     - _DM_Power: 6
     - _DM_Slide: 0.5
@@ -131,8 +150,12 @@ Material:
     - _Flash_G_Speed_A: 0.3
     - _Flash_G_Speed_B: 4
     - _Flash_Glitch_Intensity: -0.05
-    - _Float: 8
+    - _Float: 50
+    - _Float_1: 22.3
+    - _Float_2: 10
+    - _Float_3: 1
     - _Frames: 100
+    - _Frequency_Y: 20
     - _Full_Solid_Glitch_Intensity: -0.15
     - _Fullscreen_AlphaBlendOperation: 0
     - _Fullscreen_BlendMode: 1
@@ -149,6 +172,7 @@ Material:
     - _Inline_Out_Thickness: 0.2
     - _Inline_Thickness: 0.7
     - _Intensity: 2
+    - _Length_Scale: 1
     - _Line_Count: 20
     - _Line_Density: 1
     - _Line_Disp: 0.1
@@ -181,16 +205,20 @@ Material:
     - _Noise_Scale_Y: 50
     - _Noise_Speed: 1
     - _NumSamples: 8
+    - _Num_Samples: 32
     - _OUTLINE_TYPE: 1
     - _Old_Blur_Chromatic_Aberration: 0
     - _Old_Blur_Offset: 0.3
+    - _Opacity: 1
     - _Out_Max: 0.5
     - _Out_Min: 0.2
     - _Outline_Thickness: 2
     - _Outline_Thickness_1: 0.237
     - _Percent: 19.6
     - _Pixel_Size: 8
-    - _Radial_Scale: 0.05
+    - _Plate_Steps: 8
+    - _Radial_Scale: 1
+    - _Radius: 1
     - _Range: 0.4
     - _SStep_Max: 0.71
     - _SStep_Min: 0.6
@@ -205,11 +233,17 @@ Material:
     - _Screen_Scale: 0
     - _Shockwave_Strength: -0.1
     - _Size: 0.03
-    - _Speed: 0.3
+    - _Slide: 0.5
+    - _Smooth_Plate: 1
+    - _Smooth_Step: 0
+    - _Speed: 0.1
     - _Speed_X: 1
-    - _Speed_Y: 1
+    - _Speed_Y: 0.1
+    - _Steps: 0
+    - _Strength: 1
+    - _TYPE: 1
     - _Thickness: 1
-    - _Type: 4
+    - _Type: 1
     - _VIGNETTE_TYPE: 1
     - _VS_Opacity: 1
     - _VS_Scale: 1
@@ -221,6 +255,7 @@ Material:
     - _Vignette_Size: 2.13
     - _Vignette_Square_Power: 5000
     - _Wave_Dist_From_Center: -0.5
+    - _Wipe: 0
     - _ZB_Additive: 1
     - _ZB_Decay: 1
     - _ZB_Intensity: 1
@@ -234,7 +269,7 @@ Material:
     - _CA_Color_A: {r: 1, g: 0, b: 0, a: 1}
     - _CA_Color_B: {r: 0, g: 1, b: 1, a: 1}
     - _Center_Position: {r: 0.5, g: 0.5, b: 0, a: 0}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0.1, g: 0.1, b: 0.1, a: 1}
     - _DM_IN_OUT: {r: 0, g: 0.1, b: 0, a: 0}
     - _Inline_Color_In: {r: 0, g: 1, b: 0.8296824, a: 1}
     - _Inline_Color_Out: {r: 1, g: 0, b: 0.02198505, a: 1}
@@ -242,6 +277,7 @@ Material:
     - _Noise_Size: {r: 5, g: 5, b: 5, a: 0}
     - _Outline_Color: {r: 0.2, g: 0.2, b: 0.2, a: 1}
     - _Pivot_Point: {r: 0.5, g: 0.5, b: 0, a: 0}
+    - _Position: {r: 0.5, g: 0.5, b: 0, a: 0}
     - _SW_Color: {r: 0.66666657, g: 0, b: 0, a: 1}
     - _SW_Start_Position: {r: 0.5, g: 0.5, b: 0, a: 0}
     - _Vector2: {r: 0.5, g: 0.5, b: 0, a: 0}
