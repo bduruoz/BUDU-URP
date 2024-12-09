@@ -19,12 +19,14 @@ public static class BGrassBaker
         public Vector3 position;
         public Vector3 normal;
         public Vector2 uv;
+        public Vector3 grassAnchor;
+        public Vector3 shadowCastNormal;
     }
 
     // The size of one entry in the various compute buffers
     private const int SOURCE_VERT_STRIDE = sizeof(float) * (3);
     private const int SOURCE_INDEX_STRIDE = sizeof(int);
-    private const int GENERATED_VERT_STRIDE = sizeof(float) * (3 + 3 + 2);
+    private const int GENERATED_VERT_STRIDE = sizeof(float) * (3 + 3 + 2 + 3 + 3);
     private const int GENERATED_INDEX_STRIDE = sizeof(int);
 
     // This function takes in a mesh and submesh and decomposes it into vertex and index arrays
@@ -66,16 +68,22 @@ public static class BGrassBaker
         Vector3[] vertices = new Vector3[verts.Length];
         Vector3[] normals = new Vector3[verts.Length];
         Vector3[] uvs = new Vector3[verts.Length];
+        Vector3[] grassAnchors = new Vector3[verts.Length];
+        Vector3[] shadowCastNormals = new Vector3[verts.Length];
         for(int i = 0; i < verts.Length; i++) 
         {
             var v = verts[i];
             vertices[i] = v.position;
             normals[i] = v.normal;
             uvs[i] = v.uv;
+            grassAnchors[i] = v.grassAnchor;
+            shadowCastNormals[i] = v.shadowCastNormal;
         }
         mesh.SetVertices(vertices);
         mesh.SetNormals(normals);
         mesh.SetUVs(0, uvs); // TEXCOORD0
+        mesh.SetUVs(1, grassAnchors); // TEXCOORD1
+        mesh.SetUVs(2, shadowCastNormals); // TEXCOORD2
         mesh.SetIndices(indices, MeshTopology.Triangles, 0, true); // This sets the index list as triangles
         mesh.Optimize(); // Let Unity optimize the buffer orders
         return mesh;
@@ -83,15 +91,17 @@ public static class BGrassBaker
 
     public static bool Run(ComputeShader shader, BGrassBakeSettings settings, out Mesh generatedMesh)
     {
+        Debug.Assert(settings.numGrassSegments > 0);
         // Decompose the mesh into vertex/index buffers
         DecomposeMesh(settings.sourceMesh, settings.sourceSubMeshIndex, out var sourceVertices, out var sourceIndices);
 
         // The mesh topology is triangles, so there are three indices per triangle
         int numSourceTriangles = sourceIndices.Length / 3;
+        int numGeneratedVerts = numSourceTriangles * (settings.numGrassSegments * 2 + 1) * 2; // 2 verts per segment, plus the tip
+        int numGeneratedIndices = numSourceTriangles * (settings.numGrassSegments * 2 - 1) * 3 * 2;
 
-        // We generate 3 triangles per source triangle, and there are three vertices per triangle
-        GeneratedVertex[] generatedVertices = new GeneratedVertex[numSourceTriangles * 3];
-        int[] generatedIndices = new int[generatedVertices.Length];
+        GeneratedVertex[] generatedVertices = new GeneratedVertex[numGeneratedVerts];
+        int[] generatedIndices = new int[numGeneratedIndices];
 
         // A graphics buffer is a better version of the compute buffer
         GraphicsBuffer sourceVertBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, sourceVertices.Length, SOURCE_VERT_STRIDE);
@@ -110,8 +120,14 @@ public static class BGrassBaker
         // Convert the scale and rotation settings into a transformation matrix
         shader.SetMatrix("_Transform", Matrix4x4.TRS(Vector3.zero, Quaternion.Euler(settings.rotation), settings.scale));
         shader.SetInt("_NumSourceTriangles", numSourceTriangles);
-        shader.SetFloat("_BladeHeight", settings.height);
-        shader.SetFloat("_BladeWidth", settings.width);
+        shader.SetVector("_RandomSeed", settings.randomOffset);
+        shader.SetFloat("_MaxBendAngle", Mathf.Deg2Rad * settings.maxBendAngle);
+        shader.SetFloat("_GrassHeight", settings.height);
+        shader.SetFloat("_GrassHeightVariance", settings.heightVariance);
+        shader.SetFloat("_GrassWidth", settings.width);
+        shader.SetFloat("_GrassWidthVariance", settings.widthVariance);
+        shader.SetInt("_NumGrassSegments", settings.numGrassSegments);
+        shader.SetFloat("_GrassCurvature", Mathf.Max(0, settings.curvature));
 
         // Set data in the buffers
         sourceVertBuffer.SetData(sourceVertices);
@@ -130,7 +146,7 @@ public static class BGrassBaker
         // Don't do this as runtime. Look into AsyncGPUReadback !!!!!!!!!!!!!!!!!!
         genVertBuffer.GetData(generatedVertices);
         genIndexBuffer.GetData(generatedIndices);
-
+        
         // Compose the vertex/ index buffers into a mesh
         generatedMesh = ComposeMesh(generatedVertices, generatedIndices);
 

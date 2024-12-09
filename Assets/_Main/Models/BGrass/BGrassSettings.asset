@@ -16,5 +16,11 @@ MonoBehaviour:
   sourceSubMeshIndex: 0
   scale: {x: 1, y: 1, z: 1}
   rotation: {x: 0, y: 0, z: 0}
-  height: 1
-  width: 0.2
+  randomOffset: {x: 0.5, y: 0.7, z: 0.19}
+  numGrassSegments: 3
+  curvature: 1
+  maxBendAngle: 30
+  height: 3
+  heightVariance: 2
+  width: 0.8
+  widthVariance: 0.2

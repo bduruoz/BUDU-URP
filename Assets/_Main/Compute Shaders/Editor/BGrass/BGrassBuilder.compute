@@ -1,8 +1,17 @@
 // Each #kernel tells which function to compile; you can have many kernels
 #pragma kernel Main
 
+// Disable a warning about using a negative number in the pow
+// function. We ensure the number is positive in the renderer script
+#pragma warning (disable : 3571)
+
 // Import some helper functions
+#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 #include "BGrassComputeHelpers.hlsl"
+
+// Define the maximum number of blade segments and then the number of points required
+#define MAX_GRASS_SEGMENTS 5
+#define MAX_GRASS_POINTS MAX_GRASS_SEGMENTS * 2 + 1
 
 // This describes a vertex on the source mesh
 struct SourceVertex
@@ -20,6 +29,8 @@ struct GeneratedVertex
 	float3 positionOS;
 	float3 normalOS;
 	float2 uv;
+	float3 grassAnchorOS;
+	float3 casterNormalOS;
 };
 
 // Source and index buffers for the generated mesh
@@ -27,9 +38,15 @@ RWStructuredBuffer<GeneratedVertex> _GeneratedVertices;
 RWStructuredBuffer<int> _GeneratedIndices;
 
 int _NumSourceTriangles;
-float _BladeHeight;
-float _BladeWidth;
 float4x4 _Transform;
+float3 _RandomSeed; // An offset to add to random functions
+float _MaxBendAngle; // Maximum bend angle as a multiplier to PI / 2
+float _GrassHeight; // Maximum height of a grass
+float _GrassHeightVariance; // Variance of grass width
+float _GrassWidth; // Maximum width of grass
+float _GrassWidthVariance; // Variance of grass width
+int _NumGrassSegments; // The maximum number of segments on the grass
+float _GrassCurvature; // Describes how sharply the blade grass
 
 void GetCenterAndBasis(SourceVertex a, SourceVertex b, SourceVertex c, out float3 positionOS, out float3 normalOS, out float3x3 tsToOs)
 {
@@ -39,10 +56,26 @@ void GetCenterAndBasis(SourceVertex a, SourceVertex b, SourceVertex c, out float
 
 	// Then get the center point
 	positionOS = GetTriangleCenter(posA, posB, posC);
-	// normalOS girmeyi dene
 
 	// and the normal vector and TS -> OS transformation matrix
 	GetTriangleNormalAndTSMatrix(posA, posB, posC, normalOS, tsToOs);
+}
+
+float2 GetGrassDimensions(float3 positionOS)
+{
+	// Calculate the grass width and height, applying random Variance
+	float width = randNegative1to1(positionOS + _RandomSeed, 0) * _GrassWidthVariance + _GrassWidth;
+	float height = randNegative1to1(positionOS + _RandomSeed, 1) * _GrassHeightVariance + _GrassHeight;
+	return float2(width, height);
+}
+
+float3x3 CalculateTransformationForHeight(float v, float3x3 tsToOs, float3x3 twistMatrix, float bendAngle)
+{
+	// The bend amount increases towards the tip
+    float3x3 bendMatrix = AngleAxis3x3(bendAngle * pow(abs(v), _GrassCurvature), float3(1, 0, 0));
+	// Remember rotation is applies from left to right
+	// Bend, then twist, then convert to world space
+	return mul(tsToOs, mul(twistMatrix, bendMatrix));
 }
 
 GeneratedVertex MakeGeneratedPoint(float3 anchorOS, float3 normalOS, float2 dimensions, float3x3 tsToOs, float2 uv)
@@ -56,7 +89,35 @@ GeneratedVertex MakeGeneratedPoint(float3 anchorOS, float3 normalOS, float2 dime
 	output.positionOS = anchorOS + offsetOS;
 	output.normalOS = normalOS;
 	output.uv = uv;
+	output.grassAnchorOS = anchorOS;
+	output.casterNormalOS = mul(tsToOs, float3(0, 1, 0));
 	return output;
+}
+
+GeneratedVertex MakeReversedPoint(GeneratedVertex vertex)
+{
+	// We need to negate the caster normal on the opposite side
+	GeneratedVertex reversed = vertex;
+	reversed.casterNormalOS = -vertex.casterNormalOS;
+	return reversed;
+}
+
+void AddTriangleClockwise(int t, int indexStart, int vertexStart)
+{
+	int triStart = indexStart + t * 3;
+	int vertStart = vertexStart + t; 
+	_GeneratedIndices[triStart] = vertStart;
+	_GeneratedIndices[triStart + 1] = vertStart + 1;
+	_GeneratedIndices[triStart + 2] = vertStart + 2;
+}
+
+void AddTriangleCounterClockwise(int t, int indexStart, int vertexStart)
+{
+	int triStart = indexStart + t * 3;
+	int vertStart = vertexStart + t;
+	_GeneratedIndices[triStart] = vertStart + 1;
+	_GeneratedIndices[triStart + 1] = vertStart;
+	_GeneratedIndices[triStart + 2] = vertStart + 2;
 }
 
 // This is the number of threads to create per dispatch. This kernel only uses the 
@@ -84,28 +145,86 @@ void Main (uint3 id : SV_DispatchThreadID)
 		_SourceVertices[_SourceIndices[sourceTriStart + 2]],
 		positionOS, normalOS, tsToOs);
 
-	float2 dimensions = float2(_BladeWidth, _BladeHeight);
+	float2 dimensions = GetGrassDimensions(positionOS);
 
-	// Create an array to hold blade points
-	GeneratedVertex vertices[3];
+	// The twist matric decides which direction the grass will face
+	float3x3 twistMatrix = AngleAxis3x3(rand(positionOS + _RandomSeed, 2) * PI * 2, float3(0, 0, 1));
+	// This bend angle decides how much the tip bends
+	float bendAngle = rand(positionOS + _RandomSeed, 3) * _MaxBendAngle;
 
-	vertices[0] = MakeGeneratedPoint(positionOS, normalOS, dimensions, tsToOs, float2(0,0)); // Left
-	vertices[1] = MakeGeneratedPoint(positionOS, normalOS, dimensions, tsToOs, float2(1,0)); // Right
-	vertices[2] = MakeGeneratedPoint(positionOS, normalOS, dimensions, tsToOs, float2(0.5,1)); // Tip
+	int numGrassSegments = min(MAX_GRASS_SEGMENTS, max(1, _NumGrassSegments));
+	// Create an array to hold grass points. This is why there is a set maximum number of segments
+	GeneratedVertex vertices[MAX_GRASS_POINTS];
+
+	// Grass points will be arranged from the bottom up in the array
+	// with the point with the minimum u-coordinate in a pair appearing first
+
+	// Construct the square segments of the grass blade
+	for(int i = 0; i < numGrassSegments; i++)
+	{
+		// The v rises as we increase in segments
+		float v = i / (float)numGrassSegments;
+		// The u of the first vertex. It converges on 0.5 as the segment increases
+		float u = 0.5 - (1 - v) * 0.5;
+		// Calculate the final transform for this height
+		float3x3 transform = CalculateTransformationForHeight(v, tsToOs, twistMatrix, bendAngle);
+
+		// Append the first vertex
+		vertices[i * 2] = MakeGeneratedPoint(positionOS, normalOS, dimensions, transform, float2(u, v));
+
+		// Append the second vertex
+		vertices[i * 2 + 1] = MakeGeneratedPoint(positionOS, normalOS, dimensions, transform, float2(1 - u, v));
+
+	}
+
+	// Calculate the transform for the grass tip
+	float3x3 tipTransform = CalculateTransformationForHeight(1, tsToOs, twistMatrix, bendAngle);
+
+	// Append the tip vertex
+	vertices[numGrassSegments * 2] = MakeGeneratedPoint(positionOS, normalOS, dimensions, tipTransform, float2(0.5, 1));
 
 	// Calculate the positions to insert these vertices and this triangle into the generated mesh arrays
-	int numGenVertices = 3;
-	int numGenTriangles = 1;
-	int numGenIndices = numGenTriangles * 3; // Three indices per triangle
-	int genIndexStart = id.x * numGenIndices;
-	int genVertexStart = id.x * numGenVertices;
+	int numSideVertices = numGrassSegments * 2 + 1;
+	int numSideTriangles = numSideVertices - 2;
+	int numSideIndices = numSideTriangles * 3; // Three indices per triangle
+	int genIndexStart = id.x * numSideIndices * 2;
+	int genVertexStart = id.x * numSideVertices * 2;
 
-	for(int i = 0; i < 3; i++)
+	for(int i = 0; i < numSideVertices; i++)
 	{
+		// The reverse side of the blade is stored directly after the front side
 		_GeneratedVertices[genVertexStart + i] = vertices[i];
+		_GeneratedVertices[genVertexStart + numSideVertices + i] = MakeReversedPoint(vertices[i]);
 	}
-	for(int i = 0; i < 3; i++)
+
+	// Every three adjacent vertices in the vertices array make a triangle in the blade
+	// For instance, triangle #0 contains vertices #0, #1, #2; triangle #1 contains vertices #1, #2, #3; etc..
+	// Even and odd triangles have slightly different index orders so both are wound clockwise
+	// Note that the triangle on the back side should be treated as having the other winding type
+	for(int t = 0; t < numSideTriangles; t += 2)
 	{
-		_GeneratedIndices[genIndexStart + i] = genVertexStart + i;
+		AddTriangleClockwise(t, genIndexStart, genVertexStart);
+		AddTriangleCounterClockwise(t, genIndexStart + numSideIndices, genVertexStart + numSideVertices);
 	}
+	for(int t = 1; t < numSideTriangles; t += 2)
+	{
+		AddTriangleCounterClockwise(t, genIndexStart, genVertexStart);
+		AddTriangleClockwise(t, genIndexStart + numSideIndices, genVertexStart + numSideVertices);
+	}
+
 }
+
+
+	/* Tek face cozumu
+	for(int t = 0; t < numSideTriangles; t++)
+	{
+		// Every three adjacent vertices in the vertices array make a triangle in the blade
+		// For instance, triangle #0 contains vertices #0, #1, #2; triangle #1 contains vertices #1, #2, #3; etc..
+		int genTriangleIndexStart = genIndexStart + t * 3;
+		for(int i = 0; i < 3; i++)
+		{
+			_GeneratedIndices[genTriangleIndexStart + i] = genVertexStart + t + i;
+		}
+	}
+
+	*/
