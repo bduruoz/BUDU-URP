@@ -7,17 +7,13 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Shader Graphs_Curvature Test
-  m_Shader: {fileID: -6465566751694194690, guid: 1f5e458689129cc498bbbb414f6367c1,
+  m_Name: Shadertoy Font
+  m_Shader: {fileID: -6465566751694194690, guid: 88c4ea41e47c78b429f029160a0c9d07,
     type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
-  - _INPUT_TYPE_NORMAL_VECTOR
-  m_InvalidKeywords:
-  - _INPUT_TYPE_OTHER
-  - _SELECTOR_CAMERA
-  - _SELECTOR_VIEW_DIRECTION
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -28,6 +24,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _SampleTexture2D_e672ac8c0f4e4b3287e645cfa586c731_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 42a80a0f4a2b22448ab5c791f66060d2, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -42,34 +42,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _A_X_Y: 0
-    - _A_mi_B_mi: 0
-    - _B_XX_YY: 0
-    - _Bolme: 0.024
-    - _Float: 0.05
-    - _Float_1: 0.005
-    - _INPUT_TYPE: 0
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _SELECTOR: 6
-    - _Smooth_Max: 1
-    - _Smooth_Min: 0
-    - _Toggle: 1
-    - _X_Y: 1
-    - _aoIter: 1.5
-    - _aoPower: 0
-    - _ao_dist: 1.62
-    - _dd_open_close: 1
-    - _ddx: 1
-    - _gamma: 1
-    - _height: 0
-    - _negatif: 1
-    - _noise_size: 100
-    - _speed: 0.05
-    m_Colors:
-    - _Vector3: {r: 0, g: 0, b: 0, a: 0}
+    m_Colors: []
   m_BuildTextureStacks: []
---- !u!114 &9168540820528367331
+--- !u!114 &7432729984410493002
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}

@@ -11,7 +11,7 @@ Material:
   m_Shader: {fileID: -6465566751694194690, guid: 10a3ff0701741464b972fbb409873264,
     type: 3}
   m_Parent: {fileID: 2100000, guid: 8bb98aada881abb4dbcbacbfb257dd39, type: 2}
-  m_ModifiedSerializedProperties: 2
+  m_ModifiedSerializedProperties: 18
   m_ValidKeywords:
   - _ALPHAPREMULTIPLY_ON
   - _SPECULAR_SETUP
@@ -20,7 +20,7 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 3000
   stringTagMap:
     RenderType: Transparent
   disabledShaderPasses:
@@ -40,9 +40,13 @@ Material:
     m_Ints: []
     m_Floats:
     - _AO_Contrast: 1
-    - _AO_Intensity: 0
+    - _AO_Intensity: 1
     - _Ambient_Occlusion: 0
     - _Blur: 0.3
+    - _Distortion: -4
+    - _DropNoise: 1
+    - _DstBlend: 10
+    - _Emission_Intensity: 1
     - _Flow_Multiplier: 0.91
     - _Flow_Noise_A_Scale: 150
     - _Flow_Noise_B_Scale: 80
@@ -52,33 +56,43 @@ Material:
     - _Fog_Trail_Intensity: 2
     - _Fog_Trail_Length: 0.35
     - _Fog_Trail_Width: 0.3
+    - _IDSeed: 0
     - _LODBlur: 0
-    - _Layer_No: 4.87
+    - _Layer_No: 4
+    - _Layer_Seed: 1
+    - _Metallic: 1
     - _Noise_Normal_Strength: 1
     - _Noise_Scale: 70
     - _Normal: 0
+    - _Number_Of_Trail_Drop: 32
     - _Screen_Grab_Toggle: 0
-    - _Size: 4
-    - _Smoothness: 0.75
+    - _Size: 20
+    - _Smoothness: 0.601
     - _Speed: 1
-    - _Trail_Intensity: 0.68
-    - _Trail_Noise: 1
+    - _Surface: 1
+    - _TimeManual: 0
+    - _Trail_Intensity: 1
+    - _Trail_Noise: 0
     - _Trail_Noise_D_Intensity: 0.163
-    - _Trail_Noise_Scale: 210.2
+    - _Trail_Noise_Scale: 50
+    - _Trail_Size_In: 0.3
+    - _Trail_Size_Out: 0.4
     - _Vapor: 3.73
     - _Wiggle_Intensity: 0.3
     - _Wiggle_Noise_Size: 13.7
     - _ZWriteControl: 2
     m_Colors:
     - _AspectUV: {r: 3, g: 0.4, b: 0, a: 0}
-    - _Drop_Color: {r: 0.9496855, g: 0.12888588, b: 0, a: 1}
+    - _Base_Texture_Tile: {r: 1, g: 1, b: 0, a: 0}
+    - _Drop_Color: {r: 0.613, g: 0.613, b: 0.613, a: 1}
+    - _Emissive_Color: {r: 0.575, g: 0.575, b: 0.575, a: 1}
     - _Flow_Noise_A_Speed: {r: 0, g: 0.2, b: 0, a: 0}
     - _Flow_Noise_A_Tile: {r: 0.4, g: 0.05, b: 0, a: 0}
     - _Flow_Noise_B_Speed: {r: 0, g: 0.2, b: 0, a: 0}
     - _Flow_Noise_B_Tile: {r: 20, g: 1, b: 0, a: 0}
     - _Glass_Color: {r: 1, g: 1, b: 1, a: 1}
     - _Noise_Speed: {r: 2, g: 5, b: 0, a: 0}
-    - _Specular_Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Specular_Color: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &7298444518576184962
 MonoBehaviour:

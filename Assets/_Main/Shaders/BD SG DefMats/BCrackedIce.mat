@@ -1,0 +1,291 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-456189547097194031
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 7
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: BCrackedIce
+  m_Shader: {fileID: -6465566751694194690, guid: aa3673dc2f3a29748aa2b9201cbff813,
+    type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: 2000
+  stringTagMap:
+    RenderType: Opaque
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Base_Texture:
+        m_Texture: {fileID: 2800000, guid: 70102fff8615bc74fa4d9ea0bd899dc9, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Crack_Mask:
+        m_Texture: {fileID: 2800000, guid: 716217b79dc68d84890ad42b7cb2f338, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Crystal_Texture:
+        m_Texture: {fileID: 2800000, guid: ae2961e4565cb064c93a32ffb6aed3a2, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Curvature_Map:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Depth_Noise_Texture:
+        m_Texture: {fileID: 2800000, guid: 8cb3e59fc6243e44aaa02d24e9cec222, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Emission_Map:
+        m_Texture: {fileID: 2800000, guid: 716217b79dc68d84890ad42b7cb2f338, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NNoise_Texture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Normal_Map:
+        m_Texture: {fileID: 2800000, guid: a0358bbcd74036c41a826d98c2744349, type: 3}
+        m_Scale: {x: 3, y: 3}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ReflectSettings_5705a4f8187146f58f9f42cdf96234a5_ReflectionMap_3763759787_Texture2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Reflection_Map:
+        m_Texture: {fileID: 8900000, guid: 7bc69c0ec653b1b4c9b07a12b3401145, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Roughness_Texture:
+        m_Texture: {fileID: 2800000, guid: befb42a7faa371045a78db364125c8bd, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_985739ba063144a3a578a8c5a9e84e30_Texture_1_Texture2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_f0a6efade9f74a918ea5586ecf0fb9b4_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 5062329c834beb9469cdb4211084bae3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Snow_Map:
+        m_Texture: {fileID: 2800000, guid: befb42a7faa371045a78db364125c8bd, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Snow_Normal_Map:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Surface_Noise_Texture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _Alpha: 0.66
+    - _AlphaClip: 0
+    - _AlphaToMask: 0
+    - _Blend: 0
+    - _BlendModePreserveSpecular: 1
+    - _BumpScale: 1
+    - _CM_Pos_X: 0
+    - _CM_Pos_Y: 0
+    - _CM_Pos_Z: 0
+    - _CM_Rotate: 0
+    - _CURVATURE_TYPE: 0
+    - _CastShadows: 1
+    - _Center_Light_Toggle: 0
+    - _Clamp_In: 0.5
+    - _Clamp_Out: 0.53
+    - _ClearCoatMask: 0
+    - _ClearCoatSmoothness: 0
+    - _Contrast: 1
+    - _Convexity_Strength: 1
+    - _Convexity_Toggle: 0
+    - _Crack_Fade: 0.3
+    - _Crack_Multiplier: 1
+    - _Cull: 2
+    - _Cutoff: 0.5
+    - _Depth_Brightness: 1
+    - _Depth_Noise_Scale: 3
+    - _Depth_Noise_Strength: 2
+    - _Depth_Noise_Toggle: 1
+    - _Depth_Toggle: 1
+    - _DetailAlbedoMapScale: 1
+    - _DetailNormalMapScale: 1
+    - _DstBlend: 0
+    - _DstBlendAlpha: 0
+    - _Emission_Intensity: 0.3
+    - _Emission_Toggle: 1
+    - _EnvironmentReflections: 1
+    - _Float: 2.51
+    - _Fresnel_Bias: 0
+    - _Fresnel_Contrast: 1
+    - _Fresnel_Gamma: 1
+    - _Fresnel_Invert: 0
+    - _Fresnel_Power: 1
+    - _Fresnel_Scale: 1
+    - _Fresnel_Toggle: 0
+    - _GlossMapScale: 0
+    - _Glossiness: 0
+    - _GlossyReflections: 0
+    - _Glow_Anim_Intensity: 0.3
+    - _Glow_Anim_Speed: 1
+    - _IF_Bias: 0
+    - _IF_Contrast: 1
+    - _IF_Gamma: 1
+    - _IF_Invert: 0
+    - _IF_Power: 1
+    - _IF_Scale: 1
+    - _Interior_Additive: 0
+    - _Interior_Fresnel_Toggle: 0
+    - _Interior_Multiplier: 1
+    - _Interior_Noise_Toggle: 0
+    - _Interior_Parallax: 100
+    - _Interior_Toggle: 0
+    - _Interrior_Parallax_Second_Layer: 5
+    - _Iterations: 10
+    - _Light_Multiplier: 0.1
+    - _Metallic: 0
+    - _Multiplier: 0
+    - _Noise_Contrast: 1
+    - _Noise_Invert: 0
+    - _Normal_Multiplier: 0.2
+    - _Normal_Strength: 1
+    - _Normal_Toggle: 1
+    - _OcclusionStrength: 1
+    - _Parallax: 0.005
+    - _Parallax_Offset: 1
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _Radius: 1
+    - _ReceiveShadows: 1
+    - _Reflection_Multiplier: 0
+    - _Reflection_Strength: 0.3
+    - _Reflection_Toggle: 0
+    - _Refract_Fresnel_Power: 2
+    - _Refract_Normal_Intensity: 0.1
+    - _Refract_Strength: 0.1
+    - _Refract_Transparency: 0.5
+    - _Refraction: 0
+    - _Roughnes_Invert: 0
+    - _Roughness_Intensity: 1
+    - _Roughness_Toggle: 1
+    - _Second_Layer_Repeat: 3
+    - _Seed: 0
+    - _Smoothness: 0.449
+    - _SmoothnessTextureChannel: 0
+    - _Snow_Intensity: 1
+    - _Snow_Toggle: 1
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _SrcBlendAlpha: 1
+    - _Surface: 0
+    - _Surface_Noise_Function: 1
+    - _Surface_Noise_Opacity: 0.4
+    - _Surface_Noise_Parallax_Offset: 0
+    - _Surface_Noise_Scale: 60
+    - _Surface_Noise_Toggle: 1
+    - _Texture_Invert: 0
+    - _Water_Depth: 0
+    - _WorkflowMode: 1
+    - _Y_Pos: 1
+    - _ZTest: 4
+    - _ZWrite: 1
+    - _ZWriteControl: 1
+    - _sqrtBool: 0
+    - _sqrtTm: 1
+    m_Colors:
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Crack_Tiles: {r: 3, g: 3, b: 0, a: 0}
+    - _Depth_Color: {r: 0.5, g: 0.5, b: 0.5, a: 0}
+    - _Depth_Noise_Tiles: {r: 2, g: 2, b: 0, a: 0}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _Emission_Color: {r: 0, g: 0.75, b: 1, a: 1}
+    - _Fresnel_Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Interior_Back_Color: {r: 0.33333328, g: 0, b: 0, a: 0}
+    - _Interior_Color: {r: 1, g: 1, b: 1, a: 0}
+    - _Reflection_Color: {r: 1, g: 1, b: 1, a: 1}
+    - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _Spec_Color: {r: 1, g: 1, b: 1, a: 0}
+    - _Surface_Noise_Tile: {r: 2, g: 2, b: 0, a: 0}
+  m_BuildTextureStacks: []

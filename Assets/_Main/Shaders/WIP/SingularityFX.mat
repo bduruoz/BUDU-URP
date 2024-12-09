@@ -59,17 +59,17 @@ Material:
     m_Floats:
     - _AlphaClip: 1
     - _AlphaToMask: 0
-    - _Alpha_Clip_Threshold: 0.45
+    - _Alpha_Clip_Threshold: 0.731
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _CastShadows: 1
     - _Cull: 2
-    - _Direction: -1
+    - _Direction: 0.81
     - _DstBlend: 10
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _Singularity: 0
+    - _Singularity: 0.318
     - _SrcBlend: 1
     - _Surface: 1
     - _WorkflowMode: 0
@@ -77,6 +77,7 @@ Material:
     - _ZWrite: 0
     - _ZWriteControl: 0
     m_Colors:
+    - _Collapse_Point: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 0, g: 0.89468193, b: 1, a: 0}
-    - _Noise_Tile: {r: 1, g: 6, b: 0, a: 0}
+    - _Noise_Tile: {r: 6, g: 6, b: 0, a: 0}
   m_BuildTextureStacks: []
