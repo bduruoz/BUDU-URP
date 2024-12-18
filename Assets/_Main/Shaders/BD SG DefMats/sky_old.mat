@@ -13,7 +13,7 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _BLEND_METHOD_ADDITIVE
+  - _BLEND_METHOD_OVER
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -38,7 +38,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Cubemap:
-        m_Texture: {fileID: 8900000, guid: 11bf34a82ad795340be5b54193aa59cc, type: 3}
+        m_Texture: {fileID: 8900000, guid: 0e1688d9ac160cf4092c3d802d1ebe10, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Cubemap_Layer:
@@ -105,12 +105,12 @@ Material:
     m_Floats:
     - _AlphaClip: 0
     - _AlphaToMask: 0
-    - _BLEND_METHOD: 2
+    - _BLEND_METHOD: 0
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _Blended_Cubemaps: 0
     - _BumpScale: 1
-    - _CheckBase: 1
+    - _CheckBase: 0
     - _CheckCubeMap: 1
     - _CheckDef: 0
     - _CheckFog: 0
@@ -128,7 +128,7 @@ Material:
     - _CoverageGradientHeight: 0
     - _CoverageGradientSharpness: 0
     - _Cubemap_Blend: 0
-    - _Cubemap_Exposure: 1.13
+    - _Cubemap_Exposure: 1
     - _Cubemap_Intensity: 1
     - _Cubemap_Toggle: 1
     - _Cull: 2
@@ -164,6 +164,7 @@ Material:
     - _HorizonSunGlowSpreadMax: 0
     - _HorizonSunGlowSpreadMin: 5.075109
     - _HorizonTintSunPower: 0
+    - _LOD: 1
     - _Metallic: 0
     - _NightTransitionHorizonDelay: 0
     - _NightTransitionScale: 1
@@ -173,11 +174,11 @@ Material:
     - _Position_Y: 0
     - _Position_Z: 0
     - _Power: 1
-    - _QueueControl: -1
+    - _QueueControl: 1
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _Rotation: 0
-    - _RotationSpeed: 10
+    - _RotationSpeed: 1
     - _Rotator: 0
     - _SkyGradientPower: 0
     - _SkyGradientScale: 0
@@ -202,7 +203,7 @@ Material:
     - _rotationFold: 0
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Base_Color: {r: 0.16, g: 0.2653659, b: 0.4, a: 1}
+    - _Base_Color: {r: 0.198, g: 0.28740987, b: 0.4, a: 1}
     - _Bottom_Color: {r: 0.4, g: 0.3, b: 0.16, a: 1}
     - _CloudColor: {r: 0, g: 0, b: 0, a: 0}
     - _CloudOffset: {r: 0, g: 0, b: 0, a: 0}

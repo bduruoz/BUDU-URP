@@ -7,8 +7,8 @@ using UnityEngine.Rendering;
 
 public class BFoilageEditor : ShaderGUI
 {
-    bool checkSpecular, checkNormal, checkRim, checkFresnelInvert, checkFoilage, checkFoilageWind, checkCustomNoiseA, checkCustomNoiseB, checkNegative , checkBNeg, checkBase, checkDef, checkTranslucent;
-    bool aboutFold, notyAFold, notyBFold;
+    bool checkSpecular, checkNormal, checkRim, checkFoilage, checkFoilageWind, checkBase, checkDef, checkAO;
+    bool aboutFold;
     bool noiseFold;
     int tempVar;
 
@@ -156,9 +156,6 @@ public class BFoilageEditor : ShaderGUI
             MaterialProperty fi = ShaderGUI.FindProperty("_FresnelInvert",properties);
             materialEditor.ShaderProperty(fi, "Invert Rim");
 
-            //checkFresnelInvert = EditorGUILayout.Toggle("Invert Rim", checkFresnelInvert);
-            //targetMat.SetInt("_FresnelInvert", Convert.ToInt16(checkFresnelInvert));
-
             MaterialProperty rc = ShaderGUI.FindProperty("_Rim_Color", properties);
             MaterialProperty rb = ShaderGUI.FindProperty("_Rim_Bias", properties);
             MaterialProperty rs = ShaderGUI.FindProperty("_Rim_Scale", properties);
@@ -198,17 +195,32 @@ public class BFoilageEditor : ShaderGUI
             EditorGUILayout.Space(2);
 
             MaterialProperty eb = ShaderGUI.FindProperty("_Effect_Blend", properties);
-            MaterialProperty cs = ShaderGUI.FindProperty("_Card_Size", properties);
             MaterialProperty inf = ShaderGUI.FindProperty("_Inflate", properties);
+            MaterialProperty cs = ShaderGUI.FindProperty("_Card_Size", properties);
+            MaterialProperty csr = ShaderGUI.FindProperty("_Random_Card_Size", properties);
+            MaterialProperty csrr = ShaderGUI.FindProperty("_Card_Size_Random_Range", properties);
+            MaterialProperty csrs = ShaderGUI.FindProperty("_Card_Size_Random_Strength", properties);
+            MaterialProperty css = ShaderGUI.FindProperty("_CS_Seed", properties);
             MaterialProperty crot = ShaderGUI.FindProperty("_Card_Rotate", properties);
-            MaterialProperty rRand = ShaderGUI.FindProperty("_RandomRotate",properties);
+            MaterialProperty crotr = ShaderGUI.FindProperty("_Random_Rotate", properties);
+            MaterialProperty crots = ShaderGUI.FindProperty("_Random_Rotate_Seed", properties);
 
             materialEditor.ShaderProperty(eb, "Effect Blend");
             materialEditor.ShaderProperty(inf, "Inflate");
             materialEditor.ShaderProperty(cs, "Card Size");
+            materialEditor.ShaderProperty(csr, "Randomize Card Size");
+            if(csr.floatValue > 0f)
+            {
+                materialEditor.ShaderProperty(csrr, "Range");
+                materialEditor.ShaderProperty(csrs, "Strength");
+                materialEditor.ShaderProperty(css, "Seed");
+            }
             materialEditor.ShaderProperty(crot, "Card Rotation");
-            materialEditor.ShaderProperty(rRand, "Rotate Randomize");
-
+            materialEditor.ShaderProperty(crotr, "Randomize Card Rotation");
+            if(crotr.floatValue > 0f)
+            {
+                materialEditor.ShaderProperty(crots, "Seed");
+            }
             MaterialProperty sfoilTog = ShaderGUI.FindProperty("_Surface_Foilage", properties);
             materialEditor.ShaderProperty(sfoilTog, "Surface Foilage");
             if(sfoilTog.floatValue > 0f)
@@ -269,6 +281,12 @@ public class BFoilageEditor : ShaderGUI
                             MaterialProperty noiScl = ShaderGUI.FindProperty("_Wind_Noise_Scale", properties);
                             materialEditor.ShaderProperty(noiScl, "Noise Scale");
                             break;
+                        case 3:
+                            MaterialProperty ntxt = ShaderGUI.FindProperty("_Wind_Noise_Texture", properties);
+                            MaterialProperty ntxtlod = ShaderGUI.FindProperty("_WNT_LOD", properties);
+                            materialEditor.ShaderProperty(ntxt, "Wind Texture");
+                            materialEditor.ShaderProperty(ntxtlod, "Wind Texture Blur");
+                            break;
                     }
 
                     EditorGUI.indentLevel--;
@@ -278,7 +296,29 @@ public class BFoilageEditor : ShaderGUI
             }
             EditorGUILayout.EndVertical();
             #endregion
+        }
+        EditorGUILayout.EndVertical();
+        EditorGUILayout.Space(1);
+        #endregion
 
+        #region AO Settings
+        style.normal.background = MakeBackground(1, 1, bdColors.GrayP(18, 204));
+        style.fontSize = 16;
+        style.normal.textColor = bdColors.NexusOrange();
+
+        EditorGUILayout.BeginVertical(style);
+        checkAO = EditorGUILayout.ToggleLeft("AO FROM NORMAL", checkAO, style);
+        targetMat.SetInt("_AO_From_Normal", Convert.ToInt16(checkAO));
+        EditorGUILayout.EndVertical();
+
+        style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
+        EditorGUILayout.BeginVertical(style);
+        if(checkAO)
+        {
+            EditorGUI.indentLevel++;
+            EditorGUILayout.Space(2);
+            MaterialProperty aoI = ShaderGUI.FindProperty("_AO_Intensity", properties);
+            materialEditor.ShaderProperty(aoI, "Intensity");
             EditorGUI.indentLevel--;
         }
         EditorGUILayout.EndVertical();
@@ -429,8 +469,8 @@ public class BFoilageEditor : ShaderGUI
         tempVar = targetMat.GetInt("_NoiseToggle");
         noiseFold = tempVar == 1 ? true : false;
 
-        //tempVar = targetMat.GetInt("_CheckTranslucent");
-        //checkTranslucent = tempVar == 1 ? true : false;
+        tempVar = targetMat.GetInt("_AO_From_Normal");
+        checkAO = tempVar == 1 ? true : false;
     }
 
     private Texture2D MakeBackground(int width, int height, Color col)
@@ -446,61 +486,3 @@ public class BFoilageEditor : ShaderGUI
         return result;
     }
 }
-
-/*
-#region Translucent Settings
-
-style.normal.background = MakeBackground(1, 1, bdColors.GrayP(18, 204));
-style.fontSize = 16;
-style.normal.textColor = bdColors.NexusOrange();
-EditorGUILayout.BeginVertical(style);
-
-checkTranslucent = EditorGUILayout.ToggleLeft("TRANSLUCENT SETTINGS", checkTranslucent, style);
-targetMat.SetInt("_CheckTranslucent", Convert.ToInt16(checkTranslucent));
-
-EditorGUILayout.EndVertical();
-style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
-EditorGUILayout.BeginVertical(style);
-if(checkTranslucent)
-{
-    EditorGUI.indentLevel++;
-    EditorGUILayout.Space(2);
-    MaterialProperty transmisTog = ShaderGUI.FindProperty("_TransmisTog", properties);
-    MaterialProperty transmis = ShaderGUI.FindProperty("_Transmission", properties);
-    MaterialProperty transmisCol = ShaderGUI.FindProperty("_TransmissionColor", properties);
-    MaterialProperty transmisShd = ShaderGUI.FindProperty("_TransmissionShadow", properties);
-    MaterialProperty translucTog = ShaderGUI.FindProperty("_TranslucTog", properties);
-    MaterialProperty translucency = ShaderGUI.FindProperty("_Translucency", properties);
-    MaterialProperty translucencyCol = ShaderGUI.FindProperty("_TranslucentColor", properties);
-    MaterialProperty translucencyStrength = ShaderGUI.FindProperty("_TRStrength", properties);
-    MaterialProperty translucencyNormDist = ShaderGUI.FindProperty("_TRNormDist", properties);
-    MaterialProperty translucencySct = ShaderGUI.FindProperty("_TRScattering", properties);
-    MaterialProperty translucencyDirec = ShaderGUI.FindProperty("_TRDirec", properties);
-    MaterialProperty translucencyAmb = ShaderGUI.FindProperty("_TRAmbient", properties);
-    MaterialProperty translucencyShd = ShaderGUI.FindProperty("_TRShadow", properties);
-
-    materialEditor.ShaderProperty(transmisTog, "Transmission");
-    if(transmisTog.floatValue > 0f)
-    {
-        materialEditor.ShaderProperty(transmisCol, "Transmission Color");
-        materialEditor.RangeProperty(transmis, "Transmission");
-        materialEditor.RangeProperty(transmisShd, "Transmission Shadow");
-    }
-    materialEditor.ShaderProperty(translucTog, "Translucent");
-    if(translucTog.floatValue > 0f)
-    {
-        materialEditor.ShaderProperty(translucencyCol, "Translucency Color");
-        materialEditor.RangeProperty(translucency, "Translucency");
-        materialEditor.RangeProperty(translucencyStrength, "Translucency Strength");
-        materialEditor.RangeProperty(translucencyNormDist, "Translucency Normal Distortion");
-        materialEditor.RangeProperty(translucencySct, "Translucency Scattering");
-        materialEditor.RangeProperty(translucencyDirec, "Translucency Direc");
-        materialEditor.RangeProperty(translucencyAmb, "Translucency Ambient");
-        materialEditor.RangeProperty(translucencyShd, "Translucency Shadow");
-    }
-    EditorGUI.indentLevel--;
-}
-EditorGUILayout.EndVertical();
-EditorGUILayout.Space(1);
-#endregion
-*/

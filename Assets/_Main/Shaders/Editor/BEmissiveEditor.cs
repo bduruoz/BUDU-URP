@@ -4,6 +4,7 @@ using System;
 using budu;
 using UnityEditor.Rendering;
 using UnityEngine.Rendering;
+using Unity.VisualScripting;
 
 public class BEmissiveEditor : ShaderGUI
 {
@@ -82,10 +83,9 @@ public class BEmissiveEditor : ShaderGUI
 
         style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
         EditorGUILayout.BeginVertical(style);
-        //int st;
         if(checkTransparent)
         {
-            if(surfType < 1f)
+            if(surfType < 1.0)
             {
                 EditorGUI.indentLevel++;
                 EditorGUILayout.HelpBox("Surface Type is Opaque !", MessageType.Warning);
@@ -101,27 +101,24 @@ public class BEmissiveEditor : ShaderGUI
                 materialEditor.ShaderProperty(alpChan, "Selected Channel");
                 materialEditor.ShaderProperty(alpCont, "Alpha Contrast");
                 materialEditor.ShaderProperty(alpInvert, "Alpha Invert");
-
-                checkAlphaClip = EditorGUILayout.Toggle("Alpha Clip", checkAlphaClip);
-
-                targetMat.SetInt("_Alpha_Clip", Convert.ToInt16(checkAlphaClip));
-                targetMat.SetInt("_AlphaClip", Convert.ToInt16(checkAlphaClip));
-
-                if(checkAlphaClip)
-                {
-                    MaterialProperty act = ShaderGUI.FindProperty("_AlphaClipThreshold", properties);
-                    materialEditor.RangeProperty(act, "Alpha Clip Threshold");
-
-                    targetMat.EnableKeyword("_ALPHATEST_ON");
-
-                }
-                else
-                {
-                    targetMat.DisableKeyword("_ALPHATEST_ON");
-                }
-
-                EditorGUI.indentLevel--;
             }
+            checkAlphaClip = EditorGUILayout.Toggle("Alpha Clip", checkAlphaClip);
+            targetMat.SetInt("_Alpha_Clip", Convert.ToInt16(checkAlphaClip));
+            targetMat.SetInt("_AlphaClip", Convert.ToInt16(checkAlphaClip));
+            if(checkAlphaClip)
+            {
+                MaterialProperty act = ShaderGUI.FindProperty("_AlphaClipThreshold", properties);
+                materialEditor.RangeProperty(act, "Alpha Clip Threshold");
+
+                targetMat.EnableKeyword("_ALPHATEST_ON");
+
+            }
+            else
+            {
+                targetMat.DisableKeyword("_ALPHATEST_ON");
+            }
+
+            EditorGUI.indentLevel--;
         }
         else
         {
@@ -179,11 +176,11 @@ public class BEmissiveEditor : ShaderGUI
             EditorGUILayout.Space(2);
 
             #region Surface Type
-            MaterialProperty surfaceType = ShaderGUI.FindProperty("_Surface", properties);
+            MaterialProperty surfaceType = ShaderGUI.FindProperty("_SURFTYPE", properties);
             string[] srType = { "Opaque", "Transparent" };
             materialEditor.PopupShaderProperty(surfaceType, new GUIContent("Surface Type"), srType);
 
-            if(surfaceType.floatValue > 0f)
+            if(surfaceType.intValue > 1)
             {
                 #region Blend Type
                 MaterialProperty blType = ShaderGUI.FindProperty("_Blend", properties);
@@ -276,7 +273,8 @@ public class BEmissiveEditor : ShaderGUI
             }
             #endregion
 
-            SurfaceControls(targetMat, surfaceType.intValue);
+            //Debug.Log("surftype int = " + surfType);
+            SurfaceControls(targetMat, surfType);
 
             materialEditor.RenderQueueField();
             materialEditor.EnableInstancingField();
@@ -326,6 +324,9 @@ public class BEmissiveEditor : ShaderGUI
 
         tempVar = targetMat.GetInt("_FresnelInvert");
         checkFresnelInvert = tempVar == 1 ? true : false;
+
+        tempVar = targetMat.GetInt("_SURFTYPE");
+        surfType = tempVar == 1 ? 1 : 0;
     }
     void SurfaceControls(Material targetMat, int surfType)
     {
@@ -348,7 +349,6 @@ public class BEmissiveEditor : ShaderGUI
                 targetMat.DisableKeyword(keyword: "_SURFACE_TYPE_TRANSPARENT");
                 targetMat.SetShaderPassEnabled("DepthOnly", true);
 
-                targetMat.SetInt("_Surface", 0);
                 targetMat.SetInt("_Zwrite", 1);
                 break;
             #endregion
@@ -368,7 +368,6 @@ public class BEmissiveEditor : ShaderGUI
                 targetMat.EnableKeyword(keyword: "_SURFACE_TYPE_TRANSPARENT");
                 targetMat.SetShaderPassEnabled("DepthOnly", false);
 
-                targetMat.SetInt("_Surface", 1);
                 targetMat.SetInt("_Zwrite", 0);
                 break;
             #endregion

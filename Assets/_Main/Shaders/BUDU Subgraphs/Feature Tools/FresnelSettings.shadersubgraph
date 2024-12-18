@@ -2217,6 +2217,20 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.BooleanMaterialSlot",
+    "m_ObjectId": "9d0ea5cc811846c0b8f82d3bd1dc15a1",
+    "m_Id": 2110366434,
+    "m_DisplayName": "Signed",
+    "m_SlotType": 0,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "_Signed",
+    "m_StageCapability": 3,
+    "m_Value": false,
+    "m_DefaultValue": false
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.DynamicVectorMaterialSlot",
     "m_ObjectId": "9d9b10aee26f4c7ea4e1d3a9325baa2f",
     "m_Id": 1,
@@ -2844,6 +2858,9 @@
             "m_Id": "dcd746a6303e4ae1b46b092cea396425"
         },
         {
+            "m_Id": "9d0ea5cc811846c0b8f82d3bd1dc15a1"
+        },
+        {
             "m_Id": "e5073e8981d64022a3e42c02e2406417"
         },
         {
@@ -2866,13 +2883,15 @@
         "d2970d0c-5058-40a4-9b18-d7d37746e65f",
         "6f9c4ac2-159f-4297-ab7c-0a6a81a5e32e",
         "e4cb814f-09e4-47a3-9656-deda16bf41e2",
-        "741841c2-f48c-4216-b69f-b61eef024e37"
+        "741841c2-f48c-4216-b69f-b61eef024e37",
+        "662ad489-0352-491c-a4fb-ea279d8e1575"
     ],
     "m_PropertyIds": [
         503448504,
         1776453239,
         -1678286549,
-        536225815
+        536225815,
+        2110366434
     ],
     "m_Dropdowns": [],
     "m_DropdownSelectedEntries": []

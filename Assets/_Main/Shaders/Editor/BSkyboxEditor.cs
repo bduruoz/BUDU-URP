@@ -203,6 +203,7 @@ public class BSkyboxEditor : ShaderGUI
             MaterialProperty cmexpo = ShaderGUI.FindProperty("_Cubemap_Exposure", properties);
             MaterialProperty cmTxt = ShaderGUI.FindProperty("_Cubemap", properties);
             MaterialProperty layeredCM = ShaderGUI.FindProperty("_Blended_Cubemaps", properties);
+            MaterialProperty cmTxtLOD = ShaderGUI.FindProperty("_LOD", properties);
 
             materialEditor.ShaderProperty(cmblendMethod, "Blend Method");
             materialEditor.ShaderProperty(cmInt, "Cubemap Intensity");
@@ -211,6 +212,7 @@ public class BSkyboxEditor : ShaderGUI
             materialEditor.ShaderProperty(layeredCM, "Layered Cubemap");
 
             materialEditor.ShaderProperty(cmTxt, "Cubemap");
+            materialEditor.ShaderProperty(cmTxtLOD, "LOD");
             if(layeredCM.floatValue > 0f)
             {
                 MaterialProperty cmTxt2 = ShaderGUI.FindProperty("_Cubemap_Layer", properties);

@@ -26,26 +26,25 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _ALPHACHANNEL_BLUE
+  - _ALPHACHANNEL_RED
   - _ALPHAPREMULTIPLY_ON
   - _ALPHATEST_ON
   - _SPECULAR_SETUP
-  - _SURFACE_TYPE_TRANSPARENT
-  - _WIND_NOISE_TYPE_VORONOI
+  - _WIND_NOISE_TYPE_NTEXTURE
   m_InvalidKeywords: []
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3000
+  m_CustomRenderQueue: -1
   stringTagMap:
-    RenderType: Transparent
+    RenderType: TransparentCutout
   disabledShaderPasses: []
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
     - _Leaves_Normal_Map:
-        m_Texture: {fileID: 2800000, guid: c620c75eaba9b654698ed00ab1be4398, type: 3}
+        m_Texture: {fileID: 2800000, guid: 3e0385cb1390e6546911788c5411445c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Leaves_Specular_Texture:
@@ -54,6 +53,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _Leaves_Texture:
         m_Texture: {fileID: 2800000, guid: 1be4427794594204f82ac9e37dfba981, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Wind_Noise_Texture:
+        m_Texture: {fileID: 2800000, guid: 2edd74e6a0fbf7f4cb1bdd40f246cf96, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -70,63 +73,84 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _ALPHACHANNEL: 2
-    - _Affect_Rim: 1
+    - _ALPHACHANNEL: 0
+    - _AO_From_Normal: 0
+    - _AO_Intensity: 1
+    - _Affect_Rim: 0
     - _AlphaClip: 1
-    - _AlphaToMask: 0
-    - _Alpha_Clip_Threshold: 0.858
+    - _AlphaToMask: 1
+    - _Alpha_Clip_Threshold: 0.35
     - _Blend: 0
-    - _BlendModePreserveSpecular: 1
-    - _Card_Rotate: 88
-    - _Card_Size: 1.47
+    - _BlendModePreserveSpecular: 0
+    - _CS_Seed: 0
+    - _Card_Random_Strength: 1
+    - _Card_Rotate: 100
+    - _Card_Size: 1.72
+    - _Card_Size_Random_Range: 0.5
+    - _Card_Size_Random_Strength: 0.25
     - _CastShadows: 1
     - _Cast_Shadows: 1
-    - _Cell_Density: 2
+    - _Cell_Density: 5
     - _Cull: 2
     - _DstBlend: 10
-    - _Effect_Blend: 1
-    - _Float: 0.19
+    - _Effect_Blend: 0.45
+    - _Float: 0.177
     - _FoilageSetting: 1
     - _FoilageSettings: 0
     - _FresnelInvert: 0
-    - _Inflate: 1.05
+    - _Glossy: 1
+    - _Inflate: -1
     - _LeavesSpecular: 1
-    - _Leaves_Rim: 0
-    - _NoiseToggle: 0
+    - _Leaves_Rim: 1
+    - _NoiseToggle: 1
     - _Noise_Invert: 0
-    - _NormalToggle: 0
-    - _Normal_Scale: 0.3
+    - _NormalToggle: 1
+    - _Normal_Scale: 0.9
     - _Per_Leaves: 1
-    - _QueueControl: 0
+    - _Preserve_Specular_Lighting: 0
+    - _QueueControl: 1
     - _QueueOffset: 0
     - _RandomRotate: 1
     - _RandomSize: 50
+    - _Random_Card_Size: 1
+    - _Random_Rotate: 1
+    - _Random_Rotate_Seed: 60
+    - _Random_Strength: 1
     - _ReceiveShadows: 1
     - _Receive_Shadows: 1
     - _Rim_B_as: 0
-    - _Rim_Bias: 0.334
-    - _Rim_Intensity: 0.653
-    - _Rim_Power: 1.09
-    - _Rim_Scale: 5
-    - _Rim_Y_Contrast: 0.53
-    - _Rim_Y_Position: 0.585
+    - _Rim_Bias: 0.2
+    - _Rim_Intensity: 0.328
+    - _Rim_Power: 3.19
+    - _Rim_Scale: 0.98
+    - _Rim_Y_Contrast: 3.36
+    - _Rim_Y_Position: 0.396
+    - _Saturation: 1
+    - _Seed: 50
     - _Smoothness: 0
-    - _Specular_Intensity: 0.179
-    - _SrcBlend: 1
-    - _Surface: 1
+    - _Softness: 3
+    - _Spec_In: 0.5
+    - _Spec_Norm_Strength: 0.3
+    - _Spec_Out: 1
+    - _Specular_Gamma: 1.5
+    - _Specular_Intensity: 0.4
+    - _SrcBlend: 5
+    - _Surface: 0
     - _Surface_Foilage: 1
-    - _Surface_Foilage_Intensity: 0.129
+    - _Surface_Foilage_Intensity: 1
     - _Texture_Color_Intensity: 1
     - _Texture_Color_bIntensity: 0.5
     - _Texture_Intensity: 0
     - _TileSize: 1
     - _Tile_X: 1
     - _Tile_Y: 1
-    - _WIND_NOISE_TYPE: 0
+    - _WIND_NOISE_TYPE: 3
+    - _WNT_Invert: 0
+    - _WNT_LOD: 3.88
     - _WindToggle: 1
-    - _Wind_Noise_Scale: 5
-    - _Wind_Speed: 0.5
-    - _Wind_Strength: 2
+    - _Wind_Noise_Scale: 10
+    - _Wind_Speed: 0.3
+    - _Wind_Strength: 1
     - _WorkflowMode: 0
     - _ZTest: 4
     - _ZWrite: 1
@@ -135,7 +159,9 @@ Material:
     - _checkDef: 1
     m_Colors:
     - _Leaves_Color: {r: 0.2733333, g: 0.41, b: 0, a: 1}
-    - _Leaves_Specular_Color: {r: 0.50261784, g: 1, b: 0, a: 1}
-    - _Rim_Color: {r: 0.20799999, g: 0.08349295, b: 0, a: 1}
+    - _Leaves_Specular_Color: {r: 0.50196075, g: 1, b: 0, a: 1}
+    - _Rim_Color: {r: 0.093529426, g: 0.20784314, b: 0, a: 1}
+    - _Vector2: {r: 0, g: 0, b: 0, a: 0}
     - _Vector3: {r: 0, g: 0, b: 0, a: 0}
+    - _WN_Tile: {r: 0.1, g: 0.1, b: 0, a: 0}
   m_BuildTextureStacks: []

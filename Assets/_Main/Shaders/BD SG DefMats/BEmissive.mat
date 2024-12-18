@@ -28,9 +28,9 @@ Material:
   m_ValidKeywords:
   - _ALPHACHANNEL_RED
   - _ALPHAPREMULTIPLY_ON
-  - _ALPHATEST_ON
-  - _SURFTYPE_TRANSPARENT
-  m_InvalidKeywords: []
+  - _SURFTYPE_OPAQUE
+  m_InvalidKeywords:
+  - OPAQUE
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -71,16 +71,16 @@ Material:
     m_Floats:
     - _ALPHACHANNEL: 0
     - _ALPHAINVERT: 0
-    - _AlphaClip: 1
-    - _AlphaClipThreshold: 0.5
-    - _AlphaContrast: 1
+    - _AlphaClip: 0
+    - _AlphaClipThreshold: 0.502
+    - _AlphaContrast: 2.94
     - _AlphaToMask: 0
-    - _Alpha_Clip: 1
-    - _BaseSettings: 1
+    - _Alpha_Clip: 0
+    - _BaseSettings: 0
     - _Blend: 0
     - _CastShadows: 1
     - _Cast_Shadows: 1
-    - _CheckDef: 1
+    - _CheckDef: 0
     - _Cull: 2
     - _DstBlend: 10
     - _FBias: 0
@@ -93,11 +93,12 @@ Material:
     - _Preserve_Specular_Lighting: 0
     - _QueueControl: 1
     - _QueueOffset: 0
-    - _SURFTYPE: 1
+    - _Receive_Shadows: 1
+    - _SURFTYPE: 0
     - _Smoothness: 0.5
     - _SrcBlend: 5
     - _Surface: 0
-    - _TransparentTog: 1
+    - _TransparentTog: 0
     - _ZTest: 4
     - _ZWrite: 0
     - _ZWriteControl: 0
