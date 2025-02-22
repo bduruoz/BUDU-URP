@@ -36,7 +36,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Volume_Cloud_Texture:
-        m_Texture: {fileID: 11700000, guid: 6f54f744d9ea2484eb47f5eee5587ec6, type: 3}
+        m_Texture: {fileID: 11700000, guid: 0308caa561568a44099aea1d7e684a59, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _testCustomFunction_c366c91318f24bd494d3ec5488dcf8bc_DetailTexture_3_Texture3D:
@@ -94,6 +94,7 @@ Material:
     - _Ambient_Absorb: 1
     - _Ambient_Density: 0.2
     - _Ambient_Density_1: 1
+    - _Ambient_Invert: 0
     - _Ambient_Negative: 0
     - _Ambient_Shadow_Debug: 0
     - _Ambient_Strength: 1
@@ -104,10 +105,10 @@ Material:
     - _CastShadows: 1
     - _Cull: 2
     - _DEBUG_TYPE: 0
-    - _Darkness_Threshold: 0
+    - _Darkness_Threshold: 0.05
     - _Debug: 0
     - _Debug_Tog: 0
-    - _Density_Scale: 0.4
+    - _Density_Scale: 0.15
     - _DepthDist: 0.323
     - _DepthFade: 1
     - _DepthPower: 1
@@ -120,7 +121,7 @@ Material:
     - _Fog_Density: 5
     - _Grid: 7
     - _Grid_A: 7
-    - _Grid_B: 7
+    - _Grid_B: 13.05
     - _LightDebug: 0
     - _Light_Absorb: 1
     - _Light_Step_Size: 0.01
@@ -131,35 +132,35 @@ Material:
     - _Noise_A_Debug: 0
     - _Noise_A_Invert: 0
     - _Noise_A_Scale: 1
-    - _Noise_A_Toggle: 0
+    - _Noise_A_Toggle: 1
     - _Noise_Amp: 0.66
     - _Noise_B_Amp: 1
     - _Noise_B_Debug: 0
     - _Noise_B_Invert: 0
     - _Noise_B_Scale: 1
-    - _Noise_B_Toggle: 0
+    - _Noise_B_Toggle: 1
     - _Noise_Scale: 8
     - _Noise_Toggle: 1
     - _Num_Light_Steps: 16
-    - _Num_Steps: 128
+    - _Num_Steps: 256
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Ring_Size: 49
-    - _Ring_Size_A: 49
-    - _Ring_Size_B: 49
+    - _Ring_Size_A: 25
+    - _Ring_Size_B: 20
     - _Seed: 0
-    - _Seed_A: 0
-    - _Seed_B: 0
+    - _Seed_A: 15
+    - _Seed_B: 6.42
     - _Sep: 0
     - _Seperator: 0
     - _Shadow_Debug: 0
     - _Sky_Intensity: 1
     - _SrcBlend: 5
-    - _Step_Size: 0.0078125
+    - _Step_Size: 0.005
     - _Surface: 1
     - _TYPE: 0
     - _Transmission_Coefficient: 0.05
-    - _Transmittance: 0.5
+    - _Transmittance: 1
     - _ZTest: 4
     - _ZWrite: 0
     - _ZWriteControl: 0
@@ -175,33 +176,33 @@ Material:
     - _lightTransmission: 0
     - _numLightSteps: 16
     - _numSteps: 128
-    - _sStepMax: 0.3
-    - _sStepMin: 0.2
+    - _sStepMax: 0.8
+    - _sStepMin: 0.1
     - _stepSize: 0.03
     - _transmittance: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Ext_Color: {r: 6.964404, g: 2.2242339, b: 0, a: 1}
-    - _Extinction_Color: {r: 1, g: 0.87136734, b: 0.70110214, a: 1}
+    - _Extinction_Color: {r: 1, g: 0.9372549, b: 0.8509804, a: 1}
     - _Fog_Color: {r: 1.7487603, g: 1.7487603, b: 1.7487603, a: 1}
     - _Instict_Color: {r: 1, g: 0.8333334, b: 0.5, a: 1}
     - _Lacunarity: {r: 5, g: 5, b: 5, a: 5}
     - _Lacunarity_A: {r: 3, g: 3, b: 3, a: 3}
     - _Lacunarity_B: {r: 3, g: 3, b: 3, a: 3}
     - _Light_Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Noise_A_Amp: {r: 5, g: 5, b: 5, a: 5}
+    - _Noise_A_Amp: {r: 2, g: 1, b: 1, a: 1}
     - _Noise_A_Position: {r: 0, g: 0, b: 0, a: 0}
-    - _Noise_A_Scale: {r: 2, g: 10, b: 2, a: 0}
-    - _Noise_A_Speed: {r: -1, g: 0, b: 0, a: 0}
-    - _Noise_B_Amp: {r: 5, g: 5, b: 5, a: 5}
+    - _Noise_A_Scale: {r: 2, g: 3, b: 2, a: 0}
+    - _Noise_A_Speed: {r: -0.5, g: 0.3, b: -0.4, a: 0}
+    - _Noise_B_Amp: {r: 1, g: 1, b: 1, a: 1}
     - _Noise_B_Position: {r: 0, g: 0, b: 0, a: 0}
-    - _Noise_B_Scale: {r: 2, g: 10, b: 2, a: 0}
-    - _Noise_B_Speed: {r: 1, g: 0, b: 0, a: 0}
+    - _Noise_B_Scale: {r: 2, g: 3, b: 2, a: 0}
+    - _Noise_B_Speed: {r: 0.3, g: 0.1, b: 0.25, a: 0}
     - _Noise_Position: {r: 0, g: 0, b: 0, a: 0}
     - _Noise_Speed: {r: 0, g: 0, b: 0, a: 0}
     - _ShadowColor: {r: 0, g: 0, b: 0, a: 1}
     - _Shadow_Color: {r: 0, g: 0, b: 0, a: 1}
-    - _Sky_Color: {r: 0.06850745, g: 0.12559702, b: 0.255, a: 1}
+    - _Sky_Color: {r: 0.080199994, g: 0.18044999, b: 0.401, a: 1}
     - _offset: {r: 0.5, g: 0.5, b: 0.5, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &3702121327213328676
