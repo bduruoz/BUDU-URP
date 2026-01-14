@@ -1,0 +1,136 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-1356699387603064659
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 10
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: WaterDisplace
+  m_Shader: {fileID: -6465566751694194690, guid: 0e9d6397af629ce46b9c0894ea648cd7,
+    type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - _SWITCH_REFLECT
+  - _TYPE_ADD
+  m_InvalidKeywords:
+  - _EMISSION
+  m_LightmapFlags: 2
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses:
+  - MOTIONVECTORS
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Base_Map:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Height_Map:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _Addition: 1
+    - _AlphaClip: 0
+    - _AlphaToMask: 0
+    - _Amp: 0.001
+    - _Amplitude: 5
+    - _Blend: 0
+    - _BlendModePreserveSpecular: 1
+    - _CastShadows: 1
+    - _Coefficient: 4.5
+    - _Cull: 0
+    - _Divide: 1
+    - _DstBlend: 0
+    - _Hex_Focus: 6
+    - _Hex_Size: 1
+    - _IOR_Medium: 1.5
+    - _IOR_Source: 1
+    - _InfMult: 0.5
+    - _Interior_Factor: 3
+    - _Iteration: 3
+    - _Multiplier: 1
+    - _NSpeed_A: 0.002
+    - _NSpeed_B: 0.002
+    - _NSpeed_C: 0.002
+    - _Peak_Sharpness_A: 0.001
+    - _Peak_Sharpness_B: 0.005
+    - _Peak_Sharpness_C: 0.003
+    - _Power: 1
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _ReceiveShadows: 1
+    - _SWITCH: 0
+    - _Saturation: 3
+    - _Seed_D1: 0
+    - _Seed_D2: 0
+    - _Seed_D3: 0
+    - _Speed_A: 0.002
+    - _Speed_B: 0.002
+    - _Speed_C: 0.002
+    - _SrcBlend: 1
+    - _Steps: 10
+    - _Surface: 0
+    - _TYPE: 0
+    - _WaveLengthA: 0.001
+    - _WaveLengthB: 0.001
+    - _WaveLengthC: 0.001
+    - _Wave_Height_A: 0.005
+    - _Wave_Height_B: 0.004
+    - _Wave_Height_C: 0.003
+    - _WorkflowMode: 1
+    - _ZTest: 4
+    - _ZWrite: 1
+    - _ZWriteControl: 1
+    m_Colors:
+    - _Offset: {r: 0, g: 0, b: 0, a: 0}
+    - _PrimSize: {r: 2, g: 2, b: 0, a: 0}
+    - _Rotate_A_MinMax: {r: -30, g: 30, b: 0, a: 0}
+    - _Rotate_B_MinMax: {r: -30, g: 30, b: 0, a: 0}
+    - _Rotate_C_MinMax: {r: -30, g: 30, b: 0, a: 0}
+    - _Scale_A_MinMax: {r: 0.9, g: 1.1, b: 0, a: 0}
+    - _Scale_B_MinMax: {r: 0.9, g: 1.1, b: 0, a: 0}
+    - _Scale_C_MinMax: {r: 0.9, g: 1.1, b: 0, a: 0}
+    - _Tile: {r: 1, g: 1, b: 0, a: 0}
+    - _Wave_DirectionA: {r: 0.06, g: 0, b: 0.02, a: 0}
+    - _Wave_DirectionB: {r: 0.007, g: 0, b: 0.01, a: 0}
+    - _Wave_DirectionC: {r: -0.01, g: 0, b: 0.05, a: 0}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1

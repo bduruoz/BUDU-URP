@@ -1,0 +1,98 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ade0faa178c8ad49baa77c19e897615, type: 3}
+  m_Name: Boxes
+  m_EditorClassIdentifier: Assembly-CSharp::ScreenChartsConfigPresetSO
+  snapshot:
+    showInGameView: 1
+    showInSceneView: 1
+    showBackgroundOverlay: 1
+    backgroundOverlayColor: {r: 0, g: 0, b: 0, a: 0.75}
+    screenFrame:
+      enabled: 0
+      color: {r: 0.8, g: 0.8, b: 0.8, a: 0.5019608}
+      thickness: 1
+    safeArea:
+      showSafeArea: 0
+      color: {r: 0, g: 0.5, b: 0, a: 1}
+      screenPercent: 0.9
+      thickness: 1
+    safeTitle:
+      showSafeTitle: 0
+      titlePercent: 0.8
+      enabled: 1
+      color: {r: 0, g: 0.5, b: 0, a: 1}
+    screenGrid:
+      enabled: 0
+      showLabels: 0
+      ax: 5
+      ay: 5
+      gridX: 16
+      gridY: 9
+      color: {r: 0, g: 1, b: 1, a: 1}
+      labelColor: {r: 0, g: 1, b: 1, a: 1}
+      thickness: 1
+      fontSize: 14
+    goldenFrame:
+      enabled: 0
+      color: {r: 1, g: 0.84, b: 0, a: 1}
+      thickness: 1
+      iterations: 3
+      coeff: 0.3
+      iterCoeff: 0.1
+    fibonacciSpirals: []
+    crosshair:
+      enabled: 0
+      center: {x: 0.5, y: 0.5}
+      plus: 1
+      plusColor: {r: 1, g: 1, b: 1, a: 1}
+      plusThickness: 1
+      plusSize: 0.1
+      x: 0
+      xColor: {r: 1, g: 1, b: 1, a: 1}
+      xThickness: 1
+      xSize: 0.1
+      circle: 0
+      circleColor: {r: 1, g: 1, b: 1, a: 1}
+      circleThickness: 1
+      circleSegment: 32
+      circleIter: 3
+      circleSize: 0.1
+      circleSpacing: 0.02
+    centerCross:
+      enabled: 0
+      color: {r: 1, g: 1, b: 1, a: 1}
+      center: {x: 0.5, y: 0.5}
+      thickness: 1
+      size: 0.1
+    inBoxes:
+    - enabled: 1
+      center: {x: 0.5, y: 0.5}
+      size: {x: 1, y: 1}
+      color: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+      iter: 8
+      aspect: 1.7777778
+      step: 0.05
+      dstep: 1.2
+      golden: 1
+      rotation: 0
+      label: Box 1
+    circles: []
+    phyllotaxis:
+      enabled: 0
+      center: {x: 0.5, y: 0.5}
+      numPoints: 2500
+      angle: 137.508
+      cval: 0.2
+      zStep: 0
+      color: {r: 0, g: 0.5019608, b: 1, a: 1}
+      size: 1

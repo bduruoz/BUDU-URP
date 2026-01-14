@@ -251,10 +251,10 @@ namespace ShaderGraphHotKey
                 // 부모 요소 가져오기
                 VisualElement nodeSettingsContainer = _graphView.Q<VisualElement>("graphSettings");
 
-                if (nodeSettingsContainer.Q<Button>("Screenshot-Node") == null)
+                if (nodeSettingsContainer.Q<UnityEngine.UIElements.Button>("Screenshot-Node") == null)
                 {
                     // 자식 요소 추가
-                    Button button = new()
+                    UnityEngine.UIElements.Button button = new()
                     {
                         text = "Screenshot Node",
                         name = "Screenshot-Node",

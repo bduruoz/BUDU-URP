@@ -1,0 +1,342 @@
+﻿    // feature blok
+
+    
+        #region !
+        ShaderGUIExtras.Header("!", ref check!, "_Check!", targetMat, style);
+
+        EditorGUILayout.BeginVertical(style);
+        if (check!)
+        {
+            EditorGUI.indentLevel++;
+            EditorGUILayout.BeginVertical();
+            {
+
+            }
+            EditorGUILayout.EndVertical();
+            EditorGUI.indentLevel--;
+        }
+        EditorGUILayout.EndVertical();
+        #endregion
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    // ----------- SHADER DEFAULTS + ABOUT
+    
+        #region Shader Defaults
+        style.normal.background = MakeBackground(1, 1, bdColors.GrayP(18, 204));
+        style.fontSize = 16;
+        style.normal.textColor = bdColors.NexusOrange();
+        EditorGUILayout.BeginVertical(style);
+        checkDef = EditorGUILayout.ToggleLeft("SHADER DEFAULTS", checkDef, style);
+        targetMat.SetInt("_CheckDef", Convert.ToInt16(checkDef));
+        EditorGUILayout.EndVertical();
+        style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
+        EditorGUILayout.BeginVertical(style);
+        if(checkDef)
+        {
+            EditorGUI.indentLevel++;
+            EditorGUILayout.Space(2);
+
+            #region Workflow Mode
+            string[] workflowOptions = { "Metallic", "Specular" };
+            int workflow = targetMat.GetFloat("_WorkflowMode") == 1 ? 1 : 0;
+            workflow = EditorGUILayout.Popup("Workflow Mode", workflow, workflowOptions);
+            targetMat.SetFloat("_WorkflowMode", workflow);
+            if (workflow == 0)
+            {
+                targetMat.DisableKeyword("_SPECULAR_SETUP");
+                MaterialProperty met = ShaderGUI.FindProperty("_Metallic", properties);
+                materialEditor.ShaderProperty(met, "Metallic");
+            }
+            else
+            {
+                targetMat.EnableKeyword("_SPECULAR_SETUP");
+                MaterialProperty spcCol = ShaderGUI.FindProperty("_Specular_Color", properties);
+                materialEditor.ShaderProperty(spcCol, "Specular Color");
+            }
+
+            MaterialProperty smt = ShaderGUI.FindProperty("_Smoothness", properties);
+            materialEditor.ShaderProperty(smt, "Smoothness");
+            #endregion
+
+            #region Surface Type
+            string[] surfaceOptions = { "Opaque", "Transparent" };
+            int surfaceType = targetMat.GetFloat("_Surface") == 1 ? 1 : 0;
+            surfaceType = EditorGUILayout.Popup("Surface Type", surfaceType, surfaceOptions);
+            targetMat.SetFloat("_Surface", surfaceType);
+
+            if (surfaceType == 0)
+            {
+                // Opaque
+                targetMat.SetOverrideTag("RenderType", "Opaque");
+                targetMat.DisableKeyword("_SURFACE_TYPE_TRANSPARENT");
+                targetMat.SetInt("_ZTest", (int)UnityEngine.Rendering.CompareFunction.LessEqual);
+            }
+            else
+            {
+                // Transparent
+                targetMat.SetOverrideTag("RenderType", "Transparent");
+                targetMat.SetOverrideTag("Queue", "Transparent");
+                targetMat.EnableKeyword("_SURFACE_TYPE_TRANSPARENT");
+
+                string[] depthOptions = { "Auto", "Force Enabled", "Force Disabled" };
+                int current = 0; // Auto
+                float zwrite = targetMat.GetFloat("_ZWrite");
+                if (zwrite == 1) current = 1; // Force Enabled
+                else if (zwrite == 0) current = 2; // Disabled
+
+                int selected = EditorGUILayout.Popup("Depth Write", current, depthOptions);
+
+                // Seçime göre sadece Force Enabled / Disabled uygula, Auto bırak shader'a
+                switch (selected)
+                {
+                    case 0: break; // Auto, hiçbir şey yapma
+                    case 1: targetMat.SetFloat("_ZWrite", 1); break;
+                    case 2: targetMat.SetFloat("_ZWrite", 0); break;
+                }
+
+                // Depth Test
+                string[] depthTestOptions = { "Disabled", "Never", "Less", "Equal", "LEqual", "Greater", "NotEqual", "GEqual", "Always" };
+                int depthTest = (int)targetMat.GetFloat("_ZTest");
+                depthTest = EditorGUILayout.Popup("Depth Test", depthTest, depthTestOptions);
+                targetMat.SetFloat("_ZTest", depthTest);
+            }
+            #endregion
+
+            #region Blending Modes
+            // Dropdown Blending Mode
+            MaterialProperty bmode = ShaderGUI.FindProperty("_BLENDING_MODE", properties);
+            materialEditor.ShaderProperty(bmode, "Blending Mode");
+            blendingMode = targetMat.GetInt("_BLENDING_MODE");
+
+            switch (blendingMode)
+            {
+                case 0:
+                    targetMat.SetFloat("_SrcBlend", (float)UnityEngine.Rendering.BlendMode.SrcAlpha);
+                    targetMat.SetFloat("_DstBlend", (float)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+                    break;
+                case 1:
+                    targetMat.SetFloat("_SrcBlend", (float)UnityEngine.Rendering.BlendMode.One);
+                    targetMat.SetFloat("_DstBlend", (float)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+                    break;
+                case 2:
+                    targetMat.SetFloat("_SrcBlend", (float)UnityEngine.Rendering.BlendMode.One);
+                    targetMat.SetFloat("_DstBlend", (float)UnityEngine.Rendering.BlendMode.One);
+                    break;
+                case 3:
+                    targetMat.SetFloat("_SrcBlend", (float)UnityEngine.Rendering.BlendMode.DstColor);
+                    targetMat.SetFloat("_DstBlend", (float)UnityEngine.Rendering.BlendMode.Zero);
+                    break;
+            }
+            #endregion
+
+            #region Render Face
+            string[] faceOptions = { "Both", "Back", "Front" };
+            int face = (int)targetMat.GetFloat("_Cull");
+            face = EditorGUILayout.Popup("Render Face", face, faceOptions);
+            targetMat.SetFloat("_Cull", face);
+            #endregion
+
+            #region Cast Shadows
+            MaterialProperty castShadows = ShaderGUI.FindProperty("_Cast_Shadows", properties);
+            materialEditor.ShaderProperty(castShadows, "Cast Shadows");
+            targetMat.SetInt("_CastShadow", Convert.ToInt16((int)castShadows.floatValue));
+            targetMat.SetShaderPassEnabled("SHADOWCASTER", Convert.ToInt16((int)castShadows.floatValue) == 1 ? true : false);
+            #endregion
+
+            #region Receive Shadows
+            MaterialProperty receiveShadow = ShaderGUI.FindProperty("_Receive_Shadows", properties);
+            materialEditor.ShaderProperty(receiveShadow, "Receive Shadows");
+            targetMat.SetInt("_ReceiveShadow", Convert.ToInt16((int)receiveShadow.floatValue));
+            if (receiveShadow.floatValue < 1f)
+            {
+                targetMat.EnableKeyword(keyword: "_RECEIVE_SHADOWS_OFF");
+            }
+            else
+            {
+                targetMat.DisableKeyword(keyword: "_RECEIVE_SHADOWS_OFF");
+            }
+            #endregion
+
+            materialEditor.RenderQueueField();
+            materialEditor.EnableInstancingField();
+            materialEditor.DoubleSidedGIField();
+            EditorGUI.indentLevel--;
+        }
+        EditorGUILayout.EndVertical();
+        EditorGUILayout.Space(1);
+        #endregion
+
+        #region BUDU Copyright
+        EditorGUILayout.Space(5);
+        style.normal.textColor = bdColors.NexusOrange(153);
+        style.fontSize = 10;
+        style.fontStyle = FontStyle.Italic;
+
+        aboutFold = EditorGUILayout.Foldout(aboutFold, "About", toggleOnLabelClick: true, style);
+        if(aboutFold)
+        {
+            EditorGUILayout.BeginHorizontal();
+            GUILayout.FlexibleSpace();
+            Texture budulogo = (Texture)AssetDatabase.LoadAssetAtPath("Assets/_BUDU/GUI/BUDUGAMES-About.png", typeof(Texture));
+            Rect rect = GUILayoutUtility.GetRect(400,50,GUILayout.ExpandWidth(false));
+            GUI.DrawTexture(rect, budulogo, ScaleMode.ScaleToFit, true);
+            GUILayout.FlexibleSpace();
+            EditorGUILayout.EndHorizontal();
+        }
+        #endregion
+
+
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+    // ------------ SETTINGS SETTING
+        
+        #region /// Settings
+        style.normal.background = MakeBackground(1, 32, bdColors.GrayP(18,204));
+        style.fontSize = 16;
+        style.normal.textColor = bdColors.NexusOrange();
+
+        EditorGUILayout.BeginVertical(style);
+        xxxDef = EditorGUILayout.ToggleLeft("--- SETTINGS", xxxDef, style);
+        targetMat.SetInt("_xxxDef", Convert.ToInt16(xxxDef));
+        EditorGUILayout.EndVertical();
+
+        style.normal.background = MakeBackground(1, 1, bdColors.Transparent(0));
+        EditorGUILayout.BeginVertical(style);
+        if(xxxDef)
+        {
+            EditorGUI.indentLevel++;
+            EditorGUILayout.Space(2);
+
+            ///
+
+            EditorGUILayout.Space(1);
+            EditorGUI.indentLevel--;
+        }
+        EditorGUILayout.EndVertical();
+        EditorGUILayout.Space(1);
+        #endregion
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+// ---------- FOR DEBUG 
+
+//string debug1 = "_SpecularColor";
+//MaterialProperty temProp1 = ShaderGUI.FindProperty(debug1, properties);
+//materialEditor.ShaderProperty(temProp1, debug1);
+
+//string debug2 = "_Smoothness";
+//MaterialProperty temProp2 = ShaderGUI.FindProperty(debug2, properties);
+//materialEditor.ShaderProperty(temProp2, debug2);
+
+//string debug3 = "_Specular";
+//MaterialProperty temProp3 = ShaderGUI.FindProperty(debug3, properties);
+//materialEditor.ShaderProperty(temProp3, debug3);
+
+//string debug4 = "_NormalGradePower";
+//MaterialProperty temProp4 = ShaderGUI.FindProperty(debug4, properties);
+//materialEditor.ShaderProperty(temProp4, debug4);
+
+//Debug.Log("nedir = " + ShaderGUI.FindProperty("_AlphaToMask", properties).floatValue);
+
+//Debug.Log(targetMat.FindPass("Universal Forward"));
+
+// ---------- DRAW BASE GUI
+
+//EditorGUILayout.Space(50);
+//GUI.backgroundColor = bdColors.Black(100);
+//base.OnGUI(materialEditor, properties);
+
+// ---------- ALPHA TO MASK (ALPHA COVERAGE)
+
+//MaterialProperty atoMask = ShaderGUI.FindProperty("_AlphaToMask",properties);
+//materialEditor(atoMask, "Alpha To Mask");
+//targetMat.SetInt("_AlphaToMask", 0);
+
+// ---------- GLOBAL KEYWORDS FOREACH
+
+//foreach(var item in Shader.globalKeywords)
+//{
+//    Debug.Log(item);
+//}
+
+// ---------- KEYWORDS FOREACH
+
+//int cnt = 0;
+//foreach(var item in targetMat.enabledKeywords)
+//{
+//    Debug.Log(item + " " + cnt);
+//    cnt++;
+//}
+
+// ---------- PROPERTIES FOREACH
+
+//foreach(var item in properties)
+//{
+//    Debug.Log(item.name);
+//}
+
+// ---------- KEYWORD NAME
+
+//var a = new LocalKeyword();
+//Debug.Log(a.name);
+
+// ---------- BLEND SETTINGS
+
+//MaterialProperty srcb = ShaderGUI.FindProperty("_SrcBlend", properties);
+//MaterialProperty dstb = ShaderGUI.FindProperty("_DstBlend", properties);
+//MaterialProperty nono = ShaderGUI.FindProperty("_BlendingList", properties);
+
+//targetMat.SetInt("_SrcBlend", 5);   // Src Alpha
+
+//materialEditor.ShaderProperty(srcb,"Source Blend");
+
+// ---------- CHECKING GUI 
+
+//var chk = new EditorGUI.ChangeCheckScope();
+//if(chk.changed)
+//{
+//    loadMaterialVariables(targetMat);
+//    EditorUtility.SetDirty(targetMat);
+//}
+
+
+
+

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  version: 7
+  version: 10
 --- !u!21 &2100000
 Material:
   serializedVersion: 8
@@ -26,7 +26,9 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
+  - _CURVATURE_TYPE_CONVEXITY
   - _SPECULAR_SETUP
+  - _SSS_LIGHT_BLENDING_METHOD_ADDITIVE
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -34,12 +36,17 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap:
     RenderType: Opaque
-  disabledShaderPasses: []
+  disabledShaderPasses:
+  - MOTIONVECTORS
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
     - _AO_Textu_re:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Alpha_Map:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -52,6 +59,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Curvature_Texture:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -103,11 +114,39 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _ReflectSettings_7de9ccbbc8fe4fad8b7ceaaf2789bf6a_ReflectionMap_3763759787_Texture2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Reflection_Cubemap:
         m_Texture: {fileID: 8900000, guid: 35c65b0a391021641a86ebef71af18a4, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SSS_LUT_Ramp:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SS_Texture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_90d8da50b230460eb977be055a321072_Texture_1_Texture2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_d7f09fd599a84bd8aca9f0cd9f14b90a_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 8b4eb68c413d91e41a98881e30998e31, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Thickness_Map:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Thickness_Pattern_Map:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -130,11 +169,17 @@ Material:
     - _AO_Toggle: 0
     - _AlphaClip: 0
     - _AlphaToMask: 0
+    - _Alpha_Cliping_Threshold: 0.5
+    - _Alpha_Intensity: 1
+    - _Back_Dist: 1
     - _Base_Spec_Intensity: 0.34
     - _Base_Spec_Toggle: 0
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
+    - _CL_Normal: 0
+    - _CL_Normal_Strength: 1
+    - _CURVATURE_TYPE: 2
     - _CastShadows: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
@@ -146,6 +191,10 @@ Material:
     - _Cubemap_Y_Position: 0
     - _Cubemap_Z_Position: 0
     - _Cull: 2
+    - _Curvature: 1
+    - _Curvature_Gamma: 1
+    - _Curvature_Intensity: 1
+    - _Custom_Lights: 0
     - _Custom_Spec_Gamma: 0.26
     - _Custom_Spec_Glossy: 6.05
     - _Custom_Spec_In: 0
@@ -165,9 +214,15 @@ Material:
     - _Emissive_Multiplier: 0.15
     - _Emissive_Toggle: 0
     - _EnvironmentReflections: 1
+    - _Features_Average: 0
+    - _Features_Multiplier: 1
+    - _Front_Dist: 0
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
+    - _Invert: 0
+    - _Invert_Gamma: 0
+    - _Lock_SS_Size: 0
     - _Metallic: 0
     - _Metallic_Intensity: 1
     - _Metallic_Invert: 0
@@ -175,7 +230,14 @@ Material:
     - _Metallic_Toggle: 0
     - _Normal_Intensity: 0.9
     - _Normal_Multiplier: 0
+    - _Normal_Rotator: 0
     - _Normal_Toggle: 1
+    - _Normal_Triplanar_Blend: 1
+    - _Normal_Triplanar_Map: 0
+    - _Normal_Triplanar_Scale: 0
+    - _OD_Normal: 0
+    - _OD_Normal_Strength: 0
+    - _Object_Depth_Toggle: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueControl: 0
@@ -201,6 +263,29 @@ Material:
     - _Rim_Scale: 1
     - _Rim_Toggle: 0
     - _Rotator: 0
+    - _SSS_Intensity: 1
+    - _SSS_LIGHT_BLENDING_METHOD: 0
+    - _SSS_Light_Intensity: 1
+    - _SSS_Light_Offset: 0
+    - _SSS_Light_Sqrt: 0
+    - _SSS_Light_Sqrt_Negative: 1
+    - _SSS_Light_Sqrt_X: 1
+    - _SSS_Light_Toggle: 0
+    - _SSS_Normal: 0
+    - _SSS_Normal_Strength: 1
+    - _SSS_Offset: 0
+    - _SSS_Profile_Toggle: 0
+    - _SSS_Sharpness: 1
+    - _SSS_Sqrt: 0
+    - _SSS_Sqrt_Negative: 1
+    - _SSS_Sqrt_X: 1
+    - _SS_Normal_Map: 0
+    - _SS_Normal_Strength: 0.1
+    - _SS_Rotator: 0
+    - _SS_Size_Multiplier: 1
+    - _SS_Toggle: 0
+    - _Shading_Intensity: 1
+    - _Shading_Toggle: 0
     - _Smoothness: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -210,6 +295,16 @@ Material:
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
+    - _Thickness: 1
+    - _Thickness_Contrast: 1
+    - _Thickness_Gamma: 1
+    - _Thickness_Intensity: 1
+    - _Thickness_Invert: 0
+    - _Thickness_Multiplier: 0
+    - _Thickness_Pattern: 0
+    - _Thickness_Pattern_Intensity: 0
+    - _Thickness_Pattern_Multiplier: 0
+    - _Translucency: 0
     - _Triplanar_Blend: 1
     - _Triplanar_Map: 0
     - _Triplanar_Scale: 1
@@ -219,14 +314,23 @@ Material:
     - _ZWriteControl: 0
     m_Colors:
     - _AO_Color: {r: 0, g: 0, b: 0, a: 1}
+    - _Back_Color: {r: 0.3333333, g: 0.3333333, b: 0.3333333, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Base_Color: {r: 0.5735606, g: 0.6243182, b: 0.67, a: 1}
     - _Base_Spec_Color: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Curvature_Color: {r: 1, g: 1, b: 1, a: 1}
     - _Custom_Spec_Color: {r: 0.528, g: 0.7482667, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Emissive_Color: {r: 0.458, g: 0.7196554, b: 1, a: 1}
+    - _Front_Color: {r: 0, g: 0.5408804, b: 0.248866, a: 0}
+    - _Normal_Scroll_Speed: {r: 0, g: 0, b: 0, a: 0}
     - _Reflection_Color: {r: 1, g: 1, b: 1, a: 1}
     - _Rim_Color: {r: 0.6, g: 0.6, b: 0.6, a: 1}
+    - _SSS_Color: {r: 1, g: 0.37648, b: 0, a: 1}
+    - _SS_Tile: {r: 1, g: 1, b: 0, a: 0}
+    - _Scroll_Speed: {r: 0, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _Thickness_Color: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1
