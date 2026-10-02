@@ -1,4 +1,4 @@
-// BUDU GAMES © 2024
+// © BUDU Games 2024 - 2026
 // Text Functions
 
 void neoluyor_float(float a, float b, out float c)

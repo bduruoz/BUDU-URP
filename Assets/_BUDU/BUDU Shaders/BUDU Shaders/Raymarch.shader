@@ -1,3 +1,6 @@
+// BUDU Games 2024 - 2025
+// Raymarch
+
 Shader "Unlit/Raymarch"
 {
     Properties

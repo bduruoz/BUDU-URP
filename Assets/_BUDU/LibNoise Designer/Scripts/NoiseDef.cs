@@ -1,4 +1,7 @@
-﻿using LibNoise;
+﻿// © BUDU Games 2024 - 2026
+// LibNoise Noise Definition
+
+using LibNoise;
 using UnityEngine;
 
 public abstract class NoiseDef : ScriptableObject

@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9568f28f80fa43d46ae3f4d6aac2feb1, type: 3}
+  m_Name: Bake Asset 1
+  m_EditorClassIdentifier: 
+  bakeName: Room 1
+  outputFolderAssetPath: Assets/Real Fake Interiors/Parallax/DemoRoom/RealFakeRoom/BiRP
+  bakeResolution: 1024
+  supersample: 4
+  anisoLevel: 2
+  horizontalAspect: 2
+  probeResolution: 256
+  depthFormat: 1
+  createMaterial: 0
+  targetMaterial: {fileID: 2100000, guid: bccbdc50188b8e8469c3e47721aa03f9, type: 2}
+  customShader: {fileID: 0}
+  roomObjectPath: Room - Cubemap
+  roomObjectName: Room - Cubemap
+  furnitureObjectPath: Furniture - Color + Depth
+  furnitureObjectName: Furniture - Color + Depth

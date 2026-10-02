@@ -1,4 +1,6 @@
-﻿// InterpolationKernels_SG_OutParam.hlsl
+﻿// © BUDU Games 2024 - 2026
+// InterpolationKernels_SG_OutParam.hlsl
+
 #ifndef INTERPOLATION_KERNELS_SG_OUTPARAM
 #define INTERPOLATION_KERNELS_SG_OUTPARAM
 

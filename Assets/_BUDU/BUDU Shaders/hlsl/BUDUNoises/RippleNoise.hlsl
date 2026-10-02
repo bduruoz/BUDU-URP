@@ -1,4 +1,4 @@
-﻿// BUDU-Games 2024 - 2025
+﻿// BUDU Games 2024 - 2025
 // RippleNoise.hlsl – Shader Graph Custom Function
 
 // Input:  uv   (float2)

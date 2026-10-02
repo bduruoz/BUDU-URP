@@ -1,0 +1,147 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: FakeRoom1_Curtains 2x1
+  m_Shader: {fileID: 4800000, guid: bf90a26985154c84b8bc5b4a94cf9cfa, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - _ADD_PRECOMPUTED_VELOCITY
+  - _OVERLAY_ON
+  - _USECUBEMAP_ON
+  - _USEDITHER_ON
+  - _WINDOWOVERLAY_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Blinds:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BlueNoise:
+        m_Texture: {fileID: 2800000, guid: e218b7c6dfec4374b9f1763b318f92ae, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ColorOverlay:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _GlassColorOverlay:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _GlassMetallicRSmoothnessGOcclusionBOverlay:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _GlassNormalOverlay:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _GlassOverlayColor:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _GlassOverlayMetallicRSmoothnessGOcclusionB:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _GlassOverlayNormal:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _InteriorColorTexture:
+        m_Texture: {fileID: 2800000, guid: 3bfff915462c9f745942d656682b72fb, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _InteriorHeightmapTexture:
+        m_Texture: {fileID: 2800000, guid: c4163fd958ba2314aab626ebcdb0458d, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalOverlay:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OverlayMetallicRSmoothnessGOcclusionBOverlay:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OverlayTexture:
+        m_Texture: {fileID: 2800000, guid: 7e3928d353dd2c8459d49f22973883d1, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _RoomCubemap:
+        m_Texture: {fileID: 8900000, guid: 9c440a778cb3dec4c865e1f4617f621a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample0:
+        m_Texture: {fileID: 2800000, guid: 958a7268e880bd5488ab2ee08fa8df6b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _BlueNoiseScale: 64
+    - _BlueNoiseStrength: 0.49
+    - _CubemapExposure: 1
+    - _CubemapRotation: 0
+    - _EnvironmentReflections: 1
+    - _Float0: 0
+    - _GlassBlend: 0
+    - _GlassOcclusionMultiplier: 1
+    - _GlassOverlay: 0
+    - _GlassRoomMIX: 0
+    - _GlassSmoothnessMultiplier: 0
+    - _Overlay: 1
+    - _ParallaxOffset: 1
+    - _ParallaxSteps: 125
+    - _PropBrightness: 1
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _ReceiveShadows: 1
+    - _RefineSteps: 6
+    - _RoomBrightness: 1
+    - _RoomTiling: 1
+    - _ScreenSpaceBlueNoise: 1
+    - _SpecularHighlights: 1
+    - _StartPhaseStrength: 0.77
+    - _UseBlinds: 0
+    - _UseGlass: 0
+    - _UseScreenSpaceBlueNoise: 1
+    - _WindowOverlay: 1
+    m_Colors:
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _GlassColor: {r: 1, g: 1, b: 1, a: 0}
+    - _GlassOverlayOffset: {r: 1, g: 1, b: 0, a: 0}
+    - _GlassOverlayTilling: {r: 1, g: 1, b: 0, a: 0}
+    - _GlassTint: {r: 1, g: 1, b: 1, a: 0}
+    - _GlobalRoomTint: {r: 1, g: 1, b: 1, a: 0}
+    - _RoomSize: {r: 2, g: 1, b: 0, a: 0}
+    - _RoomTint: {r: 1, g: 1, b: 1, a: 0}
+    - _WindowOverlayTint: {r: 1, g: 1, b: 1, a: 0}
+  m_BuildTextureStacks: []

@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿// © BUDU Games 2024 - 2026
+// Gizmos Helper
+
+using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif

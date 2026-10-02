@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿// BUDU Games 2024 - 2025
+// Audio Waveform
+
+using UnityEngine;
 
 [RequireComponent(typeof(LineRenderer))]
 public class AudioWaveform : MonoBehaviour

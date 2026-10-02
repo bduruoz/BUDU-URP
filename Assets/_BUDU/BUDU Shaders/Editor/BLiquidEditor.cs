@@ -1,4 +1,6 @@
-﻿// BUDU Games 2023 - 2025
+﻿// © BUDU Games 2024 - 2026
+// BUDU Liquid Shader Editor
+
 using budu;
 using UnityEditor;
 using UnityEngine;
@@ -42,7 +44,7 @@ public class BLiquidEditor : ShaderGUI
             materialEditor.ShaderProperty(Addt, "Addition");
 
             MaterialProperty txtT = ShaderGUI.FindProperty("_Texture_Toggle", properties);
-            GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true,() =>
             {
                 materialEditor.ShaderProperty(txtT, "Texture");
             });
@@ -66,7 +68,7 @@ public class BLiquidEditor : ShaderGUI
                 ShaderGUIHelpers.FloatSliderFree(materialEditor, TxtMult, "Texture Multiplier", -5, 5);
                 ShaderGUIHelpers.FloatSliderFree(materialEditor, TxtDefMult, "Texture Deform Multiplier", -50, 50);
 
-                GUIExtras.SFoldout(targetMat, "_TxtAFold", "Layer A", BDColors.DarkRed(120), () =>
+                GUIExtras.SFoldout(targetMat, "_TxtAFold", "Layer A", BDColors.DarkRed(120), 10, BDColors.White(255), BDColors.Black(40), true, () =>
                 {
                     materialEditor.ShaderProperty(mTxtA, "Texture A");
                     materialEditor.ShaderProperty(TAInv, "Invert");
@@ -75,7 +77,7 @@ public class BLiquidEditor : ShaderGUI
                     materialEditor.ShaderProperty(TARot, "Rotate");
                 });
 
-                GUIExtras.SFoldout(targetMat, "_TxtBFold", "Layer B", BDColors.DarkRed(160), () =>
+                GUIExtras.SFoldout(targetMat, "_TxtBFold", "Layer B", BDColors.DarkRed(160), 10, BDColors.White(255), BDColors.Black(40), true, () =>
                 {
                     materialEditor.ShaderProperty(mTxtB, "Texture B");
                     materialEditor.ShaderProperty(TBInv, "Invert");
@@ -100,7 +102,7 @@ public class BLiquidEditor : ShaderGUI
             EditorGUILayout.Space(2);
 
             MaterialProperty frTog = ShaderGUI.FindProperty("_Fresnel_Toggle", properties);
-            GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true,() =>
             {
                 materialEditor.ShaderProperty(frTog, "Fresnel");
             });
@@ -142,7 +144,7 @@ public class BLiquidEditor : ShaderGUI
             EditorGUILayout.Space(2);
 
             MaterialProperty wTog = ShaderGUI.FindProperty("_Wave_Toggle", properties);
-            GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true,() =>
             {
                 materialEditor.ShaderProperty(wTog, "Wave");
             });
@@ -175,10 +177,10 @@ public class BLiquidEditor : ShaderGUI
             EditorGUILayout.Space(2);
 
             MaterialProperty eTog = ShaderGUI.FindProperty("_Edge_Toggle", properties);
-            GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true,() =>
             {
                 materialEditor.ShaderProperty(eTog, "Edge");
-            }, GUILayout.Height(20));
+            });
             if(eTog.floatValue > 0)
             {
                 MaterialProperty eCol = ShaderGUI.FindProperty("_Edge_Color", properties);
@@ -207,7 +209,7 @@ public class BLiquidEditor : ShaderGUI
             EditorGUILayout.Space(2);
 
             MaterialProperty rTog = ShaderGUI.FindProperty("_Refraction_Toggle", properties);
-            GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true,() =>
             {
                 materialEditor.ShaderProperty(rTog, "Refract");
             });
@@ -282,7 +284,7 @@ public class BLiquidEditor : ShaderGUI
         #endregion
 
         #region BUDU Copyright
-        GUIExtras.About(ref aboutFold, style, "Assets/_BUDU/GUI/BUDUGAMES-About.png");
+        GUIExtras.About(ref aboutFold, style);
         #endregion
     }
 

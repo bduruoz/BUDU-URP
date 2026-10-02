@@ -1,3 +1,6 @@
+// © BUDU Games 2024 - 2026
+// Contants
+
 #ifndef BUDU_CONSTANTS
 #define BUDU_CONSTANTS
 

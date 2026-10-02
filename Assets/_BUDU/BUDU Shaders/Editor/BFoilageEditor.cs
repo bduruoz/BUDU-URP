@@ -1,4 +1,6 @@
-// BUDU Games 2023 - 2025
+// © BUDU Games 2024 - 2026
+// BUDU Foilage Shader Editor
+
 using UnityEngine;
 using UnityEditor;
 using budu;
@@ -67,10 +69,10 @@ public class BFoilageEditor : ShaderGUI
             EditorGUILayout.Space(2);
 
             MaterialProperty spec = ShaderGUI.FindProperty("_LeavesSpecular",properties);
-            GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true,() =>
             {
                 materialEditor.ShaderProperty(spec, "Specular");
-            }, GUILayout.Height(20));
+            });
             if(spec.floatValue > 0.0f)
             {
                 MaterialProperty sc = ShaderGUI.FindProperty("_Leaves_Specular_Color", properties);
@@ -98,10 +100,10 @@ public class BFoilageEditor : ShaderGUI
             EditorGUILayout.Space(2);
 
             MaterialProperty norm = ShaderGUI.FindProperty("_NormalToggle", properties);
-            GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true,() =>
             {
                 materialEditor.ShaderProperty(norm, "Normal");
-            }, GUILayout.Height(20));
+            });
             if(norm.floatValue > 0.0f)
             {
                 MaterialProperty nmap = ShaderGUI.FindProperty("_Leaves_Normal_Map", properties);
@@ -125,10 +127,10 @@ public class BFoilageEditor : ShaderGUI
             EditorGUILayout.Space(2);
 
             MaterialProperty rim = ShaderGUI.FindProperty("_Leaves_Rim", properties);
-            GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true,() =>
             {
                 materialEditor.ShaderProperty(rim, "Rim Light");
-            }, GUILayout.Height(20));
+            });
             if(rim.floatValue > 0.0f)
             {
                 MaterialProperty fi = ShaderGUI.FindProperty("_FresnelInvert", properties);
@@ -210,10 +212,10 @@ public class BFoilageEditor : ShaderGUI
                 EditorGUILayout.Space(2);
 
                 MaterialProperty wt = ShaderGUI.FindProperty("_WindToggle", properties);
-                GUIExtras.ColoredVertical(BDColors.dBlueOrange(50), () =>
+                GUIExtras.SColoredVertical(BDColors.dBlueOrange(50), 20,true,() =>
                 {
                     materialEditor.ShaderProperty(wt, "Wind");
-                }, GUILayout.Height(20));
+                });
 
                 MaterialProperty wi = ShaderGUI.FindProperty("_Wind_Strength", properties);
                 MaterialProperty ws = ShaderGUI.FindProperty("_Wind_Speed", properties);
@@ -221,7 +223,7 @@ public class BFoilageEditor : ShaderGUI
                 materialEditor.ShaderProperty(wi, "Wind Strength");
                 materialEditor.ShaderProperty(ws, "Wind Speed");
 
-                GUIExtras.SFoldout(targetMat, "_NoiseToggle", "Noise Settings", BDColors.DarkRed(120), () =>
+                GUIExtras.SFoldout(targetMat, "_NoiseToggle", "Noise Settings", BDColors.DarkRed(120), 10,BDColors.White(255),BDColors.Black(40),true,() =>
                 {
                     MaterialProperty natog = ShaderGUI.FindProperty("_WIND_NOISE_TYPE", properties);
                     MaterialProperty perLe = ShaderGUI.FindProperty("_Per_Leaves", properties);
@@ -270,10 +272,10 @@ public class BFoilageEditor : ShaderGUI
             EditorGUILayout.Space(2);
 
             MaterialProperty ao = ShaderGUI.FindProperty("_AO_From_Normal",properties);
-            GUIExtras.ColoredVertical(BDColors.NexusBlue(50), () =>
+            GUIExtras.SColoredVertical(BDColors.NexusBlue(50), 20,true,() =>
             {
                 materialEditor.ShaderProperty(ao, "Ambient Occlusion for Leaves");
-            }, GUILayout.Height(20));
+            });
             if(ao.floatValue > 0.0f)
             {
                 MaterialProperty aoI = ShaderGUI.FindProperty("_AO_Intensity", properties);

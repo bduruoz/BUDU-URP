@@ -1,4 +1,7 @@
-﻿#ifndef NORMAL_FROM_HEIGHT_FIX_INCLUDED
+﻿// © BUDU Games 2024 - 2026
+// Normal From Height
+
+#ifndef NORMAL_FROM_HEIGHT_FIX_INCLUDED
 #define NORMAL_FROM_HEIGHT_FIX_INCLUDED
 
 // Internal fonksiyon (float olarak çalışır)

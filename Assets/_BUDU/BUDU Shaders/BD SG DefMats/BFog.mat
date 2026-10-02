@@ -8,27 +8,40 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: BFog
-  m_Shader: {fileID: -6465566751694194690, guid: 977c28b4561ef7a4a9ddc50dfc8e2e20,
-    type: 3}
+  m_Shader: {fileID: 211, guid: 0000000000000000f000000000000000, type: 0}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _SURFACE_TYPE_TRANSPARENT
+  - _ALPHABLEND_ON
   m_InvalidKeywords:
   - _RECEIVE_SHADOWS_OFF
-  m_LightmapFlags: 4
+  - _SURFACE_TYPE_TRANSPARENT
+  m_LightmapFlags: 0
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: 3000
   stringTagMap:
     RenderType: Transparent
   disabledShaderPasses:
-  - SHADOWCASTER
   - MOTIONVECTORS
+  - SHADOWCASTER
+  - GRABPASS
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 2800000, guid: 3948da3eb7305e049a9e42b9286519ab, type: 3}
+        m_Scale: {x: 8, y: 8}
+        m_Offset: {x: 0, y: 1.78}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: b42b2a2164542bf469ee6fe170d6c8cb, type: 3}
+        m_Scale: {x: 8, y: 8}
+        m_Offset: {x: 0, y: 1.78}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -43,44 +56,69 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _3D_Fog: 0
+    - _3D_Fog: 1
     - _AlphaClip: 0
     - _AlphaToMask: 0
     - _BLENDING_MODE: 0
     - _Blend: 1
     - _BlendModePreserveSpecular: 1
+    - _BlendOp: 0
     - _Blending_Mode: 0
+    - _BumpScale: 1
+    - _CameraFadingEnabled: 0
+    - _CameraFarFadeDistance: 2
+    - _CameraNearFadeDistance: 1
     - _CastShadows: 0
     - _Cast_Shadows: 0
     - _CheckBase: 1
     - _CheckDef: 1
     - _CheckFog: 1
+    - _ColorMode: 0
     - _Cull: 2
+    - _Cutoff: 0.5
     - _Depth: 1
     - _Depth_Exponential: 0.22
     - _Depth_Fade_Distance: 1
     - _Depth_Gamma: 1
     - _Depth_Invert: 0
     - _Distance: 1
+    - _DistortionBlend: 0.5
+    - _DistortionEnabled: 0
+    - _DistortionStrength: 1
+    - _DistortionStrengthScaled: 0
     - _DstBlend: 10
+    - _DstBlendAlpha: 0
+    - _EmissionEnabled: 0
     - _Exponential: 1.41
+    - _FlipbookMode: 0
     - _Float: 1
+    - _LightingEnabled: 0
+    - _Mode: 2
     - _QueueControl: 1
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _Receive_Shadows: 0
     - _See_Through_Distance: 1
+    - _SoftParticlesEnabled: 0
+    - _SoftParticlesFarFadeDistance: 1
+    - _SoftParticlesNearFadeDistance: 0
     - _SrcBlend: 5
+    - _SrcBlendAlpha: 1
     - _Surface: 1
-    - _Transparency: 1
+    - _Transparency: 0.167
     - _WorkflowMode: 1
     - _ZTest: 4
-    - _ZWrite: 1
+    - _ZWrite: 0
     - _ZWriteControl: 1
     m_Colors:
     - _Additive: {r: 0, g: 0, b: 0, a: 0}
     - _Additive_Color: {r: 0, g: 0, b: 0, a: 1}
-    - _Fog_Color: {r: 0.69182384, g: 0.0155161405, b: 0, a: 1}
+    - _CameraFadeParams: {r: 0, g: Infinity, b: 0, a: 0}
+    - _Color: {r: 1, g: 1, b: 1, a: 0.07058824}
+    - _ColorAddSubDiff: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Fog_Color: {r: 0.23464999, g: 0.28735417, b: 0.325, a: 1}
+    - _SoftParticleFadeParams: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &9142427998264070710

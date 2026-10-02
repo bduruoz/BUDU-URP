@@ -1,4 +1,6 @@
-﻿// BUDU Games 2024 - 2025
+﻿// © BUDU Games 2024 - 2026
+// Motion Control
+
 using UnityEngine;
 
 #if UNITY_EDITOR

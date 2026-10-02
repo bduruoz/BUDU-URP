@@ -34,6 +34,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: 567b34355056bfc478551391eda677ca, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Alpha_Map:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Base_Texture:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -43,7 +47,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Custom_Spec_Map:
-        m_Texture: {fileID: 2800000, guid: 9ed9161efbf124f489adb534e38f848e, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Emissive_Map:
@@ -125,6 +129,8 @@ Material:
     - _AO_Toggle: 0
     - _AlphaClip: 0
     - _AlphaToMask: 0
+    - _Alpha_Cliping_Threshold: 0.5
+    - _Alpha_Intensity: 1
     - _Back_Dist: 0.2
     - _Base_Map_Intensity: 0.5
     - _Base_Offset: 0.599
@@ -134,8 +140,8 @@ Material:
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _Boolean: 0
-    - _CL_Normal: 1
-    - _CL_Normal_Strength: -29.88
+    - _CL_Normal: 0
+    - _CL_Normal_Strength: 30.94
     - _CURVATURE_TYPE: 0
     - _CastShadows: 1
     - _Clear_Coat_Toggle: 0
@@ -150,7 +156,7 @@ Material:
     - _Curvature_Gamma: 0.72
     - _Curvature_Intensity: 1
     - _Custom_Light_Normal_Strength: 1
-    - _Custom_Lights: 1
+    - _Custom_Lights: 0
     - _Custom_Lights_Normal_Strength: 1
     - _Custom_Lights_Toggle: 0
     - _Custom_Spec_Gamma: 1.5
@@ -271,7 +277,7 @@ Material:
     - _Thickness_Pattern: 0
     - _Thickness_Pattern_Intensity: 1
     - _Thickness_Pattern_Multiplier: 0
-    - _Translucency: 1
+    - _Translucency: 0
     - _Triplanar_Blend: 1
     - _Triplanar_Map: 0
     - _Triplanar_Scale: 1

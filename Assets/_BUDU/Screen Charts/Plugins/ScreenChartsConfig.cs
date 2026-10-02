@@ -1,4 +1,5 @@
-﻿// BUDU Games 2023 - 2025
+﻿// © BUDU Games 2023 - 2026
+
 using System;
 using System.Collections.Generic;
 using UnityEngine;

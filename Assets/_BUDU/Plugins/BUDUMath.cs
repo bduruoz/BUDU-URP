@@ -1,5 +1,4 @@
-﻿// BUDU Games 2024 - 2025
-using UnityEngine;
+﻿// © BUDU Games 2024 - 2026
 
 namespace budu.math
 {

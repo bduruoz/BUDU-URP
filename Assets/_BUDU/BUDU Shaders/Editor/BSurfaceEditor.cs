@@ -1,4 +1,6 @@
-﻿// BUDU Games 2023 - 2025
+﻿// © BUDU Games 2024 - 2026
+// BUDU Surface Shader Editor
+
 using UnityEngine;
 using UnityEditor;
 using System;

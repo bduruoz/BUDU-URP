@@ -1,4 +1,7 @@
-﻿#if UNITY_EDITOR
+﻿// © BUDU Games 2024 - 2026
+// LibNoise Designer
+
+#if UNITY_EDITOR
 using System;
 using System.Linq;
 using UnityEditor;

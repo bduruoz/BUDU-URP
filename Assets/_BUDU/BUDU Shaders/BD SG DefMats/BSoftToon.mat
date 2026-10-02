@@ -25,8 +25,7 @@ Material:
     type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
-  - _SPECULAR_SETUP
+  m_ValidKeywords: []
   m_InvalidKeywords:
   - _CURVATURE_TYPE_RAW
   - _EMISSION
@@ -50,7 +49,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _Base_Map:
         m_Texture: {fileID: 0}
-        m_Scale: {x: 5, y: 5}
+        m_Scale: {x: 3, y: 3}
         m_Offset: {x: 0, y: 0}
     - _Blur_3b4cb4dc168946868e63eef691e5b365_GrabTexture2D_1293248524_Texture2D:
         m_Texture: {fileID: 0}
@@ -70,10 +69,18 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _Normal_Map:
         m_Texture: {fileID: 2800000, guid: aa75200bfeeacf245a9e6179a8f10e98, type: 3}
-        m_Scale: {x: 5, y: 5}
+        m_Scale: {x: 3, y: 3}
+        m_Offset: {x: 0, y: 0}
+    - _Ref_Mask_Map:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ReflectSettings_4b9230aa50e748ca8ce3c9d05c6bd697_ReflectionMap_3763759787_Texture2D:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ReflectSettings_78ac57b309de4aeb96598212c02f23f3_RefMaskMap_877888280_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 2272f2dfdb7932b43921aa9b38213a6e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ReflectSettings_78ac57b309de4aeb96598212c02f23f3_ReflectionMap_3763759787_Texture2D:
@@ -145,7 +152,7 @@ Material:
     - _Base_Map_Intensity: 1
     - _Base_Map_Multiplier: 0
     - _Base_Offset: 0
-    - _Base_Sharpness: 0.5
+    - _Base_Sharpness: 0.38095242
     - _Base_Spec_Intensity: 0.472
     - _Base_Spec_Toggle: 0
     - _Base_Texture_Blend_Mode: 2
@@ -169,17 +176,20 @@ Material:
     - _Cast_Shadows: 1
     - _CheckBase: 1
     - _CheckDef: 1
-    - _CheckNormal: 0
+    - _CheckNormal: 1
     - _CheckReflect: 1
     - _CheckRim: 0
-    - _CheckShade: 0
+    - _CheckShade: 1
     - _CheckSpecular: 0
+    - _Checkerboard: 0
     - _Chromatic_Aberration: 0
     - _Chromatic_Aberration_Intensity: 3
     - _Clamp_Max: 1
     - _Clamp_Min: 0
+    - _CmMapLOD: 0
+    - _CmType: 0
     - _CubeMap_LOD: 0
-    - _CubemapFold: 1
+    - _CubemapFold: 0
     - _Cubemap_Pos_X: 0
     - _Cubemap_Pos_Y: 0
     - _Cubemap_Pos_Z: 0
@@ -216,8 +226,11 @@ Material:
     - _FilterMode: 2
     - _FitlerMode: 0
     - _FresnelFold: 1
-    - _Full_Shade_Contrast: 1
+    - _Front_Shading: 0
+    - _Front_Shading_Gamma: 1
+    - _Full_Shade_Contrast: 1.122449
     - _Full_Shade_Contrast_Pivot: 0.5
+    - _Full_Shading: 1
     - _Glossy: 2
     - _IOR: 0.1
     - _IOR_Medium: 1
@@ -232,11 +245,12 @@ Material:
     - _NC_Normal_Invert: 0
     - _NC_Normal_Strength: 3
     - _NC_Toggle: 0
+    - _Normal: 1
     - _Normal_Multiplier: 0
     - _Normal_Result_Contrast: 1
     - _Normal_Result_Contrast_Pivot: 0.5
-    - _Normal_Strength: 0.3
-    - _Normal_Toggle: 0
+    - _Normal_Strength: 0.5
+    - _Normal_Toggle: 1
     - _QueueControl: 0
     - _QueueOffset: 0
     - _REFRACT_TYPE: 0
@@ -265,6 +279,8 @@ Material:
     - _R_m_Normal_Strength: 1
     - _ReceiveShadows: 1
     - _Receive_Shadows: 1
+    - _RefMaskFold: 1
+    - _RefProbeLOD: 0
     - _RefType: 1
     - _Ref_Fesnel_Scale: 1
     - _Ref_Fresnel_Bias: 0.05
@@ -274,15 +290,21 @@ Material:
     - _Ref_Fresnel_Invert: 0
     - _Ref_Fresnel_Power: 2
     - _Ref_Fresnel_Scale: 1
-    - _Ref_Fresnel_Toggle: 1
+    - _Ref_Fresnel_Toggle: 0
+    - _Ref_Mask: 0
+    - _Ref_Mask_Contrast: 1
+    - _Ref_Mask_Gamma: 1
+    - _Ref_Mask_Invert: 0
+    - _Ref_Normal_Multiplier: 1
     - _Ref_Normal_Strength: 0.1
     - _Reflect_Multiplier: 0
     - _Reflect_Normal_Strength: 0.1
     - _Reflect_Strength: 0.282
     - _Reflect_Toggle: 0
-    - _Reflection_Affect_Shade: 0
+    - _Reflection_Affect_Shade: 1
     - _Reflection_Affect_Shadow: 1
     - _Reflection_Multiplier: 0
+    - _Reflection_Shade_Invert: 0
     - _Reflection_Shade_Strength: 0.2
     - _Reflection_Shadow_Strength: 0.2
     - _Reflection_Strength: 0.3
@@ -294,16 +316,16 @@ Material:
     - _Refract_Toggle: 0
     - _Refract_Transparency: 1
     - _Rim_Bias: 0
-    - _Rim_Contrast: 2.2874207
+    - _Rim_Contrast: 1
     - _Rim_Contrast_Pivot: 0.5
     - _Rim_Gamma: 1
-    - _Rim_Intensity: 0.328
+    - _Rim_Intensity: 1
     - _Rim_Invert: 0
     - _Rim_Normal_Multiplier: 0
-    - _Rim_Normal_Strength: 0.3
-    - _Rim_Power: 1.15
+    - _Rim_Normal_Strength: 1
+    - _Rim_Power: 1
     - _Rim_Scale: 1
-    - _Rim_Toggle: 1
+    - _Rim_Toggle: 0
     - _SS_Base_Intensity: 0.3
     - _SS_Base_Toggle: 0
     - _SS_Intensity: 0.3
@@ -312,18 +334,21 @@ Material:
     - _SS_Rotator: 0
     - _SS_TYPE: 1
     - _Screen_Space_Toggle: 0
-    - _ShadeExtFold: 0
+    - _ShadeExtFold: 1
     - _Shade_Contrast: 1.586
     - _Shading_Affect_Base_Map: 0
     - _Shading_Affect_Base_Texture: 0
-    - _Shading_Colored_Texture: 1
-    - _Shading_Contrast: 2
+    - _Shading_Colored_Texture: 0
+    - _Shading_Contrast: 1
     - _Shading_Contrast_Pivot: 0.5
     - _Shading_Contribution: 1
     - _Shading_Contriubution: 2
+    - _Shading_Gamma: 0.3
+    - _Shading_In: 0
     - _Shading_Intensity: 1
     - _Shading_Normal_Strength: 1
     - _Shading_Offset: 0
+    - _Shading_Out: 1
     - _Shading_Saturate: 0
     - _Shading_Toggle: 1
     - _Shadow_Strength: 1
@@ -333,14 +358,14 @@ Material:
     - _Spec_Gamma: 4
     - _Spec_Glossy: 2
     - _Spec_In: 0.2
-    - _Spec_Intensity: 3
+    - _Spec_Intensity: 1
     - _Spec_Map_Invert: 0
     - _Spec_Normal_Multiplier: 0
-    - _Spec_Normal_Strength: 0
+    - _Spec_Normal_Strength: 1
     - _Spec_Out: 0.8
     - _Spec_Saturation: 1
     - _Spec_Softness: 0.1
-    - _Spec_Toggle: 1
+    - _Spec_Toggle: 0
     - _Specular_In: 0.2
     - _Specular_Intensity: 1
     - _Specular_Normal_Strength: 1
@@ -360,7 +385,7 @@ Material:
     - _TR_Texture_Contrast: 1
     - _TR_Texture_Gamma: 1
     - _TextureBlendType: 0
-    - _Texture_Over_Color: 1
+    - _Texture_Over_Color: 0
     - _Thickness_Contrast: 1
     - _Thickness_Gamma: 1
     - _Thickness_Intensity: 1
@@ -375,25 +400,29 @@ Material:
     - _ZTest: 4
     - _ZWrite: 1
     - _ZWriteControl: 1
+    - _blinnFold: 1
     - _cubemapFold: 0
     - _fresnelFold: 0
     - _shadeExtFold: 1
     - _specExtFold: 1
     m_Colors:
     - _AO_Color: {r: 0, g: 0, b: 0, a: 1}
-    - _Base_Color: {r: 0.7, g: 0.7, b: 0.7, a: 1}
+    - _Base_Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _Base_Spec_Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    - _Checker_Color_A: {r: 0, g: 0, b: 0, a: 1}
+    - _Checker_Color_B: {r: 0.24999997, g: 0.24999997, b: 0.24999997, a: 1}
+    - _Checker_Frequency: {r: 10, g: 10, b: 0, a: 0}
     - _Custom_Spec_Color: {r: 1, g: 1, b: 1, a: 1}
     - _Lighten_Color: {r: 0, g: 0, b: 0, a: 1}
     - _NC_Color: {r: 0, g: 0, b: 0, a: 1}
     - _Reflect_Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-    - _Reflection_Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Reflection_Color: {r: 0.3, g: 0.3, b: 0.3, a: 1}
     - _Refract_Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Rim_Color: {r: 1, g: 0.5686275, b: 0, a: 1}
+    - _Rim_Color: {r: 0.3, g: 0.3, b: 0.3, a: 1}
     - _SS_Tile: {r: 0, g: 0, b: 0, a: 0}
-    - _Shade_Color: {r: 0.35, g: 0.35, b: 0.35, a: 1}
+    - _Shade_Color: {r: 1, g: 1, b: 1, a: 1}
     - _Spec_Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Specular_Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    - _Specular_Color: {r: 0, g: 0, b: 0, a: 1}
     - _Thickness_Color: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

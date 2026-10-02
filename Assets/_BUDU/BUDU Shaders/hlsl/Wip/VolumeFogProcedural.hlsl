@@ -1,3 +1,5 @@
+// © BUDU Games 2024 - 2026
+// BUDU Volume Fog Procedural (Keijiro)
 
 // (Keijiro) This shader was slightly modified from the original version.
 // It's recommended to use the original version for other purposes.

@@ -1,4 +1,6 @@
-﻿// BUDU Games 2023 - 2025
+﻿// © BUDU Games 2024 - 2026
+// BUDU Crystal Shader Editor
+
 using budu;
 using UnityEditor;
 using UnityEngine;
@@ -33,10 +35,10 @@ public class BCrystalEditor : ShaderGUI
             MaterialProperty bct = ShaderGUI.FindProperty("_Base_Texture_Toggle", properties);
 
             materialEditor.ShaderProperty(bc, "Base Color");
-            GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true,() =>
             {
                 materialEditor.ShaderProperty(bct, "Base Map Toggle");
-            }, GUILayout.Height(20));
+            });
 
             if(bct.floatValue > 0.0f)
             {
@@ -44,10 +46,10 @@ public class BCrystalEditor : ShaderGUI
                 materialEditor.ShaderProperty(bt, "Base Map");
             }
             MaterialProperty mask = ShaderGUI.FindProperty("_Mask_Toggle", properties);
-            GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true,() =>
             {
                 materialEditor.ShaderProperty(mask, "Mask");
-            }, GUILayout.Height(20));
+            });
 
             if (mask.floatValue > 0.0f)
             {
@@ -91,10 +93,10 @@ public class BCrystalEditor : ShaderGUI
 
             MaterialProperty ft = ShaderGUI.FindProperty("_Fresnel_Toggle", properties);
 
-            GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true,() =>
             {
                 materialEditor.ShaderProperty(ft, "Fresnel");
-            }, GUILayout.Height(20));
+            });
             if (ft.floatValue > 0)
             {
                 MaterialProperty frCol = ShaderGUI.FindProperty("_Fresnel_Color", properties);
@@ -134,10 +136,10 @@ public class BCrystalEditor : ShaderGUI
 
             MaterialProperty nt = ShaderGUI.FindProperty("_Normal_Toggle", properties);
 
-            GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true,() =>
             {
                 materialEditor.ShaderProperty(nt, "Normal");
-            }, GUILayout.Height(20));
+            });
 
             if(nt.floatValue > 0)
             {
@@ -172,7 +174,7 @@ public class BCrystalEditor : ShaderGUI
             EditorGUILayout.Space(2);
 
             MaterialProperty refTog = ShaderGUI.FindProperty("_Reflection_Toggle", properties);
-            GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true,() =>
             {
                 materialEditor.ShaderProperty(refTog, "Reflection");
             });
@@ -205,7 +207,7 @@ public class BCrystalEditor : ShaderGUI
                 materialEditor.ShaderProperty(rfNormStr, "Reflection Normal Strength");
 
                 #region Cubemap Settings
-                GUIExtras.SFoldout(targetMat, "_CubemapFold", "Cubemap Controls", BDColors.DarkRed(120), () =>
+                GUIExtras.SFoldout(targetMat, "_CubemapFold", "Cubemap Controls", BDColors.DarkRed(120), 10,BDColors.White(255),BDColors.Black(40),true,() =>
                 {
                     MaterialProperty cmrx = ShaderGUI.FindProperty("_Cubemap_Rotate_X", properties);
                     MaterialProperty cmry = ShaderGUI.FindProperty("_Cubemap_Rotate_Y", properties);
@@ -232,7 +234,7 @@ public class BCrystalEditor : ShaderGUI
                 #endregion
 
                 #region Reflection Fresnel Settings
-                GUIExtras.SFoldout(targetMat, "_FresnelFold", "Fresnel Control", BDColors.DarkRed(180), () =>
+                GUIExtras.SFoldout(targetMat, "_FresnelFold", "Fresnel Control", BDColors.DarkRed(180), 10, BDColors.White(255), BDColors.Black(40), true, () =>
                 {
                     MaterialProperty refFresTog = ShaderGUI.FindProperty("_Ref_Fresnel_Toggle", properties);
                     MaterialProperty refFresInv = ShaderGUI.FindProperty("_Ref_Fresnel_Invert", properties);
@@ -274,10 +276,10 @@ public class BCrystalEditor : ShaderGUI
             EditorGUILayout.Space(2);
 
             MaterialProperty rft = ShaderGUI.FindProperty("_Refraction", properties);
-            GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true,() =>
             {
                 materialEditor.ShaderProperty(rft, "Refract");
-            }, GUILayout.Height(20));
+            });
             if(rft.floatValue > 0f)
             {
                 MaterialProperty rfStr = ShaderGUI.FindProperty("_Refract_Strength", properties);
@@ -323,10 +325,10 @@ public class BCrystalEditor : ShaderGUI
             EditorGUILayout.Space(2);
 
             MaterialProperty it = ShaderGUI.FindProperty("_Interior_Toggle", properties);
-            GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true,() =>
             {
                 materialEditor.ShaderProperty(it, "Interior");
-            }, GUILayout.Height(20));
+            });
             if(it.floatValue > 0)
             {
                 MaterialProperty itCol = ShaderGUI.FindProperty("_Interior_Color", properties);
@@ -348,7 +350,7 @@ public class BCrystalEditor : ShaderGUI
                 materialEditor.ShaderProperty(itSLRep, "Second Layer Repeat");
 
                 #region Noise Settings
-                GUIExtras.SFoldout(targetMat, "_NoiseFold", "Noise Settings", BDColors.DarkRed(120), () =>
+                GUIExtras.SFoldout(targetMat, "_NoiseFold", "Noise Settings", BDColors.DarkRed(120), 10, BDColors.White(255), BDColors.Black(40), true, () =>
                 {
                     MaterialProperty itNoiseT = ShaderGUI.FindProperty("_Interior_Noise_Toggle", properties);
                     MaterialProperty itNInv = ShaderGUI.FindProperty("_Noise_Invert", properties);
@@ -360,11 +362,11 @@ public class BCrystalEditor : ShaderGUI
                     MaterialProperty itNSSI = ShaderGUI.FindProperty("_Noise_SS_In", properties);
                     MaterialProperty itNSSO = ShaderGUI.FindProperty("_Noise_SS_Out", properties);
 
-                    GUIExtras.ColoredVertical(BDColors.Black(20), () =>
+                    GUIExtras.SColoredVertical(BDColors.Black(20), 20,true,() =>
                     {
                         materialEditor.ShaderProperty(itNoiseT, "Noise");
 
-                    }, GUILayout.Height(20));
+                    });
                     materialEditor.ShaderProperty(itNInv, "Noise Invert");
                     ShaderGUIHelpers.FloatSliderFree(materialEditor, itNCont, "Noise Contrast", 0, 5);
                     ShaderGUIHelpers.FloatSliderFree(materialEditor, itNGma, "Noise Gamma", 0, 5);
@@ -377,13 +379,13 @@ public class BCrystalEditor : ShaderGUI
                 #endregion
 
                 #region Fresnel Settings
-                GUIExtras.SFoldout(targetMat, "_CheckIntFresnel", "Fresnel Settings", BDColors.DarkRed(160), () =>
+                GUIExtras.SFoldout(targetMat, "_CheckIntFresnel", "Fresnel Settings", BDColors.DarkRed(160), 10, BDColors.White(255), BDColors.Black(40), true, () =>
                 {
                     MaterialProperty ift = ShaderGUI.FindProperty("_Interior_Fresnel_Toggle", properties);
-                    GUIExtras.ColoredVertical(BDColors.Black(20), () =>
+                    GUIExtras.SColoredVertical(BDColors.Black(20), 20,true,() =>
                     {
                         materialEditor.ShaderProperty(ift, "Fresnel");
-                    },GUILayout.Height(20));
+                    });
                     MaterialProperty ifInv = ShaderGUI.FindProperty("_IF_Invert", properties);
                     MaterialProperty ifCont = ShaderGUI.FindProperty("_IF_Contrast", properties);
                     MaterialProperty ifContP = ShaderGUI.FindProperty("_IF_Contrast_Pivot", properties);
@@ -403,13 +405,13 @@ public class BCrystalEditor : ShaderGUI
                 #endregion
 
                 #region Light Settings
-                GUIExtras.SFoldout(targetMat, "_CheckIntLight", "Light Settings", BDColors.DarkRed(200), () =>
+                GUIExtras.SFoldout(targetMat, "_CheckIntLight", "Light Settings", BDColors.DarkRed(200), 10, BDColors.White(255), BDColors.Black(40), true, () =>
                 {
                     MaterialProperty ilt = ShaderGUI.FindProperty("_Center_Light_Toggle", properties);
-                    GUIExtras.ColoredVertical(BDColors.Black(20), () =>
+                    GUIExtras.SColoredVertical(BDColors.Black(20), 20,true,() =>
                     {
                         materialEditor.ShaderProperty(ilt, "Interior Light");
-                    }, GUILayout.Height(20));
+                    });
                     
                     MaterialProperty ilGAS = ShaderGUI.FindProperty("_Glow_Anim_Speed", properties);
                     MaterialProperty ilGAI = ShaderGUI.FindProperty("_Glow_Anim_Intensity", properties);
@@ -460,10 +462,10 @@ public class BCrystalEditor : ShaderGUI
             EditorGUILayout.Space(2);
 
             MaterialProperty curvT = ShaderGUI.FindProperty("_Curvature_Toggle", properties);
-            GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true,() =>
             {
                 materialEditor.ShaderProperty(curvT, "Curvature");
-            }, GUILayout.Height(20));
+            });
             if (curvT.floatValue > 0)
             {
                 MaterialProperty selCurv = ShaderGUI.FindProperty("_CALCULATE_MAP", properties);
@@ -537,7 +539,7 @@ public class BCrystalEditor : ShaderGUI
         #endregion
 
         #region BUDU Copyright
-        GUIExtras.About(ref aboutFold, style, "Assets/_BUDU/GUI/BUDUGAMES-About.png");
+        GUIExtras.About(ref aboutFold, style);
         #endregion
     }
 

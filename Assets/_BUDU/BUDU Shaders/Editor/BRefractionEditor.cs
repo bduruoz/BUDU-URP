@@ -1,4 +1,6 @@
-// BUDU Games 2023 - 2025
+// © BUDU Games 2024 - 2026
+// BUDU Refraction Shader Editor
+
 using budu;
 using UnityEditor;
 using UnityEngine;
@@ -68,10 +70,10 @@ public class BRefractionEditor : ShaderGUI
             EditorGUILayout.BeginVertical();
             {
                 MaterialProperty sst = ShaderGUI.FindProperty("_Screen_Space_Toggle", properties);
-                GUIExtras.ColoredVertical(BDColors.dOrangeViolet(50), () =>
+                GUIExtras.SColoredVertical(BDColors.dOrangeViolet(50),20,true,   () =>
                 {
                     materialEditor.ShaderProperty(sst, "Screen Space");
-                }, GUILayout.Height(20));
+                });
                 if (sst.floatValue > 0.0f)
                 {
                     MaterialProperty sstype = ShaderGUI.FindProperty("_SS_TYPE", properties);
@@ -108,10 +110,10 @@ public class BRefractionEditor : ShaderGUI
             EditorGUILayout.BeginVertical();
             {
                 MaterialProperty nmt = ShaderGUI.FindProperty("_Normal_Toggle", properties);
-                GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+                GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true, () =>
                 {
                     materialEditor.ShaderProperty(nmt, "Normal");
-                }, GUILayout.Height(20));
+                });
                 if (nmt.floatValue > 0f)
                 {
                     MaterialProperty nmap = ShaderGUI.FindProperty("_Normal_Map", properties);
@@ -142,10 +144,10 @@ public class BRefractionEditor : ShaderGUI
                 EditorGUILayout.BeginVertical();
                 {
                     MaterialProperty bst = ShaderGUI.FindProperty("_Base_Spec_Toggle", properties);
-                    GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+                    GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true,() =>
                     {
                         materialEditor.ShaderProperty(bst, "Base Specular");
-                    }, GUILayout.Height(20));
+                    });
                     if (bst.floatValue > 0f)
                     {
                         MaterialProperty bsi = ShaderGUI.FindProperty("_Base_Spec_Intensity", properties);
@@ -177,10 +179,10 @@ public class BRefractionEditor : ShaderGUI
             EditorGUILayout.BeginVertical();
             {
                 MaterialProperty cst = ShaderGUI.FindProperty("_Custom_Spec_Toggle", properties);
-                GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+                GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true, () =>
                 {
                     materialEditor.ShaderProperty(cst, "Second Specular");
-                }, GUILayout.Height(20));
+                });
                 if (cst.floatValue > 0f)
                 {
                     MaterialProperty csCol = ShaderGUI.FindProperty("_Custom_Spec_Color", properties);
@@ -196,7 +198,7 @@ public class BRefractionEditor : ShaderGUI
                     materialEditor.ShaderProperty(csNrmStr, "Normal Strength");
 
                     #region Extra Specular Controls
-                    GUIExtras.SFoldout(targetMat, "_SpecExtFold", "Specular Controls", BDColors.DarkRed(120), () =>
+                    GUIExtras.SFoldout(targetMat, "_SpecExtFold", "Specular Controls", BDColors.DarkRed(120), 10,BDColors.White(255),BDColors.Black(40),true, () =>
                     {
                         MaterialProperty csGloss = ShaderGUI.FindProperty("_Custom_Spec_Glossy", properties);
                         MaterialProperty csGamma = ShaderGUI.FindProperty("_Custom_Spec_Gamma", properties);
@@ -231,10 +233,10 @@ public class BRefractionEditor : ShaderGUI
             EditorGUILayout.BeginVertical();
             {
                 MaterialProperty Refl = ShaderGUI.FindProperty("_Reflection_Toggle", properties);
-                GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+                GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true, () =>
                 {
                     materialEditor.ShaderProperty(Refl, "Reflect");
-                }, GUILayout.Height(20));
+                });
 
                 if (Refl.floatValue > 0.0f)
                 {
@@ -264,7 +266,7 @@ public class BRefractionEditor : ShaderGUI
                     materialEditor.ShaderProperty(rfNrStr, "Normal Strength");
 
                     #region Cubemap Settings
-                    GUIExtras.SFoldout(targetMat, "_CubemapFold", "Cubemap Controls", BDColors.DarkRed(120), () =>
+                    GUIExtras.SFoldout(targetMat, "_CubemapFold", "Cubemap Controls", BDColors.DarkRed(120), 10,BDColors.White(255),BDColors.Black(40),true, () =>
                     {
                         MaterialProperty cmrx = ShaderGUI.FindProperty("_Cubemap_Rotate_X", properties);
                         MaterialProperty cmry = ShaderGUI.FindProperty("_Cubemap_Rotate_Y", properties);
@@ -291,7 +293,7 @@ public class BRefractionEditor : ShaderGUI
                     #endregion
 
                     #region Reflection Fresnel Settings
-                    GUIExtras.SFoldout(targetMat, "_FresnelFold", "Fresnel Control", BDColors.DarkRed(160), () =>
+                    GUIExtras.SFoldout(targetMat, "_FresnelFold", "Fresnel Control", BDColors.DarkRed(160), 10,BDColors.White(255),BDColors.Black(40),true, () =>
                     {
                         MaterialProperty refFresTog = ShaderGUI.FindProperty("_Ref_Fresnel_Toggle", properties);
                         MaterialProperty refFresInv = ShaderGUI.FindProperty("_Ref_Fresnel_Invert", properties);
@@ -333,10 +335,10 @@ public class BRefractionEditor : ShaderGUI
             EditorGUILayout.BeginVertical();
             {
                 MaterialProperty transtog = ShaderGUI.FindProperty("_Transparent_Toggle", properties);
-                GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+                GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true, () =>
                 {
                     materialEditor.ShaderProperty(transtog, "Transparent");
-                }, GUILayout.Height(20));
+                });
                 if (transtog.floatValue > 0f)
                 {
                     MaterialProperty trStr = ShaderGUI.FindProperty("_Transparent_Strength", properties);
@@ -361,7 +363,7 @@ public class BRefractionEditor : ShaderGUI
                     }
 
                     #region Transparent Fresnel Settings
-                    GUIExtras.SFoldout(targetMat, "_TrFresnelFold", "Fresnel Control", BDColors.DarkRed(180), () =>
+                    GUIExtras.SFoldout(targetMat, "_TrFresnelFold", "Fresnel Control", BDColors.DarkRed(180), 10,BDColors.White(255),BDColors.Black(40),true, () =>
                     {
                         MaterialProperty trFresTog = ShaderGUI.FindProperty("_TR_Fresnel_Toggle", properties);
                         MaterialProperty trFresInv = ShaderGUI.FindProperty("_TR_Fresnel_Invert", properties);
@@ -404,10 +406,10 @@ public class BRefractionEditor : ShaderGUI
             EditorGUILayout.BeginVertical();
             {
                 MaterialProperty refrT = ShaderGUI.FindProperty("_Refract_Toggle", properties);
-                GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+                GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true, () =>
                 {
                     materialEditor.ShaderProperty(refrT, "Refract");
-                }, GUILayout.Height(20));
+                });
                 if (refrT.floatValue > 0f)
                 {
                     MaterialProperty refrType = ShaderGUI.FindProperty("_REFRACT_TYPE", properties);
@@ -448,7 +450,7 @@ public class BRefractionEditor : ShaderGUI
                     materialEditor.ShaderProperty(refrNormalStrength, "Normal Strength");
 
                     #region Transparent Fresnel Settings
-                    GUIExtras.SFoldout(targetMat, "_RfFresnelFold", "Fresnel Control", BDColors.DarkRed(120), () =>
+                    GUIExtras.SFoldout(targetMat, "_RfFresnelFold", "Fresnel Control", BDColors.DarkRed(120), 10,BDColors.White(255),BDColors.Black(40),true, () =>
                     {
                         MaterialProperty rfFresTog = ShaderGUI.FindProperty("_RF_Fresnel_Toggle", properties);
                         MaterialProperty rfFresInv = ShaderGUI.FindProperty("_RF_Fresnel_Invert", properties);
@@ -474,7 +476,7 @@ public class BRefractionEditor : ShaderGUI
                     #endregion
 
                     #region Chromatic Aberration Settings
-                    GUIExtras.SFoldout(targetMat, "_ChromaFold", "Chromatic Aberration Control", BDColors.DarkRed(160), () =>
+                    GUIExtras.SFoldout(targetMat, "_ChromaFold", "Chromatic Aberration Control", BDColors.DarkRed(160), 10,BDColors.White(255),BDColors.Black(40),true, () =>
                     {
                         MaterialProperty ChrAb = ShaderGUI.FindProperty("_Chromatic_Aberration", properties);
                         materialEditor.ShaderProperty(ChrAb, "Chromatic Aberration");
@@ -510,7 +512,7 @@ public class BRefractionEditor : ShaderGUI
                     #endregion
 
                     #region Refraction Transparency Settings
-                    GUIExtras.SFoldout(targetMat, "_RfTrFold", "Refraction Transparency Controls", BDColors.DarkRed(200), () =>
+                    GUIExtras.SFoldout(targetMat, "_RfTrFold", "Refraction Transparency Controls", BDColors.DarkRed(200), 10,BDColors.White(255),BDColors.Black(40),true, () =>
                     {
                         MaterialProperty rftr = ShaderGUI.FindProperty("_RF_Transparent_Toggle", properties);
                         materialEditor.ShaderProperty(rftr, "Refraction Transparent");
@@ -563,10 +565,10 @@ public class BRefractionEditor : ShaderGUI
             EditorGUILayout.BeginVertical();
             {
                 MaterialProperty curvTog = ShaderGUI.FindProperty("_Curvature_Toggle", properties);
-                GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+                GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true, () =>
                 {
                     materialEditor.ShaderProperty(curvTog, "Curvature");
-                }, GUILayout.Height(20));
+                });
 
                 if(curvTog.floatValue > 0f)
                 {
@@ -608,10 +610,10 @@ public class BRefractionEditor : ShaderGUI
             {
                 MaterialProperty ao = ShaderGUI.FindProperty("_AO_Toggle", properties);
 
-                GUIExtras.ColoredVertical(BDColors.NexusBlue(50), () =>
+                GUIExtras.SColoredVertical(BDColors.NexusBlue(50), 20,true, () =>
                 {
                     materialEditor.ShaderProperty(ao, "Ambient Occlusion");
-                }, GUILayout.Height(20));
+                });
 
                 if(ao.floatValue > 0)
                 {
@@ -658,10 +660,10 @@ public class BRefractionEditor : ShaderGUI
             {
                 MaterialProperty thc = ShaderGUI.FindProperty("_Thickness_Toggle", properties);
 
-                GUIExtras.ColoredVertical(BDColors.NexusBlue(50), () =>
+                GUIExtras.SColoredVertical(BDColors.NexusBlue(50), 20,true, () =>
                 {
                     materialEditor.ShaderProperty(thc, "Thickness");
-                }, GUILayout.Height(20));
+                });
                 if (thc.floatValue > 0)
                 {
                     MaterialProperty thcCol = ShaderGUI.FindProperty("_Thickness_Color", properties);
@@ -707,7 +709,7 @@ public class BRefractionEditor : ShaderGUI
         #endregion
 
         #region BUDU Copyright
-        GUIExtras.About(ref aboutFold, style, "Assets/_BUDU/GUI/BUDUGAMES-About.png");
+        GUIExtras.About(ref aboutFold, style);
         #endregion
     }
     void loadMaterialVariables(Material targetMat)

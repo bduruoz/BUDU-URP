@@ -1,3 +1,6 @@
+// BUDU Games 2024 - 2025
+// DepthMaskURP
+
 Shader "BUDU/DepthMaskURP"
 {
     Properties{ _Color ("Color", Color) = (1,1,1,1) }

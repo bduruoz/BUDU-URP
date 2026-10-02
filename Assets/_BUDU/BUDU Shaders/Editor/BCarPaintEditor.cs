@@ -1,4 +1,6 @@
-﻿// BUDU Games 2023 - 2025
+﻿// © BUDU Games 2024 - 2026
+// BUDU Car Paint Shader Editor
+
 using budu;
 using System;
 using UnityEditor;
@@ -7,9 +9,9 @@ using UnityEngine;
 public class BCarPaintEditor : ShaderGUI
 {
     bool checkDef, checkBase, checkStickers, checkShade, checkFlakes, checkNormal, checkSpec, checkSecSpec, checkReflect, checkAO, checkDamage, clearCoat;
-    bool shadeExtFold, flakeAFold, flakeBFold, cubemapFold, fresnelFold, flakeSpecFold, twoColorFold;
+    bool blinnFold, flakeAFold, flakeBFold, cubemapFold, fresnelFold, flakeSpecFold, twoColorFold, refMaskFold; //Required by inspector 
     bool aboutFold, TopStickerTog, BottomStickerTog, LeftStickerTog, RightStickerTog, FrontStickerTog, BackStickerTog;
-    int tempVar, blendingMode, workflowMode, isSpecular;
+    int blendingMode, workflowMode, isSpecular;
     
     public override void OnGUI(MaterialEditor materialEditor, MaterialProperty[] properties)
     {
@@ -32,119 +34,22 @@ public class BCarPaintEditor : ShaderGUI
             EditorGUILayout.Space(2);
             EditorGUILayout.BeginVertical();
             {
-                MaterialProperty bc = ShaderGUI.FindProperty("_Base_Color", properties);
-                MaterialProperty baseNorm = ShaderGUI.FindProperty("_Base_Normal_Intensity", properties);
-                MaterialProperty emisCoef = ShaderGUI.FindProperty("_Color_Affect_Emissive", properties);
-                MaterialProperty envLight = ShaderGUI.FindProperty("_Environment_Light_Affect", properties);
 
-                materialEditor.ShaderProperty(bc, "Base Color");
-                materialEditor.ShaderProperty(baseNorm, "Color Normal Strength");
-                materialEditor.ShaderProperty(emisCoef, "Color Emissive");
-                materialEditor.ShaderProperty(envLight, "Environment Affect");
-
-                GUIExtras.SFoldout(targetMat, "_TwoColorFold", "Two Color", BDColors.DarkRed(120), () =>
+                MaterialProperty custxt = ShaderGUI.FindProperty("_Custom_Texture", properties);
+                materialEditor.ShaderProperty(custxt, "Custom Texture");
+                if (custxt.floatValue > 0.1f)
                 {
-                    MaterialProperty twoCol = ShaderGUI.FindProperty("_Two_Colors", properties);
-                    materialEditor.ShaderProperty(twoCol, "Two Color");
-                    if (twoCol.floatValue > 0f)
-                    {
-                        MaterialProperty paintType = ShaderGUI.FindProperty("_PAINT_TYPE_SELECTOR", properties);
-                        MaterialProperty secCol = ShaderGUI.FindProperty("_Second_Color", properties);
+                    GUIExtras.BaseSettingsGUI(materialEditor, properties);
+                }
+                else
+                {
+                    MaterialProperty bc = ShaderGUI.FindProperty("_Base_Color", properties);
+                    materialEditor.ShaderProperty(bc, "Base Color");
+                }
+                MaterialProperty emisCoef = ShaderGUI.FindProperty("_Color_Affect_Emissive", properties);
+                materialEditor.ShaderProperty(emisCoef, "Color Emissive");
 
-                        MaterialProperty cfi = ShaderGUI.FindProperty("_Color_Fresnel_Invert", properties);
-                        MaterialProperty cfb = ShaderGUI.FindProperty("_Color_Fresnel_Bias", properties);
-                        MaterialProperty cfs = ShaderGUI.FindProperty("_Color_Fresnel_Scale", properties);
-                        MaterialProperty cfp = ShaderGUI.FindProperty("_Color_Fresnel_Power", properties);
-                        MaterialProperty cfc = ShaderGUI.FindProperty("_Color_Fresnel_Contrast", properties);
-                        MaterialProperty cfcp = ShaderGUI.FindProperty("_Color_Fresnel_Contrast_Pivot", properties);
-
-                        MaterialProperty cgi = ShaderGUI.FindProperty("_Grad_Invert", properties);
-                        MaterialProperty cgs = ShaderGUI.FindProperty("_Grad_Scale", properties);
-                        MaterialProperty cgo = ShaderGUI.FindProperty("_Grad_Bias", properties);
-                        MaterialProperty cfty = ShaderGUI.FindProperty("_Color_Fresnel_Gamma", properties);
-                        MaterialProperty cgty = ShaderGUI.FindProperty("_Grad_Gamma", properties);
-                        MaterialProperty cgc = ShaderGUI.FindProperty("_Grad_Contrast", properties);
-                        MaterialProperty cgcp = ShaderGUI.FindProperty("_Grad_Contrast_Pivot", properties);
-
-                        MaterialProperty cgrx = ShaderGUI.FindProperty("_Grad_Rotation_X", properties);
-                        MaterialProperty cgry = ShaderGUI.FindProperty("_Grad_Rotation_Y", properties);
-                        MaterialProperty cgrz = ShaderGUI.FindProperty("_Grad_Rotation_Z", properties);
-
-                        materialEditor.ShaderProperty(paintType, "Paint Method");
-                        materialEditor.ColorProperty(secCol, "Second Color");
-
-                        switch ((int)paintType.floatValue)
-                        {
-                            #region Fresnel
-                            case 0:
-                                // Fresnel
-                                GUIExtras.ColoredVertical(BDColors.Black(20), () =>
-                                {
-                                    EditorGUILayout.LabelField("FRESNEL");
-                                }, GUILayout.Height(20));
-                                materialEditor.ShaderProperty(cfi, "Invert");
-                                materialEditor.ShaderProperty(cfty, "Gamma");
-                                ShaderGUIHelpers.FloatSliderFree(materialEditor, cfc, "Contrast", 0, 5);
-                                materialEditor.ShaderProperty(cfcp, "Contrast Pivot");
-                                materialEditor.ShaderProperty(cfb, "Bias");
-                                materialEditor.ShaderProperty(cfs, "Scale");
-                                materialEditor.ShaderProperty(cfp, "Power");
-                                EditorGUIHelper.Separator(3, color: BDColors.Black() * 0.2f);
-                                break;
-                            #endregion
-                            #region Gradient Y
-                            case 1:
-                                // Gradient
-                                GUIExtras.ColoredVertical(BDColors.Black(20), () =>
-                                {
-                                    EditorGUILayout.LabelField("GRADIENT");
-                                }, GUILayout.Height(20));
-                                materialEditor.ShaderProperty(cgi, "Invert");
-                                materialEditor.ShaderProperty(cgty, "Gamma");
-                                ShaderGUIHelpers.FloatSliderFree(materialEditor, cgc, "Contrast", 0, 5);
-                                materialEditor.ShaderProperty(cgcp, "Contrast Pivot");
-                                ShaderGUIHelpers.FloatSliderFree(materialEditor, cgs, "Scale", 0, 1);
-                                ShaderGUIHelpers.FloatSliderFree(materialEditor, cgo, "Bias", -1, 1);
-                                ShaderGUIHelpers.FloatSliderFree(materialEditor, cgrx, "Rotate X", -360, 360);
-                                ShaderGUIHelpers.FloatSliderFree(materialEditor, cgry, "Rotate Y", -360, 360);
-                                ShaderGUIHelpers.FloatSliderFree(materialEditor, cgrz, "Rotate Z", -360, 360);
-                                EditorGUIHelper.Separator(3, color: BDColors.Black() * 0.2f);
-                                break;
-                            #endregion
-                            #region Fresnel & Gradient Y
-                            case 2:
-                                // Fresnel
-                                GUIExtras.ColoredVertical(BDColors.Black(20), () =>
-                                {
-                                    EditorGUILayout.LabelField("FRESNEL");
-                                }, GUILayout.Height(20));
-                                materialEditor.ShaderProperty(cfi, "Invert");
-                                materialEditor.ShaderProperty(cfty, "Gamma");
-                                ShaderGUIHelpers.FloatSliderFree(materialEditor, cfc, "Contrast", 0, 5);
-                                materialEditor.ShaderProperty(cfc, "Contrast Pivot");
-                                materialEditor.ShaderProperty(cfb, "Bias");
-                                materialEditor.ShaderProperty(cfs, "Scale");
-                                materialEditor.ShaderProperty(cfp, "Power");
-                                // Gradient
-                                GUIExtras.ColoredVertical(BDColors.Black(20), () =>
-                                {
-                                    EditorGUILayout.LabelField("GRADIENT");
-                                }, GUILayout.Height(20));
-                                materialEditor.ShaderProperty(cgi, "Invert");
-                                materialEditor.ShaderProperty(cgty, "Gamma");
-                                ShaderGUIHelpers.FloatSliderFree(materialEditor, cgc, "Contrast", 0, 5);
-                                materialEditor.ShaderProperty(cgcp, "Contrast Pivot");
-                                ShaderGUIHelpers.FloatSliderFree(materialEditor, cgs, "Scale", 0, 1);
-                                ShaderGUIHelpers.FloatSliderFree(materialEditor, cgo, "Bias", -1, 1);
-                                ShaderGUIHelpers.FloatSliderFree(materialEditor, cgrx, "Rotate X", -360, 360);
-                                ShaderGUIHelpers.FloatSliderFree(materialEditor, cgry, "Rotate Y", -360, 360);
-                                ShaderGUIHelpers.FloatSliderFree(materialEditor, cgrz, "Rotate Z", -360, 360);
-                                EditorGUIHelper.Separator(3, color: BDColors.Black() * 0.2f);
-                                break;
-                                #endregion
-                        }
-                    }
-                });
+                GUIExtras.TwoColorSettingsGUI(materialEditor, properties, targetMat);
             }
             EditorGUI.indentLevel--;
             GUILayout.EndVertical();
@@ -164,10 +69,10 @@ public class BCarPaintEditor : ShaderGUI
 
             MaterialProperty stickers = ShaderGUI.FindProperty("_Sticker_Toggle", properties);
 
-            GUIExtras.ColoredVertical(BDColors.NexusOrange(50),() =>
+            GUIExtras.SColoredVertical(BDColors.NexusOrange(50),20,true,() =>
             {
                 materialEditor.ShaderProperty(stickers, "Stickers");
-            },GUILayout.Height(20));
+            });
 
             if(stickers.floatValue > 0f)
             {
@@ -489,7 +394,20 @@ public class BCarPaintEditor : ShaderGUI
         EditorGUILayout.EndVertical();
         #endregion
 
-        #region Shade Color Settings
+        #region Normal Settings
+        GUIExtras.SHeader("NORMAL SETTINGS", ref checkNormal, "_CheckNormal", targetMat, style);
+        EditorGUILayout.BeginVertical(style);
+        if (checkNormal)
+        {
+            EditorGUI.indentLevel++;
+            GUIExtras.NormalSettingsGUI(materialEditor, properties);
+            EditorGUI.indentLevel--;
+        }
+        EditorGUILayout.EndVertical();
+        GUILayout.Space(1);
+        #endregion
+
+        #region Shade Settings
         GUIExtras.SHeader("SHADING SETTINGS", ref checkShade, "_CheckShade", targetMat, style);
 
         EditorGUILayout.BeginVertical(style);
@@ -497,68 +415,8 @@ public class BCarPaintEditor : ShaderGUI
         {
             EditorGUI.indentLevel++;
             EditorGUILayout.Space(2);
-            MaterialProperty shadTog = ShaderGUI.FindProperty("_Shading_Toggle", properties);
-            GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
-            {
-                materialEditor.ShaderProperty(shadTog, "Shade Feature");
-            }, GUILayout.Height(20));
-            if (shadTog.floatValue > 0.0f)
-            {
-                MaterialProperty shCol = ShaderGUI.FindProperty("_Shade_Color", properties);
-                MaterialProperty shCntr = ShaderGUI.FindProperty("_Shading_Contribution", properties);
-                MaterialProperty shInt = ShaderGUI.FindProperty("_Shading_Intensity", properties);
-                MaterialProperty shFCont = ShaderGUI.FindProperty("_Full_Shade_Contrast", properties);
-                MaterialProperty shFContP = ShaderGUI.FindProperty("_Full_Shade_Contrast_Pivot", properties);
-                MaterialProperty shOff = ShaderGUI.FindProperty("_Shading_Offset", properties);
-                MaterialProperty shSaturate = ShaderGUI.FindProperty("_Shading_Saturate", properties);
-
-                materialEditor.ShaderProperty(shCol, "Color");
-                materialEditor.ShaderProperty(shInt, "Intensity");
-                materialEditor.ShaderProperty(shCntr, "Contribution");
-                ShaderGUIHelpers.FloatSliderFree(materialEditor, shFCont, "Full Contrast", 0f, 5f);
-                materialEditor.ShaderProperty(shFContP, "Full Contrast Pivot");
-                materialEditor.ShaderProperty(shOff, "Offset");
-                materialEditor.ShaderProperty(shSaturate, "Saturate");
-
-                #region Shade Extra Controls
-                GUIExtras.SFoldout(targetMat, "_ShadeExtFold", "Shade Extra Controls", BDColors.DarkRed(120), () =>
-                {
-                    GUIExtras.ColoredVertical(BDColors.Black(20), () =>
-                    {
-                        EditorGUILayout.LabelField("Normal Settings");
-                    });
-                    MaterialProperty shNrmStr = ShaderGUI.FindProperty("_Shading_Normal_Strength", properties);
-                    MaterialProperty shNrmRCont = ShaderGUI.FindProperty("_Normal_Result_Contrast", properties);
-                    MaterialProperty shNrmRContP = ShaderGUI.FindProperty("_Normal_Result_Contrast_Pivot", properties);
-
-                    materialEditor.ShaderProperty(shNrmStr, "Normal Strength");
-                    ShaderGUIHelpers.FloatSliderFree(materialEditor, shNrmRCont, "Normal Result Contrast", 0f, 5f);
-                    materialEditor.ShaderProperty(shNrmRContP, "Normal Result Contrast Pivot");
-
-                    MaterialProperty shAffBaseTxt = ShaderGUI.FindProperty("_Shading_Affect_Base_Map", properties);
-                    GUIExtras.ColoredVertical(BDColors.Black(20), () =>
-                    {
-                        materialEditor.ShaderProperty(shAffBaseTxt, "Affect Base Texture");
-                    });
-                    if (shAffBaseTxt.floatValue > 0f)
-                    {
-                        MaterialProperty shColTxt = ShaderGUI.FindProperty("_Shading_Colored_Texture", properties);
-                        MaterialProperty TxtOverCol = ShaderGUI.FindProperty("_Texture_Over_Color", properties);
-                        MaterialProperty bsMapInt = ShaderGUI.FindProperty("_Base_Map_Intensity", properties);
-                        MaterialProperty bsMapMult = ShaderGUI.FindProperty("_Base_Map_Multiplier", properties);
-                        MaterialProperty bsShrp = ShaderGUI.FindProperty("_Base_Sharpness", properties);
-                        MaterialProperty bsOff = ShaderGUI.FindProperty("_Base_Offset", properties);
-
-                        materialEditor.ShaderProperty(shColTxt, "Use Texture Color");
-                        materialEditor.ShaderProperty(TxtOverCol, "Texture Over Color");
-                        materialEditor.ShaderProperty(bsMapInt, "Base Map Intensity");
-                        materialEditor.ShaderProperty(bsMapMult, "Base Map Multiplier");
-                        materialEditor.ShaderProperty(bsShrp, "Base Sharpness");
-                        materialEditor.ShaderProperty(bsOff, "Base Offset");
-                    }
-                });
-                #endregion
-            }
+            bool nrmTog = GUIExtras.IsToggleAndTextureEnabled(properties, "_Normal", "_Normal_Map");
+            GUIExtras.ShadeColorSettingsGUI(materialEditor, properties, targetMat, nrmTog);
             EditorGUI.indentLevel--;
         }
         EditorGUILayout.EndVertical();
@@ -576,10 +434,10 @@ public class BCarPaintEditor : ShaderGUI
 
             MaterialProperty Flakes = ShaderGUI.FindProperty("_Specular_Flakes",properties);
 
-            GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true,() =>
             {
                 materialEditor.ShaderProperty(Flakes, "Flakes");
-            }, GUILayout.Height(20));
+            });
             if(Flakes.floatValue > 0f)
             {
                 MaterialProperty flCol = ShaderGUI.FindProperty("_Flakes_Color", properties);
@@ -594,7 +452,7 @@ public class BCarPaintEditor : ShaderGUI
 
 
                 #region Flake A Settings
-                GUIExtras.SFoldout(targetMat, "_FlakeAFold", "Flakes A Settings", BDColors.DarkRed(120), () =>
+                GUIExtras.SFoldout(targetMat, "_FlakeAFold", "Flakes A Settings", BDColors.DarkRed(120), 10, BDColors.White(255), BDColors.Black(40), true, () =>
                 {
                     MaterialProperty FA_BlendType = ShaderGUI.FindProperty("_Flakes_A_BlendType", properties, false);
                     string[] faOpt = new string[] { "Multiply", "Divide", "Add", "Subtract" };
@@ -635,7 +493,7 @@ public class BCarPaintEditor : ShaderGUI
                 #endregion
 
                 #region Flake B Settings
-                GUIExtras.SFoldout(targetMat, "_FlakeBFold", "Flakes B Settings", BDColors.DarkRed(180), () =>
+                GUIExtras.SFoldout(targetMat, "_FlakeBFold", "Flakes B Settings", BDColors.DarkRed(180), 10, BDColors.White(255), BDColors.Black(40), true, () =>
                 {
                     MaterialProperty FA_BlendType = ShaderGUI.FindProperty("_Flakes_B_BlendType", properties, false);
                     string[] faOpt = new string[] { "Multiply", "Divide", "Add", "Subtract" };
@@ -676,7 +534,7 @@ public class BCarPaintEditor : ShaderGUI
                 #endregion
 
                 #region Flakes Specular Settings
-                GUIExtras.SFoldout(targetMat, "_FlakeSpecFold", "Flakes Specular Settings", BDColors.DarkRed(220), () =>
+                GUIExtras.SFoldout(targetMat, "_FlakeSpecFold", "Flakes Specular Settings", BDColors.DarkRed(220), 10, BDColors.White(255), BDColors.Black(40), true, () =>
                 {
                     MaterialProperty spGam = ShaderGUI.FindProperty("_Flakes_Spec_Gamma", properties);
                     MaterialProperty spGls = ShaderGUI.FindProperty("_Flakes_Spec_Glossy", properties);
@@ -701,34 +559,6 @@ public class BCarPaintEditor : ShaderGUI
         EditorGUILayout.Space(1);
         #endregion
 
-        #region Normal Settings
-        GUIExtras.SHeader("NORMAL SETTINGS", ref checkNormal, "_CheckNormal", targetMat, style);
-
-        EditorGUILayout.BeginVertical(style);
-        if(checkNormal)
-        {
-            EditorGUI.indentLevel++;
-            MaterialProperty nrm = ShaderGUI.FindProperty("_Normal", properties);
-            GUIExtras.ColoredVertical(BDColors.NexusBlue(50), () =>
-            {
-                materialEditor.ShaderProperty(nrm, "Normal Map");
-            }, GUILayout.Height(20));
-            if(nrm.floatValue > 0.0f)
-            {
-                MaterialProperty flnTxt = ShaderGUI.FindProperty("_Normal_Map", properties);
-                MaterialProperty FlNormStrength = ShaderGUI.FindProperty("_Normal_Strength", properties);
-                MaterialProperty FlNormMultiplier = ShaderGUI.FindProperty("_Normal_Multiplier", properties);
-
-                materialEditor.ShaderProperty(flnTxt, "Normal Map");
-                materialEditor.RangeProperty(FlNormStrength, "Normal Strength");
-                materialEditor.RangeProperty(FlNormMultiplier, "Normal Multiplier");
-            }
-            EditorGUI.indentLevel--;
-        }
-        EditorGUILayout.EndVertical();
-        GUILayout.Space(1);
-        #endregion
-
         #region Base Specular Settings
         GUIExtras.SHeader("SPECULAR | METALLIC SETTINGS", ref checkSpec, "_CheckSpec", targetMat, style);
 
@@ -738,10 +568,10 @@ public class BCarPaintEditor : ShaderGUI
             EditorGUI.indentLevel++;
             EditorGUILayout.Space(2);
             MaterialProperty Spec = ShaderGUI.FindProperty("_Base_Spec_Toggle",properties);
-            GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true,() =>
             {
                 materialEditor.ShaderProperty(Spec, "Base Specular");
-            }, GUILayout.Height(20));
+            });
             if(Spec.floatValue > 0.0f)
             {
                 if (isSpecular > 0)
@@ -777,60 +607,8 @@ public class BCarPaintEditor : ShaderGUI
         {
             EditorGUI.indentLevel++;
             EditorGUILayout.Space(2);
-
-            MaterialProperty specTog = ShaderGUI.FindProperty("_Spec_Toggle", properties);
-            GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
-            {
-                materialEditor.ShaderProperty(specTog, "Specular Feature");
-            }, GUILayout.Height(20));
-            if (specTog.floatValue > 0.0f)
-            {
-                MaterialProperty spcol = ShaderGUI.FindProperty("_Spec_Color", properties);
-                MaterialProperty spInt = ShaderGUI.FindProperty("_Spec_Intensity", properties);
-                MaterialProperty spTxt = ShaderGUI.FindProperty("_Spec_Map", properties);
-
-                materialEditor.ShaderProperty(spcol, "Color");
-                materialEditor.ShaderProperty(spTxt, "Specular Map");
-                ShaderGUIHelpers.FloatSliderFree(materialEditor, spInt, "Intensity", 0, 5);
-                if (!GUIExtras.IsTextureEmpty(spTxt))
-                {
-                    MaterialProperty spInv = ShaderGUI.FindProperty("_Spec_Map_Invert", properties);
-                    materialEditor.ShaderProperty(spInv, "Map Invert");
-                }
-
-                #region Extra Specular Controls
-                GUIExtras.SFoldout(targetMat, "_SpecExtFold", "Specular Extra Controls", BDColors.DarkRed(120), () =>
-                {
-                    MaterialProperty spNormStr = ShaderGUI.FindProperty("_Spec_Normal_Strength", properties);
-                    MaterialProperty spNormMult = ShaderGUI.FindProperty("_Spec_Normal_Multiplier", properties);
-                    MaterialProperty lgGam = ShaderGUI.FindProperty("_Spec_Gamma", properties);
-                    MaterialProperty spGls = ShaderGUI.FindProperty("_Spec_Glossy", properties);
-                    MaterialProperty spSmt = ShaderGUI.FindProperty("_Spec_Softness", properties);
-                    MaterialProperty spSat = ShaderGUI.FindProperty("_Spec_Saturation", properties);
-                    MaterialProperty spIn = ShaderGUI.FindProperty("_Spec_In", properties);
-                    MaterialProperty spOut = ShaderGUI.FindProperty("_Spec_Out", properties);
-
-                    GUIExtras.ColoredVertical(BDColors.Black(20), () =>
-                    {
-                        EditorGUILayout.LabelField("Normal Settings");
-                    });
-                    materialEditor.ShaderProperty(spNormStr, "Normal Strength");
-                    materialEditor.ShaderProperty(spNormMult, "Normal Multiplier");
-                    GUIExtras.ColoredVertical(BDColors.Black(20), () =>
-                    {
-                        EditorGUILayout.LabelField("Blinn Settings");
-                    });
-                    materialEditor.ShaderProperty(lgGam, "Gamma");
-                    materialEditor.ShaderProperty(spGls, "Glossy");
-                    materialEditor.ShaderProperty(spSat, "Saturation");
-                    materialEditor.ShaderProperty(spSmt, "Softness");
-                    materialEditor.ShaderProperty(spIn, "In");
-                    materialEditor.ShaderProperty(spOut, "Out");
-
-                    EditorGUIHelper.Separator(3, color: BDColors.Black() * 0.2f);
-                });
-                #endregion
-            }
+            bool nrmTog = GUIExtras.IsToggleAndTextureEnabled(properties, "_Normal", "_Normal_Map");
+            GUIExtras.SpecularSettingsGUI(materialEditor, properties, targetMat, nrmTog);
             EditorGUI.indentLevel--;
         }
         EditorGUILayout.EndVertical();
@@ -845,93 +623,8 @@ public class BCarPaintEditor : ShaderGUI
         {
             EditorGUILayout.Space(2);
             EditorGUI.indentLevel++;
-
-            MaterialProperty Refl = ShaderGUI.FindProperty("_Reflection_Toggle", properties);
-            GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
-            {
-                materialEditor.ShaderProperty(Refl, "Reflection Features");
-            }, GUILayout.Height(20));
-            if(Refl.floatValue > 0.0f)
-            {
-                string[] refTypeOpt = new string[] { "Real Cubemap", "Unreal Cubemap" };
-                MaterialProperty refType = ShaderGUI.FindProperty("_RefType", properties);
-                ShaderGUIHelpers.EnumPopupProperty(materialEditor, refType, "Reflection Type", refTypeOpt);
-
-                MaterialProperty rfStr = ShaderGUI.FindProperty("_Reflection_Strength", properties);
-                MaterialProperty rfMult = ShaderGUI.FindProperty("_Reflection_Multiplier", properties);
-                MaterialProperty rfCol = ShaderGUI.FindProperty("_Reflection_Color", properties);
-                MaterialProperty rfCbMp = ShaderGUI.FindProperty("_Reflection_Cubemap", properties);
-                MaterialProperty rfAffShd = ShaderGUI.FindProperty("_Reflection_Affect_Shadow", properties);
-                MaterialProperty rfMapLOD = ShaderGUI.FindProperty("_RefMapLOD",properties);
-
-                materialEditor.ShaderProperty(rfStr, "Strength");
-                materialEditor.ShaderProperty(rfMult, "Multiplier");
-                materialEditor.ShaderProperty(rfCol, "Color");
-                materialEditor.ShaderProperty(rfCbMp, "Cubemap");
-                materialEditor.ShaderProperty(rfMapLOD, "LOD");
-                materialEditor.ShaderProperty(rfAffShd, "Affect Shadow");
-                if (rfAffShd.floatValue > 0.0f)
-                {
-                    MaterialProperty rfShdStr = ShaderGUI.FindProperty("_Reflection_Shadow_Strength", properties);
-                    materialEditor.ShaderProperty(rfShdStr, "Shadow Strength");
-                }
-
-                MaterialProperty rfNrStr = ShaderGUI.FindProperty("_Ref_Normal_Strength", properties);
-                materialEditor.ShaderProperty(rfNrStr, "Normal Strength");
-
-                #region Cubemap Settings
-                GUIExtras.SFoldout(targetMat, "_CubemapFold", "Cubemap Controls", BDColors.DarkRed(120),() =>
-                {
-                    MaterialProperty cmrx = ShaderGUI.FindProperty("_Cubemap_Rotate_X", properties);
-                    MaterialProperty cmry = ShaderGUI.FindProperty("_Cubemap_Rotate_Y", properties);
-                    MaterialProperty cmrz = ShaderGUI.FindProperty("_Cubemap_Rotate_Z", properties);
-                    MaterialProperty cmsx = ShaderGUI.FindProperty("_Cubemap_Stretch_X", properties);
-                    MaterialProperty cmsy = ShaderGUI.FindProperty("_Cubemap_Stretch_Y", properties);
-                    MaterialProperty cmsz = ShaderGUI.FindProperty("_Cubemap_Stretch_Z", properties);
-                    MaterialProperty cmx = ShaderGUI.FindProperty("_Cubemap_Pos_X", properties);
-                    MaterialProperty cmy = ShaderGUI.FindProperty("_Cubemap_Pos_Y", properties);
-                    MaterialProperty cmz = ShaderGUI.FindProperty("_Cubemap_Pos_Z", properties);
-
-                    materialEditor.ShaderProperty(cmrx, "Rotate X");
-                    materialEditor.ShaderProperty(cmry, "Rotate Y");
-                    materialEditor.ShaderProperty(cmrz, "Rotate Z");
-                    EditorGUIHelper.Separator();
-                    materialEditor.ShaderProperty(cmsx, "Stretch X");
-                    materialEditor.ShaderProperty(cmsy, "Stretch Y");
-                    materialEditor.ShaderProperty(cmsz, "Stretch Z");
-                    EditorGUIHelper.Separator();
-                    ShaderGUIHelpers.FloatSliderFree(materialEditor, cmx, "Position X", -1f, 1f);
-                    ShaderGUIHelpers.FloatSliderFree(materialEditor, cmy, "Position Y", -1f, 1f);
-                    ShaderGUIHelpers.FloatSliderFree(materialEditor, cmz, "Position Z", -1f, 1f);
-                });
-                #endregion
-
-                #region Reflection Fresnel Settings
-                GUIExtras.SFoldout(targetMat, "_FresnelFold", "Fresnel Control", BDColors.DarkRed(180), () =>
-                {
-                    MaterialProperty refFresTog = ShaderGUI.FindProperty("_Ref_Fresnel_Toggle", properties);
-                    MaterialProperty refFresInv = ShaderGUI.FindProperty("_Ref_Fresnel_Invert", properties);
-                    MaterialProperty refFresGam = ShaderGUI.FindProperty("_Ref_Fresnel_Gamma", properties);
-                    MaterialProperty refFresCont = ShaderGUI.FindProperty("_Ref_Fresnel_Contrast", properties);
-                    MaterialProperty refFresContP = ShaderGUI.FindProperty("_Ref_Fresnel_Contrast_Pivot", properties);
-                    MaterialProperty refFresBias = ShaderGUI.FindProperty("_Ref_Fresnel_Bias", properties);
-                    MaterialProperty refFresScale = ShaderGUI.FindProperty("_Ref_Fresnel_Scale", properties);
-                    MaterialProperty refFresPower = ShaderGUI.FindProperty("_Ref_Fresnel_Power", properties);
-
-                    materialEditor.ShaderProperty(refFresTog, "Fresnel");
-                    if (refFresTog.floatValue > 0f)
-                    {
-                        materialEditor.ShaderProperty(refFresInv, "Invert");
-                        materialEditor.ShaderProperty(refFresGam, "Gamma");
-                        ShaderGUIHelpers.FloatSliderFree(materialEditor, refFresCont, "Contrast", 0f, 5f);
-                        materialEditor.ShaderProperty(refFresContP, "Contrast Pivot");
-                        materialEditor.ShaderProperty(refFresBias, "Bias");
-                        materialEditor.ShaderProperty(refFresScale, "Scale");
-                        materialEditor.ShaderProperty(refFresPower, "Power");
-                    }
-                });
-                #endregion
-            }
+            bool nrmTog = GUIExtras.IsToggleAndTextureEnabled(properties, "_Normal", "_Normal_Map");
+            GUIExtras.ReflectionSettingsGUI(materialEditor, properties, targetMat, nrmTog);
             EditorGUI.indentLevel--;
         }
         EditorGUILayout.EndVertical();
@@ -948,10 +641,10 @@ public class BCarPaintEditor : ShaderGUI
             EditorGUILayout.Space(2);
 
             MaterialProperty AO = ShaderGUI.FindProperty("_AO_Toggle",properties);
-            GUIExtras.ColoredVertical(BDColors.NexusBlue(50), () =>
+            GUIExtras.SColoredVertical(BDColors.NexusBlue(50), 20, true,() =>
             {
                 materialEditor.ShaderProperty(AO, "Ambient Occlusion");
-            }, GUILayout.Height(20));
+            });
             if(AO.floatValue > 0.0f)
             {
                 MaterialProperty aoTexture = ShaderGUI.FindProperty("_AO_Map", properties);
@@ -992,10 +685,10 @@ public class BCarPaintEditor : ShaderGUI
             EditorGUILayout.Space(2);
 
             MaterialProperty Damg = ShaderGUI.FindProperty("_Damage_Toggle",properties);
-            GUIExtras.ColoredVertical(BDColors.NexusBlue(50), () =>
+            GUIExtras.SColoredVertical(BDColors.NexusBlue(50), 20, true, () =>
             {
                 materialEditor.ShaderProperty(Damg, "Damage Map Feature");
-            }, GUILayout.Height(20));
+            });
             if(Damg.floatValue > 0f)
             {
                 MaterialProperty dmgTxt = ShaderGUI.FindProperty("_Damage_Texture", properties);
@@ -1025,7 +718,7 @@ public class BCarPaintEditor : ShaderGUI
         #endregion
 
         #region BUDU Copyright
-        GUIExtras.About(ref aboutFold, style, "Assets/_BUDU/GUI/BUDUGAMES-About.png");
+        GUIExtras.About(ref aboutFold, style);
         #endregion
     }
 
@@ -1033,79 +726,36 @@ public class BCarPaintEditor : ShaderGUI
     {
         ShaderGUIHelpers.WorkflowControl(targetMat, ref isSpecular);
 
-        tempVar = targetMat.GetInt("_CheckDef");
-        checkDef = tempVar == 1 ? true : false;
+        checkDef = GUIExtras.GetBool(targetMat, "_CheckDef");
+        checkBase = GUIExtras.GetBool(targetMat, "_CheckBase");
+        checkStickers = GUIExtras.GetBool(targetMat, "_CheckStickers");
+        checkShade = GUIExtras.GetBool(targetMat, "_CheckShade");
+        checkFlakes = GUIExtras.GetBool(targetMat, "_CheckFlakes");
 
-        tempVar = targetMat.GetInt("_CheckBase");
-        checkBase = tempVar == 1 ? true : false;
+        TopStickerTog = GUIExtras.GetBool(targetMat, "_Top_Sticker_Toggle");
+        BottomStickerTog = GUIExtras.GetBool(targetMat, "_Bottom_Sticker_Toggle");
+        LeftStickerTog = GUIExtras.GetBool(targetMat, "_Left_Sticker_Toggle");
+        RightStickerTog = GUIExtras.GetBool(targetMat, "_Right_Sticker_Toggle");
+        FrontStickerTog = GUIExtras.GetBool(targetMat, "_Front_Sticker_Toggle");
+        BackStickerTog = GUIExtras.GetBool(targetMat, "_Back_Sticker_Toggle");
 
-        tempVar = targetMat.GetInt("_CheckStickers");
-        checkStickers = tempVar == 1 ? true : false;
+        twoColorFold = GUIExtras.GetBool(targetMat, "_TwoColorFold");
+        flakeAFold = GUIExtras.GetBool(targetMat, "_FlakeAFold");
+        flakeBFold = GUIExtras.GetBool(targetMat, "_FlakeBFold");
+        flakeSpecFold = GUIExtras.GetBool(targetMat, "_FlakeSpecFold");
 
-        tempVar = targetMat.GetInt("_CheckShade");
-        checkShade = tempVar == 1 ? true : false;
+        checkNormal = GUIExtras.GetBool(targetMat, "_CheckNormal");
+        checkSpec = GUIExtras.GetBool(targetMat, "_CheckSpec");
+        checkSecSpec = GUIExtras.GetBool(targetMat, "_CheckSecSpec");
+        checkReflect = GUIExtras.GetBool(targetMat, "_CheckReflect");
+        blinnFold = GUIExtras.GetBool(targetMat, "_blinnFold");
 
-        tempVar = targetMat.GetInt("_CheckFlakes");
-        checkFlakes = tempVar == 1 ? true : false;
+        cubemapFold = GUIExtras.GetBool(targetMat, "_CubemapFold");
+        fresnelFold = GUIExtras.GetBool(targetMat, "_FresnelFold");
+        refMaskFold = GUIExtras.GetBool(targetMat, "_RefMaskFold");
 
-        tempVar = targetMat.GetInt("_Top_Sticker_Toggle");
-        TopStickerTog = tempVar == 1 ? true : false;
-
-        tempVar = targetMat.GetInt("_Bottom_Sticker_Toggle");
-        BottomStickerTog = tempVar == 1 ? true : false;
-
-        tempVar = targetMat.GetInt("_Left_Sticker_Toggle");
-        LeftStickerTog = tempVar == 1 ? true : false;
-
-        tempVar = targetMat.GetInt("_Right_Sticker_Toggle");
-        RightStickerTog = tempVar == 1 ? true : false;
-
-        tempVar = targetMat.GetInt("_Front_Sticker_Toggle");
-        FrontStickerTog = tempVar == 1 ? true : false;
-
-        tempVar = targetMat.GetInt("_Back_Sticker_Toggle");
-        BackStickerTog = tempVar == 1 ? true : false;
-
-        tempVar = targetMat.GetInt("_TwoColorFold");
-        twoColorFold = tempVar == 1 ? true : false;
-
-        tempVar = targetMat.GetInt("_FlakeAFold");
-        flakeAFold = tempVar == 1 ? true : false;
-
-        tempVar = targetMat.GetInt("_FlakeBFold");
-        flakeBFold = tempVar == 1 ? true : false;
-
-        tempVar = targetMat.GetInt("_FlakeSpecFold");
-        flakeSpecFold = tempVar == 1 ? true : false;
-
-        tempVar = targetMat.GetInt("_CheckNormal");
-        checkNormal = tempVar == 1 ? true : false;
-
-        tempVar = targetMat.GetInt("_CheckSpec");
-        checkSpec = tempVar == 1 ? true : false;
-
-        tempVar = targetMat.GetInt("_CheckSecSpec");
-        checkSecSpec = tempVar == 1 ? true : false;
-
-        tempVar = targetMat.GetInt("_CheckReflect");
-        checkReflect = tempVar == 1 ? true : false;
-
-        tempVar = targetMat.GetInt("_CheckSpec");
-        checkSpec = tempVar == 1 ? true : false;
-
-        tempVar = targetMat.GetInt("_CubemapFold");
-        cubemapFold = tempVar == 1 ? true : false;
-
-        tempVar = targetMat.GetInt("_FresnelFold");
-        fresnelFold = tempVar == 1 ? true : false;
-
-        tempVar = targetMat.GetInt("_CheckAO");
-        checkAO = tempVar == 1 ? true : false;
-
-        tempVar = targetMat.GetInt("_CheckDamage");
-        checkDamage = tempVar == 1 ? true : false;
-
-        tempVar = targetMat.GetInt("_ClearCoat");
-        clearCoat = tempVar == 1 ? true : false;
+        checkAO = GUIExtras.GetBool(targetMat, "_CheckAO");
+        checkDamage = GUIExtras.GetBool(targetMat, "_CheckDamage");
+        clearCoat = GUIExtras.GetBool(targetMat, "_ClearCoat");
     }
 }

@@ -1,3 +1,6 @@
+// © BUDU Games 2024 - 2026
+// CIEXYZ 1931 Table
+
 #ifndef BUDU_TABLES
 #define BUDU_TABLES
 

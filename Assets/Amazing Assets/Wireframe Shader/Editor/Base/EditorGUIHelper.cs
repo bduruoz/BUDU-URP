@@ -14,7 +14,6 @@ namespace AmazingAssets.WireframeShader.Editor
         #region GUI
         public class GUIEnabled : IDisposable
         {
-            [SerializeField]
             private bool PreviousState
             {
                 get;
@@ -38,7 +37,6 @@ namespace AmazingAssets.WireframeShader.Editor
 
         public class GUIColor : IDisposable
         {
-            [SerializeField]
             private Color PreviousColor
             {
                 get;
@@ -59,7 +57,6 @@ namespace AmazingAssets.WireframeShader.Editor
 
         public class GUIBackgroundColor : IDisposable
         {
-            [SerializeField]
             private Color PreviousColor
             {
                 get;
@@ -80,7 +77,6 @@ namespace AmazingAssets.WireframeShader.Editor
 
         public class GUISkinLabelFontStyle : IDisposable
         {
-            [SerializeField]
             private FontStyle PreviousStyle
             {
                 set;
@@ -101,7 +97,6 @@ namespace AmazingAssets.WireframeShader.Editor
 
         public class GUISkinLabelNormalTextColor : IDisposable
         {
-            [SerializeField]
             private Color PreviousTextColor
             {
                 set;
@@ -182,7 +177,6 @@ namespace AmazingAssets.WireframeShader.Editor
         #region Editor GUI
         public class EditorGUIIndentLevel : IDisposable
         {
-            [SerializeField]
             private int PreviousIndent
             {
                 get;
@@ -203,7 +197,6 @@ namespace AmazingAssets.WireframeShader.Editor
 
         public class EditorGUIUtilityLabelWidth : IDisposable
         {
-            [SerializeField]
             private float PreviousWidth
             {
                 get;
@@ -224,7 +217,6 @@ namespace AmazingAssets.WireframeShader.Editor
 
         public class EditorGUIUtilityFieldWidth : IDisposable
         {
-            [SerializeField]
             private float PreviousWidth
             {
                 get;

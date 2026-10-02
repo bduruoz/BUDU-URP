@@ -1,4 +1,4 @@
-﻿// BUDU Games 2024 - 2025
+﻿// BUDU Tools 2024 - 2026
 using UnityEngine;
 using UnityEditor;
 

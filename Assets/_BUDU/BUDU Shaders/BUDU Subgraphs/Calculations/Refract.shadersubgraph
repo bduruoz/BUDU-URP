@@ -192,6 +192,9 @@
     "m_Guid": {
         "m_GuidSerialized": "5e8f6dce-597d-498e-9d84-6bb9584fe4f3"
     },
+    "promotedFromAssetID": "",
+    "promotedFromCategoryName": "",
+    "promotedOrdering": -1,
     "m_Name": "ViewDir (Object)",
     "m_DefaultRefNameVersion": 1,
     "m_RefNameGeneratedByDisplayName": "ViewDir (Object)",
@@ -205,6 +208,8 @@
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
     "m_Hidden": false,
+    "m_PerRendererData": false,
+    "m_customAttributes": [],
     "m_Value": {
         "x": 0.0,
         "y": 0.0,
@@ -225,10 +230,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -148.0,
-            "y": -39.333343505859378,
-            "width": 197.33331298828126,
-            "height": 143.99998474121095
+            "x": -148.6666259765625,
+            "y": -39.33331298828125,
+            "width": 196.6666259765625,
+            "height": 144.0
         }
     },
     "m_Slots": [
@@ -259,6 +264,7 @@
     "m_SourceType": 1,
     "m_FunctionName": "Refract",
     "m_FunctionSource": "",
+    "m_FunctionSourceUsePragmas": true,
     "m_FunctionBody": "Refract = refract(View,Normal,IOR);\n"
 }
 
@@ -400,6 +406,9 @@
     "m_Guid": {
         "m_GuidSerialized": "ff29f0c4-10f8-485d-b6b4-7b447c15ac07"
     },
+    "promotedFromAssetID": "",
+    "promotedFromCategoryName": "",
+    "promotedOrdering": -1,
     "m_Name": "NormVec (Object)",
     "m_DefaultRefNameVersion": 1,
     "m_RefNameGeneratedByDisplayName": "NormVec (Object)",
@@ -413,6 +422,8 @@
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
     "m_Hidden": false,
+    "m_PerRendererData": false,
+    "m_customAttributes": [],
     "m_Value": {
         "x": 0.0,
         "y": 0.0,
@@ -474,6 +485,9 @@
     "m_Guid": {
         "m_GuidSerialized": "491a0263-5413-44f3-bb19-15465145ceff"
     },
+    "promotedFromAssetID": "",
+    "promotedFromCategoryName": "",
+    "promotedOrdering": -1,
     "m_Name": "IOR",
     "m_DefaultRefNameVersion": 1,
     "m_RefNameGeneratedByDisplayName": "IOR",
@@ -487,12 +501,25 @@
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
     "m_Hidden": false,
+    "m_PerRendererData": false,
+    "m_customAttributes": [],
     "m_Value": 0.0,
     "m_FloatType": 0,
+    "m_LiteralFloatMode": false,
     "m_RangeValues": {
         "x": 0.0,
         "y": 1.0
-    }
+    },
+    "m_SliderType": 0,
+    "m_SliderPower": 3.0,
+    "m_EnumType": 0,
+    "m_CSharpEnumString": "",
+    "m_EnumNames": [
+        "Default"
+    ],
+    "m_EnumValues": [
+        0
+    ]
 }
 
 {
@@ -507,7 +534,8 @@
     "m_StageCapability": 3,
     "m_Value": 0.0,
     "m_DefaultValue": 0.0,
-    "m_Labels": []
+    "m_Labels": [],
+    "m_LiteralMode": false
 }
 
 {
@@ -522,7 +550,8 @@
     "m_StageCapability": 3,
     "m_Value": 1.0,
     "m_DefaultValue": 0.0,
-    "m_Labels": []
+    "m_Labels": [],
+    "m_LiteralMode": false
 }
 
 {

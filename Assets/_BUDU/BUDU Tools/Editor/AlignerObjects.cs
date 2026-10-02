@@ -1,4 +1,4 @@
-// BUDU Games 2024 - 2025
+// BUDU Games 2024 - 2026
 using budu.tools;
 using System.Collections.Generic;
 using System.Linq;
@@ -157,4 +157,3 @@ namespace budu.tools
         }
     }
 }
-

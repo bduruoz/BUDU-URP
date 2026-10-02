@@ -1,4 +1,4 @@
-// BUDU Games 2024
+// © BUDU Games 2024 - 2026
 // Convert Color To Texture2D
 
 #ifndef CONVERT_TEXTURE

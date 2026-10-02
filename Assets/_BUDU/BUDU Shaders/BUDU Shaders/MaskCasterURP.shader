@@ -1,3 +1,6 @@
+// BUDU Games 2024 - 2025
+// MaskCasterURP
+
 Shader "BUDU/MaskCasterURP"
 {
     Properties{ _Color ("Color", Color) = (1,1,1,1) }

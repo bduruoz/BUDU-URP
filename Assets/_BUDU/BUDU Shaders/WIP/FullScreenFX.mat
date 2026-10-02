@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: FullScreenFX
+  m_Shader: {fileID: -6465566751694194690, guid: c62bce956d0f62848b9aa91a6de7f368,
+    type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Noise:
+        m_Texture: {fileID: 2800000, guid: 378fecf961de2ae49bb90c2754732e08, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Pattern:
+        m_Texture: {fileID: 2800000, guid: 461a07b6fa3d6fb4e80a2b873eabd190, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_cc115b23fa33490e81d714cf5beab693_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 7145bf0f4c8b20d49bb5ab38013cdc48, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _UVDistortion_83d552adc0644972bc3d5b69dc71fdfc_NoiseMap_647888222_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 1d8481de16af723418a688958c41224b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _Blend: 1
+    - _Float: 0
+    - _Fullscreen_AlphaBlendOperation: 0
+    - _Fullscreen_BlendMode: 0
+    - _Fullscreen_ColorBlendOperation: 0
+    - _Fullscreen_DepthWrite: 0
+    - _Fullscreen_DstAlphaBlend: 10
+    - _Fullscreen_DstColorBlend: 10
+    - _Fullscreen_SrcAlphaBlend: 1
+    - _Fullscreen_SrcColorBlend: 5
+    - _Fullscreen_Stencil: 0
+    - _Fullscreen_StencilComparison: 8
+    - _Fullscreen_StencilDepthFail: 0
+    - _Fullscreen_StencilFail: 0
+    - _Fullscreen_StencilPass: 0
+    - _Fullscreen_StencilReadMask: 255
+    - _Fullscreen_StencilReference: 0
+    - _Fullscreen_StencilWriteMask: 255
+    - _GridSize: 240
+    - _Invert: 0
+    - _Multiplier: 0
+    - _Normalize: 1
+    - _Offset_Scrolling: 0
+    - _Speed: 1
+    - _Stepped_Time: 0
+    - _Strength: 0.1
+    - _Tile_Auto: 0
+    - _Tiling: 256
+    - _Time_Step: 0.2
+    - _X: 1
+    - _Y: 1
+    m_Colors:
+    - _Direction: {r: 1, g: 0, b: 0, a: 0}
+    - _Offset: {r: 0, g: 0, b: 0, a: 0}
+    - _Tiling: {r: 40, g: 30, b: 0, a: 0}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1

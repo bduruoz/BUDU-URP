@@ -1,4 +1,5 @@
-﻿// BUDU Games 2024 - 2025
+﻿// © BUDU Games 2024 - 2026
+
 using budu;
 using System;
 using System.Collections.Generic;
@@ -789,7 +790,7 @@ public class ScreenCharts : EditorWindow
         if (string.IsNullOrEmpty(projectPath)) return;
         // Save current snapshot into the existing asset
         ScreenChartsConfig.SavePresetAsset(projectPath);
-        //Debug.Log($"Overwrote preset: {projectPath}");
+        Debug.Log($"Overwrote preset: {projectPath}");
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
         RefreshPresetList();

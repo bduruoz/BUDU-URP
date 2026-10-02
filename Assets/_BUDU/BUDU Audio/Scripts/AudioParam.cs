@@ -1,4 +1,6 @@
-﻿// AudioParam.cs
+﻿// BUDU Games 2024 - 2025
+// Audio Parameter
+
 using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.UI;

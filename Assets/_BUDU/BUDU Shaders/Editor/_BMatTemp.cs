@@ -1,4 +1,7 @@
-﻿using budu;
+﻿// © BUDU Games 2024 - 2026
+// BUDU Template Shader Editor
+
+using budu;
 using UnityEditor;
 using UnityEngine;
 
@@ -70,7 +73,7 @@ public class _BMatTemp : ShaderGUI
         #endregion
 
         #region BUDU Copyright
-        GUIExtras.About(ref aboutFold, style, "Assets/_BUDU/GUI/BUDUGAMES-About.png");
+        GUIExtras.About(ref aboutFold, style);
         #endregion
     }
 

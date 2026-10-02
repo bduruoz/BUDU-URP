@@ -1,41 +1,48 @@
-#ifndef MAINLIGHT_INCLUDED
-#define MAINLIGHT_INCLUDED
+// © BUDU Games 2024 - 2026
+// Main light Node
 
-void GetMainLightData_float(out half3 direction, out half3 color, out half distanceAttenuation, out half shadowAttenuation, out half3 LightPos)
+#ifndef MAINLIGHT_INCLUDED
+#define MAINLIGHT_INCLUDED  
+
+void GetMainLightData_float(
+	float3 worldPos,
+    out half3 direction, 
+    out half3 color, 
+    out half distanceAttenuation, 
+    out half shadowAttenuation, 
+    out half3 LightPos)
 {
 #ifdef SHADERGRAPH_PREVIEW
-    // In Shader Graph Preview we will assume a default light direction and white color
-    direction = half3(-0.3, -0.8, 0.6);
+    direction = normalize(half3(-0.3, -0.8, 0.6));
     color = half3(1, 1, 1);
     distanceAttenuation = 1.0;
     shadowAttenuation = 1.0;
     LightPos = half3(0,0,0);
 #else
-
     // Universal Render Pipeline
-    #if defined(UNIVERSAL_LIGHTING_INCLUDED)
-    
-        // GetMainLight defined in Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl
-        Light mainLight = GetMainLight();
+    #if defined(UNIVERSAL_PIPELINE_CORE_INCLUDED)
+        #if defined(SHADERPASS_UNLIT)
+            // Unlit path
+            float4 shadowCoord = TransformWorldToShadowCoord(worldPos);
+            Light mainLight = GetMainLight(shadowCoord);
+        #else
+            // Lit path
+            Light mainLight = GetMainLight();
+        #endif
         direction = -mainLight.direction;
         color = mainLight.color;
         distanceAttenuation = mainLight.distanceAttenuation;
         shadowAttenuation = mainLight.shadowAttenuation;
         LightPos = _MainLightPosition;
-
-    #elif defined(HD_LIGHTING_INCLUDED) 
-        // ToDo: make it work for HDRP (check define above)
-        // Packages/com.unity.render-pipelines.high-definition/Runtime/Lighting/LightDefinition.cs.hlsl
-        // if (_DirectionalLightCount > 0)
-        // {
-        //     DirectionalLightData light = _DirectionalLightDatas[0];
-        //     lightDir = -light.forward.xyz;
-        //     color = light.color;
-        //     ......
-        
+    #else
+        direction = normalize(half3(-0.3, -0.8, 0.6));
+        color = half3(1, 1, 1);
+        distanceAttenuation = 1.0;
+        shadowAttenuation = 1.0;
+        LightPos = half3(0, 0, 0);
     #endif
 
 #endif
 }
 
-#endif
+#endif // MAINLIGHT_INCLUDED

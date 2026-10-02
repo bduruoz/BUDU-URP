@@ -1,4 +1,5 @@
-
+// © BUDU Games 2024 - 2026
+// BUDU HLSL Test
 
 void neoluyor_float(float a, float b, out float c)
 {

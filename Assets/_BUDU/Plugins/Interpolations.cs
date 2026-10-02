@@ -1,4 +1,6 @@
-﻿// BUDU Games 2024 - 2025
+﻿// © BUDU Games 2024 - 2026
+// Interpolations
+
 using UnityEngine;
 public static class Interpolation
 {

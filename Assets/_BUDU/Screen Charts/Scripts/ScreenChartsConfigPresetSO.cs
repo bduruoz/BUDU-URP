@@ -1,4 +1,5 @@
-﻿// BUDU Games 2024 - 2025
+﻿// © BUDU Games 2024 - 2026
+
 #if UNITY_EDITOR
 using UnityEngine;
 

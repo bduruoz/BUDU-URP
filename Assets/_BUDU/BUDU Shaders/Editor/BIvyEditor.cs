@@ -1,4 +1,6 @@
-﻿// BUDU Games 2023 - 2025
+﻿// © BUDU Games 2024 - 2026
+// BUDU Ivy Shader Editor
+
 using UnityEngine;
 using UnityEditor;
 using budu;
@@ -51,10 +53,10 @@ public class BIvyEditor : ShaderGUI
             EditorGUILayout.Space(2);
 
             MaterialProperty norm = ShaderGUI.FindProperty("_Normal", properties);
-            GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true,() =>
             {
                 materialEditor.ShaderProperty(norm, "Normal");
-            }, GUILayout.Height(20));
+            });
             if(norm.floatValue > 0)
             {
                 MaterialProperty normalMap = ShaderGUI.FindProperty("_Normal_Map", properties);
@@ -80,10 +82,10 @@ public class BIvyEditor : ShaderGUI
             EditorGUILayout.Space(2);
 
             MaterialProperty emis = ShaderGUI.FindProperty("_Emissive", properties);
-            GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true,() =>
             {
                 materialEditor.ShaderProperty(emis, "Emission");
-            }, GUILayout.Height(20));
+            });
             if(emis.floatValue > 0)
             {
                 MaterialProperty emisInt = ShaderGUI.FindProperty("_Emissive_Intensity", properties);
@@ -124,10 +126,10 @@ public class BIvyEditor : ShaderGUI
             EditorGUILayout.Space(2);
 
             MaterialProperty spec = ShaderGUI.FindProperty("_Custom_Specular", properties);
-            GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true,() =>
             {
                 materialEditor.ShaderProperty(spec, "Custom Specular");
-            }, GUILayout.Height(20));
+            });
             if(spec.floatValue > 0)
             {
                 MaterialProperty specColor = ShaderGUI.FindProperty("_Specular_Color", properties);
@@ -140,7 +142,7 @@ public class BIvyEditor : ShaderGUI
                 materialEditor.ShaderProperty(specIntensity, "Specular Intensity");
                 materialEditor.ShaderProperty(specNormStr, "Normal Strength");
 
-                GUIExtras.SFoldout(targetMat, "_specExtFold", "Specular Controls", BDColors.DarkRed(120), () =>
+                GUIExtras.SFoldout(targetMat, "_specExtFold", "Specular Controls", BDColors.DarkRed(120), 10,BDColors.White(255), BDColors.Black(40), true, () =>
                 {
                     MaterialProperty specGamma = ShaderGUI.FindProperty("_Specular_Gamma", properties);
                     MaterialProperty specGlossy = ShaderGUI.FindProperty("_Glossy", properties);
@@ -174,10 +176,10 @@ public class BIvyEditor : ShaderGUI
 
 
             MaterialProperty AOTog = ShaderGUI.FindProperty("_Ambient_Occlusion", properties);
-            GUIExtras.ColoredVertical(BDColors.NexusBlue(50), () =>
+            GUIExtras.SColoredVertical(BDColors.NexusBlue(50), 20,true, () =>
             {
                 materialEditor.ShaderProperty(AOTog, "Ambient Occlusion");
-            }, GUILayout.Height(20));
+            });
             
             if(AOTog.floatValue > 0.0f)
             {
@@ -221,10 +223,10 @@ public class BIvyEditor : ShaderGUI
             EditorGUILayout.Space(2);
 
             MaterialProperty wind = ShaderGUI.FindProperty("_Wind", properties);
-            GUIExtras.ColoredVertical(BDColors.dBlueOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.dBlueOrange(50), 20,true,() =>
             {
                 materialEditor.ShaderProperty(wind, "Wind");
-            }, GUILayout.Height(20));
+            });
             if(wind.floatValue > 0)
             {
                 MaterialProperty noiseInv = ShaderGUI.FindProperty("_Noise_Invert", properties);
@@ -297,7 +299,7 @@ public class BIvyEditor : ShaderGUI
         #endregion
 
         #region BUDU Copyright
-        GUIExtras.About(ref aboutFold, style, "Assets/_BUDU/GUI/BUDUGAMES-About.png");
+        GUIExtras.About(ref aboutFold, style);
         #endregion
     }
 

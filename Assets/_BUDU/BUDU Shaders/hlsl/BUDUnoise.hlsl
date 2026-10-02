@@ -1,4 +1,5 @@
-// null
+// © BUDU Games 2024 - 2026
+// Noise
 
 const int res = 50;
 const int frequencies = 30;

@@ -1,3 +1,6 @@
+// BUDU Games 2024 - 2025
+// Pseudo Random
+
 #include "Assets/_BUDU/BUDU Shaders/hlsl/BUDUNoises/brandom.hlsl"
 
 void buduRandom_v1_float( float2 uv, float seed, out float buduRandom )

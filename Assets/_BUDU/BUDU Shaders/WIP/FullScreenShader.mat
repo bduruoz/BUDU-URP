@@ -13,7 +13,7 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _BLUR_TYPE_ZOOM
+  - _BLUR_TYPE_RADIAL
   m_InvalidKeywords:
   - _DIRECTION_RIGHT2LEFT
   - _OUTLINE_TYPE_DEPTH_EDGE
@@ -125,7 +125,7 @@ Material:
     m_Floats:
     - _Amplitude: 0.1
     - _Amplitude_Y: 0.2
-    - _BLUR_TYPE: 0
+    - _BLUR_TYPE: 1
     - _Blur: 2.06
     - _Blur_Offset: 0.35
     - _CRT_Intensity: 1
@@ -160,6 +160,7 @@ Material:
     - _Fullscreen_AlphaBlendOperation: 0
     - _Fullscreen_BlendMode: 1
     - _Fullscreen_ColorBlendOperation: 0
+    - _Fullscreen_DepthTest: 4
     - _Fullscreen_DepthWrite: 0
     - _Fullscreen_DstAlphaBlend: 10
     - _Fullscreen_DstColorBlend: 10
@@ -205,7 +206,7 @@ Material:
     - _Noise_Scale_Y: 50
     - _Noise_Speed: 1
     - _NumSamples: 8
-    - _Num_Samples: 45.4
+    - _Num_Samples: 28.1
     - _OUTLINE_TYPE: 1
     - _Old_Blur_Chromatic_Aberration: 0
     - _Old_Blur_Offset: 0.3
@@ -218,7 +219,7 @@ Material:
     - _Pixel_Size: 8
     - _Plate_Steps: 8
     - _Radial_Scale: 1
-    - _Radius: 1
+    - _Radius: 0.182
     - _Range: 0.4
     - _SStep_Max: 0.71
     - _SStep_Min: 0.6
@@ -285,3 +286,4 @@ Material:
     - _ZB_Position: {r: 0.5, g: 0.5, b: 0, a: 0}
     - _Zoom_Position: {r: 0.1, g: 0.01, b: 0, a: 0}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1

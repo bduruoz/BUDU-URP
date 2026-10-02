@@ -1,4 +1,6 @@
-﻿// BUDU Games 2023 - 2025
+﻿// © BUDU Games 2024 - 2026
+// BUDU Transparent Shader Editor
+
 using budu;
 using UnityEditor;
 using UnityEngine;
@@ -51,10 +53,10 @@ public class BTransparentEditor : ShaderGUI
             EditorGUILayout.Space(2);
 
             MaterialProperty nt = ShaderGUI.FindProperty("_Normal", properties);
-            GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.NexusOrange(50),20,true, () =>
             {
                 materialEditor.ShaderProperty(nt, "Normal");
-            }, GUILayout.Height(20));
+            });
             if(nt.floatValue > 0)
             {
                 MaterialProperty nm = ShaderGUI.FindProperty("_Normal_Map", properties);
@@ -81,10 +83,10 @@ public class BTransparentEditor : ShaderGUI
             EditorGUILayout.Space(2);
 
             MaterialProperty et = ShaderGUI.FindProperty("_Emissive", properties);
-            GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.NexusOrange(50),20,true, () =>
             {
                 materialEditor.ShaderProperty(et, "Emission");
-            }, GUILayout.Height(20));
+            });
             if(et.floatValue > 0)
             {
                 MaterialProperty ec = ShaderGUI.FindProperty("_Emissive_Color", properties);
@@ -122,10 +124,10 @@ public class BTransparentEditor : ShaderGUI
             EditorGUILayout.Space(2);
 
             MaterialProperty st = ShaderGUI.FindProperty("_Custom_Spec_Toggle", properties);
-            GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true, () =>
             {
                 materialEditor.ShaderProperty(st, "Specular");
-            }, GUILayout.Height(20));
+            });
             if(st.floatValue > 0)
             {
                 MaterialProperty csc = ShaderGUI.FindProperty("_Custom_Specular_Color", properties);
@@ -144,10 +146,10 @@ public class BTransparentEditor : ShaderGUI
                 #region Specular Extra Controls
                 GUIExtras.Foldout(ref specExtFold, "Specular Controls", BDColors.DarkRed(120), () =>
                 {
-                    GUIExtras.ColoredVertical(BDColors.Black(20), () =>
+                    GUIExtras.SColoredVertical(BDColors.Black(20), 20,true,() =>
                     {
                         EditorGUILayout.LabelField("Normal Settings");
-                    }, GUILayout.Height(20));
+                    });
 
                     MaterialProperty scns = ShaderGUI.FindProperty("_Spec_Normal_Strength", properties);
                     MaterialProperty scnm = ShaderGUI.FindProperty("_Spec_Normal_Multiplier", properties);
@@ -155,10 +157,10 @@ public class BTransparentEditor : ShaderGUI
                     materialEditor.ShaderProperty(scns, "Normal Strength");
                     materialEditor.ShaderProperty(scnm, "Normal Multiplier");
 
-                    GUIExtras.ColoredVertical(BDColors.Black(20), () =>
+                    GUIExtras.SColoredVertical(BDColors.Black(20), 20,true,() =>
                     {
                         EditorGUILayout.LabelField("Extra Settings");
-                    }, GUILayout.Height(20));
+                    });
 
                     MaterialProperty csgm = ShaderGUI.FindProperty("_Spec_Gamma", properties);
                     MaterialProperty csgl = ShaderGUI.FindProperty("_Spec_Glossy", properties);
@@ -192,7 +194,7 @@ public class BTransparentEditor : ShaderGUI
             EditorGUILayout.Space(2);
 
             MaterialProperty refTog = ShaderGUI.FindProperty("_Reflection_Toggle", properties);
-            GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true, () =>
             {
                 materialEditor.ShaderProperty(refTog, "Reflection");
             });
@@ -225,7 +227,7 @@ public class BTransparentEditor : ShaderGUI
                 materialEditor.ShaderProperty(rfNormStr, "Reflection Normal Strength");
 
                 #region Cubemap Settings
-                GUIExtras.SFoldout(targetMat, "_CubemapFold", "Cubemap Controls", BDColors.DarkRed(120), () =>
+                GUIExtras.SFoldout(targetMat, "_CubemapFold", "Cubemap Controls", BDColors.DarkRed(120), 10,BDColors.White(255),BDColors.Black(40),true, () =>
                 {
                     MaterialProperty cmrx = ShaderGUI.FindProperty("_Cubemap_Rotate_X", properties);
                     MaterialProperty cmry = ShaderGUI.FindProperty("_Cubemap_Rotate_Y", properties);
@@ -252,7 +254,7 @@ public class BTransparentEditor : ShaderGUI
                 #endregion
 
                 #region Reflection Fresnel Settings
-                GUIExtras.SFoldout(targetMat, "_FresnelFold", "Fresnel Control", BDColors.DarkRed(180), () =>
+                GUIExtras.SFoldout(targetMat, "_FresnelFold", "Fresnel Control", BDColors.DarkRed(180), 10,BDColors.White(255),BDColors.Black(40),true, () =>
                 {
                     MaterialProperty refFresTog = ShaderGUI.FindProperty("_Ref_Fresnel_Toggle", properties);
                     MaterialProperty refFresInv = ShaderGUI.FindProperty("_Ref_Fresnel_Invert", properties);
@@ -294,10 +296,10 @@ public class BTransparentEditor : ShaderGUI
             EditorGUILayout.BeginVertical();
             {
                 MaterialProperty transtog = ShaderGUI.FindProperty("_Transparent_Toggle", properties);
-                GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+                GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true, () =>
                 {
                     materialEditor.ShaderProperty(transtog, "Transparent");
-                }, GUILayout.Height(20));
+                });
                 if (transtog.floatValue > 0f)
                 {
                     MaterialProperty trStr = ShaderGUI.FindProperty("_Opacity", properties);
@@ -333,7 +335,7 @@ public class BTransparentEditor : ShaderGUI
 
 
                     #region Transparent Fresnel Settings
-                    GUIExtras.SFoldout(targetMat, "_TrFresnelFold", "Fresnel Control", BDColors.DarkRed(180), () =>
+                    GUIExtras.SFoldout(targetMat, "_TrFresnelFold", "Fresnel Control", BDColors.DarkRed(180), 10,BDColors.White(255),BDColors.Black(40),true, () =>
                     {
                         MaterialProperty trFresTog = ShaderGUI.FindProperty("_TR_Fresnel_Toggle", properties);
                         MaterialProperty trFresInv = ShaderGUI.FindProperty("_TR_Fresnel_Invert", properties);
@@ -383,7 +385,7 @@ public class BTransparentEditor : ShaderGUI
         #endregion
 
         #region BUDU Copyright
-        GUIExtras.About(ref aboutFold, style, "Assets/_BUDU/GUI/BUDUGAMES-About.png");
+        GUIExtras.About(ref aboutFold, style);
         #endregion
     }
 

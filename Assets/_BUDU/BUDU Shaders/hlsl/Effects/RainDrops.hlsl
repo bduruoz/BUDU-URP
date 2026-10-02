@@ -1,4 +1,6 @@
-﻿// BUDU Games - Rain Drop Layer Instancer
+﻿// © BUDU Games 2024 - 2026
+// Rain Drop Layer Instancer
+
 #include "Assets/_BUDU/BUDU Shaders/hlsl/BUDUNoises/brandom.hlsl"
 
 #define S(a, b, t) smoothstep(a, b, t)

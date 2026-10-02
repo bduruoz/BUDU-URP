@@ -1,4 +1,4 @@
-// BUDU Games 2024
+// © BUDU Games 2024 - 2026
 // Spectrum Functions
 
 #ifndef BUDU_SPECTRUMS

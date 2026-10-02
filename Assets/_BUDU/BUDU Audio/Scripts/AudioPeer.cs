@@ -1,4 +1,6 @@
-﻿// AudioPeer.cs
+﻿// BUDU Games 2024 - 2025
+// Audio Peer
+
 using UnityEngine;
 using System.Collections;
 

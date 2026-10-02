@@ -1,4 +1,6 @@
-﻿// BUDU Games 2023 - 2025
+﻿// © BUDU Games 2024 - 2026
+// BUDU Toon Shader Editor
+
 using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
@@ -57,10 +59,10 @@ public class BToonEditor : ShaderGUI
             EditorGUILayout.Space(2);
 
             MaterialProperty rmpTog = ShaderGUI.FindProperty("_Ramp_Toggle", properties);
-            GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true,() =>
             {
                 materialEditor.ShaderProperty(rmpTog, "Ramp");
-            }, GUILayout.Height(20));
+            });
             if(rmpTog.floatValue > 0)
             {
                 MaterialProperty rt = ShaderGUI.FindProperty("_Ramp_Texture", properties);
@@ -107,10 +109,10 @@ public class BToonEditor : ShaderGUI
             EditorGUILayout.Space(2);
 
             MaterialProperty sTog = ShaderGUI.FindProperty("_Specular_Toggle", properties);
-            GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true,() =>
             {
                 materialEditor.ShaderProperty(sTog, "Specular");
-            }, GUILayout.Height(20));
+            });
             if(sTog.floatValue > 0)
             {
                 MaterialProperty tscol = ShaderGUI.FindProperty("_Specular_Color", properties);
@@ -141,10 +143,10 @@ public class BToonEditor : ShaderGUI
             EditorGUILayout.Space(2);
 
             MaterialProperty aTog = ShaderGUI.FindProperty("_Ambient_Toggle", properties);
-            GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true,() =>
             {
                 materialEditor.ShaderProperty(aTog, "Ambient");
-            },GUILayout.Height(20));
+            });
             if(aTog.floatValue > 0)
             {
                 MaterialProperty ambc = ShaderGUI.FindProperty("_Ambient_Color", properties);
@@ -177,10 +179,10 @@ public class BToonEditor : ShaderGUI
             EditorGUILayout.Space(2);
 
             MaterialProperty ntog = ShaderGUI.FindProperty("_Normal_Toggle", properties);
-            GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true,() =>
             {
                 materialEditor.ShaderProperty(ntog, "Normal");
-            }, GUILayout.Height(20));
+            });
 
             if(ntog.floatValue > 0)
             {
@@ -208,10 +210,10 @@ public class BToonEditor : ShaderGUI
             EditorGUILayout.Space(2);
 
             MaterialProperty tsTog = ShaderGUI.FindProperty("_Style_Shade_Toggle", properties);
-            GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true,() =>
             {
                 materialEditor.ShaderProperty(tsTog, "Toon Style");
-            }, GUILayout.Height(20));
+            });
             if(tsTog.floatValue > 0)
             {
                 MaterialProperty bntxt = ShaderGUI.FindProperty("_Style_Shade_Texture", properties);
@@ -240,10 +242,10 @@ public class BToonEditor : ShaderGUI
             EditorGUILayout.Space(2);
 
             MaterialProperty ctTog = ShaderGUI.FindProperty("_Contour_Toggle", properties);
-            GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true,() =>
             {
                 materialEditor.ShaderProperty(ctTog, "Contour");
-            }, GUILayout.Height(20));
+            });
             if(ctTog.floatValue > 0)
             {
                 MaterialProperty tcc = ShaderGUI.FindProperty("_Contour_Color", properties);
@@ -278,7 +280,7 @@ public class BToonEditor : ShaderGUI
         #endregion
 
         #region BUDU Copyright
-        GUIExtras.About(ref aboutFold, style, "Assets/_BUDU/GUI/BUDUGAMES-About.png");
+        GUIExtras.About(ref aboutFold, style);
         #endregion
 
         EditorUtility.SetDirty(targetMat);
@@ -414,7 +416,6 @@ public class BToonEditor : ShaderGUI
             gradControl = true;
         }
     }
-
 
     private Texture2D MakeGradient(int width, int height, Gradient grd)
     {

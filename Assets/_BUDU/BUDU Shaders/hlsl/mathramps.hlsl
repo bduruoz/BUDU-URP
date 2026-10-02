@@ -1,4 +1,4 @@
-// BUDU Games 2024
+// © BUDU Games 2024 - 2026
 // Math Ramps
 
 #include "Assets/_BUDU/BUDU Shaders/hlsl/Functions/MathRampFunctions.hlsl"

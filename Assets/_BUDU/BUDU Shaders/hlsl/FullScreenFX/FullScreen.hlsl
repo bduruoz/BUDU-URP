@@ -1,4 +1,4 @@
-// BUDU GAMES © 2024
+// © BUDU Games 2024 - 2026
 // Full Screen Effects
 
 #include "Assets/_BUDU/BUDU Shaders/hlsl/Functions/Functions.hlsl"

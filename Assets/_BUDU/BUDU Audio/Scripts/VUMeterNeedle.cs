@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿// BUDU Games 2024 - 2025
+// VU Meter Needle
+
+using UnityEngine;
 
 [RequireComponent(typeof(LineRenderer))]
 public class VUMeterNeedle : MonoBehaviour

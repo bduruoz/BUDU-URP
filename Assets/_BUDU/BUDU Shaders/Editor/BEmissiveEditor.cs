@@ -1,4 +1,6 @@
-﻿// BUDU Games 2023 - 2025
+﻿// © BUDU Games 2024 - 2026
+// BUDU Emissive Shader Editor
+
 using UnityEngine;
 using UnityEditor;
 using System;
@@ -69,10 +71,10 @@ public class BEmissiveEditor : ShaderGUI
             {
                 EditorGUI.indentLevel++;
                 MaterialProperty ttog = ShaderGUI.FindProperty("_TransparentTog", properties);
-                GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+                GUIExtras.SColoredVertical(BDColors.NexusOrange(50),20,true,() =>
                 {
                     materialEditor.ShaderProperty(ttog, "Transparent");
-                }, GUILayout.Height(20));
+                });
                 if(ttog.floatValue > 0.0f)
                 {
                     MaterialProperty alpChan = ShaderGUI.FindProperty("_ALPHACHANNEL", properties);
@@ -84,10 +86,10 @@ public class BEmissiveEditor : ShaderGUI
                     materialEditor.ShaderProperty(alpInvert, "Alpha Invert");
                 }
             }
-            GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true,() =>
             {
                 checkAlphaClip = EditorGUILayout.Toggle("Alpha Clip", checkAlphaClip);
-            }, GUILayout.Height(20));
+            });
             targetMat.SetInt("_Alpha_Clip", Convert.ToInt16(checkAlphaClip));
             targetMat.SetInt("_AlphaClip", Convert.ToInt16(checkAlphaClip));
             if(checkAlphaClip)
@@ -120,10 +122,10 @@ public class BEmissiveEditor : ShaderGUI
         {
             EditorGUI.indentLevel++;
             MaterialProperty cf = ShaderGUI.FindProperty("_Fresnel", properties);
-            GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true,() =>
             {
                 materialEditor.ShaderProperty(cf, "Fresnel");
-            }, GUILayout.Height(20));
+            });
             if(cf.floatValue > 0.0f)
             {
                 checkFresnelInvert = EditorGUILayout.Toggle("Fresnel Invert", checkFresnelInvert);
@@ -155,7 +157,7 @@ public class BEmissiveEditor : ShaderGUI
         #endregion
 
         #region BUDU Copyright
-        GUIExtras.About(ref aboutFold, style, "Assets/_BUDU/GUI/BUDUGAMES-About.png");
+        GUIExtras.About(ref aboutFold, style);
         #endregion
     }
 

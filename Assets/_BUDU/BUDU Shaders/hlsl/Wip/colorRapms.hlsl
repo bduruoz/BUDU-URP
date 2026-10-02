@@ -1,4 +1,4 @@
-// BUDU Games 2024
+// © BUDU Games 2024 - 2026
 // Color Ramps
 
 #include "Assets/_BUDU/BUDU Shaders/hlsl/Includes/constants.hlsl"

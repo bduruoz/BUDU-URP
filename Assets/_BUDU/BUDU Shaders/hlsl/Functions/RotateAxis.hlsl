@@ -1,3 +1,6 @@
+// © BUDU Games 2024 - 2026
+// BUDU Rotate Axiss
+
 void RotateAxis_float(float3 dir, float3 axis, float angle, out float3 rotatedDir)
 {
     axis = normalize(axis);

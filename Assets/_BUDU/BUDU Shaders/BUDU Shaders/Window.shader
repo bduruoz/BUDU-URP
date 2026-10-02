@@ -1,4 +1,7 @@
-  Shader "Unlit/Window"
+// BUDU Games 2024 - 2025
+// Window
+
+Shader "Unlit/Window"
 {
     Properties
     {

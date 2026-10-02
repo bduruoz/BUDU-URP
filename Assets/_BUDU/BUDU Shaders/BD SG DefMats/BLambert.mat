@@ -154,8 +154,8 @@ Material:
     - _Caustic_Speed_BY: -0.25
     - _Channel_Blur: 0
     - _CheckBase: 1
-    - _CheckDef: 0
-    - _CheckNormal: 1
+    - _CheckDef: 1
+    - _CheckNormal: 0
     - _Checkerboard: 0
     - _Chromatic_Aberration: 0
     - _ClearCoat: 0
@@ -209,7 +209,7 @@ Material:
     - _ZWriteControl: 0
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Base_Color: {r: 0.198, g: 0.198, b: 0.198, a: 1}
+    - _Base_Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _Blue_XY: {r: 0, g: 0, b: 0, a: 0}
     - _Caustic_Tiles: {r: 5, g: 5, b: 5, a: 1}
     - _Checker_Color_A: {r: 0.35, g: 0.35, b: 0.35, a: 1}

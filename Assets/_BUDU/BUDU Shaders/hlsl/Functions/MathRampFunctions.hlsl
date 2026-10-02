@@ -1,4 +1,4 @@
-// BUDU Games 2024
+// © BUDU Games 2024 - 2026
 // Math Ramp Functions
 
 #ifndef BUDU_MATHRAMPS

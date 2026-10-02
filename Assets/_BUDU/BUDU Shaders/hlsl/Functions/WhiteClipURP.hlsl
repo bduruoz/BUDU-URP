@@ -1,3 +1,6 @@
+// © BUDU Games 2024 - 2026
+// BUDU White Clip URP
+
 #ifndef BUDU_WHITE_CLIP_URP
 #define BUDU_WHITE_CLIP_URP
 

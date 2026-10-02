@@ -1,4 +1,6 @@
-﻿// BUDU Games 2023 - 2025
+﻿// © BUDU Games 2024 - 2026
+// BUDU Hologram Shader Editor
+
 using budu;
 using UnityEditor;
 using UnityEngine;
@@ -67,10 +69,10 @@ public class BHologramEditor : ShaderGUI
             EditorGUILayout.Space(2);
 
             MaterialProperty lt = ShaderGUI.FindProperty("_Lights_Toggle", properties);
-            GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true, () =>
             {
                 materialEditor.ShaderProperty(lt, "Light");
-            }, GUILayout.Height(20));
+            });
             if(lt.floatValue > 0.0f)
             {
                 MaterialProperty LAInt = ShaderGUI.FindProperty("_Light_A_Intensity", properties);
@@ -80,13 +82,13 @@ public class BHologramEditor : ShaderGUI
                 MaterialProperty LBCol = ShaderGUI.FindProperty("_Light_B_Color", properties);
                 MaterialProperty LBDir = ShaderGUI.FindProperty("_Light_B_Direction", properties);
 
-                GUIExtras.SFoldout(targetMat, "_LightAFold", "Light A Settings", BDColors.Black(20), () =>
+                GUIExtras.SFoldout(targetMat, "_LightAFold", "Light A Settings", BDColors.Black(20), 10,BDColors.White(255),BDColors.Black(40),true,() =>
                 {
                     materialEditor.ShaderProperty(LAInt, "A Intensity");
                     materialEditor.ShaderProperty(LACol, "A Color");
                     ShaderGUIHelpers.Vector3Property(materialEditor, LADir, "A Direction");
                 });
-                GUIExtras.SFoldout(targetMat,"_LightBFold", "Light B Settings", BDColors.Black(20), () =>
+                GUIExtras.SFoldout(targetMat,"_LightBFold", "Light B Settings", BDColors.Black(20), 10,BDColors.White(255),BDColors.Black(40),true,() =>
                 {
                     materialEditor.ShaderProperty(LBInt, "B Intensity");
                     materialEditor.ShaderProperty(LBCol, "B Color");
@@ -119,10 +121,10 @@ public class BHologramEditor : ShaderGUI
             materialEditor.ShaderProperty(hdc, "Hologram Deep Color");
 
             #region Fresnel A
-            GUIExtras.SFoldout(targetMat, "_FresnelAFold", "Fresnel A Settings", BDColors.DarkRed(120), () =>
+            GUIExtras.SFoldout(targetMat, "_FresnelAFold", "Fresnel A Settings", BDColors.DarkRed(120), 10,BDColors.White(255),BDColors.Black(40),true,() =>
             {
                 MaterialProperty FA= ShaderGUI.FindProperty("_Fresnel_A", properties);
-                GUIExtras.ColoredVertical(BDColors.Black(20), () =>
+                GUIExtras.SColoredVertical(BDColors.Black(20), 20,true, () =>
                 {
                     materialEditor.ShaderProperty(FA, "Fresnel A");
                 });
@@ -148,10 +150,10 @@ public class BHologramEditor : ShaderGUI
             #endregion
 
             #region Fresnel B
-            GUIExtras.SFoldout(targetMat, "_FresnelBFold", "Fresnel B Settings", BDColors.DarkRed(160), () =>
+            GUIExtras.SFoldout(targetMat, "_FresnelBFold", "Fresnel B Settings", BDColors.DarkRed(160), 10,BDColors.White(255),BDColors.Black(40),true,() =>
             {
                 MaterialProperty FB = ShaderGUI.FindProperty("_Fresnel_B", properties);
-                GUIExtras.ColoredVertical(BDColors.Black(20), () =>
+                GUIExtras.SColoredVertical(BDColors.Black(20), 20,true, () =>
                 {
                     materialEditor.ShaderProperty(FB, "Fresnel B");
                 });
@@ -178,13 +180,13 @@ public class BHologramEditor : ShaderGUI
             #endregion
 
             #region Fresnel Scan
-            GUIExtras.SFoldout(targetMat, "_FresnelScanFold", "Fresnel Scan Settings", BDColors.DarkRed(200), () =>
+            GUIExtras.SFoldout(targetMat, "_FresnelScanFold", "Fresnel Scan Settings", BDColors.DarkRed(200), 10,BDColors.White(255),BDColors.Black(40),true,() =>
             {
                 MaterialProperty fss = ShaderGUI.FindProperty("_Fresnel_Scan", properties);
-                GUIExtras.ColoredVertical(BDColors.Black(20), () =>
+                GUIExtras.SColoredVertical(BDColors.Black(20), 20,true, () =>
                 {
                     materialEditor.ShaderProperty(fss, "Fresnel Scan");
-                }, GUILayout.Height(20));
+                });
                 if(fss.floatValue > 0)
                 {
                     MaterialProperty fssa = ShaderGUI.FindProperty("_FS_Additive", properties);
@@ -216,10 +218,10 @@ public class BHologramEditor : ShaderGUI
             EditorGUILayout.Space(2);
 
             MaterialProperty inttog = ShaderGUI.FindProperty("_Interior_Toggle", properties);
-            GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true, () =>
             {
                 materialEditor.ShaderProperty(inttog, "Interior");
-            }, GUILayout.Height(20));
+            });
             if(inttog.floatValue > 0f)
             {
                 MaterialProperty iCol = ShaderGUI.FindProperty("_INT_Color", properties);
@@ -277,10 +279,10 @@ public class BHologramEditor : ShaderGUI
             EditorGUILayout.Space(2);
 
             MaterialProperty scans = ShaderGUI.FindProperty("_Scanner", properties);
-            GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true, () =>
             {
                 materialEditor.ShaderProperty(scans, "Scanner");
-            }, GUILayout.Height(20));
+            });
             if (scans.floatValue > 0)
             {
                 MaterialProperty ssscan = ShaderGUI.FindProperty("_SS_Space", properties);
@@ -288,10 +290,10 @@ public class BHologramEditor : ShaderGUI
 
                 #region Scan A
                 MaterialProperty sca = ShaderGUI.FindProperty("_Scan_A", properties);
-                GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+                GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true, () =>
                 {
                     materialEditor.ShaderProperty(sca, "Scan A");
-                }, GUILayout.Height(20));
+                });
                 if(sca.floatValue > 0)
                 {
                     MaterialProperty saint = ShaderGUI.FindProperty("_Scan_A_Intensity", properties);
@@ -310,10 +312,10 @@ public class BHologramEditor : ShaderGUI
 
                 #region Scan B
                 MaterialProperty scb = ShaderGUI.FindProperty("_Scan_B", properties);
-                GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+                GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true, () =>
                 {
                     materialEditor.ShaderProperty(scb, "Scan B");
-                }, GUILayout.Height(20));
+                });
                 if (scb.floatValue > 0)
                 {
                     MaterialProperty sbint = ShaderGUI.FindProperty("_Scan_B_Intensity", properties);
@@ -332,10 +334,10 @@ public class BHologramEditor : ShaderGUI
 
                 #region Scan A
                 MaterialProperty scc = ShaderGUI.FindProperty("_Scan_C", properties);
-                GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+                GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true, () =>
                 {
                     materialEditor.ShaderProperty(scc, "Scan C");
-                }, GUILayout.Height(20));
+                });
                 if (scc.floatValue > 0)
                 {
                     MaterialProperty scint = ShaderGUI.FindProperty("_Scan_C_Intensity", properties);
@@ -392,7 +394,7 @@ public class BHologramEditor : ShaderGUI
         #endregion
 
         #region BUDU Copyright
-        GUIExtras.About(ref aboutFold, style, "Assets/_BUDU/GUI/BUDUGAMES-About.png");
+        GUIExtras.About(ref aboutFold, style);
         #endregion
     }
 

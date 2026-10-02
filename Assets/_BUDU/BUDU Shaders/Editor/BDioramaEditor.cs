@@ -1,4 +1,6 @@
-﻿// BUDU Games 2023 - 2025
+﻿// © BUDU Games 2024 - 2026
+// BUDU Diorama Shader Editor
+
 using UnityEditor;
 using UnityEngine;
 using budu;
@@ -30,7 +32,7 @@ public class BDioramaEditor : ShaderGUI
             EditorGUILayout.Space(2);
 
             MaterialProperty baseCol = ShaderGUI.FindProperty("_Base_Color",properties);
-            MaterialProperty baseTxt = ShaderGUI.FindProperty("_Base_Texture", properties);
+            MaterialProperty baseTxt = ShaderGUI.FindProperty("_BaseMap", properties);
             MaterialProperty ambCol = ShaderGUI.FindProperty("_Ambient_Color", properties);
 
             materialEditor.ShaderProperty(baseCol, "Base Color");
@@ -77,10 +79,10 @@ public class BDioramaEditor : ShaderGUI
             EditorGUILayout.Space(2);
 
             MaterialProperty norm = ShaderGUI.FindProperty("_Normal", properties);
-            GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true,() =>
             {
                 materialEditor.ShaderProperty(norm, "Normal");
-            }, GUILayout.Height(20));
+            });
             if (norm.floatValue > 0f)
             {
                 MaterialProperty normMap = ShaderGUI.FindProperty("_Normal_Map", properties);
@@ -106,10 +108,10 @@ public class BDioramaEditor : ShaderGUI
             EditorGUILayout.Space(2);
 
             MaterialProperty emis = ShaderGUI.FindProperty("_Emission", properties);
-            GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true,() =>
             {
                 materialEditor.ShaderProperty(emis, "Emission");
-            }, GUILayout.Height(20));
+            });
             if (emis.floatValue > 0f)
             {
                 MaterialProperty emisCol = ShaderGUI.FindProperty("_Emission_Color", properties);
@@ -127,7 +129,7 @@ public class BDioramaEditor : ShaderGUI
         #endregion
 
         #region BUDU Copyright
-        GUIExtras.About(ref aboutFold, style, "Assets/_BUDU/GUI/BUDUGAMES-About.png");
+        GUIExtras.About(ref aboutFold, style);
         #endregion
     }
 

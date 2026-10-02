@@ -1,4 +1,7 @@
-﻿Shader "BUDU/WhiteClipURP"
+﻿// BUDU Games 2024 - 2025
+// WhiteClipURP
+
+Shader "BUDU/WhiteClipURP"
 {
     Properties
     {

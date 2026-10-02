@@ -12,15 +12,19 @@ Material:
     type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _ALPHATEST_ON
+  - _SURFACE_TYPE_TRANSPARENT
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
+  m_CustomRenderQueue: 3050
+  stringTagMap:
+    RenderType: Transparent
   disabledShaderPasses:
   - MOTIONVECTORS
+  - DepthOnly
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
@@ -34,13 +38,21 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Texture_1:
-        m_Texture: {fileID: 2800000, guid: 1224a57cfed566241b6075ec7c69eac3, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0.15}
     - _Texture_2:
-        m_Texture: {fileID: 2800000, guid: 1224a57cfed566241b6075ec7c69eac3, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 0.7}
         m_Offset: {x: 0.04, y: 0.16}
+    - _Wave_Texture_A:
+        m_Texture: {fileID: 2800000, guid: 1224a57cfed566241b6075ec7c69eac3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Wave_Texture_B:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -55,21 +67,74 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AlphaClip: 1
+    - _AlphaToMask: 0
+    - _Alpha_Clip_Threshold: 0.001
+    - _AmpA: 0.5
+    - _AmpB: 0.2
     - _Amplitude: 0.05
     - _Amplitude_1: 0.05
     - _Amplitude_2: 0.07
     - _Animation: -2
+    - _Blend: 1
+    - _CastShadows: 1
+    - _Cull: 0
+    - _DiffA: 0
+    - _DiffB: 0
     - _Different: 0.1
+    - _DstBlend: 10
+    - _DstBlendAlpha: 10
+    - _FreqA: 6
+    - _FreqB: 3
     - _Frequency: 10
-    - _Frequency_1: 9
-    - _Frequency_2: 8
-    - _QueueControl: 0
-    - _QueueOffset: 0
+    - _Frequency_1: 10
+    - _Frequency_2: 5
+    - _Gerstner_A: 1
+    - _Gerstner_B: 1
+    - _Grid_No: 6.22
+    - _Invert: 0
+    - _Noise_Toggle: 1
+    - _P_Amplitude: 3
+    - _P_Displacement: 0
+    - _P_Frequency: 2
+    - _P_Octave: 4
+    - _P_Seed: 0
+    - _P_Speed: 1
+    - _Perlin_Toggle: 1
+    - _QueueControl: 1
+    - _QueueOffset: 50
     - _Speed: 0
+    - _SpeedA: 0.5
+    - _SpeedB: 0.3
     - _Speed_1: 3
     - _Speed_2: 4
+    - _SrcBlend: 1
+    - _SrcBlendAlpha: 1
+    - _StartTimeA: 0
+    - _StartTimeB: 0
+    - _Start_Y_Pos_A: 0.15
+    - _Start_Y_Pos_B: 0.15
     - _Strength: 1
-    m_Colors: []
+    - _Surface: 1
+    - _VDisplacement: 0
+    - _VOctave: 2
+    - _VSpeed: 3
+    - _VType: 0
+    - _V_Alpha_Iter: 1
+    - _V_Amp: 0.5
+    - _V_Grid_No: 3
+    - _V_Seed: 0
+    - _V_Speed_Iter: 1
+    - _Voronoi_Toggle: 1
+    - _WaveA: 1
+    - _WaveB: 1
+    - _ZTest: 4
+    - _ZWrite: 0
+    - _ZWriteControl: 0
+    m_Colors:
+    - _Base_Color: {r: 1, g: 1, b: 1, a: 1}
+    - _P_Tile: {r: 0.4, g: 0.4, b: 0, a: 0}
+    - _V_Tile: {r: 1, g: 0.2, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &6579665285422468878

@@ -1,4 +1,4 @@
-// BUDU Games 2024
+// BUDU Games 2024 - 2025
 // Voronoi Noise Fast method
 
 #include "Assets/_BUDU/BUDU Shaders/hlsl/BUDUNoises/brandom.hlsl"

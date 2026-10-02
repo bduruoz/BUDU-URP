@@ -1,3 +1,4 @@
+// © BUDU Games 2024 - 2026
 // BUDU Gradient Store Setup ...
 
 static float4 _GradColor[8] = 

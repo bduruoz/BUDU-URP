@@ -1,4 +1,6 @@
-// BUDU Games 2023 - 2025
+// © BUDU Games 2024 - 2026
+// BUDU Skybox Shader Editor
+
 using UnityEngine;
 using UnityEditor;
 using System;
@@ -61,10 +63,10 @@ public class BSkyboxEditor : ShaderGUI
             EditorGUILayout.Space(2);
 
             MaterialProperty grTog = ShaderGUI.FindProperty("_Gradient_Toggle", properties);
-            GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true,() =>
             {
                 materialEditor.ShaderProperty(grTog, "Gradient");
-            }, GUILayout.Height(20));
+            });
             if(grTog.floatValue > 0.0f)
             {
                 MaterialProperty gradInt = ShaderGUI.FindProperty("_Gradient_Intensity", properties);
@@ -97,10 +99,10 @@ public class BSkyboxEditor : ShaderGUI
             EditorGUILayout.Space(2);
 
             MaterialProperty hazeTog = ShaderGUI.FindProperty("_Haze_Toggle",properties);
-            GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true,() =>
             {
                 materialEditor.ShaderProperty(hazeTog, "Haze");
-            }, GUILayout.Height(20));
+            });
             if(hazeTog.floatValue > 0.0f)
             {
                 MaterialProperty hazeInten = ShaderGUI.FindProperty("_Haze_Intensity", properties);
@@ -133,10 +135,10 @@ public class BSkyboxEditor : ShaderGUI
             EditorGUILayout.Space(2);
 
             MaterialProperty fogTog = ShaderGUI.FindProperty("_Fog_Toggle",properties);
-            GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true,() =>
             {
                 materialEditor.ShaderProperty(fogTog, "Fog");
-            }, GUILayout.Height(20));
+            });
 
             if(fogTog.floatValue > 0.0f)
             {
@@ -175,10 +177,10 @@ public class BSkyboxEditor : ShaderGUI
             EditorGUILayout.Space(2);
 
             MaterialProperty cubemaptog = ShaderGUI.FindProperty("_Cubemap_Toggle",properties);
-            GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true,() =>
             {
                 materialEditor.ShaderProperty(cubemaptog, "Cubemap");
-            }, GUILayout.Height(20));
+            });
             if(cubemaptog.floatValue > 0)
             {
                 MaterialProperty cmblendMethod = ShaderGUI.FindProperty("_BLEND_METHOD", properties);
@@ -271,7 +273,7 @@ public class BSkyboxEditor : ShaderGUI
         #endregion
 
         #region BUDU Copyright
-        GUIExtras.About(ref aboutFold, style, "Assets/_BUDU/GUI/BUDUGAMES-About.png");
+        GUIExtras.About(ref aboutFold, style);
         #endregion
 
     }

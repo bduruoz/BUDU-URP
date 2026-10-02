@@ -1,4 +1,4 @@
-// BUDU Games 2024
+// © BUDU Games 2024 - 2026
 // Volumetric Cloud
 // Based On https://shaderbits.com/blog/creating-volumetric-ray-marcher
 

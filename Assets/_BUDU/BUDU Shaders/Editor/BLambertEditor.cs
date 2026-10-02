@@ -1,4 +1,6 @@
-// BUDU Games 2023 - 2025
+// © BUDU Games 2024 - 2026
+// BUDU Lambert Shader Editor
+
 using UnityEngine;
 using UnityEditor;
 using budu;
@@ -67,10 +69,10 @@ public class BLambertEditor : ShaderGUI
             EditorGUILayout.Space(2);
 
             MaterialProperty ntog = ShaderGUI.FindProperty("_Normal_Toggle", properties);
-            GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true,() =>
             {
                 materialEditor.ShaderProperty(ntog, "Normal");
-            }, GUILayout.Height(20));
+            });
             if(ntog.floatValue > 0)
             {
                 MaterialProperty nMap = ShaderGUI.FindProperty("_Normal_Map", properties);
@@ -103,7 +105,7 @@ public class BLambertEditor : ShaderGUI
         #endregion
 
         #region BUDU Copyright
-        GUIExtras.About(ref aboutFold, style, "Assets/_BUDU/GUI/BUDUGAMES-About.png");
+        GUIExtras.About(ref aboutFold, style);
         #endregion
     }
 

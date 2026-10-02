@@ -1,10 +1,12 @@
-// BUDU Games 2024 - 2025
+// © BUDU Games 2024 - 2026
+
 using UnityEngine;
 
 namespace budu
 {
     public class BDColors
     {
+        #region General
         public static Color Black(byte alpha = 255)
         {
             return new Color32(0,0,0,alpha); ;
@@ -17,30 +19,65 @@ namespace budu
         {
             return new Color32(0,0,0,alpha);
         }
+        #endregion
 
+        #region Oranges
+        public static Color NexusOrange(byte alpha = 255)
+        {
+            return new Color32(204, 153, 0, alpha);
+        }
+        public static Color DarkOrange(byte alpha = 255)
+        {
+            return new Color32(102, 51, 0, alpha);
+        }
+        public static Color BrightOrange(byte alpha = 255)
+        {
+            return new Color32(255, 200, 150, alpha);
+        }
+        #endregion // Oranges
+
+        #region Red
+        public static Color NexusRed(byte alpha = 255)
+        {
+            return new Color32(204, 25, 0, alpha);
+        }
         public static Color DarkRed(byte alpha = 255)
         {
             return new Color32(102, 0, 0, alpha);
         }
         public static Color BrightRed(byte alpha = 255)
         {
-            return new Color32(200, 0, 0, alpha);
+            return new Color32(255, 180, 180, alpha);
         }
+        #endregion // Red
 
-        public static Color NexusOrange (byte alpha = 255)
-        {
-            return new Color32(204,153,0, alpha);
-        }
-        public static Color NexusRed (byte alpha = 255)
-        {
-            return new Color32(204,25,0, alpha);
-        }
-        public static Color NexusBlue (byte alpha = 255)
+        #region Blue
+        public static Color NexusBlue(byte alpha = 255)
         {
             return new Color32(0, 30, 100, alpha);
         }
+        public static Color NormBlue(byte alpha = 255)
+        {
+            return new Color32(128, 128, 255, alpha);
+        }
+        public static Color NormBlueLight(byte alpha = 255)
+        {
+            return new Color32(80, 80, 160, alpha);
+        }
+        public static Color NormBlueDark(byte alpha = 255)
+        {
+            return new Color32(0, 0, 80, alpha);
+        }
+        #endregion // Blue
 
-        #region Grays
+        #region Green
+        public static Color NexusGreen(byte alpha = 255)
+        {
+            return new Color32(0, 100, 0, alpha);
+        }
+        #endregion
+
+        #region Gray
         public static Color Gray10(byte alpha = 255)
         {
             return new Color32(25, 25, 25, alpha);
@@ -82,7 +119,7 @@ namespace budu
             byte tc = (byte)((percent / 100f) * 255);
             return new Color32(tc,tc,tc, alpha);
         }
-        #endregion
+        #endregion // Gray
 
         #region old
         public static Color dGreenBrown(byte alpha = 255)
@@ -210,7 +247,7 @@ namespace budu
         {
             return new Color32(222, 149, 38, alpha);
         }
-        #endregion
+        #endregion // old
     }
 }
 

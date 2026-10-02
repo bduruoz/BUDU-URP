@@ -1,4 +1,5 @@
-// BUDU Games © 2024 Burcak Duruoz
+// © BUDU Games 2024 - 2026
+// Iterator
 
 void iterator_float(float2 uv, UnityTexture2D tex, UnitySamplerState sampler_tex, float3 nrm, float inter, float iter, float m, out float4 output)
 {

@@ -1,4 +1,6 @@
-﻿// BUDU Games 2023 - 2025
+﻿// © BUDU Games 2024 - 2026
+// BUDU Fabric Shader Editor
+
 using UnityEngine;
 using UnityEditor;
 using System;
@@ -58,16 +60,16 @@ public class BFabricEditor : ShaderGUI
             }
 
             #region Two Colors Settings
-            GUIExtras.SFoldout(targetMat, "_TwoColSwitch", "Two Colors", BDColors.DarkRed(120), () =>
+            GUIExtras.SFoldout(targetMat, "_TwoColSwitch", "Two Colors", BDColors.DarkRed(120), 10, BDColors.White(255), BDColors.Black(40), true, () =>
             {
                 MaterialProperty tcTog = ShaderGUI.FindProperty("_TwoColors", properties);
                 materialEditor.ShaderProperty(tcTog, "Two Colors");
                 if (tcTog.floatValue > 0f)
                 {
-                    GUIExtras.ColoredVertical(BDColors.Black(20), () =>
+                    GUIExtras.SColoredVertical(BDColors.Black(20), 20,true,() =>
                     {
                         EditorGUILayout.LabelField("SECOND COLOR");
-                    }, GUILayout.Height(20));
+                    });
                     MaterialProperty sc = ShaderGUI.FindProperty("_Cloth_Second_Color", properties);
                     MaterialProperty scInt = ShaderGUI.FindProperty("_Second_Color_Mix", properties);
                     MaterialProperty scttog = ShaderGUI.FindProperty("_SecondColorTextureSwitch", properties);
@@ -83,10 +85,10 @@ public class BFabricEditor : ShaderGUI
                         string[] blType = { "Multiply", "Additive" };
                         materialEditor.PopupShaderProperty(scBlType, new GUIContent("Second Texture Blend Type"), blType);
                     }
-                    GUIExtras.ColoredVertical(BDColors.Black(20), () =>
+                    GUIExtras.SColoredVertical(BDColors.Black(20), 20,true,() =>
                     {
                         EditorGUILayout.LabelField("VELVET");
-                    }, GUILayout.Height(20));
+                    });
                     materialEditor.ShaderProperty(velsw, "Velvet");
                     if (velsw.floatValue > 0f)
                     {
@@ -153,10 +155,10 @@ public class BFabricEditor : ShaderGUI
             EditorGUILayout.Space(2);
 
             MaterialProperty normalT = ShaderGUI.FindProperty("_Normal_Toggle", properties);
-            GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true,() =>
             {
                 materialEditor.ShaderProperty(normalT, "Normal");
-            }, GUILayout.Height(20));
+            });
             if(normalT.floatValue > 0.0f)
             {
                 MaterialProperty nmap = ShaderGUI.FindProperty("_Normal_Map", properties);
@@ -183,10 +185,10 @@ public class BFabricEditor : ShaderGUI
             EditorGUILayout.Space(2);
 
             MaterialProperty trtog = ShaderGUI.FindProperty("_Transparent_Toggle", properties);
-            GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true,() =>
             {
                 materialEditor.ShaderProperty(trtog, "Transparent");
-            }, GUILayout.Height(20));
+            });
             if(trtog.floatValue > 0f)
             {
                 MaterialProperty trmap = ShaderGUI.FindProperty("_Transparent_Map", properties);
@@ -228,11 +230,11 @@ public class BFabricEditor : ShaderGUI
             EditorGUI.indentLevel++;
 
             MaterialProperty trClpTog = ShaderGUI.FindProperty("_Alpha_Clip", properties);
-            GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true,() =>
             {
                 materialEditor.ShaderProperty(trClpTog, "Alpha Clip");
                 targetMat.SetFloat("_AlphaClip", trClpTog.floatValue);
-            }, GUILayout.Height(20));
+            });
             if(trClpTog.floatValue > 0f)
             {
                 MaterialProperty trClp = ShaderGUI.FindProperty("_Alpha_Clip_Threshold", properties);
@@ -259,10 +261,10 @@ public class BFabricEditor : ShaderGUI
                 EditorGUILayout.Space(2);
 
                 MaterialProperty bspec = ShaderGUI.FindProperty("_Specular_Toggle", properties);
-                GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+                GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true,() =>
                 {
                     materialEditor.ShaderProperty(bspec, "Specular");
-                }, GUILayout.Height(20));
+                });
                 if (bspec.floatValue > 0.0f)
                 {
                     MaterialProperty dscol = ShaderGUI.FindProperty("_Specular_Color", properties);
@@ -296,10 +298,10 @@ public class BFabricEditor : ShaderGUI
             EditorGUILayout.Space(1);
 
             MaterialProperty sSpec = ShaderGUI.FindProperty("_Secondary_Specular_Toggle", properties);
-            GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true,() =>
             {
                 materialEditor.ShaderProperty(sSpec, "Second Specular");
-            }, GUILayout.Height(20));
+            });
             if (sSpec.floatValue > 0.0f)
             {
                 MaterialProperty spcol = ShaderGUI.FindProperty("_Sec_Specular_Color", properties);
@@ -317,7 +319,7 @@ public class BFabricEditor : ShaderGUI
                 materialEditor.ShaderProperty(spNorm, "Specular Normal Strength");
                 materialEditor.ShaderProperty(spAOAffect, "Affect Ambient Occlusion");
 
-                GUIExtras.SFoldout(targetMat, "_SpecExtFold", "Specular Controls", BDColors.DarkRed(120), () =>
+                GUIExtras.SFoldout(targetMat, "_SpecExtFold", "Specular Controls", BDColors.DarkRed(120), 10,BDColors.White(255),BDColors.Black(40),true,() =>
                 {
                     MaterialProperty spGloss = ShaderGUI.FindProperty("_Glossy", properties);
                     MaterialProperty spGamma = ShaderGUI.FindProperty("_Light_Gamma", properties);
@@ -349,10 +351,10 @@ public class BFabricEditor : ShaderGUI
             EditorGUI.indentLevel++;
             EditorGUILayout.Space(2);
             MaterialProperty shadTog = ShaderGUI.FindProperty("_Shading_Toggle", properties);
-            GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true,() =>
             {
                 materialEditor.ShaderProperty(shadTog, "Shade Feature");
-            }, GUILayout.Height(20));
+            });
             if (shadTog.floatValue > 0.0f)
             {
                 MaterialProperty shCol = ShaderGUI.FindProperty("_Shade_Color", properties);
@@ -372,9 +374,9 @@ public class BFabricEditor : ShaderGUI
                 materialEditor.ShaderProperty(shSaturate, "Saturate");
 
                 #region Shade Extra Controls
-                GUIExtras.SFoldout(targetMat, "_ShadeExtFold", "Shade Extra Controls", BDColors.DarkRed(120), () =>
+                GUIExtras.SFoldout(targetMat, "_ShadeExtFold", "Shade Extra Controls", BDColors.DarkRed(120), 10,BDColors.White(255),BDColors.Black(40),true,() =>
                 {
-                    GUIExtras.ColoredVertical(BDColors.Black(20), () =>
+                    GUIExtras.SColoredVertical(BDColors.Black(20), 20,true, () =>
                     {
                         EditorGUILayout.LabelField("Normal Settings");
                     });
@@ -387,7 +389,7 @@ public class BFabricEditor : ShaderGUI
                     materialEditor.ShaderProperty(shNrmRContP, "Normal Result Contrast Pivot");
 
                     MaterialProperty shAffBaseTxt = ShaderGUI.FindProperty("_Shading_Affect_Base_Map", properties);
-                    GUIExtras.ColoredVertical(BDColors.Black(20), () =>
+                    GUIExtras.SColoredVertical(BDColors.Black(20), 20,true, () =>
                     {
                         materialEditor.ShaderProperty(shAffBaseTxt, "Affect Base Texture");
                     });
@@ -427,11 +429,11 @@ public class BFabricEditor : ShaderGUI
 
             MaterialProperty aoTog = ShaderGUI.FindProperty("_AO_Toggle", properties);
 
-            GUIExtras.ColoredVertical(BDColors.NexusBlue(50), () =>
+            GUIExtras.SColoredVertical(BDColors.NexusBlue(50), 20,true, () =>
             {
                 materialEditor.ShaderProperty(aoTog, "Ambient Occlusion");
 
-            }, GUILayout.Height(20));
+            });
             if (aoTog.floatValue > 0.0f)
             {
                 MaterialProperty aoTxt = ShaderGUI.FindProperty("_AO_Map", properties);
@@ -479,10 +481,10 @@ public class BFabricEditor : ShaderGUI
             EditorGUILayout.Space(2);
 
             MaterialProperty stTog = ShaderGUI.FindProperty("_Satin_Toggle", properties);
-            GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true, () =>
             {
                 materialEditor.ShaderProperty(stTog, "Satin");
-            }, GUILayout.Height(20));
+            });
             if (stTog.floatValue > 0.0f)
             {
                 MaterialProperty stType = ShaderGUI.FindProperty("_Satin_Gamma", properties);
@@ -530,10 +532,10 @@ public class BFabricEditor : ShaderGUI
             EditorGUILayout.Space(2);
 
             MaterialProperty thTog = ShaderGUI.FindProperty("_Thickness_Toggle", properties);
-            GUIExtras.ColoredVertical(BDColors.NexusBlue(50), () =>
+            GUIExtras.SColoredVertical(BDColors.NexusBlue(50), 20,true, () =>
             {
                 materialEditor.ShaderProperty(thTog, "Thickness");
-            }, GUILayout.Height(20));
+            });
             if (thTog.floatValue > 0f)
             {
                 MaterialProperty thGamma = ShaderGUI.FindProperty("_Thickness_Gamma", properties);
@@ -573,10 +575,10 @@ public class BFabricEditor : ShaderGUI
             EditorGUILayout.Space(2);
 
             MaterialProperty cvTog = ShaderGUI.FindProperty("_Curvature_Toggle", properties);
-            GUIExtras.ColoredVertical(BDColors.NexusBlue(50), () =>
+            GUIExtras.SColoredVertical(BDColors.NexusBlue(50), 20,true, () =>
             {
                 materialEditor.ShaderProperty(cvTog, "Curvature");
-            }, GUILayout.Height(20));
+            });
             if (cvTog.floatValue > 0.0f)
             {
                 MaterialProperty cvGamma = ShaderGUI.FindProperty("_Curvature_Gamma", properties);
@@ -611,7 +613,7 @@ public class BFabricEditor : ShaderGUI
         #endregion
 
         #region BUDU Copyright
-        GUIExtras.About(ref aboutFold, style, "Assets/_BUDU/GUI/BUDUGAMES-About.png");
+        GUIExtras.About(ref aboutFold, style);
         #endregion
     }
 

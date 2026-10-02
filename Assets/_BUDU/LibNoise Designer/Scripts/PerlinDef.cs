@@ -1,3 +1,6 @@
+// © BUDU Games 2024 - 2026
+// LibNoise Perlin Definition
+
 using UnityEngine;
 using LibNoise;
 using LibNoise.Generator;

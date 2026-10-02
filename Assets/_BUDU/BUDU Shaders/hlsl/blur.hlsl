@@ -1,4 +1,4 @@
-// BUDU Games 2024
+// © BUDU Games 2024 - 2026
 // Blur Calculations
 
 #include "Assets/_BUDU/BUDU Shaders/hlsl/BUDUNoises/brandom.hlsl"

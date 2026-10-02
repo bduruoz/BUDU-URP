@@ -1,4 +1,6 @@
-﻿// BUDU Games 2023 - 2025
+﻿// © BUDU Games 2024 - 2026
+// BUDU Caustic Decal Shader Editor
+
 using budu;
 using UnityEditor;
 using UnityEngine;
@@ -65,7 +67,7 @@ public class BCausticDecalEditor : ShaderGUI
             materialEditor.ShaderProperty(rot, "layers Rotate");
             materialEditor.ShaderProperty(decFOff, "Decal Falloff");
 
-            GUIExtras.SFoldout(targetMat, "_caspdFold", "Speed Controls", BDColors.DarkRed(120), () =>
+            GUIExtras.SFoldout(targetMat, "_caspdFold", "Speed Controls", BDColors.DarkRed(120), 10,BDColors.White(255),BDColors.Black(40),true,() =>
             {
                 ShaderGUIHelpers.FloatSliderFree(materialEditor, csSpeed, "Speed", -1, 1);
                 ShaderGUIHelpers.FloatSliderFree(materialEditor, csSpeedAX, "Speed AX", -1, 1);
@@ -90,10 +92,10 @@ public class BCausticDecalEditor : ShaderGUI
             EditorGUILayout.Space(2);
 
             MaterialProperty dt = ShaderGUI.FindProperty("_Deform_Toggle", properties);
-            GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true,() =>
             {
                 materialEditor.ShaderProperty(dt, "Deform");
-            }, GUILayout.Height(20));
+            });
 
             if(dt.floatValue > 0)
             {
@@ -112,7 +114,7 @@ public class BCausticDecalEditor : ShaderGUI
                 materialEditor.ShaderProperty(defBFreq, "Billow Frequency");
                 materialEditor.ShaderProperty(defBIOR, "Billow IOR");
 
-                GUIExtras.SFoldout(targetMat,"_billowSpeedFold", "Speed Controls", BDColors.DarkRed(120), () =>
+                GUIExtras.SFoldout(targetMat,"_billowSpeedFold", "Speed Controls", BDColors.DarkRed(120), 10,BDColors.White(255),BDColors.Black(40),true,() =>
                 {
                     ShaderGUIHelpers.FloatSliderFree(materialEditor, defBSpd, "Billow Speed", -1, 1);
                     ShaderGUIHelpers.FloatSliderFree(materialEditor, defBTrSpd, "Overall Speed", -1, 1);
@@ -138,10 +140,10 @@ public class BCausticDecalEditor : ShaderGUI
             EditorGUILayout.Space(2);
 
             MaterialProperty cat = ShaderGUI.FindProperty("_Chromatic_Aberration", properties);
-            GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true,() =>
             {
                 materialEditor.ShaderProperty(cat, "Chromatic Aberration");
-            }, GUILayout.Height(20));
+            });
 
             if(cat.floatValue  > 0)
             {
@@ -157,10 +159,10 @@ public class BCausticDecalEditor : ShaderGUI
                 ShaderGUIHelpers.Vector2Property(materialEditor, Blue, "Blue Shifting");
 
                 MaterialProperty cablur = ShaderGUI.FindProperty("_Channel_Blur", properties);
-                GUIExtras.ColoredVertical(BDColors.NexusOrange(50), () =>
+                GUIExtras.SColoredVertical(BDColors.NexusOrange(50), 20,true,() =>
                 {
                     materialEditor.ShaderProperty(cablur, "Channel Blur");
-                }, GUILayout.Height(20));
+                });
 
                 if(cablur.floatValue > 0)
                 {
@@ -200,7 +202,7 @@ public class BCausticDecalEditor : ShaderGUI
         #endregion
 
         #region BUDU Copyright
-        GUIExtras.About(ref aboutFold, style, "Assets/_BUDU/GUI/BUDUGAMES-About.png");
+        GUIExtras.About(ref aboutFold, style);
         #endregion
     }
 

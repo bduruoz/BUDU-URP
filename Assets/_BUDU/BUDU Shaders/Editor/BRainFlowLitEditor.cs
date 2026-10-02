@@ -1,4 +1,6 @@
-﻿// BUDU Games 2023 - 2025
+﻿// © BUDU Games 2024 - 2026
+// BUDU Rain Flow Shader Editor
+
 using budu;
 using UnityEditor;
 using UnityEngine;
@@ -92,15 +94,16 @@ public class BRainFlowLitEditor : ShaderGUI
             EditorGUILayout.Space(2);
 
             MaterialProperty Drops = ShaderGUI.FindProperty("_Drops", properties);
-            GUIExtras.ColoredVertical(BDColors.dBlueOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.dBlueOrange(50), 20,true, () =>
             {
                 materialEditor.ShaderProperty(Drops, "Drops");
-            }, GUILayout.Height(20));
+            });
             if (Drops.floatValue > 0f)
             {
                 MaterialProperty SoftDrops = ShaderGUI.FindProperty("_Soft_Drop", properties);
                 MaterialProperty DropColor = ShaderGUI.FindProperty("_Drop_Color", properties);
                 MaterialProperty DropGridSize = ShaderGUI.FindProperty("_Size", properties);
+                MaterialProperty AspectUV = ShaderGUI.FindProperty("_AspectUV", properties);
                 MaterialProperty DropCooeff = ShaderGUI.FindProperty("_Drop_Coefficient", properties);
                 MaterialProperty Refraction = ShaderGUI.FindProperty("_Refraction", properties);
                 MaterialProperty IDSeed = ShaderGUI.FindProperty("_IDSeed", properties);
@@ -115,6 +118,7 @@ public class BRainFlowLitEditor : ShaderGUI
                     materialEditor.ShaderProperty(SoftDropColor, "Soft Drops Color");
                 }
                 materialEditor.ShaderProperty(DropGridSize, "Drop Grid Size");
+                materialEditor.ShaderProperty(AspectUV, "Aspect UV");
                 materialEditor.ShaderProperty(DropCooeff, "Drops Coefficient");
                 materialEditor.ShaderProperty(Refraction, "Refraction");
                 if (Refraction.floatValue > 0.1)
@@ -141,7 +145,7 @@ public class BRainFlowLitEditor : ShaderGUI
                 style.fontSize = default;
                 style.normal.textColor = default;
 
-                GUIExtras.SFoldout(targetMat,  "_dropNoiseFold", "Drop Noise Controls", BDColors.DarkRed(120), () =>
+                GUIExtras.SFoldout(targetMat,  "_dropNoiseFold", "Drop Noise Controls", BDColors.DarkRed(120), 10,BDColors.White(255),BDColors.Black(40),true,  () =>
                 {
                     MaterialProperty DropNoise = ShaderGUI.FindProperty("_DropNoise", properties);
                     materialEditor.ShaderProperty(DropNoise, "Drops Noise");
@@ -178,10 +182,10 @@ public class BRainFlowLitEditor : ShaderGUI
             EditorGUILayout.Space(2);
 
             MaterialProperty Trail = ShaderGUI.FindProperty("_Trail", properties);
-            GUIExtras.ColoredVertical(BDColors.dBlueOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.dBlueOrange(50), 20,true, () =>
             {
                 materialEditor.ShaderProperty(Trail, "Trail");
-            }, GUILayout.Height(20));
+            });
             if(Trail.floatValue > 0.1f)
             {
                 MaterialProperty trCol = ShaderGUI.FindProperty("_Trail_Color", properties);
@@ -225,7 +229,7 @@ public class BRainFlowLitEditor : ShaderGUI
             EditorGUILayout.Space(2);
 
             MaterialProperty ftrail = ShaderGUI.FindProperty("_FogTrail",properties);
-            GUIExtras.ColoredVertical(BDColors.dBlueOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.dBlueOrange(50), 20,true, () =>
             {
                 materialEditor.ShaderProperty(ftrail, "Fog Trails");
             });
@@ -262,10 +266,10 @@ public class BRainFlowLitEditor : ShaderGUI
             EditorGUILayout.Space(2);
 
             MaterialProperty wiggle = ShaderGUI.FindProperty("_Wiggle",properties);
-            GUIExtras.ColoredVertical(BDColors.dBlueOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.dBlueOrange(50), 20,true, () =>
             {
                 materialEditor.ShaderProperty(wiggle, "Wiggle");
-            }, GUILayout.Height(20));
+            });
             if(wiggle.floatValue > 0.1f)
             {
                 MaterialProperty CurlSize = ShaderGUI.FindProperty("_CurlSize", properties);
@@ -300,27 +304,27 @@ public class BRainFlowLitEditor : ShaderGUI
             EditorGUILayout.Space(2);
 
             MaterialProperty flow = ShaderGUI.FindProperty("_Flow_Toggle",properties);
-            GUIExtras.ColoredVertical(BDColors.dBlueOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.dBlueOrange(50), 20,true, () =>
             {
                 materialEditor.ShaderProperty(flow, "Flow");
-            }, GUILayout.Height(20));
+            });
 
             if(flow.floatValue > 0.5f)
             {
                 MaterialProperty flCol = ShaderGUI.FindProperty("_Flow_Color", properties);
                 MaterialProperty flSpeed = ShaderGUI.FindProperty("_Flow_Speed", properties);
                 MaterialProperty flMult = ShaderGUI.FindProperty("_Flow_Multiplier", properties);
-                MaterialProperty flOut = ShaderGUI.FindProperty("_Flow_Out", properties);
-                MaterialProperty flIn = ShaderGUI.FindProperty("_Flow_In", properties);
+                MaterialProperty flPMult = ShaderGUI.FindProperty("_Flow_Power_Multiplier", properties);
+                MaterialProperty flPower = ShaderGUI.FindProperty("_Flow_Power", properties);
 
                 materialEditor.ShaderProperty(flCol, "Flow Color");
                 materialEditor.ShaderProperty(flSpeed, "Flow Speed");
                 materialEditor.ShaderProperty(flMult, "Flow Multiplier");
-                materialEditor.ShaderProperty(flIn, "Flow In");
-                materialEditor.ShaderProperty(flOut, "Flow Out");
+                materialEditor.ShaderProperty(flPower, "Flow Power");
+                materialEditor.ShaderProperty(flPMult, "Flow Power Multiplier");
 
                 #region Noise A
-                GUIExtras.SFoldout(targetMat, "_flowNoiseAFold", "Flow Noise A Controls", BDColors.DarkRed(120), () =>
+                GUIExtras.SFoldout(targetMat, "_flowNoiseAFold", "Flow Noise A Controls", BDColors.DarkRed(120), 10,BDColors.White(255),BDColors.Black(40),true, () =>
                 {
                     MaterialProperty NoiseAType = ShaderGUI.FindProperty("_Noise_A_Selector", properties, false);
                     string[] NAOpt = new string[] { "Gradient Noise", "Gradient Noise Legacy", "Simple Noise", "Simple Noise Legacy", "Voronoi", "Voronoi Legacy" };
@@ -351,7 +355,7 @@ public class BRainFlowLitEditor : ShaderGUI
                 #endregion
 
                 #region Noise B
-                GUIExtras.SFoldout(targetMat, "_flowNoiseBFold", "Flow Noise B Controls", BDColors.DarkRed(160), () =>
+                GUIExtras.SFoldout(targetMat, "_flowNoiseBFold", "Flow Noise B Controls", BDColors.DarkRed(160), 10,BDColors.White(255),BDColors.Black(40),true, () =>
                 {
                     MaterialProperty NoiseBType = ShaderGUI.FindProperty("_Noise_B_Selector", properties, false);
                     string[] NBOpt = new string[] { "Gradient Noise", "Gradient Noise Legacy", "Simple Noise", "Simple Noise Legacy", "Voronoi", "Voronoi Legacy" };
@@ -383,7 +387,7 @@ public class BRainFlowLitEditor : ShaderGUI
                 #endregion
 
                 #region Flow Deformations
-                GUIExtras.SFoldout(targetMat, "_flowDefFold", "Flow Deformation Controls", BDColors.DarkRed(200), () =>
+                GUIExtras.SFoldout(targetMat, "_flowDefFold", "Flow Deformation Controls", BDColors.DarkRed(200), 10,BDColors.White(255),BDColors.Black(40),true,   () =>
                 {
                     MaterialProperty flowDeform = ShaderGUI.FindProperty("_Flow_Deformation", properties);
                     materialEditor.ShaderProperty(flowDeform, "Flow Deformation");
@@ -419,7 +423,7 @@ public class BRainFlowLitEditor : ShaderGUI
                 #endregion
 
                 #region Flow Displacement
-                GUIExtras.SFoldout(targetMat, "_flowDispFold", "Flow Displacement Controls", BDColors.DarkRed(240), () =>
+                GUIExtras.SFoldout(targetMat, "_flowDispFold", "Flow Displacement Controls", BDColors.DarkRed(240), 10,BDColors.White(255),BDColors.Black(40),true, () =>
                 {
                     MaterialProperty FDist = ShaderGUI.FindProperty("_Flow_Displace", properties);
                     materialEditor.ShaderProperty(FDist, "Flow Displacement");
@@ -451,10 +455,10 @@ public class BRainFlowLitEditor : ShaderGUI
             EditorGUILayout.Space(2);
 
             MaterialProperty Normal = ShaderGUI.FindProperty("_Normal", properties);
-            GUIExtras.ColoredVertical(BDColors.dBlueOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.dBlueOrange(50), 20,true, () =>
             {
                 materialEditor.ShaderProperty(Normal, "Normal");
-            }, GUILayout.Height(20));
+            });
             if(Normal.floatValue > 0.1f)
             {
                 MaterialProperty NormalMap = ShaderGUI.FindProperty("_Normal_Map", properties);
@@ -483,10 +487,10 @@ public class BRainFlowLitEditor : ShaderGUI
             EditorGUILayout.Space(2);
 
             MaterialProperty mask = ShaderGUI.FindProperty("_Mask",properties);
-            GUIExtras.ColoredVertical(BDColors.dBlueOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.dBlueOrange(50), 20,true, () =>
             {
                 materialEditor.ShaderProperty(mask, "Mask");
-            }, GUILayout.Height(20));
+            });
             if(mask.floatValue  > 0.1f)
             {
                 MaterialProperty MaskMap = ShaderGUI.FindProperty("_Mask_Map", properties);
@@ -520,10 +524,10 @@ public class BRainFlowLitEditor : ShaderGUI
             EditorGUILayout.Space(2);
 
             MaterialProperty Vapor = ShaderGUI.FindProperty("_Vapor", properties);
-            GUIExtras.ColoredVertical(BDColors.dBlueOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.dBlueOrange(50), 20,true, () =>
             {
                 materialEditor.ShaderProperty(Vapor, "Vapor");
-            }, GUILayout.Height(20));
+            });
             if(Vapor.floatValue > 0.1f)
             {
                 MaterialProperty VprStr = ShaderGUI.FindProperty("_Vapor_Strength", properties);
@@ -531,10 +535,10 @@ public class BRainFlowLitEditor : ShaderGUI
             }
             EditorGUILayout.Space(1);
             MaterialProperty BlurTog = ShaderGUI.FindProperty("_Blur_Toggle", properties);
-            GUIExtras.ColoredVertical(BDColors.dBlueOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.dBlueOrange(50), 20,true, () =>
             {
                 materialEditor.ShaderProperty(BlurTog, "Blur");
-            }, GUILayout.Height(20));
+            });
             if(BlurTog.floatValue > 0.1f)
             {
                 //MaterialProperty LODBlur = ShaderGUI.FindProperty("_LODBlur", properties);
@@ -574,10 +578,10 @@ public class BRainFlowLitEditor : ShaderGUI
             EditorGUILayout.Space(2);
 
             MaterialProperty AO = ShaderGUI.FindProperty("_Ambient_Occlusion", properties);
-            GUIExtras.ColoredVertical(BDColors.dBlueOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.dBlueOrange(50), 20,true, () =>
             {
                 materialEditor.ShaderProperty(AO, "Ambient Occlusion");
-            }, GUILayout.Height(20));
+            });
             if(AO.floatValue > 0.1f)
             {
                 MaterialProperty AOInt = ShaderGUI.FindProperty("_AO_Intensity", properties);
@@ -605,10 +609,10 @@ public class BRainFlowLitEditor : ShaderGUI
             EditorGUILayout.Space(2);
 
             MaterialProperty rdebug = ShaderGUI.FindProperty("_RainDebug", properties);
-            GUIExtras.ColoredVertical(BDColors.dBlueOrange(50), () =>
+            GUIExtras.SColoredVertical(BDColors.dBlueOrange(50), 20,true, () =>
             {
                 materialEditor.ShaderProperty(rdebug, "Debug");
-            }, GUILayout.Height(20));
+            });
             if(rdebug.floatValue > 0.1f)
             {
                 MaterialProperty GridUV = ShaderGUI.FindProperty("_Grid_UV", properties);
@@ -668,7 +672,7 @@ public class BRainFlowLitEditor : ShaderGUI
             true, 
             true, 
             true, 
-            false);
+            true);
         #endregion
 
         #region BUDU Copyright

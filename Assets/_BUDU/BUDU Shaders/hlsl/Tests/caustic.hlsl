@@ -1,4 +1,5 @@
-// BUDU test
+// © BUDU Games 2024 - 2026
+// BUDU Test
 
 const int res = 50;
 const int frequencies = 30;
