@@ -13,7 +13,7 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _VIGNETTE_TYPE_SQUARE
+  - _VIGNETTE_TYPE_RADIAL
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -47,13 +47,14 @@ Material:
     - _Fullscreen_DstColorBlend: 10
     - _Fullscreen_SrcAlphaBlend: 1
     - _Fullscreen_SrcColorBlend: 5
-    - _VIGNETTE_TYPE: 1
-    - _VS_Scale: 0
+    - _VIGNETTE_TYPE: 2
+    - _VS_Scale: 1
     - _Vignette_Opacity: 1
-    - _Vignette_Power: 4
-    - _Vignette_Power_Sqr: 30
-    - _Vignette_Size: 1.55
-    - _Vignette_Square_Power: 50000
+    - _Vignette_Power: 3.48
+    - _Vignette_Power_Sqr: 16.4
+    - _Vignette_Size: 1.73
+    - _Vignette_Square_Power: 10000
     m_Colors:
     - _Vignette_Color: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1

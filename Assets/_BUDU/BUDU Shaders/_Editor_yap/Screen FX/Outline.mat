@@ -13,7 +13,7 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _OUTLINE_TYPE_DEPTH_EDGE
+  - _OUTLINE_TYPE_BOTH
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -47,14 +47,15 @@ Material:
     - _Fullscreen_DstColorBlend: 10
     - _Fullscreen_SrcAlphaBlend: 1
     - _Fullscreen_SrcColorBlend: 5
-    - _Inline_Out_Thickness: 0
-    - _Inline_Thickness: 0
-    - _OUTLINE_TYPE: 1
-    - _Out_Max: 0.5
-    - _Out_Min: 0.2
-    - _Thickness: 2
+    - _Inline_Out_Thickness: 0.525
+    - _Inline_Thickness: 0.47
+    - _OUTLINE_TYPE: 2
+    - _Out_Max: 1
+    - _Out_Min: 0
+    - _Thickness: 4.97
     m_Colors:
     - _Inline_Color_In: {r: 0, g: 1, b: 0.8296824, a: 1}
     - _Inline_Color_Out: {r: 1, g: 0, b: 0.02198505, a: 1}
-    - _Outline_Color: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _Outline_Color: {r: 0.59748423, g: 0.59748423, b: 0.59748423, a: 1}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1

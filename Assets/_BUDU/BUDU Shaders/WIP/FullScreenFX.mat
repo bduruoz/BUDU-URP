@@ -29,7 +29,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Pattern:
-        m_Texture: {fileID: 2800000, guid: 461a07b6fa3d6fb4e80a2b873eabd190, type: 3}
+        m_Texture: {fileID: 2800000, guid: 26d7a16b4a9d15f45849f8ee0f708fd7, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_cc115b23fa33490e81d714cf5beab693_Texture_1_Texture2D:
@@ -75,14 +75,14 @@ Material:
     - _GridSize: 240
     - _Invert: 0
     - _Multiplier: 0
-    - _Normalize: 1
+    - _Normalize: 0
     - _Offset_Scrolling: 0
     - _Speed: 1
-    - _Stepped_Time: 0
-    - _Strength: 0.1
+    - _Stepped_Time: 1
+    - _Strength: 1
     - _Tile_Auto: 0
-    - _Tiling: 256
-    - _Time_Step: 0.2
+    - _Tiling: 32
+    - _Time_Step: 1
     - _X: 1
     - _Y: 1
     m_Colors:

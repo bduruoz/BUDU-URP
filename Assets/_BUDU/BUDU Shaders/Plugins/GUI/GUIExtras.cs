@@ -765,7 +765,7 @@ namespace budu
                 MaterialProperty spInv = GetProperty("_Spec_Map_Invert", properties);
                 materialEditor.ShaderProperty(spInv, "Map Invert");
             }
-
+            MaterialProperty lgSmt = GetProperty("_Spec_Size", properties);
             MaterialProperty lgGam = GetProperty("_Spec_Gamma", properties);
             MaterialProperty spGls = GetProperty("_Spec_Glossy", properties);
             MaterialProperty spSmt = GetProperty("_Spec_Softness", properties);
@@ -775,10 +775,11 @@ namespace budu
 
             SFoldout(targetMat, "_blinnFold", "Blinn Settings", BDColors.Black(10), 10, BDColors.White(255), BDColors.DarkOrange(80), true, () =>
             {
-                materialEditor.ShaderProperty(lgGam, "Gamma");
+                ShaderGUIHelpers.FloatSliderFree(materialEditor, lgSmt, "Spec Spize", 0, 5);
+                ShaderGUIHelpers.FloatSliderFree(materialEditor, lgGam, "Gamma", 0, 5);
                 materialEditor.ShaderProperty(spGls, "Glossy");
                 materialEditor.ShaderProperty(spSat, "Saturation");
-                materialEditor.ShaderProperty(spSmt, "Softness");
+                ShaderGUIHelpers.FloatSliderFree(materialEditor, spSmt, "Softness", 0, 3);
                 materialEditor.ShaderProperty(spIn, "In");
                 materialEditor.ShaderProperty(spOut, "Out");
             });

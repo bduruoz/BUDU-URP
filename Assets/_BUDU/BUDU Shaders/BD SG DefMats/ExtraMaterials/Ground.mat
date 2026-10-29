@@ -67,7 +67,7 @@ Material:
     - _BlendModePreserveSpecular: 1
     - _CastShadows: 1
     - _Cast_Shadows: 1
-    - _CheckBase: 0
+    - _CheckBase: 1
     - _CheckDef: 0
     - _CheckNormal: 0
     - _Checkerboard: 1
@@ -89,9 +89,9 @@ Material:
     - _ZWrite: 1
     - _ZWriteControl: 0
     m_Colors:
-    - _Base_Color: {r: 1, g: 1, b: 1, a: 0}
+    - _Base_Color: {r: 0.5849056, g: 0.5849056, b: 0.5849056, a: 0}
     - _Checker_Color_A: {r: 0.349, g: 0.349, b: 0.349, a: 1}
     - _Checker_Color_B: {r: 0.48099998, g: 0.48099998, b: 0.48099998, a: 1}
-    - _Checker_Frequency: {r: 12, g: 12, b: 0, a: 0}
+    - _Checker_Frequency: {r: 40, g: 40, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

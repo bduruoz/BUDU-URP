@@ -50,7 +50,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Blur: 1
+    - _Blur: 0.45
     - _Custom_Noise: 0
     - _Custom_Noise_Invert: 0
     - _Fullscreen_AlphaBlendOperation: 0
@@ -62,6 +62,7 @@ Material:
     - _Fullscreen_SrcAlphaBlend: 1
     - _Fullscreen_SrcColorBlend: 5
     - _Mask_Invert: 0
-    - _NumSamples: 8
+    - _NumSamples: 16
     m_Colors: []
   m_BuildTextureStacks: []
+  m_AllowLocking: 1

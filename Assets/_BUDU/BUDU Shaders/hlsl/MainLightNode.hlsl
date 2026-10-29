@@ -6,6 +6,7 @@
 
 void GetMainLightData_float(
 	float3 worldPos,
+
     out half3 direction, 
     out half3 color, 
     out half distanceAttenuation, 

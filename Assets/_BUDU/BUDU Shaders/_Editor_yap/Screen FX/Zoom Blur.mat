@@ -46,13 +46,14 @@ Material:
     - _Fullscreen_DstColorBlend: 10
     - _Fullscreen_SrcAlphaBlend: 1
     - _Fullscreen_SrcColorBlend: 5
-    - _ZB_Additive: 0
+    - _ZB_Additive: 1
     - _ZB_Decay: 50
-    - _ZB_Intensity: 1
-    - _ZB_Multiplier: 1
-    - _ZB_Number_Of_Samples: 4
-    - _ZB_Strength: 1
-    - _Zoom_Blur_Type: 0
+    - _ZB_Intensity: 2
+    - _ZB_Multiplier: 2
+    - _ZB_Number_Of_Samples: 64
+    - _ZB_Strength: 0.3
+    - _Zoom_Blur_Type: 1
     m_Colors:
     - _ZB_Position: {r: 0.5, g: 0.5, b: 0, a: 0}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1

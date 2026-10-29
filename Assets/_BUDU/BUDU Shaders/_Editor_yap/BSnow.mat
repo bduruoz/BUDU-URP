@@ -25,15 +25,16 @@ Material:
     type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _ALPHATEST_ON
   m_InvalidKeywords:
   - _EMISSION
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
+  m_CustomRenderQueue: 2450
   stringTagMap:
-    RenderType: Opaque
+    RenderType: TransparentCutout
   disabledShaderPasses:
   - MOTIONVECTORS
   m_LockedProperties: 
@@ -101,47 +102,47 @@ Material:
     - _AO_Intensity: 0.531
     - _AO_Power: 2.53
     - _AO_Toggle: 0
-    - _AlphaClip: 0
-    - _AlphaToMask: 0
+    - _AlphaClip: 1
+    - _AlphaToMask: 1
     - _Blend: 0
-    - _BlendModePreserveSpecular: 1
+    - _BlendModePreserveSpecular: 0
     - _CastShadows: 1
     - _Cull: 2
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _Float: 0.05
-    - _Fluffy_Frequency: 3
-    - _Fluffy_Noise_Scale: 10
+    - _Fluffy_Frequency: 5
+    - _Fluffy_Noise_Scale: 5
     - _Fluffy_Octave: 1
-    - _Fluffy_Snow_Noise: 250
+    - _Fluffy_Snow_Noise: 20
     - _Fluffy_TriBlend: 10
-    - _Fluffy_World_Smooth: 0.5
+    - _Fluffy_World_Smooth: 0.772
     - _GN_Power: 4
     - _GN_Tile: 1
     - _GN_TriBlend: 10
     - _Glacier_Noise_Size: 50
-    - _Glacier_Strength: 2
+    - _Glacier_Strength: 2.66
     - _Irregular_Strength: 0.01
     - _Noise_Scale: 250
     - _Noise_Size: 50
-    - _Normal_Strength: 0.988
+    - _Normal_Strength: 1
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Ramp_Control: 0.5
-    - _Ramp_Intensity: 0.65
-    - _Ramp_Offset: 0.5
+    - _Ramp_Control: 0.422
+    - _Ramp_Intensity: 0.491
+    - _Ramp_Offset: 0.34
     - _ReceiveShadows: 1
     - _Rim_Power: 0.642
     - _Rim_Strength: 4
-    - _SI_Tri_Blend: 10
+    - _SI_Tri_Blend: 20
     - _SN_Power: 4
     - _SN_Tile: 15
-    - _SN_TriBlend: 10
+    - _SN_TriBlend: 20
     - _Smoothness: 0
-    - _Snow_Fluffy: 0.7
-    - _Snow_Irregular_Size: 10
+    - _Snow_Fluffy: 1
+    - _Snow_Irregular_Size: 60
     - _Snow_Irregularity: 4
-    - _Snow_Noise_Size: 50
+    - _Snow_Noise_Size: 40
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
@@ -150,23 +151,23 @@ Material:
     - _TN_Tile: 1
     - _TN_TriBlend: 10
     - _Threshold: 0
-    - _Triplanar_Blend: 20
-    - _Twinkle_Blend: 0.5
-    - _Twinkle_E: 0.5
+    - _Triplanar_Blend: 15.5
+    - _Twinkle_Blend: 0.839
+    - _Twinkle_E: 0.459
     - _Twinkle_Irregular_Size: 3
     - _Twinkle_Noise_Size: 250
-    - _Twinkle_Power: 0.37
-    - _Twinkle_SS: 0.3
-    - _Twinkle_Strength: 38.8
+    - _Twinkle_Power: 0.99
+    - _Twinkle_SS: 0.162
+    - _Twinkle_Strength: 69.4
     - _WorkflowMode: 1
-    - _World_Snow: 0
+    - _World_Snow: 1
     - _ZTest: 4
     - _ZWrite: 1
     - _ZWriteControl: 0
     m_Colors:
-    - _Deep_Color: {r: 0.2509804, g: 0.3378582, b: 0.5019608, a: 1}
+    - _Deep_Color: {r: 0.37778398, g: 0.46531484, b: 0.636, a: 1}
     - _Flufy_Noise_Tile: {r: 1, g: 1, b: 0, a: 0}
-    - _Snow_Color: {r: 0.96052635, g: 0.9736842, b: 1, a: 1}
+    - _Snow_Color: {r: 0.73332, g: 0.77988005, b: 0.873, a: 1}
     - _Specular_Color: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
